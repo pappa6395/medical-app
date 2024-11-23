@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -23,18 +24,16 @@ const Hero = () => {
                 {/* CTA BTNS */}
                 <ul className="flex flex-wrap items-center mt-6">
                   <li>
-                    <a
-                      href="/#"
-                      className="inline-flex items-center justify-center rounded-md 
+                    <Link href="/#">
+                      <a className="inline-flex items-center justify-center rounded-md 
                       bg-blue-600 px-6 py-3 text-center text-base font-medium 
-                      text-white hover:bg-blue-700 lg:px-7"
-                    />
+                      text-white hover:bg-blue-700 lg:px-7"></a>
+                    </Link>
                       Get Started
                   </li>
                   <li>
-                    <Link
-                      href="/#"
-                      className="inline-flex items-center justify-center 
+                    <Link href="/#">
+                      <a className="inline-flex items-center justify-center 
                       px-5 py-3 text-center text-base font-medium 
                       text-gray-50 hover:text-blue-500 dark:text-white"
                     >
@@ -68,6 +67,7 @@ const Hero = () => {
                         </svg>
                       </span>
                       Download App
+                    </a>
                     </Link>
                   </li>
                 </ul>
@@ -157,8 +157,10 @@ export default Hero;
 const SingleImage = ({ href, imgSrc }:{href:string, imgSrc:string}) => {
   return (
     <div>
-      <Link href={href} className="flex w-full items-center justify-center">
-        <img src={imgSrc} alt="brand image" className="h-10 w-full" />
+      <Link href={href}> 
+        <a className="flex w-full items-center justify-center">
+            <Image src={imgSrc} alt="brand image" className="h-10 w-full"/>
+        </a>
       </Link>
     </div>
   );
