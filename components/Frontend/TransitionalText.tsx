@@ -1,27 +1,26 @@
 "use client"
-import React from 'react';
-import TextTransition, { presets } from 'react-text-transition';
+import React, { useEffect, useState } from 'react';
 
-const TransitionalText = ({TEXTS, className}:{TEXTS:string[], className?:string}) => {
+const TransitionalText = ({TEXTS}:{TEXTS:string[]}) => {
 
-    const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true)
 
-    React.useEffect(() => {
-    const intervalId = setInterval(
-      () => setIndex((index) => index + 1),
-      3000, // every 3 seconds
-    );
-    return () => clearTimeout(intervalId);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false)
+      setTimeout(() => {
+        setIndex((prevIndex) => (prevIndex + 1) % TEXTS.length);
+        setIsVisible(true);
+      },500);
+    }, 2000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     
-    <span className={className}>
-        <TextTransition 
-            springConfig={presets.gentle}
-        >
-          {TEXTS[index % TEXTS.length]}
-        </TextTransition>
+    <span className={`text-center text-blue-500 transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        {TEXTS[index]}
     </span>
 
   )

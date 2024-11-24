@@ -1,8 +1,8 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
-import TransitionalText from "./TransitionalText";
 import { Pill } from "lucide-react";
+import TransitionalText from "./TransitionalText";
 
 const Hero = () => {
 
@@ -25,7 +25,7 @@ const Hero = () => {
                     <span>Book your</span>{" "} 
                     <TransitionalText 
                         TEXTS={TEXTS} 
-                        className="text-blue-500"/>
+                    />
                     <br />
                     <span>sessions now</span>
                 </h1>
