@@ -12,28 +12,25 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import Image from 'next/image'
 
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="bg-blue-950">
+    <header className="bg-blue-950 border-b border-gray-400/50">
       <nav 
         aria-label="Global" 
         className="mx-auto flex max-w-7xl items-center 
-        justify-between p-4 lg:px-8">
+        justify-between p-4 lg:px-8 ">
         <div className="flex lg:flex-1">
-          <Link href="#"> 
-            <a className="-m-1.5 p-1.5">
+          <Link href="#" className="-m-1.5 p-1.5"> 
                 <span className="sr-only">Your Company</span>
-                <Image
+                <img
                     alt=""
                     src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
                 />
-            </a>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -48,28 +45,20 @@ export default function NavBar() {
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
 
-          <Link href="#"> 
-            <a className="text-sm/6 font-semibold text-gray-50">
+          <Link href="#" className="text-sm/6 font-semibold text-gray-50"> 
                 Features
-            </a>
           </Link>
-          <Link href="#"> 
-            <a className="text-sm/6 font-semibold text-gray-50">
-                Marketplace
-            </a> 
+          <Link href="#" className="text-sm/6 font-semibold text-gray-50"> 
+                Marketplace 
           </Link>
-          <Link href="#"> 
-            <a className="text-sm/6 font-semibold text-gray-50">
+          <Link href="#" className="text-sm/6 font-semibold text-gray-50"> 
                 Company
-            </a>
           </Link>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="#"> 
-            <a className="text-sm/6 font-semibold text-gray-50
-            bg-blue-500 py-3 px-6 rounded-md">
-                Log in <span aria-hidden="true">&rarr;</span>
-            </a>  
+          <Link href="#" className="text-sm/6 font-semibold text-gray-50
+            bg-blue-500 py-3 px-6 rounded-md"> 
+                Log in <span aria-hidden="true">&rarr;</span>  
           </Link>   
         </div>
       </nav>
@@ -79,15 +68,13 @@ export default function NavBar() {
             overflow-y-auto bg-blue-950 px-6 py-6 sm:max-w-sm 
             sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link href="#"> 
-                <a className="-m-1.5 p-1.5">
+            <Link href="#" className="-m-1.5 p-1.5"> 
                     <span className="sr-only">Your Company</span>
-                    <Image
+                    <img
                         alt=""
                         src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
                         className="h-8 w-auto"
                     />
-                </a>
             </Link>
             <button
               type="button"
@@ -101,31 +88,23 @@ export default function NavBar() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-200/20">
               <div className="space-y-2 py-6">
-                <Link href="#">
-                    <a className="-mx-3 block rounded-lg px-3 py-2 
+                <Link href="#" className="-mx-3 block rounded-lg px-3 py-2 
                     text-base/7 font-semibold text-gray-50 hover:bg-gray-400">
                         Features
-                    </a>
                 </Link>
-                <Link href="#">
-                    <a className="-mx-3 block rounded-lg px-3 py-2 
+                <Link href="#" className="-mx-3 block rounded-lg px-3 py-2 
                     text-base/7 font-semibold text-gray-50 hover:bg-gray-400">
                         Marketplace
-                    </a>
                 </Link>
-                <Link href="#">
-                    <a className="-mx-3 block rounded-lg px-3 py-2 
+                <Link href="#" className="-mx-3 block rounded-lg px-3 py-2 
                     text-base/7 font-semibold text-gray-50 hover:bg-gray-400">
                         Company
-                    </a>
                 </Link>
               </div>
               <div className="py-6">
-                <Link href="#">
-                    <a className="-mx-3 block rounded-lg px-3 py-2.5 
-                    text-base/7 font-semibold text-gray-50 hover:bg-gray-400"> 
+                <Link href="#" className="-mx-3 block rounded-lg px-3 py-2.5 
+                    text-base/7 font-semibold text-gray-50 hover:bg-gray-400">
                         Log in
-                    </a>
                 </Link>
               </div>
             </div>
