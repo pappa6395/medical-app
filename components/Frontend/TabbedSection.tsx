@@ -1,5 +1,6 @@
 "use client"
 import React from "react";
+import TabbedItems from "./TabbedItems";
 
 
 const TabbedSection: React.FC = () => {
@@ -20,6 +21,7 @@ const TabbedSection: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <TabbedItems />
         </div>
     </section>
   );

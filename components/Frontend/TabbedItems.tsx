@@ -56,7 +56,7 @@ const TabbedItems = () => {
         {
             title: "Doctors",
             icon: <Stethoscope/>,
-            component: <LinkCard className='doctor'/>,
+            component: <LinkCard className='bg-slate-800'/>,
             content: ["Match and meet our doctors today. We are ready to cure you"]
         },
         {
