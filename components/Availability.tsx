@@ -52,7 +52,7 @@ const Availability = () => {
                     mode="single"
                     selected={bookDate}
                     onSelect={setBookDate}
-                    className="rounded-md border scale-105 mt-4"
+                    className="rounded-md border mt-2"
                 />
             </div>
             <div className='sm:col-span-2 mx-auto mt-3'>
