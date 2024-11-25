@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import Availability from './Availability'
 
 
 const DoctorDetails = () => {
@@ -28,10 +29,10 @@ const DoctorDetails = () => {
                 Availability
             </button>
         </div>
-        <div className='py-8 px-6'>   
+        <div className='py-8 px-6 mx-auto'>   
             {isActive === "availability" ? (
                 <div>
-                    Availability Details Component
+                    <Availability />
                 </div>
             ) : (
                 <div>
