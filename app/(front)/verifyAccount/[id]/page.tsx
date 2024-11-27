@@ -1,12 +1,13 @@
 
 
+import { PageProps } from "@/.next/types/app/(front)/verifyAccount/[id]/page";
 import { getUserById } from "@/actions/users";
 import VerifyTokenForm from "@/components/Frontend/VerifyTokenForm";
 
 
-export default async function VerifyAccount({ params }: { params: { id: string} }) {
+export default async function VerifyAccount({ params: paramsPromise }: PageProps) {
 
-  const { id } = params;
+  const { id } = await paramsPromise
 
   //Get a User fromm DB
   const user = await getUserById(id);
