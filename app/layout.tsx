@@ -6,7 +6,7 @@ import { Outfit } from "next/font/google"
 
 const reStyle = Outfit({ subsets: ["latin"] })
 
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: "Create Next App",
   description: "Generated bt create next app"
 };
