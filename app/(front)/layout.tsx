@@ -6,11 +6,11 @@ const Layout = ({children}:{children:ReactNode}) => {
   return (
     <div className='bg-white'>
         <NavBar />
-        <div className="bg-white mx-auto py-4 fixed border-t border-gray-400/50  
+        {/* <div className="bg-white mx-auto py-4 fixed border-t border-gray-400/50  
         top-20 sm:top-16 z-40 w-full max-w-screen" >
           <MegaMenu />
-        </div>
-        <div className='mt-36'>
+        </div> */}
+        <div className='mt-20'>
           {children}
         </div>
     </div>

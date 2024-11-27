@@ -30,3 +30,34 @@ backgroundImage: {
   },
   plugins: [
     require('@tailwindcss/forms')
+
+
+model Category {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String    @unique
+  imageUrl    String?
+  demoLink    String?
+  description String?
+  products    Product[]
+ 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Product {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  slug          String   @unique
+  price         Float?
+  qty           Int?
+  imageUrl      String?
+  productImages String[]
+  features String[]
+  description   String?
+  categoryId    String   @db.ObjectId
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
