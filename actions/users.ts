@@ -1,6 +1,5 @@
 "use server"
 
-
 import EmailTemplate from "@/components/Emails/emailTemplate";
 import { prismaClient } from "@/lib/db";
 import { RegisterInputProps } from "@/utils/types";

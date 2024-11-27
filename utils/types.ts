@@ -19,3 +19,8 @@ export type LoginProps = {
     email: string;
     password: string;
 }
+
+export interface CustomPageProps {
+    params?: { id: string };
+    searchParams?: any;
+  }
