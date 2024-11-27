@@ -21,7 +21,7 @@ export default function NavBar() {
     <header className="fixed top-0 bg-white w-full z-40">
       <nav 
         className="mx-auto flex max-w-7xl items-center 
-        justify-between p-4 lg:px-8"
+        justify-between py-2.5 px-4 lg:px-8"
         aria-label="Global"
         >
         <div className="flex lg:flex-1">

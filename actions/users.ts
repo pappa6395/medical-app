@@ -6,6 +6,7 @@ import { prismaClient } from "@/lib/db";
 import { RegisterInputProps } from "@/utils/types";
 import bcrypt from 'bcrypt';
 import { Resend } from "resend";
+import { log } from "util";
 
 export async function createUser(submittedData: RegisterInputProps) {
 
@@ -13,7 +14,8 @@ export async function createUser(submittedData: RegisterInputProps) {
     const { fullName, email, phone, password, role } = submittedData
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-
+    console.log(process.env.RESEND_API_KEY);
+    
     try {
         const existingUser = await prismaClient.user.findUnique({
             where: {
@@ -77,4 +79,43 @@ export async function createUser(submittedData: RegisterInputProps) {
             status: 500,
           };
     }   
+};
+
+export async function getUserById(id:string) {
+
+  if (id) {
+    try {
+
+      const user = await prismaClient.user.findUnique({
+        where:{
+          id,
+        }
+      })
+      return user
+
+    } catch (error) {
+        console.log("Error get user id:", error);
+        
+    }
+  }
+}
+
+export async function updateUserById(id:string) {
+  if (id) {
+    try {
+      const updatedUser = await prismaClient.user.update({
+        where:{
+          id,
+        },
+        data:{
+          isVerfied: true,
+        }
+      });
+      return updatedUser;
+
+    } catch (error) {
+      console.log("Error updating user:",error);
+      
+    }
+  }
 }

@@ -10,7 +10,7 @@ const Layout = ({children}:{children:ReactNode}) => {
         top-20 sm:top-16 z-40 w-full max-w-screen" >
           <MegaMenu />
         </div> */}
-        <div className='mt-20'>
+        <div className='mt-16'>
           {children}
         </div>
     </div>
