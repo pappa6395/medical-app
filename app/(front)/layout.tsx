@@ -1,3 +1,4 @@
+import Footer from '@/components/Frontend/Footer'
 import MegaMenu from '@/components/Frontend/MegaMenu'
 import NavBar from '@/components/Frontend/Navbar'
 import React, { ReactNode } from 'react'
@@ -14,6 +15,7 @@ const Layout = ({children}:{children:ReactNode}) => {
         <div className='mt-16'>
           {children}
         </div>
+        <Footer />
     </div>
   )
 }

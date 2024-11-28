@@ -20,7 +20,7 @@ export type LoginProps = {
     password: string;
 }
 
-export interface CustomPageProps {
-    params?: { id: string };
-    searchParams?: any;
-  }
+export type FAQItem = {
+    qn: string;
+    ans: string | JSX.Element; // Answer can be plain text or HTML
+};
