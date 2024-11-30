@@ -9,7 +9,8 @@ const ServiceCard  = ({ service }: {service: ServiceProps}) => {
 
   return (
 
-    <Link href={`/services/${service.slug}`} className='rounded-md bg-slate-100 hover:bg-slate-200 
+    <Link href={`/services/${service.slug}`} className='rounded-md 
+    bg-slate-100 hover:bg-slate-200 
     duration-300 flex gap-4 overflow-hidden'>
         <Image
             src={service.image} 

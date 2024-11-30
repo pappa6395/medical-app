@@ -110,7 +110,7 @@ const LoginForm = () => {
                 your credentials
               </Alert>
             )}
-              <TextInput
+              {/* <TextInput
                   label="Email Address"
                   name="email"
                   type="email"
@@ -123,7 +123,7 @@ const LoginForm = () => {
                   type="password"
                   errors={errors}
                   value={loginData.password}
-                  onChange={handleChange}/>
+                  onChange={handleChange}/> */}
               <div>
                 <div className="flex items-center justify-end">
                   <div className="text-sm">

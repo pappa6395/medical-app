@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import Link from "next/link";
 import { Pill } from "lucide-react";
 import TransitionalText from "./TransitionalText";
+import { CommandMenu } from "../CommandMenu";
 
 const Hero = () => {
 
@@ -13,12 +14,13 @@ const Hero = () => {
     ];
 
   return (
-    <div className="bg-blue-950">
-        <div className="relative  pb-[110px] pt-[50px] dark:bg-dark lg:pt-[50px] max-w-6xl mx-auto">
+    <div className="bg-blue-950 flex flex-col justify-between">
+        <div className="relative pb-[110px] pt-[50px] dark:bg-dark 
+        lg:pt-[50px] max-w-6xl mx-auto">
         <div className="container">
-          <div className="-mx-4 flex flex-wrap">
+          <div className="-mx-4 px-4 flex flex-wrap">
             <div className="w-full px-4 lg:w-5/12">
-              <div className="hero-content">
+              <div className="hero-content space-y-4">
                 <h1 className="mb-5 text-4xl font-bold !leading-[1.208] 
                 text-white dark:text-white sm:text-[42px] 
                 lg:text-[40px] xl:text-5xl flex flex-wrap items-center gap-3">
@@ -29,24 +31,25 @@ const Hero = () => {
                     <br />
                     <span>sessions now</span>
                 </h1>
-                <p className="mb-8 max-w-[480px] text-base text-gray-100 dark:text-gray-50">
+                <p className="max-w-[480px] text-base text-gray-100 dark:text-gray-50">
                 Health shouldn&apos;t be a puzzle, we are cutting through the B.S to
                 bring you simple, affordable, and transparent healthcare.
                 </p>
                 {/* Search Bar Here */}
-                <SearchBar />
+                <div className="w-full flex-1 md:w-auto md:flex-none">
+                  <CommandMenu />
+                </div>
                 {/* CTA BTNS */}
-                <ul className="flex flex-wrap items-center mt-6">
+                <ul className="flex flex-wrap items-center">
                   <li>
-                    <Link href="/#" className="inline-flex items-center justify-center rounded-md 
+                    <Link href="/" className="inline-flex items-center justify-center rounded-md 
                       bg-blue-600 px-6 py-3 text-center text-base font-medium 
                       text-white hover:bg-blue-700 lg:px-7">
                         Need Doctor Urgently
                     </Link>
-                     
                   </li>
                   <li>
-                    <Link href="/#" className="inline-flex items-center justify-center 
+                    <Link href="/" className="inline-flex items-center justify-center 
                       px-5 py-3 text-center text-base font-medium 
                       text-gray-50 hover:text-blue-500 dark:text-white">
                       <span className="mr-2">

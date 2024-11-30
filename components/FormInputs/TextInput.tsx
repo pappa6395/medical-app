@@ -1,4 +1,7 @@
 import React from 'react'
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import Link from 'next/link';
 
 
 type TextInputProps = {
@@ -7,22 +10,61 @@ type TextInputProps = {
     errors: Record<string,string>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     type?: string;
-    value: string
+    value: string;
+    placeholder: string;
+    disabled?: boolean;
     
 }
 
-const TextInput = ({label, name, errors, value, onChange, type="text"}: TextInputProps) => {
+const TextInput = (
+    {
+        label,
+        name, 
+        errors, 
+        value,
+        placeholder, 
+        onChange, 
+        disabled, 
+        type="text"
+    }: TextInputProps) => {
 
 
   return (
 
-    <div>
-        <div>
-            <label htmlFor={name} className="block text-sm/6 font-medium text-gray-900">
-                {label}
-            </label>
+        <div className="grid gap-2">
+            {type === "password" 
+            ? (
+                <div className="flex items-center">
+                    <Label htmlFor={name}>{label}</Label>
+                    <Link 
+                        href="/forgotPassword" 
+                        className="ml-auto inline-block 
+                        text-sm underline text-muted-foreground" 
+                    >
+                        Forgot your password?
+                    </Link>
+                </div>
+            ) : (
+                <Label 
+                    htmlFor={name}>
+                    {label}
+                </Label>
+            )}
+            
             <div className="">
-                <input
+                <Input
+                id={name}
+                name={name}
+                placeholder={placeholder}
+                type={type}
+                value={value}
+                autoCapitalize="none"
+                autoComplete="name"
+                autoCorrect="off"
+                disabled={disabled}
+                onChange={onChange}
+                />
+                {/* <input
                 id={name}
                 name={name}
                 type={type}
@@ -33,11 +75,10 @@ const TextInput = ({label, name, errors, value, onChange, type="text"}: TextInpu
                 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 
                 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
                 focus:ring-indigo-600 sm:text-sm/6"
-                />
+                /> */}
                 {errors[name] && (<span className="text-red-600 text-sm">{errors[name]}</span>)}
             </div>
         </div>
-    </div>
 
   )
 }

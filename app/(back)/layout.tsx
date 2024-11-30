@@ -4,14 +4,15 @@ import React, { ReactNode } from 'react'
 
 const Layout = ({children}:{children:ReactNode}) => {
   return (
-    <div>
-       <NavBar/>
-       <div className='flex'>
+    <div className='grid min-h-screen w-full md:grid-cols=[220px_1fr] 
+    lg:grid-cols-[280px_1fr]'>
         <SideBar />
-        <div className='p-8'>
-          {children}
+        <div className='flex flex-col'>
+            <NavBar />
+          <div className='p-4'>
+            {children}
+          </div>   
         </div>
-       </div>
     </div>
   )
 }

@@ -12,25 +12,27 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-
+import Image from 'next/image'
+import logoImage from '@/public/medicalLogo.png'
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 bg-white w-full z-40">
+    <header className="fixed top-0 bg-white min-w-full z-40">
       <nav 
-        className="mx-auto flex max-w-7xl items-center 
-        justify-between py-2.5 px-4 lg:px-8"
+        className="flex max-w-7xl items-center 
+        justify-between py-2.5 px-2 lg:px-8"
         aria-label="Global"
         >
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5"> 
-                <span className="sr-only">Your Company</span>
-                <img
-                    alt=""
-                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                    className="h-8 w-auto"
+          <Link href="/" className='py-2'> 
+                <Image
+                    alt="logoimage"
+                    src={logoImage}
+                    width={100}
+                    height={100}
+                    className="-mt-10 -mb-10 -translate-x-5 w-auto"
                 />
           </Link>
         </div>
@@ -41,11 +43,12 @@ export default function NavBar() {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-800"
           >
             <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
+            <Bars3Icon className="w-6 h-6 mx-5" aria-hidden/>
           </button>
         </div>
+        
+        
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-
           <Link href="#" className="text-lg/6 font-semibold text-gray-600"> 
                 Features
           </Link>
@@ -68,25 +71,17 @@ export default function NavBar() {
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full 
             overflow-y-auto bg-white px-6 py-6 sm:max-w-sm 
             sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Link href="#" className="-m-1.5 p-1.5"> 
-                    <span className="sr-only">Your Company</span>
-                    <img
-                        alt=""
-                        src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                        className="h-8 w-auto"
-                    />
-            </Link>
+          <div className="flex items-center justify-end">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-800"
+              className="rounded-md text-gray-800"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon aria-hidden="true" className="size-6 mt-20" />
             </button>
           </div>
-          <div className="z-50 flow-root">
+          <div className="flow-root">
             <div className="divide-y divide-gray-200">
               <div className="space-y-2 py-6">
                 <Link href="#" className="-mx-3 block rounded-lg px-3 py-2 

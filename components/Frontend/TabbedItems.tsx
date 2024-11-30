@@ -77,18 +77,19 @@ const TabbedItems = () => {
 
   return (
 
-    <div>
-        <div className="text-lg font-medium text-center 
-        text-gray-500 border-b border-gray-200 
+    <div className='w-full'>
+        <div className="text-lg font-medium flex w-full
+        text-gray-500 border-b border-gray-200
         dark:text-gray-400 dark:border-gray-700">
-            <ul className="flex justify-center bg-slate-50">
+            <ul className="flex justify-center flex-col md:flex-row 
+            w-full mx-auto bg-slate-50">
                 {
                     tabs.map((tab,i) => {
                         return (
                             <li key={i} className="me-2">
                                 <button 
                                     onClick={() => setActiveTab(i)}
-                                    className={`inline-flex p-4 gap-2 border-b-2 rounded-t-lg
+                                    className={`w-full flex flex-row p-4 gap-2 border-b-2 rounded-t-lg
                                         ${activeTab === i 
                                             ? "text-gray-600 border-gray-300" 
                                             : "text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300"
@@ -103,9 +104,9 @@ const TabbedItems = () => {
                 }
             </ul>
         </div>
-        <div className='p-4'>
+        <div className='p-4 min-w-screen'>
             {tabs[activeTab].component}
-        </div>
+         </div>
     </div>
 
   )
