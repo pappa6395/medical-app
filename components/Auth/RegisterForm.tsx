@@ -105,7 +105,7 @@ import toast from "react-hot-toast";
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form onSubmit={handleSubmit} className="space-y-4">
-                <TextInput
+                {/* <TextInput
                     label="Full Name"
                     name="fullName"
                     type="text"
@@ -132,7 +132,7 @@ import toast from "react-hot-toast";
                     type="password"
                     errors={errors}
                     value={formData.password}
-                    onChange={handleChange}/>
+                    onChange={handleChange}/> */}
               <div>
                 <SubmitButton 
                   title={"Create Account"} 
