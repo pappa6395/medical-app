@@ -5,7 +5,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import LoginAuthForm from "./LoginAuth"
-import loginImage2 from "@/public/LoginImage2.jpeg"
+import loginImage2 from "@/public/loginImage2.jpeg"
 
 export const metadata: Metadata = {
   title: "Authentication",
