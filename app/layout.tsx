@@ -2,8 +2,8 @@
 //import Providers from "@/components/Providers";
 import "./globals.css";
 import { Metadata } from "next";
-import { Outfit } from "next/font/google"
-import { ThemeProvider } from "@/components/themeProvider"
+import { Outfit } from "next/font/google";
+import { ThemeProvider } from "@/components/themeProvider";
 import { siteConfig } from "@/config/site";
 
 const reStyle = Outfit({ subsets: ["latin"] })
@@ -56,6 +56,7 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
+
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
 }
@@ -66,17 +67,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={reStyle.className}> 
-      <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
+    
+        <html lang="en" suppressHydrationWarning>
+        <body className={reStyle.className}> 
+        
+          <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                  {children} 
           </ThemeProvider>
-      </body>
-    </html>
-  );
+        </body>
+      </html>
+  );   
 }

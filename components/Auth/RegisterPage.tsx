@@ -4,15 +4,15 @@ import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import LoginAuth from "./LoginAuth"
 import loginImage2 from "@/public/loginImage2.jpeg"
+import RegisterAuth from "./RegisterAuth"
 
 export const metadata: Metadata = {
   title: "Authentication",
   description: "Authentication forms built using the components.",
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="relative min-h-screen flex-col">
         <div className="grid grid-cols-1 justify-center md:grid-cols-2 flex-1">
@@ -64,28 +64,28 @@ export default function LoginPage() {
                     "absolute right-4 top-4 md:right-8 md:top-8"
                 )}
                 >
-                Login
+                SignUp
                 </Link>
                     <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
                     justify-center sm:w-[350px]">
                         <div className="grid space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
-                                Welcome Back!
+                                Create an account
                             </h1>
                             <p className="text-sm text-muted-foreground">
-                                Enter your email and password below to login your account
+                                Enter your email below to create your account
                             </p>
                         </div>
                         
-                        <LoginAuth />
+                        <RegisterAuth />
                         <p className="mt-5 text-center text-sm/6 
                         text-muted-foreground">
-                        <span>Don't have an Account?</span>{' '}
+                        <span>Already have an Account?</span>{' '}
                         <Link 
-                            href="/register" 
+                            href="/login" 
                             className="underline underline-offset-4 
                             hover:text-primary">
-                            Create a new account
+                            Sign In
                         </Link>
                         </p>
                     </div>

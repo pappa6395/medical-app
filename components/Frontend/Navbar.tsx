@@ -19,12 +19,13 @@ export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 bg-white min-w-full z-40">
+    <header className="fixed top-0 bg-white min-w-full z-40"> 
       <nav 
         className="flex max-w-7xl items-center 
         justify-between py-2.5 px-2 lg:px-8"
         aria-label="Global"
         >
+       
         <div className="flex lg:flex-1">
           <Link href="/" className='py-2'> 
                 <Image

@@ -18,7 +18,7 @@ import Link from "next/link"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export default function LoginAuthForm({ className, ...props }: UserAuthFormProps) {
+export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
 
   const [loginData, setLoginData] = React.useState<LoginProps>({
     email: "",

@@ -14,7 +14,7 @@ const SubmitButton = ({title, buttonType="submit", isLoading=false, loadingTitle
 
   return (
 
-    <div>
+    <div className='mt-2'>
         {isLoading ? (
             <Button disabled type={buttonType} className='w-full'>
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

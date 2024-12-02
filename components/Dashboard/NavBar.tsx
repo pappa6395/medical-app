@@ -42,16 +42,22 @@ import {
 } from "@/components/ui/dropdownMenu";
 import { Input } from "@/components/ui/input";
 import ModeToggle from "../ModeToggle";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 
 
-export default function NavBar() {
 
-  const router = useRouter();
+export default function NavBar({session}: {session: Session} ) {
 
-  async function handleLogout() {
+    const user = session.user
 
-    router.push("/");
-  }
+    const router = useRouter();
+
+    async function handleLogout() {
+        await signOut()
+        router.push("/login");
+    }
 
   return (
     <header className='flex h-14 items-center 
@@ -171,17 +177,22 @@ export default function NavBar() {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="secondary" size="icon" className="rounded-full">
-                        <CircleUser className="h-5 w-5" />
+                        <Avatar>
+                            {user.image ? 
+                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> 
+                            :  <AvatarFallback>CN</AvatarFallback> }
+                        </Avatar>
                         <span className="sr-only">Toggle user menu</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-center">{user.name}</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-center text-muted-foreground">{user.email}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>Settings</DropdownMenuItem>
                     <DropdownMenuItem>Support</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
             </header>

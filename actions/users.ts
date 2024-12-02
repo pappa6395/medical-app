@@ -5,7 +5,6 @@ import { prismaClient } from "@/lib/db";
 import { RegisterInputProps } from "@/utils/types";
 import bcrypt from 'bcrypt';
 import { Resend } from "resend";
-import { log } from "util";
 
 export async function createUser(submittedData: RegisterInputProps) {
 
@@ -13,7 +12,6 @@ export async function createUser(submittedData: RegisterInputProps) {
     const { fullName, email, phone, password, role } = submittedData
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    console.log(process.env.RESEND_API_KEY);
     
     try {
         const existingUser = await prismaClient.user.findUnique({
@@ -57,13 +55,13 @@ export async function createUser(submittedData: RegisterInputProps) {
         const message =
           "Thank you for registering with Medical-HC. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
         const sendMail = await resend.emails.send({
-          from: "Medical App <info@jazzafricaadventures.com>",
+          from: "Medical App <marketing@89residencexclusive.co>",
           to: email,
           subject: "Verify Your Email Address",
           react: EmailTemplate({ firstName, token, linkText, message }),
         });
         console.log(token);
-        console.log(sendMail);
+        console.log("Email response:",sendMail);
         console.log(newUser);
         return {
             data: newUser,
