@@ -15,6 +15,7 @@ import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi"
 import TextInput from "../FormInputs/TextInput"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -68,7 +69,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
             console.error("Sign-in error: Check your credentials");
             setShowNotification(true);
           } else {
-            // Sign-in was successful
+            toast.success('Sign-in was successful') 
             setShowNotification(false);
             resetForm();
             setIsLoading(false);
@@ -78,7 +79,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
         } catch (error) {
           setIsLoading(false);
           console.error("Network Error:", error);
-          //toast.error("Its seems something is wrong with your Network");
+          toast.error("Its seems something is wrong with your Network");
         }
 
         setIsSubmitted(true);

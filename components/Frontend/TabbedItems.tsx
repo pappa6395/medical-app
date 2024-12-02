@@ -82,7 +82,7 @@ const TabbedItems = () => {
         text-gray-500 border-b border-gray-200
         dark:text-gray-400 dark:border-gray-700">
             <ul className="flex justify-center flex-col md:flex-row 
-            w-full mx-auto bg-slate-50">
+            w-full mx-auto bg-slate-50 dark:bg-slate-950">
                 {
                     tabs.map((tab,i) => {
                         return (
@@ -91,8 +91,8 @@ const TabbedItems = () => {
                                     onClick={() => setActiveTab(i)}
                                     className={`w-full flex flex-row p-4 gap-2 border-b-2 rounded-t-lg
                                         ${activeTab === i 
-                                            ? "text-gray-600 border-gray-300" 
-                                            : "text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300"
+                                            ? "text-gray-400 border-gray-300" 
+                                            : "text-gray-600  border-transparent hover:text-gray-400 hover:border-gray-300"
                                     }`}
                                 >
                                     {tab.icon}

@@ -1,9 +1,11 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
+import Image from "next/image"
 import { Pill } from "lucide-react";
 import TransitionalText from "./TransitionalText";
 import { CommandMenu } from "../CommandMenu";
+import heroImage from "@/public/LoginImage.jpeg";
 
 const Hero = () => {
 
@@ -14,7 +16,7 @@ const Hero = () => {
     ];
 
   return (
-    <div className="bg-blue-950 flex flex-col justify-between">
+    <div className="bg-blue-950 dark:bg-slate-900 flex flex-col justify-between">
         <div className="relative pb-[110px] pt-[50px] dark:bg-dark 
         lg:pt-[50px] max-w-6xl mx-auto">
         <div className="container">
@@ -75,10 +77,10 @@ const Hero = () => {
             <div className="w-full px-4 lg:w-6/12">
               <div className="lg:ml-auto lg:text-right">
                 <div className="relative z-10 inline-block pt-11 lg:pt-0">
-                  <img
-                    src="https://cdn.tailgrids.com/1.0/assets/images/hero/hero-image-01.png"
+                  <Image
+                    src={heroImage}
                     alt="hero"
-                    className="max-w-full lg:ml-auto"
+                    className="max-w-full lg:ml-auto rounded-tl-[100px] rounded-xl"
                   />
                   <span className="absolute -bottom-8 -left-8 z-[-1]">
                     <svg

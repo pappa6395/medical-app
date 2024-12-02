@@ -1,10 +1,11 @@
 
-//import Providers from "@/components/Providers";
+import ToastProvider from "@/components/ToastProvider";
 import "./globals.css";
 import { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { ThemeProvider } from "@/components/themeProvider";
 import { siteConfig } from "@/config/site";
+import { SessionProvider } from "next-auth/react";
 
 const reStyle = Outfit({ subsets: ["latin"] })
 
@@ -69,16 +70,17 @@ export default function RootLayout({
   return (
     
         <html lang="en" suppressHydrationWarning>
-        <body className={reStyle.className}> 
-        
-          <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                  {children} 
-          </ThemeProvider>
+          <body className={reStyle.className}>
+            <ToastProvider>
+                <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                      >
+                          {children} 
+                  </ThemeProvider>
+              </ToastProvider>
         </body>
       </html>
   );   

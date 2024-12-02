@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 
-const Providers = ({ children }: {children: ReactNode}) => {
+const ToastProvider = ({ children }: {children: ReactNode}) => {
 
 
   return (
 
     <div>
+        {children}
         <Toaster
             position="top-center"
             reverseOrder={false}
@@ -16,4 +17,4 @@ const Providers = ({ children }: {children: ReactNode}) => {
   )
 }
 
-export default Providers
+export default ToastProvider

@@ -1,14 +1,20 @@
+
 import Footer from '@/components/Frontend/Footer'
-import MegaMenu from '@/components/Frontend/MegaMenu'
-import NavBar from '@/components/Frontend/Navbar'
 import { SiteHeader } from '@/components/SiteHeader'
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
 import React, { ReactNode } from 'react'
 
 
-const Layout = ({children}:{children:ReactNode}) => {
+const Layout =  async ({children}:{children:ReactNode}) => {
+
+  const session = await getServerSession(authOptions);
+  console.log(session);
+  
   return (
     <div className=''>
-        <SiteHeader />
+      
+        <SiteHeader session={session} />
           {children}
         <Footer />
     </div>

@@ -10,9 +10,10 @@ export default function Home() {
       <Hero />
       <Brands />
       <TabbedSection />
-      <DoctorList />
       <DoctorList 
-        className="bg-white py-8 lg:py-24" 
+        className="bg-slate-100 dark:bg-slate-950"/>
+      <DoctorList 
+        className="bg-white dark:bg-slate-800" 
         title="In-person doctor visit" 
         isInPerson={true}
       />

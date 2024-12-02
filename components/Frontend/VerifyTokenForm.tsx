@@ -64,7 +64,7 @@ export default function VerifyTokenForm({
         await updateUserById(id);
         setLoading(false);
         // reset();
-        // toast.success("Account Verified");
+        toast.success("Account Verified");
         router.push("/login");
 
       } catch (error) {

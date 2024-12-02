@@ -189,6 +189,9 @@ export default function NavBar({session}: {session: Session} ) {
                     <DropdownMenuLabel className="text-center">{user.name}</DropdownMenuLabel>
                     <DropdownMenuLabel className="text-center text-muted-foreground">{user.email}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                        <Link href={"/"}>Home</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Settings</DropdownMenuItem>
                     <DropdownMenuItem>Support</DropdownMenuItem>
                     <DropdownMenuSeparator />

@@ -100,7 +100,8 @@ export default function Footer() {
     ]
 
     return (
-        <footer className="text-gray-500 bg-white px-4 py-5 max-w-screen-xl mx-auto md:px-8">
+        <footer className="text-gray-500 bg-slate-100 dark:bg-slate-900 
+        px-4 py-5 max-w-screen mx-auto md:px-8">
             <div className="gap-6 justify-between md:flex">
                 <div className="flex-1">
                     <div className="max-w-xs">
@@ -122,7 +123,7 @@ export default function Footer() {
                                 className="w-full p-2.5 outline-none"
                             />
                             <button
-                                className="p-2.5 rounded-md text-white bg-indigo-600 outline-none shadow-md focus:shadow-none sm:px-5"
+                                className="p-2.5 rounded-md text-white bg-blue-600 outline-none shadow-md focus:shadow-none sm:px-5"
                             >
                                 Subscribe
                             </button>
@@ -136,7 +137,7 @@ export default function Footer() {
                                 className="space-y-4"
                                 key={idx}
                             >
-                                <h4 className="text-gray-800 font-medium">
+                                <h4 className="text-gray-800 dark:text-slate-50 font-medium">
                                     { item.label }
                                 </h4>
                                 {
@@ -166,7 +167,7 @@ export default function Footer() {
                         {socialLinks.map((item, i) => {
                             return (
                                 <li key={i} className="w-10 h-10 border rounded-full 
-                                flex items-center justify-center">
+                                flex items-center justify-center dark:bg-slate-800">
                                     <Link href={item.href}>
                                         <span className={`w-10 h-10 ${item.color}`}>
                                             {item.icon}

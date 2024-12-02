@@ -15,8 +15,9 @@ export default async function VerifyAccount({ params: paramsPromise }: PageProps
   const user = await getUserById(id);
   const userToken = user?.token;
   return (
-     <div className="min-h-screen flex items-center justify-center">
-       <Card className="mx-auto max-w-md">
+     <div className="min-h-screen flex items-center justify-center
+      bg-slate-50 dark:bg-slate-950">
+       <Card className="mx-auto max-w-md bg-white dark:bg-slate-900 ">
         <CardHeader>
           <CardTitle className="text-xl">Verify Token</CardTitle>
           <CardDescription>Please enter the 6-figure pass code sent to your email - {user?.email}.</CardDescription>
