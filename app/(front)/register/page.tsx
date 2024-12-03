@@ -1,13 +1,12 @@
 
+import { PageProps } from '@/.next/types/app/(front)/register/page';
 import RegisterPage from '@/components/Auth/RegisterPage'
 import React from 'react'
 
 
-const page = async ({searchParams}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) => {
+const page = async ({searchParams: searchParamsPromise}: PageProps ) => {
 
-  const { role, plan } = await searchParams
+  const { role, plan } = await searchParamsPromise
   console.log(role, plan);
   
 
