@@ -5,8 +5,6 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import SubmitButton from "../FormInputs/SubmitButton"
 import { LoginProps } from "@/utils/types"
 import { useRouter } from "next/navigation"
@@ -14,7 +12,6 @@ import { signIn } from "next-auth/react"
 import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi"
 import TextInput from "../FormInputs/TextInput"
-import Link from "next/link"
 import toast from "react-hot-toast"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -50,6 +47,12 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
       return Object.keys(newErrors).length === 0;
 
   }
+
+  const transformedErrors: Record<string, string[]> = 
+    Object.entries(errors).reduce((acc, [key, value]) => {
+      acc[key] = Array.isArray(value) ? value : [value];
+      return acc;
+    }, {} as Record<string, string[]>)
 
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -111,7 +114,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
               placeholder="e.g. john@example.com"
               type="email"
               value={loginData.email}
-              errors={errors}
+              errors={transformedErrors}
               disabled={isLoading}
               onChange={handleChange} />
           <TextInput
@@ -120,7 +123,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
               placeholder="Enter your password"
               type="password"
               value={loginData.password}
-              errors={errors}
+              errors={transformedErrors}
               disabled={isLoading}
               onChange={handleChange} />
           <SubmitButton 
