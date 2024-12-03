@@ -10,8 +10,10 @@ const page = () => {
   return (
     <div>
         <div className='bg-slate-50 dark:bg-slate-950 py-8 min-h-screen'>
-            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-500 
-                max-w-screen mx-24 shadow-md rounded-lg">
+            <div className="bg-white dark:bg-slate-900 border 
+                border-gray-200 dark:border-gray-500 
+                    min-w-screen mx-4 md:mx-24 shadow-md rounded-lg
+                    ">
                 <div className='py-24 px-8'>
                     <div className='flex items-center justify-between'>
                         <div className=''>

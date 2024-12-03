@@ -73,7 +73,7 @@ const page = () => {
                 <CustomButton 
                         title={"Sign Up"} 
                         href="/register"
-                        className="bg-blue-500 hover:bg-blue-700 rounded-full h-6"
+                        className="bg-blue-500 text-slate-50 hover:bg-blue-700 rounded-full h-6"
                     />
                </div>
         </div>
@@ -122,7 +122,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen">
-      <section className="py-6 px-4 mb-0 bg-slate-50">
+      <section className="py-6 px-8 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-6xl gap-8 mx-auto grid grid-cols-1 md:grid-cols-2">
           <div>
             <h2 className="text-[1.5rem] sm:text-[3rem] md:text-5xl leading-[3.5rem]">
@@ -139,7 +139,7 @@ const page = () => {
             <CustomButton
               title={"List your Service"}
               href="#"
-              className="text-lg bg-blue-600 hover:bg-blue-700 h-10"
+              className="text-lg text-slate-50 bg-blue-600 hover:bg-blue-700 h-10"
             />
             <div className="py-6">
               {features.map((feature, i) => {
@@ -164,35 +164,35 @@ const page = () => {
           />
         </div>
       </section>
-      <section className="py-6 px-4 mt-0 bg-pink-100/50">
+      <section className="py-6 px-8 mt-0 bg-pink-100/50 dark:bg-slate-800">
         <div className="max-w-6xl gap-8 mx-auto grid grid-cols-1 md:grid-cols-2">
           <Image
             src={groupImage}
             alt="groupimage1"
             width={1170}
             height={848}
-            className="w-full hidden md:block"
+            className="w-full block order-2 md:order-1"
           />
-          <div>
+          <div className="order-1 md:order-2">
             <h2 className="text-[1.5rem] sm:text-[3rem] md:text-5xl leading-[3.5rem]">
               Join Medical-App to increase your{" "}
-              <span className="text-blue-600 font-semibold">revenue</span>{" "}
+              <span className="text-blue-500 font-semibold">revenue</span>{" "}
               today.
             </h2>
             <div className="py-2">
               {whyUs.map((item, i) => {
                 return (
-                  <div className="py-2">
-                    <p key={i} className="flex items-center py-2">
+                  <div key={i} className="py-2">
+                    <p className="flex items-center py-2">
                       <IoMdArrowDroprightCircle
                         className="w-4 h-4 mr-2 
                                         flex-shrink-0 text-blue-500"
                       />
-                      <span className="text-xl font-semibold text-gray-500">
+                      <span className="text-xl font-semibold">
                         {item.title}
                       </span>
                     </p>
-                    <p className="flex-shrink-0 mx-5 text-gray-500">
+                    <p className="flex-shrink-0 mx-5">
                       {item.description}
                     </p>
                   </div>
@@ -202,31 +202,31 @@ const page = () => {
           </div>
         </div>
       </section>
-      <section className="py-6 px-4 mb-0 bg-slate-50">
-        <div className="grid grid-cols-2 gap-4">
+      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-slate-900">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {cards.map((card, i) => {
             return (
-              <div key={i} className="bg-slate-100 p-4 rounded-lg shadow-md">
+              <div key={i} className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg shadow-md">
                 <h3 className="text-2xl font-semibold text-blue-500">
                   {card.title}
                 </h3>
-                <p className="text-gray-400 text-lg py-3">{card.description}</p>
+                <p className="text-gray-400 dark:text-slate-50 text-lg py-3">{card.description}</p>
                 <CustomButton
                   title={card.linkTitle}
                   href={card.link}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-blue-600 text-slate-50 hover:bg-blue-700"
                 />
               </div>
             );
           })}
         </div>
       </section>
-      <section className="py-6 px-4 mb-0 bg-white">
+      <section className="py-6 px-8 mb-0 dark:bg-slate-950">
         <div className="max-w-6xl gap-4 mx-auto">
          <Pricing />
         </div>
       </section>
-      <section className="py-6 px-4 mb-0 bg-white">
+      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-slate-800">
         <div className="max-w-2xl gap-4 mx-auto">
           <CustomAccordion FAQS={faqs} />
         </div>

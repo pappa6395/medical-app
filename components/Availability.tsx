@@ -41,12 +41,12 @@ const Availability = () => {
     
   return (
 
-    <div className='mb-52'>
+    <div className='h-full'>
         <h2 className='font-bold text-xl uppercase text-slate-500 
         py-4 tracking-wider'>
             Select a Date and Time
         </h2>
-        <div className="grid grid-cols-4 gap-8 lg:gap-0 space-x-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 lg:gap-0 space-x-4">
             <div className="sm:col-span-2 mx-auto">
                 <Calendar
                     mode="single"

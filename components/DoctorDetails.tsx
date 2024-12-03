@@ -14,17 +14,17 @@ const DoctorDetails = () => {
             <button 
                 className={isActive === 'details' ? 
                     (
-                        'py-4 px-8 w-full bg-blue-600 text-white uppercase tracking-widest border-b-2 border-white'
+                        'py-4 px-4 w-full bg-blue-600 text-white uppercase tracking-wide border-b-2 border-white'
                     ) : (
-                        'py-4 px-8 w-full bg-slate-50 text-slate-800 uppercase tracking-widest border-b-2 border-blue-500'
+                        'py-4 px-4 w-full bg-slate-50 text-slate-800 uppercase tracking-wide border-b-2 border-blue-500'
                     )}
                 onClick={() => setIsActive("details")} >
                 Service Details
             </button>
             <button 
                 className={isActive === 'availability' 
-                    ? ('py-4 px-8 w-full bg-blue-600 text-white uppercase tracking-widest border-b-2 border-white') 
-                    : ('py-4 px-8 w-full bg-slate-50 text-slate-800 uppercase tracking-widest border-b-2 border-blue-500')}
+                    ? ('py-4 px-8 w-full bg-blue-600 text-white uppercase tracking-wider border-b-2 border-white') 
+                    : ('py-4 px-8 w-full bg-slate-50 text-slate-800 uppercase tracking-wider border-b-2 border-blue-500')}
                 onClick={() => setIsActive("availability")}>
                 Availability
             </button>

@@ -5,104 +5,107 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import SubmitButton from "../FormInputs/SubmitButton"
-import { LoginProps, RegisterInputProps } from "@/utils/types"
+import { RegisterInputProps } from "@/utils/types"
 import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
 import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi"
 import TextInput from "../FormInputs/TextInput"
-import Link from "next/link"
-import { UserRole } from "@prisma/client"
 import { createUser } from "@/actions/users"
 import toast from "react-hot-toast"
 
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-    role?: UserRole
+interface UserAuthFormProps {
+    role?: string | string[] | undefined
+    plan?: string | string[] | undefined
 }
 
-export default function RegisterAuth({ role="USER", className, ...props }: UserAuthFormProps) {
+export default function RegisterAuth({ role="USER", plan="", ...props }: UserAuthFormProps) {
 
-    const [formData, setFormData] = React.useState<RegisterInputProps>({
+  const [formData, setFormData] = React.useState<RegisterInputProps>({
         fullName: "",
         email: "",
         phone: "",
         password: "",
-        role
-    });
+        role,
+        plan,
+  });
 
-    const [errors, setErrors] = React.useState<Partial<RegisterInputProps>>({});
-    const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
-    const [showNotification, setShowNotification] = React.useState<boolean>(false)
-    const router = useRouter()
+  const [errors, setErrors] = React.useState<Partial<RegisterInputProps>>({});
+  const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [showNotification, setShowNotification] = React.useState<boolean>(false)
+  const router = useRouter()
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target
-      setFormData((prev) => ({ ...prev, [name]:value}));
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]:value}));
+  };
 
-    const validate = () => {
-      const newErrors: Partial<RegisterInputProps> = {};
+  const validate = () => {
+    const newErrors: Partial<RegisterInputProps> = {};
 
-      if (!formData.fullName) newErrors.fullName = "Fullname is required.";
-      if (!formData.email) newErrors.email = "Email is required.";
-      else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid email.";
-      if (!formData.phone) newErrors.phone = "Phone number is required.";
-      if (!formData.password) newErrors.password = "Password is required.";
-      else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters."
-      
-      setErrors(newErrors);
+    if (!formData.fullName) newErrors.fullName = "Fullname is required.";
+    if (!formData.email) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid email.";
+    if (!formData.phone) newErrors.phone = "Phone number is required.";
+    if (!formData.password) newErrors.password = "Password is required.";
+    else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters."
+    
+    setErrors(newErrors);
 
-      return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0;
 
-    }
+  }
 
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (validate()) {
+  const transformedErrors: Record<string, string[]> = 
+    Object.entries(errors).reduce((acc, [key, value]) => {
+      acc[key] = Array.isArray(value) ? value : [value];
+      return acc;
+    }, {} as Record<string, string[]>)
 
-        setIsLoading(true)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
 
-        try {
+      setIsLoading(true)
 
-          console.log(formData, role);
-          
-          const user = await createUser({...formData, role});
-          
-          if (user && user.status === 200) {
-            console.log("Account created successfully:", user.data);
-            setIsSubmitted(true);
-            resetForm();
-            toast.success("Account created successfully")
-            router.push(`/verifyAccount/${user.data?.id}`);
-          } else {
-            setShowNotification(true);
-            console.log(user.error);
-          }
-        } catch (error) {
-          console.log("Error creating data:", error);
-          
-        } finally {
-          setIsLoading(false)
+      try {
+
+        console.log(formData, role, plan);
+        
+        const user = await createUser({...formData, role, plan});
+        
+        if (user && user.status === 200) {
+          console.log("Account created successfully:", user.data);
+          setIsSubmitted(true);
+          resetForm();
+          toast.success("Account created successfully")
+          router.push(`/verifyAccount/${user.data?.id}`);
+        } else {
+          setShowNotification(true);
+          console.log(user.error);
         }
-      } 
+      } catch (error) {
+        console.log("Error creating data:", error);
+        
+      } finally {
+        setIsLoading(false)
+      }
+    } 
 
-    }
+  }
 
-    const resetForm = () => {
-      setFormData({ fullName: "", email: "", phone:"", password: "", role: "USER" })
-      setErrors({});
-      setIsSubmitted(false);
-      setIsLoading(false);
-    }
+  const resetForm = () => {
+    setFormData({ fullName: "", email: "", phone:"", password: "", role: "USER", plan: "" })
+    setErrors({});
+    setIsSubmitted(false);
+    setIsLoading(false);
+  }
 
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cn("grid gap-6")} {...props}>
       <form onSubmit={handleSubmit}>
       {showNotification && (
         <Alert color="failure" icon={HiInformationCircle}>
@@ -117,7 +120,7 @@ export default function RegisterAuth({ role="USER", className, ...props }: UserA
               placeholder="e.g. John Doh"
               type="text"
               value={formData.fullName}
-              errors={errors}
+              errors={transformedErrors}
               disabled={isLoading}
               onChange={handleChange} />
           <TextInput
@@ -126,7 +129,7 @@ export default function RegisterAuth({ role="USER", className, ...props }: UserA
               placeholder="e.g. john@example.com"
               type="email"
               value={formData.email}
-              errors={errors}
+              errors={transformedErrors}
               disabled={isLoading}
               onChange={handleChange} />
             <TextInput
@@ -135,7 +138,7 @@ export default function RegisterAuth({ role="USER", className, ...props }: UserA
               placeholder="e.g. 098-765-4321"
               type="tel"
               value={formData.phone}
-              errors={errors}
+              errors={transformedErrors}
               disabled={isLoading}
               onChange={handleChange} />
             <TextInput
@@ -144,7 +147,7 @@ export default function RegisterAuth({ role="USER", className, ...props }: UserA
               placeholder="Enter your password"
               type="password"
               value={formData.password}
-              errors={errors}
+              errors={transformedErrors}
               disabled={isLoading}
               onChange={handleChange} />
             <SubmitButton 

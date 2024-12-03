@@ -180,7 +180,7 @@ export default function NavBar({session}: {session: Session} ) {
                         <Avatar>
                             {user.image ? 
                             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> 
-                            :  <AvatarFallback>CN</AvatarFallback> }
+                            :  <AvatarFallback>MA</AvatarFallback> }
                         </Avatar>
                         <span className="sr-only">Toggle user menu</span>
                     </Button>

@@ -7,6 +7,7 @@ import LogoutButton from "./LogoutButton";
 import {
   Bell, 
   CircleUser, 
+  Globe, 
   Home, 
   LineChart, 
   Menu, 
@@ -62,6 +63,11 @@ export default function SideBar() {
             name: "Settings",
             path: "/dashboard/settings",
             icon: Settings
+        },
+        {
+            name: "Online",
+            path: "/dashboard/settings",
+            icon: Globe
         },
 
     ]

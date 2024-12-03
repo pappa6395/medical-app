@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/drawer"
 import Image from "next/image"
 import logoImage from '@/public/medicalLogo.png'
+import { HospitalIcon } from "lucide-react"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -66,6 +67,7 @@ export function MobileNav() {
       <DrawerContent className="max-h-[60svh] p-0">
         <div className="overflow-auto p-6">
           <div className="flex flex-col space-y-3">
+          <HospitalIcon className="h-6 w-6" />
             {docsConfig.mainNav?.map(
               (item) =>
                 item.href && (

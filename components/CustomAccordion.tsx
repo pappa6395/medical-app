@@ -16,9 +16,13 @@ import { FAQItem } from "@/utils/types"
         {FAQS.map((faq,i) => {
           return (
             <AccordionItem key={i} value={faq.qn}>
-              <AccordionTrigger>{faq.qn}</AccordionTrigger>
-              <AccordionContent>
-                {faq.ans}
+              <AccordionTrigger className="text-xl text-slate-800
+               dark:text-slate-50"
+              >{faq.qn}
+              </AccordionTrigger>
+              <AccordionContent className="text-md text-slate-800
+               dark:text-slate-50"
+               >{faq.ans}
               </AccordionContent>
             </AccordionItem>
           )

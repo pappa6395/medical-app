@@ -14,6 +14,8 @@ export default async function VerifyAccount({ params: paramsPromise }: PageProps
   //Get a User fromm DB
   const user = await getUserById(id);
   const userToken = user?.token;
+  const role = user?.role
+
   return (
      <div className="min-h-screen flex items-center justify-center
       bg-slate-50 dark:bg-slate-950">
@@ -23,7 +25,7 @@ export default async function VerifyAccount({ params: paramsPromise }: PageProps
           <CardDescription>Please enter the 6-figure pass code sent to your email - {user?.email}.</CardDescription>
         </CardHeader>
         <CardContent className="border-none shadow-none">
-          <VerifyTokenForm userToken={userToken} id={id} />
+          <VerifyTokenForm role={role} userToken={userToken} id={id} />
         </CardContent>
         
       </Card>

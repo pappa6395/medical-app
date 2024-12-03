@@ -15,7 +15,8 @@ export type RegisterInputProps = {
     email: string;
     phone: string;
     password: string;
-    role: UserRole;
+    role?: string | string[] | undefined;
+    plan?: string | string[] | undefined;
 }
 
 export type LoginProps = {

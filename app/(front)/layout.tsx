@@ -9,7 +9,7 @@ import React, { ReactNode } from 'react'
 const Layout =  async ({children}:{children:ReactNode}) => {
 
   const session = await getServerSession(authOptions);
-  console.log(session);
+  console.log("session data:",session);
   
   return (
     <div className=''>

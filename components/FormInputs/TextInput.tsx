@@ -2,18 +2,19 @@ import React from 'react'
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 
 type TextInputProps = {
     label: string;
     name: string;
-    errors: Record<string,string>;
+    errors: Record<string, string[]>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     type?: string;
     value: string;
     placeholder: string;
     disabled?: boolean;
-    
+    className?: string;
 }
 
 const TextInput = (
@@ -25,13 +26,14 @@ const TextInput = (
         placeholder, 
         onChange, 
         disabled, 
-        type="text"
+        type="text",
+        className="col-span-full"
     }: TextInputProps) => {
 
 
   return (
 
-        <div className="grid gap-2">
+        <div className={cn("grid gap-2", className)}>
             {type === "password" 
             ? (
                 <div className="flex items-center">

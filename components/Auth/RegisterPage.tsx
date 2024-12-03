@@ -12,7 +12,13 @@ export const metadata: Metadata = {
   description: "Authentication forms built using the components.",
 }
 
-export default function RegisterPage() {
+interface RegisterPageProps {
+    role?: string | string[] | undefined
+    plan?: string | string[] | undefined
+    
+}
+
+export default function RegisterPage({role="USER", plan=""}: RegisterPageProps) {
   return (
     <div className="relative min-h-screen flex-col">
         <div className="grid grid-cols-1 justify-center md:grid-cols-2 flex-1">
@@ -67,7 +73,7 @@ export default function RegisterPage() {
                 SignUp
                 </Link>
                     <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
-                    justify-center sm:w-[350px]">
+                        justify-center sm:w-[350px]">
                         <div className="grid space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
                                 Create an account
@@ -76,8 +82,7 @@ export default function RegisterPage() {
                                 Enter your email below to create your account
                             </p>
                         </div>
-                        
-                        <RegisterAuth />
+                        <RegisterAuth role={role} plan={plan} />
                         <p className="mt-5 text-center text-sm/6 
                         text-muted-foreground">
                         <span>Already have an Account?</span>{' '}

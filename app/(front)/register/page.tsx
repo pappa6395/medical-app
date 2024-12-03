@@ -3,13 +3,18 @@ import RegisterPage from '@/components/Auth/RegisterPage'
 import React from 'react'
 
 
-const page = () => {
+const page = async ({searchParams}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) => {
 
+  const { role, plan } = await searchParams
+  console.log(role, plan);
+  
 
   return (
 
     <div>
-      <RegisterPage />
+      <RegisterPage role={role} plan={plan} />
     </div>
     // <div className='bg-blue-100 min-h-screen py-8'>
     //     <div className="grid md:grid-cols-2 grid-cols-1 w-full 

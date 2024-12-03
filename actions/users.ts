@@ -3,16 +3,24 @@
 import EmailTemplate from "@/components/Emails/emailTemplate";
 import { prismaClient } from "@/lib/db";
 import { RegisterInputProps } from "@/utils/types";
+import { UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { Resend } from "resend";
+
+
 
 export async function createUser(submittedData: RegisterInputProps) {
 
     console.log(submittedData);
-    const { fullName, email, phone, password, role } = submittedData
+    const { fullName, email, phone, password, role, plan } = submittedData
+
+    const inputPlan: string | string[] | undefined = plan;
+    const pricePlan: string | null | undefined = Array.isArray(inputPlan) 
+    ? inputPlan[0] : inputPlan;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     
+
     try {
         const existingUser = await prismaClient.user.findUnique({
             where: {
@@ -43,7 +51,8 @@ export async function createUser(submittedData: RegisterInputProps) {
             email,
             phone,
             password: hashedPassword,
-            role,
+            role: role as UserRole,
+            plan: pricePlan,
             token: userToken,
         },
         });

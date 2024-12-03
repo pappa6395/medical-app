@@ -6,6 +6,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
   } from "@/components/ui/tooltip"
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function Pricing () {
 
@@ -21,6 +23,7 @@ export default function Pricing () {
                 "Basic patient record management",
                 "Email notifications for appointments",
             ],
+            getStarted: "/register?role=DOCTOR&plan=free"
         },
         {
             name: "Professional",
@@ -34,6 +37,7 @@ export default function Pricing () {
                 "SMS reminders for appointements",
                 "Customizable clinic profile",
             ],
+            getStarted: "/register?role=DOCTOR&plan=professional"
         },
         {
             name: "Enterprise",
@@ -47,14 +51,15 @@ export default function Pricing () {
                 "Priority customer support",
                 "Integration with electronic health records (EHR) systems",
             ],
+            getStarted: "/register?role=DOCTOR&plan=enterprise"
         },
     ];
 
     return (
         <section className='py-14'>
-            <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-                <div className='relative max-w-xl mx-auto sm:text-center'>
-                    <h3 className='text-gray-800 text-3xl font-semibold sm:text-4xl'>
+            <div className="max-w-screen-xl mx-auto px-4 dark:text-slate-50 md:px-8">
+                <div className='relative max-w-xl mx-auto sm:text-center text-gray-800 dark:text-slate-50'>
+                    <h3 className='text-3xl font-semibold sm:text-4xl'>
                         Pricing for all sizes
                     </h3>
                     <div className='mt-3 max-w-xl'>
@@ -76,15 +81,15 @@ export default function Pricing () {
                                     <span className='text-indigo-600 font-medium uppercase tracking-widest'>
                                         {item.name}
                                     </span>
-                                    <div className='text-gray-800 text-3xl font-semibold'>
-                                        ${item.price} <span className="text-xl text-gray-600 font-normal">/mo</span>
+                                    <div className='text-gray-800 dark:text-slate-50 text-3xl font-semibold'>
+                                        ${item.price} <span className="text-xl text-gray-600 dark:text-slate-100 font-normal">/mo</span>
                                     </div>
-                                    <div className='text-gray-800 font-semibold flex items-center space-x-1'>
-                                        +{item.fee}<span className="text-gray-600 font-normal">% transaction fee</span>
+                                    <div className='text-gray-800 dark:text-slate-300 font-semibold flex items-center space-x-1'>
+                                        +{item.fee}<span className="text-gray-600 dark:text-slate-300 font-normal">% transaction fee</span>
                                         <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
-                                                <button className='text-gray-400'><HelpCircle className='h-4 w-4'/></button>
+                                                <button className='text-gray-400 dark:text-slate-300'><HelpCircle className='h-4 w-4'/></button>
                                             </TooltipTrigger>
                                             <TooltipContent className='bg-slate-900 text-white text-sm' >
                                             <p>Paypal / Stripe will charge their regular transaction fee</p>
@@ -96,15 +101,17 @@ export default function Pricing () {
                                     <p>
                                         {item.desc}
                                     </p>
-                                    <button className='px-3 py-3 rounded-lg 
+                                    <Button asChild className='px-3 py-3 rounded-lg 
                                     w-full font-semibold text-sm duration-150 
                                     text-white bg-indigo-600 hover:bg-indigo-500 
                                     active:bg-indigo-700'>
-                                        Get Started
-                                    </button>
+                                        <Link href={item.getStarted}>
+                                            Get Started
+                                        </Link>
+                                    </Button>
                                 </div>
                                 <ul className='p-8 space-y-3'>
-                                    <li className="pb-2 text-gray-800 font-medium">
+                                    <li className="pb-2 text-gray-800 dark:text-slate-50 font-medium">
                                         <p>Features</p>
                                     </li>
                                     {
@@ -112,9 +119,9 @@ export default function Pricing () {
                                             <li key={idx} className='flex 
                                                 items-center gap-5'>
                                                 <Check className='h-5 w-5 
-                                                text-indigo-600 flex-shrink-0'
+                                                text-indigo-600 dark:text-indigo-400 flex-shrink-0'
                                             />
-                                                {featureItem}
+                                                <span className='text-md font-medium text-slate-800 dark:text-slate-50'>{featureItem}</span>
                                             </li>
                                     ))
                                     }
