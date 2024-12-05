@@ -74,3 +74,42 @@ export interface NavItemWithChildren extends NavItem {
 export interface MainNavItem extends NavItem {}
 
 export interface SidebarNavItem extends NavItemWithChildren {}
+
+export type BioDataFormProps = {
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    dob?: Date;
+    gender: string;
+    profilePicture?: string;
+    bio: string;
+    medicalLicense: string;
+    medicalLicenseExpiry?: Date;
+    page: string;
+    yearsOfExperience: string;
+    email: string;
+    phone: string;
+    country: string;
+    city: string;
+    state: string;
+    medicalSchool: string;
+    graduationYear: string;
+}
+
+export interface ValidationProps extends BioDataFormProps {
+    
+    DoB: string | undefined;
+    MedicalLicenseExpireDate: string | undefined;
+
+}
+   
+export type GenderOptionProps = {
+    value: string;
+    label: string;
+}
+
+export type StepFormProps = {
+    page: string; 
+    title: string; 
+    description: string;
+}

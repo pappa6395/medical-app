@@ -1,0 +1,58 @@
+import React from 'react'
+import { cn } from '@/lib/utils';
+
+
+type SelectInputProps = {
+    label: string;
+    name: string;
+    register: boolean;
+    className: string;
+    options: SelectOptionProps[];
+    multiple?: boolean;
+};
+
+export type SelectOptionProps = {
+    value: string;
+    label: string;  
+}
+
+const SelectInput = ({
+    label,
+    name,
+    register,
+    className = "sm:cols-span-2",
+    options = [],
+    multiple = false,
+}: SelectInputProps) => {
+
+  return (
+
+    <div className={cn("-mt-1",className)}>
+        <label 
+            htmlFor={name} 
+            className='block text-sm font-medium 
+            leading-6 text-gray-600 dark:text-slate-50'
+        >
+            {label}
+        </label>
+        <div className=''>
+            <select
+                id={name} 
+                name={name} 
+                multiple={multiple}
+                className='block w-full border-0 mt-1 py-2 rounded-md
+                shadow-sm ring-1 ring-inset focus:ring-2
+                focus:ring-inset ring-gray-300 focus:ring-indigo-600 
+                sm:max-w-xs sm:text-sm sm:leading-6'
+            >
+                {options.map((option, i: number) => (
+                    <option key={i} value={option.value}>{option.label}</option>
+                ))}
+            </select>
+        </div>
+    </div>
+
+  )
+}
+
+export default SelectInput

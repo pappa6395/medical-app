@@ -11,10 +11,11 @@ type TextInputProps = {
     errors: Record<string, string[]>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     type?: string;
-    value: string;
+    value?: string;
     placeholder: string;
     disabled?: boolean;
     className?: string;
+    register?: boolean;
 }
 
 const TextInput = (
@@ -27,7 +28,8 @@ const TextInput = (
         onChange, 
         disabled, 
         type="text",
-        className="col-span-full"
+        className="col-span-full",
+        register
     }: TextInputProps) => {
 
 
@@ -36,7 +38,7 @@ const TextInput = (
         <div className={cn("grid gap-2", className)}>
             {type === "password" 
             ? (
-                <div className="flex items-center">
+                <div className="flex text-slate-700 items-center">
                     <Label htmlFor={name}>{label}</Label>
                     <Link 
                         href="/forgotPassword" 
@@ -48,7 +50,8 @@ const TextInput = (
                 </div>
             ) : (
                 <Label 
-                    htmlFor={name}>
+                    htmlFor={name}
+                    className='text-slate-700'>
                     {label}
                 </Label>
             )}

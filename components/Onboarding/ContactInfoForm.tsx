@@ -11,8 +11,7 @@ import { BioDataFormProps, GenderOptionProps, StepFormProps, ValidationProps } f
 import ImageInput from '../FormInputs/ImageInput';
 
 
-
-const BioDataForm = ({
+const ContactInfoForm = ({
     page, 
     title, 
     description
@@ -37,6 +36,7 @@ const BioDataForm = ({
         medicalSchool: "",
         graduationYear: "",
     });
+
     const [errors, setErrors] = React.useState<Partial<BioDataFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
@@ -77,6 +77,7 @@ const BioDataForm = ({
             state,
             medicalSchool,
             graduationYear,
+
         } = bioData;
 
         const DoB = dob?.toLocaleDateString("en-US", {
@@ -107,10 +108,9 @@ const BioDataForm = ({
             city,
             state,
             medicalSchool,
-            graduationYear,    
+            graduationYear,     
         };
 
-        bioData.page = page;
 
         if (validate(newBioData)) {
 
@@ -136,6 +136,18 @@ const BioDataForm = ({
         if (!newBioData.DoB) newErrors.DoB = "Date of Birth is required.";
 
         if (!newBioData.MedicalLicenseExpireDate) newErrors.MedicalLicenseExpireDate = "Medical license expiry date is required.";
+
+        if (!newBioData.yearsOfExperience) newErrors.yearsOfExperience = "Years of experience is required.";
+
+        if (!newBioData.email) newErrors.email = "Email is required.";
+
+        if (!newBioData.phone) newErrors.phone = "Phone number is required.";
+
+        if (!newBioData.country) newErrors.country = "Country is required.";
+
+        if (!newBioData.city) newErrors.city = "City is required.";
+
+        if (!newBioData.state) newErrors.state = "State is required.";  
 
         setErrors(newErrors);
 
@@ -167,7 +179,7 @@ const BioDataForm = ({
                 city: "",
                 state: "",
                 medicalSchool: "",
-                graduationYear: "",  
+                graduationYear: "",   
             }
         )
         setErrors({});
@@ -193,52 +205,59 @@ const BioDataForm = ({
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                     <TextInput
-                        label="First Name"
+                        label="Email Address"
                         register={register}
-                        name="firstName"
-                        placeholder="e.g. John"
-                        type="text"
-                        className='col-span-full sm:col-span-1'
-                        value={bioData.firstName}
+                        name="email"
+                        placeholder="e.g. john@example.com"
+                        type="email"
+                        value={bioData.email}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
                     <TextInput
-                        label="Last Name"
+                        label="Phone No."
                         register={register}
-                        name="lastName"
-                        placeholder="e.g. Doherty"
-                        type="text"
+                        name="phone"
+                        placeholder="e.g. 0912345678"
+                        type="tel"
                         className='col-span-full sm:col-span-1'
-                        value={bioData.lastName}
+                        value={bioData.phone}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
-                    <TextInput
-                        label="Middle Name"
+                     <TextInput
+                        label="Country"
                         register={register}
-                        name="middleName"
-                        placeholder="e.g. Dickson"
+                        name="country"
+                        placeholder="Enter your country"
                         type="text"
                         className='col-span-full sm:col-span-1'
-                        value={bioData.middleName}
+                        value={bioData.country}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
-                    <DatePickerInput
-                        name="Date of Birth" 
-                        date={bioData.dob}
-                        setDate={(setDoB) => setBioData((prev)=>({...prev, dob: setDoB})) }
-                        className='col-span-full sm:col-span-1'
-                        />
-                    <RadioInput
-                        title="Gender" 
-                        name="gender"
-                        options={genderOptions}
+                     <TextInput
+                        label="City"
                         register={register}
+                        name="city"
+                        placeholder="Enter your city"
+                        type="text"
+                        className='col-span-full sm:col-span-1'
+                        value={bioData.city}
                         errors={transformedErrors}
-                        onChange={handleChange}
-                        />     
+                        disabled={isLoading}
+                        onChange={handleChange} />
+                     <TextInput
+                        label="State"
+                        register={register}
+                        name="state"
+                        placeholder="Enter your state"
+                        type="text"
+                        className='col-span-full sm:col-span-1'
+                        value={bioData.state}
+                        errors={transformedErrors}
+                        disabled={isLoading}
+                        onChange={handleChange} />
                 </div>
                 <div className='m-8 flex justify-center items-center'>
                     <SubmitButton 
@@ -252,4 +271,4 @@ const BioDataForm = ({
   )
 }
 
-export default BioDataForm
+export default ContactInfoForm

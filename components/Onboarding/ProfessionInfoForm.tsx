@@ -9,10 +9,11 @@ import TextAreaInput from '../FormInputs/TextAreaInput';
 import RadioInput from '../FormInputs/RadioInput';
 import { BioDataFormProps, GenderOptionProps, StepFormProps, ValidationProps } from '@/utils/types';
 import ImageInput from '../FormInputs/ImageInput';
+import SelectInput, { SelectOptionProps } from '../FormInputs/SelectInput';
+import ArrayInput from '../FormInputs/ArrayInput';
 
 
-
-const BioDataForm = ({
+const ProfessionInfoForm = ({
     page, 
     title, 
     description
@@ -35,18 +36,20 @@ const BioDataForm = ({
         city: "",
         state: "",
         medicalSchool: "",
-        graduationYear: "",
+        graduationYear: "", 
     });
+
     const [errors, setErrors] = React.useState<Partial<BioDataFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
     const [profileImage, setProfileImage] = React.useState<string>("")
+    const [multiple, setMultiple] = React.useState<boolean>(false);
+    const [items, setItems] = React.useState<string[]>([]);
 
-
-    const genderOptions: GenderOptionProps[] = [
-        { value: 'male', label: 'Male' },
-        { value: 'female', label: 'Female' },
+    const selectOptions: SelectOptionProps[] = [
+        { value: 'medicine', label: 'Medicine' },
+        { value: 'massage', label: 'Massage' },
         
     ]
 
@@ -77,6 +80,7 @@ const BioDataForm = ({
             state,
             medicalSchool,
             graduationYear,
+
         } = bioData;
 
         const DoB = dob?.toLocaleDateString("en-US", {
@@ -107,10 +111,9 @@ const BioDataForm = ({
             city,
             state,
             medicalSchool,
-            graduationYear,    
+            graduationYear,   
         };
 
-        bioData.page = page;
 
         if (validate(newBioData)) {
 
@@ -136,6 +139,22 @@ const BioDataForm = ({
         if (!newBioData.DoB) newErrors.DoB = "Date of Birth is required.";
 
         if (!newBioData.MedicalLicenseExpireDate) newErrors.MedicalLicenseExpireDate = "Medical license expiry date is required.";
+
+        if (!newBioData.yearsOfExperience) newErrors.yearsOfExperience = "Years of experience is required.";
+
+        if (!newBioData.email) newErrors.email = "Email is required.";
+
+        if (!newBioData.phone) newErrors.phone = "Phone number is required.";
+
+        if (!newBioData.country) newErrors.country = "Country is required.";
+
+        if (!newBioData.city) newErrors.city = "City is required.";
+
+        if (!newBioData.state) newErrors.state = "State is required."; 
+        
+        if (!newBioData.medicalSchool) newErrors.medicalSchool = "Medical School is required."; 
+
+        if (!newBioData.graduationYear) newErrors.graduationYear = "Graduation year is required."; 
 
         setErrors(newErrors);
 
@@ -193,52 +212,37 @@ const BioDataForm = ({
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                     <TextInput
-                        label="First Name"
+                        label="Medical School"
                         register={register}
-                        name="firstName"
-                        placeholder="e.g. John"
+                        name="medicalSchool"
+                        placeholder="Enter your Grad School Name"
                         type="text"
-                        className='col-span-full sm:col-span-1'
-                        value={bioData.firstName}
+                        value={bioData.medicalSchool}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
                     <TextInput
-                        label="Last Name"
+                        label="Graduation Year"
                         register={register}
-                        name="lastName"
-                        placeholder="e.g. Doherty"
-                        type="text"
+                        name="graduationYear"
+                        placeholder="Enter your Grad Year"
+                        type="number"
                         className='col-span-full sm:col-span-1'
-                        value={bioData.lastName}
+                        value={bioData.graduationYear}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
-                    <TextInput
-                        label="Middle Name"
+                    <SelectInput 
+                        label="Select Your Primary Specializations" 
+                        name="specializations" 
                         register={register}
-                        name="middleName"
-                        placeholder="e.g. Dickson"
-                        type="text"
-                        className='col-span-full sm:col-span-1'
-                        value={bioData.middleName}
-                        errors={transformedErrors}
-                        disabled={isLoading}
-                        onChange={handleChange} />
-                    <DatePickerInput
-                        name="Date of Birth" 
-                        date={bioData.dob}
-                        setDate={(setDoB) => setBioData((prev)=>({...prev, dob: setDoB})) }
-                        className='col-span-full sm:col-span-1'
-                        />
-                    <RadioInput
-                        title="Gender" 
-                        name="gender"
-                        options={genderOptions}
-                        register={register}
-                        errors={transformedErrors}
-                        onChange={handleChange}
-                        />     
+                        multiple={multiple} 
+                        className="col-span-full sm:col-span-1" 
+                        options={selectOptions} />
+                    <ArrayInput 
+                      setItems={setItems} 
+                      items={items} 
+                      itemTitle="Other Specialties" /> 
                 </div>
                 <div className='m-8 flex justify-center items-center'>
                     <SubmitButton 
@@ -252,4 +256,4 @@ const BioDataForm = ({
   )
 }
 
-export default BioDataForm
+export default ProfessionInfoForm

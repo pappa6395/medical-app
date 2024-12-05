@@ -11,8 +11,7 @@ import { BioDataFormProps, GenderOptionProps, StepFormProps, ValidationProps } f
 import ImageInput from '../FormInputs/ImageInput';
 
 
-
-const BioDataForm = ({
+const ProfileInfoForm = ({
     page, 
     title, 
     description
@@ -107,10 +106,9 @@ const BioDataForm = ({
             city,
             state,
             medicalSchool,
-            graduationYear,    
+            graduationYear,   
         };
 
-        bioData.page = page;
 
         if (validate(newBioData)) {
 
@@ -136,6 +134,8 @@ const BioDataForm = ({
         if (!newBioData.DoB) newErrors.DoB = "Date of Birth is required.";
 
         if (!newBioData.MedicalLicenseExpireDate) newErrors.MedicalLicenseExpireDate = "Medical license expiry date is required.";
+
+        if (!newBioData.yearsOfExperience) newErrors.yearsOfExperience = "Years of experience is required.";
 
         setErrors(newErrors);
 
@@ -167,7 +167,7 @@ const BioDataForm = ({
                 city: "",
                 state: "",
                 medicalSchool: "",
-                graduationYear: "",  
+                graduationYear: "",   
             }
         )
         setErrors({});
@@ -193,52 +193,44 @@ const BioDataForm = ({
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                     <TextInput
-                        label="First Name"
+                        label="Medical License"
                         register={register}
-                        name="firstName"
-                        placeholder="e.g. John"
+                        name="medicalLicense"
+                        placeholder="Enter your password"
                         type="text"
-                        className='col-span-full sm:col-span-1'
-                        value={bioData.firstName}
+                        value={bioData.medicalLicense}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
                     <TextInput
-                        label="Last Name"
+                        label="Years of Experience"
                         register={register}
-                        name="lastName"
-                        placeholder="e.g. Doherty"
+                        name="yearsOfExperience"
+                        placeholder="Enter years of experience"
                         type="text"
                         className='col-span-full sm:col-span-1'
-                        value={bioData.lastName}
-                        errors={transformedErrors}
-                        disabled={isLoading}
-                        onChange={handleChange} />
-                    <TextInput
-                        label="Middle Name"
-                        register={register}
-                        name="middleName"
-                        placeholder="e.g. Dickson"
-                        type="text"
-                        className='col-span-full sm:col-span-1'
-                        value={bioData.middleName}
+                        value={bioData.medicalLicense}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
                     <DatePickerInput
-                        name="Date of Birth" 
-                        date={bioData.dob}
-                        setDate={(setDoB) => setBioData((prev)=>({...prev, dob: setDoB})) }
-                        className='col-span-full sm:col-span-1'
-                        />
-                    <RadioInput
-                        title="Gender" 
-                        name="gender"
-                        options={genderOptions}
+                        name="Medical License Expired Date" 
+                        date={bioData.medicalLicenseExpiry}
+                        setDate={(setLicenseExpiry) => setBioData((prev)=>({...prev, medicalLicenseExpiry: setLicenseExpiry})) }
+                        className='col-span-full sm:col-span-1'/>
+                    <TextAreaInput
+                        label="Describe your Biography"
                         register={register}
+                        name="bio"
+                        placeholder="Enter your biography"
                         errors={transformedErrors}
-                        onChange={handleChange}
-                        />     
+                        disabled={isLoading}
+                        onChange={handleChange} />
+                    <ImageInput 
+                        label="Profession Profile Image"
+                        imageUrl={profileImage}
+                        setImageUrl={setProfileImage}
+                        endpoint="doctorProfileImage"/>      
                 </div>
                 <div className='m-8 flex justify-center items-center'>
                     <SubmitButton 
@@ -252,4 +244,4 @@ const BioDataForm = ({
   )
 }
 
-export default BioDataForm
+export default ProfileInfoForm

@@ -1,35 +1,56 @@
 "use client"
 
 import { cn } from '@/lib/utils'
-import { X } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import React from 'react'
 import BioDataForm from './BioDataForm'
-import ContactInfo from './ContactInfo'
-import ProfessionInfo from './ProfessionInfo'
+import ProfileInfoForm from './ProfileInfoForm'
+import ContactInfoForm from './ContactInfoForm'
+import ProfessionInfoForm from './ProfessionInfoForm'
 
 
 const OnboardingSteps = ({id}: {id: string}) => {
 
   const params = useSearchParams()
-  const page = params.get("page")
+  const page = params.get("page")?? "bioData"
 
   const steps = [
     {
       title: "Bio Data",
       page: "bioData",
-      component: <BioDataForm />
+      component: 
+        <BioDataForm 
+          title="Bio Data" 
+          description="Please fill in your bio data information" 
+          page={page} />
+    },
+    {
+      title: "Profile Information",
+      page: "profile",
+      component: 
+        <ProfileInfoForm 
+          title="Profile Information" 
+          description="Please fill in your profile information" 
+          page={page} />
     },
     {
       title: "Contact Information",
       page: "contact",
-      component: <ContactInfo />
+      component: 
+        <ContactInfoForm 
+          title="Contact Information" 
+          description="Please fill in your contact information" 
+          page={page} />
     },
     {
       title: "Profession Information",
       page: "profession",
-      component: <ProfessionInfo />
+      component: 
+        <ProfessionInfoForm 
+          title="Profession Information" 
+          description="Please fill in your profession information" 
+          page={page}/>
     },
     {
       title: "Education Information",
