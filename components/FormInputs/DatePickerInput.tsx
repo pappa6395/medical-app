@@ -45,7 +45,7 @@ export default function DatePickerInput({
             <Button
                 variant={"outline"}
                 className={cn(
-                "w-[240px] justify-start text-left font-normal",
+                "w-[268px] justify-start text-left font-normal dark:bg-slate-700 dark:text-slate-200",
                 !date && "text-muted-foreground"
                 )}
             >
@@ -54,27 +54,35 @@ export default function DatePickerInput({
             </Button>
             </PopoverTrigger>
             <PopoverContent
-            align="start"
-            className="flex w-auto flex-col space-y-2 p-2"
+                align="start"
+                className="flex w-auto flex-col 
+                space-y-2 p-2 dark:bg-slate-700"
             >
-            <Select
-                onValueChange={(value) =>
-                setDate(addDays(new Date(), parseInt(value)))
-                }
-            >
-                <SelectTrigger>
-                <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                <SelectItem value="0">Today</SelectItem>
-                <SelectItem value="1">Tomorrow</SelectItem>
-                <SelectItem value="3">In 3 days</SelectItem>
-                <SelectItem value="7">In a week</SelectItem>
-                </SelectContent>
-            </Select>
-            <div className="rounded-md border block">
-                <Calendar mode="single" selected={date} onSelect={setDate}/>
-            </div>
+                <Select
+                    onValueChange={(value) =>
+                    setDate(addDays(new Date(), parseInt(value)))
+                    }
+                >
+                    <SelectTrigger className="dark:border-gray-400">
+                        <SelectValue 
+                            placeholder="Select"
+                        />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                    <SelectItem value="0">Today</SelectItem>
+                    <SelectItem value="1">Tomorrow</SelectItem>
+                    <SelectItem value="3">In 3 days</SelectItem>
+                    <SelectItem value="7">In a week</SelectItem>
+                    </SelectContent>
+                </Select>
+                <div className="rounded-md border dark:border-slate-400 block">
+                    <Calendar 
+                        mode="single" 
+                        selected={date} 
+                        onSelect={setDate}
+                        className="dark:bg-slate-700"    
+                    />
+                </div>
             </PopoverContent>
         </Popover>
     </div>

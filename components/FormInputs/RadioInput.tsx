@@ -7,7 +7,7 @@ type RadioInputProps = {
     name: string;
     title: string;
     register: boolean;
-    options: Array<{value: string, label: string}>;
+    options: Array<{value: string, label: string, description: string}>;
     errors: Record<string, string[]>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -25,17 +25,17 @@ const RadioInput = (
   return (
 
     <div className={cn("grid gap-2", className)}>
-    <Label className='text-slate-700'>{title}</Label>
+    <Label className='text-slate-700 dark:text-slate-200'>{title}</Label>
         <div className='flex'>
             <ul className="items-center w-full text-sm font-medium 
             text-gray-900 bg-white border border-gray-200 
-            rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 
+            rounded-lg sm:flex dark:bg-slate-700 dark:border-gray-600 
             dark:text-white"
             >
                 {options.map((option, i) => {
                     return (
                         <li key={i} className="w-full border-b border-gray-200 
-                        sm:border-b-0 sm:border-r dark:border-gray-600">
+                        sm:border-b-0 sm:border-r dark:border-gray-600 ">
                             <div className="flex items-center ps-3">
                                 <input
                                     id={`${name}-${option.value}`}
@@ -47,14 +47,21 @@ const RadioInput = (
                                     border-gray-300 focus:ring-blue-500 
                                     dark:focus:ring-blue-600 dark:ring-offset-gray-700 
                                     dark:focus:ring-offset-gray-700 focus:ring-2 
-                                    dark:bg-gray-600 dark:border-gray-500"/>
+                                    dark:bg-gray-300 dark:border-gray-500"/>
                                 <Label 
                                     htmlFor={`${name}-${option.value}`}
                                     className="w-full py-3 ms-2 text-sm font-medium 
-                                    text-gray-600 dark:text-gray-300"
+                                    text-gray-600 dark:text-gray-200"
                                 >{option.label}
                                 </Label>
                             </div>
+                            {options.find((item,i) => item.description.length > 0)  && (
+                                <p 
+                                className='m-2 p-2 text-sm text-slate-600 
+                                dark:text-slate-300 '
+                            >{option.description}
+                            </p>
+                            )}
                         </li> 
                     )
                 })}

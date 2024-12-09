@@ -17,7 +17,7 @@ const MultiImageInput = ({
     label,
     imageUrls,
     setImageUrls,
-    className,
+    className="col-span-full",
     endpoint,
 }: MultiImageInputProps) => {
 

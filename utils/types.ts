@@ -81,35 +81,96 @@ export type BioDataFormProps = {
     middleName?: string;
     dob?: Date;
     gender: string;
-    profilePicture?: string;
-    bio: string;
-    medicalLicense: string;
-    medicalLicenseExpiry?: Date;
     page: string;
-    yearsOfExperience: string;
+    userId?: string | undefined;
+    trackingNumber: string;
+}
+
+export type NewBioDataFormProps = {
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    dob?: string | undefined;
+    gender: string;
+    page: string;
+    userId?: string | undefined;
+    trackingNumber: string;
+}
+
+export type ProfileInfoFormProps = {
+    medicalLicense: string;
+    yearsOfExperience: number;
+    medicalLicenseExpiry?: Date;
+    bio: string;
+    profilePicture?: string;
+    page: string;
+}
+
+export type NewProfileInfoFormProps = {
+    medicalLicense: string;
+    yearsOfExperience: number;
+    medicalLicenseExpiry?: String | undefined;
+    bio: string;
+    profilePicture?: string;
+    page: string;
+}
+
+export type ContactInfoFormProps = {
     email: string;
     phone: string;
     country: string;
     city: string;
     state: string;
-    medicalSchool: string;
-    graduationYear: string;
+    page: string;
 }
 
-export interface ValidationProps extends BioDataFormProps {
-    
-    DoB: string | undefined;
-    MedicalLicenseExpireDate: string | undefined;
+export type EducationFormProps = {
+    medicalSchool: string;
+    graduationYear: string;
+    primarySpecialization: string;
+    otherSpecialties: string[];
+    boardCertificates: string[];
+    page: string;
+}
 
+export type PracticeInfoFormProps = {
+    hospitalName: string;
+    hospitalAddress: string;
+    hospitalContactNumber: string;
+    hospitalEmailAddress: string;
+    hospitalWebsite?: string;
+    hospitalHoursOfOperation: string;
+    servicesOffered: string[];
+    insuranceAccepted: string;
+    languagesSpoken: string[];
+    page: string;
+}
+
+export type AdditionalInfoFormProps = {
+    educationHistory: string;
+    research: string
+    accomplishments: string;
+    additionalDocuments: string[];
+    page: string;
+}
+
+export type AvailabilityInfoFormProps = {
+    meetingDuration: string;
+    meetingAvailability: string;
+    page: string;
 }
    
 export type GenderOptionProps = {
     value: string;
     label: string;
+    description: string;
 }
 
 export type StepFormProps = {
     page: string; 
     title: string; 
     description: string;
+    userId?: string | undefined;
+    nextPage?: string;
+    formId?: string;
 }

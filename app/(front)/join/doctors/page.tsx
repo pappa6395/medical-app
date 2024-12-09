@@ -38,14 +38,14 @@ const page = () => {
       description:
         "Start a new application to join our network of healthcare providers",
       linkTitle: "Start a new application",
-      link: "/",
+      link: "/register?role=DOCTOR&plan=free",
     },
     {
       title: "Resume Application",
       description:
         "Pick up where you left off and complete your onboarding process. Schedule for physical approve",
       linkTitle: "Continue your application",
-      link: "/",
+      link: "/onboarding/resume"
     },
     {
       title: "Schedule a Call",

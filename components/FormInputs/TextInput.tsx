@@ -11,7 +11,7 @@ type TextInputProps = {
     errors: Record<string, string[]>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     type?: string;
-    value?: string;
+    value?: string | number;
     placeholder: string;
     disabled?: boolean;
     className?: string;
@@ -38,7 +38,7 @@ const TextInput = (
         <div className={cn("grid gap-2", className)}>
             {type === "password" 
             ? (
-                <div className="flex text-slate-700 items-center">
+                <div className="flex text-slate-700 dark:text-slate-200 items-center">
                     <Label htmlFor={name}>{label}</Label>
                     <Link 
                         href="/forgotPassword" 
@@ -51,7 +51,7 @@ const TextInput = (
             ) : (
                 <Label 
                     htmlFor={name}
-                    className='text-slate-700'>
+                    className='text-slate-700 dark:text-slate-200'>
                     {label}
                 </Label>
             )}
@@ -68,6 +68,8 @@ const TextInput = (
                 autoCorrect="off"
                 disabled={disabled}
                 onChange={onChange}
+                className='dark:bg-slate-700 dark:text-slate-200 
+                dark:placeholder-slate-100'
                 />
                 {/* <input
                 id={name}

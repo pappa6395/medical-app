@@ -29,7 +29,7 @@ const ArrayInput = ({
 
   return (
 
-    <div className='sm:col-span-2 col-span-full'>
+    <div className='sm:col-span-2 col-span-full mt-4 -space-y-2'>
         {showTagForm ? (
             <div className='flex items-center'>
                 <div className='relative w-full'>
@@ -47,7 +47,7 @@ const ArrayInput = ({
                         ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 
                         dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
                         dark:focus:border-blue-500'
-                        placeholder={`Create a ${itemTitle}`} 
+                        placeholder={`Create ${itemTitle}`} 
                     />
                 </div>
                 <button 
@@ -80,14 +80,14 @@ const ArrayInput = ({
                 <span>Add {itemTitle}</span>
             </button>
         )}
-        <div className='flex flex-wrap gap-4 mt-4'>
+        <div className='flex flex-wrap gap-4'>
             {items.map((item, i) => {
                 return (
                     <div 
                         onClick={() => removeItem(i)} 
                         key={i}
                         className='bg-blue-200 flex space-x-2 items-center
-                        dark:bg-slate-600 px-4 py-2 rounded-lg cursor-pointer
+                        dark:bg-slate-600 mt-4 px-4 py-2 rounded-lg cursor-pointer
                         text-sm text-slate-800 dark:text-slate-200'
                     >
                         <span>{item}</span>

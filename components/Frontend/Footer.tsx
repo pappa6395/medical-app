@@ -12,7 +12,7 @@ export default function Footer() {
             items: [
                 {
                     href: '/join/doctors',
-                    name: 'List of your serices'
+                    name: 'List of your services'
                 },
                 {
                     href: 'javascript:void()',

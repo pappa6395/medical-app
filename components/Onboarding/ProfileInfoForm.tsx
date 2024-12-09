@@ -6,48 +6,44 @@ import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
 import DatePickerInput from '../FormInputs/DatePickerInput';
 import TextAreaInput from '../FormInputs/TextAreaInput';
-import RadioInput from '../FormInputs/RadioInput';
-import { BioDataFormProps, GenderOptionProps, StepFormProps, ValidationProps } from '@/utils/types';
+import { NewProfileInfoFormProps, ProfileInfoFormProps, StepFormProps } from '@/utils/types';
 import ImageInput from '../FormInputs/ImageInput';
+import { DoctorProfile } from '@prisma/client';
+import { useRouter } from 'next/navigation';
+import { updateDoctorProfileById } from '@/actions/onboarding';
+import { useOnBoardingContext } from '@/context/context';
+
 
 
 const ProfileInfoForm = ({
     page, 
     title, 
-    description
+    description,
+    nextPage,
+    formId="",
+    userId="",
 }: StepFormProps) => {
 
-    const [bioData, setBioData] = React.useState<BioDataFormProps>({
-        firstName: "",
-        lastName: "",
-        middleName: "",
-        dob: undefined,
+    
+    const router = useRouter()
+
+    const [profileData, setProfileData] = React.useState<ProfileInfoFormProps>({
         medicalLicense: "",
         medicalLicenseExpiry: undefined,
-        gender: "",
+        yearsOfExperience: 0,
         bio: "",
-        page: "bioData",
-        yearsOfExperience: "",
-        email: "",
-        phone: "",
-        country: "",
-        city: "",
-        state: "",
-        medicalSchool: "",
-        graduationYear: "",
+        profilePicture: "",
+        page: "Profile Information",
     });
-    const [errors, setErrors] = React.useState<Partial<BioDataFormProps>>({});
+    const [errors, setErrors] = React.useState<Partial<NewProfileInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
     const [profileImage, setProfileImage] = React.useState<string>("")
 
-
-    const genderOptions: GenderOptionProps[] = [
-        { value: 'male', label: 'Male' },
-        { value: 'female', label: 'Female' },
-        
-    ]
+    const {trackingNumber, doctorProfileId} = useOnBoardingContext()
+   
+    
 
   const transformedErrors: Record<string, string[]> = 
   Object.entries(errors).reduce((acc, [key, value]) => {
@@ -55,119 +51,107 @@ const ProfileInfoForm = ({
     return acc;
   }, {} as Record<string, string[]>)
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         
         const { 
-            firstName, 
-            lastName, 
-            middleName, 
-            dob, 
-            medicalLicense, 
-            medicalLicenseExpiry, 
-            gender, 
+            medicalLicenseExpiry,
+            profilePicture,  
+            yearsOfExperience,
+            medicalLicense,
             bio,
             page,
-            yearsOfExperience,
-            email,
-            phone,
-            country,
-            city,
-            state,
-            medicalSchool,
-            graduationYear,
-        } = bioData;
+        } = profileData;
 
-        const DoB = dob?.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        });
         const MedicalLicenseExpireDate = medicalLicenseExpiry?.toLocaleDateString("en-US", {
             day: "numeric",
             month: "long",
             year: "numeric",
         });
-        
-        const newBioData = { 
-            DoB: DoB,
-            MedicalLicenseExpireDate: MedicalLicenseExpireDate,
-            firstName,
-            lastName,
-            middleName,
-            medicalLicense,
-            gender,
-            bio,
-            page,
-            yearsOfExperience,
-            email,
-            phone,
-            country,
-            city,
-            state,
-            medicalSchool,
-            graduationYear,   
+
+        const newProfileData = { 
+
+            medicalLicenseExpiry: MedicalLicenseExpireDate as string,
+            profilePicture: profileImage as string,
+            yearsOfExperience: yearsOfExperience as number,
+            medicalLicense: medicalLicense as string,
+            bio: bio as string,
+            page: page as string,
         };
 
+        profileData.page = page;
+        profileData.profilePicture = profileImage;
 
-        if (validate(newBioData)) {
+        // console.log("Tracking Number:",tracking);
+        // console.log("User ID:",userId);
+
+        if (validate(newProfileData)) {
+
+            setIsLoading(true)
+            console.log("Profile Data:", newProfileData);
+
+            try {
+                const res = await updateDoctorProfileById(formId, newProfileData);
+                console.log("Updated Profile Data:", res?.data);
+
+                if (res?.status === 201) {
+                    //Extract the profile form data from the updated profile
+                    router.push(`/onboarding/${userId}?page=${nextPage}`)
+                    console.log("Updated Profile Data Passed:", res.data);
+                }
+                
+            } catch (error) {
+                console.log("Updating doctor profile failed:", error);
+                
+            } finally {
+                setIsLoading(false)
+                setIsSubmitted(true)
+            }
 
         } else {
-            console.log("New Bio Data:", newBioData);
+            console.log("New Bio Data:", newProfileData);
         }
 
     }
 
-    const validate = (newBioData: ValidationProps) => {
-        const newErrors: Partial<ValidationProps> = {};
+    const validate = (newProfileData: Partial<DoctorProfile>) => {
+        const newErrors: Partial<NewProfileInfoFormProps> = {};
 
-        if (!newBioData.firstName) newErrors.firstName = "Firstname is required.";
+        if (!newProfileData.medicalLicense) newErrors.medicalLicense = "Medical license is required.";
         
-        if (!newBioData.lastName) newErrors.lastName = "Lastname is required.";
+        if (!newProfileData.medicalLicenseExpiry) newErrors.medicalLicenseExpiry = "License expired date is required.";
 
-        if (!newBioData.medicalLicense) newErrors.medicalLicense = "Medical license is required.";
+        if (!newProfileData.bio) newErrors.bio = "Biography is required.";
 
-        if (!newBioData.gender) newErrors.gender = "Gender is required.";
-
-        if (!newBioData.bio) newErrors.bio = "Biography is required.";
-
-        if (!newBioData.DoB) newErrors.DoB = "Date of Birth is required.";
-
-        if (!newBioData.MedicalLicenseExpireDate) newErrors.MedicalLicenseExpireDate = "Medical license expiry date is required.";
-
-        if (!newBioData.yearsOfExperience) newErrors.yearsOfExperience = "Years of experience is required.";
+        if (!newProfileData.yearsOfExperience) {
+            newErrors.yearsOfExperience == 0 ? ("Year of experience is required") : ("")
+        }
 
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0; 
     }
 
+    const numericFields = ["yearsOfExperience"];
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
         const { name, value } = e.target
-        setBioData((prev) => ({ ...prev, [name]:value}));
+        setProfileData((prev) => ({ 
+            ...prev,
+             [name]: numericFields.includes(name) 
+             ? parseFloat(value) || 0 
+             : value,}));
         
     }
 
-    const resetBioData = () => {
-        setBioData(
+    const resetProfileData = () => {
+        setProfileData(
             {
-                firstName: "",
-                lastName: "",
-                middleName: "",
                 medicalLicense: "",
-                dob: undefined,
                 medicalLicenseExpiry: undefined,
-                gender: "",
+                yearsOfExperience: 0, 
                 bio: "",
-                page: "BioData",
-                yearsOfExperience: "",
-                email: "",
-                phone: "",
-                country: "",
-                city: "",
-                state: "",
-                medicalSchool: "",
-                graduationYear: "",   
+                page: "Profile Information",
             }
         )
         setErrors({});
@@ -182,7 +166,7 @@ const ProfileInfoForm = ({
     <div className="w-full">
         <div className="text-center border-b border-gray-200 pb-4">
             <h1 className="scroll-m-20 border-b pb-2 text-3xl 
-            font-semibold tracking-tight first:mt-0 mb-2">
+            font-semibold tracking-wide first:mt-0 mb-2">
                 {title}
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -196,9 +180,9 @@ const ProfileInfoForm = ({
                         label="Medical License"
                         register={register}
                         name="medicalLicense"
-                        placeholder="Enter your password"
+                        placeholder="Enter your medical license"
                         type="text"
-                        value={bioData.medicalLicense}
+                        value={profileData.medicalLicense}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
@@ -207,16 +191,16 @@ const ProfileInfoForm = ({
                         register={register}
                         name="yearsOfExperience"
                         placeholder="Enter years of experience"
-                        type="text"
+                        type="number"
                         className='col-span-full sm:col-span-1'
-                        value={bioData.medicalLicense}
+                        value={profileData.yearsOfExperience}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
                     <DatePickerInput
                         name="Medical License Expired Date" 
-                        date={bioData.medicalLicenseExpiry}
-                        setDate={(setLicenseExpiry) => setBioData((prev)=>({...prev, medicalLicenseExpiry: setLicenseExpiry})) }
+                        date={profileData.medicalLicenseExpiry}
+                        setDate={(setLicenseExpiry) => setProfileData((prev)=>({...prev, medicalLicenseExpiry: setLicenseExpiry})) }
                         className='col-span-full sm:col-span-1'/>
                     <TextAreaInput
                         label="Describe your Biography"
