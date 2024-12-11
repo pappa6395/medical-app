@@ -6,12 +6,12 @@ import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
 import DatePickerInput from '../FormInputs/DatePickerInput';
 import RadioInput from '../FormInputs/RadioInput';
-import { BioDataFormProps, GenderOptionProps, NewBioDataFormProps, StepFormProps } from '@/utils/types';
+import { BioDataFormProps, GenderOptionProps, StepFormProps } from '@/utils/types';
 import { generateTrackingNumber } from '@/lib/generateTracking';
-import { createDoctorProfile } from '@/actions/onboarding';
+import { createDoctorProfile, updateDoctorProfileById } from '@/actions/onboarding';
 import { useRouter } from 'next/navigation';
-import { DoctorProfile } from '@prisma/client';
 import { useOnBoardingContext } from '@/context/context';
+import toast from 'react-hot-toast';
 
 
 
@@ -29,26 +29,29 @@ const BioDataForm = ({
         trackingNumber, 
         doctorProfileId,
         setTrackingNumber,
-        setDoctorProfileId, 
+        setDoctorProfileId,
+        resumeBioData,
+        setResumeBioData,
+        resumingDoctorData, 
     } = useOnBoardingContext()
 
     console.log(trackingNumber, doctorProfileId);
     
-
     const [bioData, setBioData] = React.useState<BioDataFormProps>({
-        firstName: "",
-        lastName: "",
-        middleName: "",
-        dob: undefined,
-        gender: "",
-        page: "Bio Data",
-        userId: userId,
-        trackingNumber: "",
+        firstName: resumeBioData.firstName || resumingDoctorData.firstName || "",
+        lastName: resumeBioData.lastName || resumingDoctorData.lastName || "",
+        middleName: resumeBioData.middleName || resumingDoctorData.middleName || "",
+        dob: resumeBioData.dob || resumingDoctorData.dob || undefined,
+        gender: resumeBioData.gender || resumingDoctorData.gender || "",
+        page: resumeBioData.page || resumingDoctorData.page || "",
+        userId: resumeBioData.userId || resumingDoctorData.userId || "",
+        trackingNumber: resumeBioData.trackingNumber || resumingDoctorData.trackingNumber || "",
     });
-    const [errors, setErrors] = React.useState<Partial<NewBioDataFormProps>>({});
+    const [errors, setErrors] = React.useState<Partial<BioDataFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
+
 
 
     const genderOptions: GenderOptionProps[] = [
@@ -68,42 +71,47 @@ const BioDataForm = ({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        const { 
-            dob,  
-            ...rest
-        } = bioData;
+        bioData.page = page;
+        bioData.userId = userId;
+        bioData.trackingNumber = generateTrackingNumber()
 
-        const DoB = dob?.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        });
-
-        const newBioData: Partial<DoctorProfile> = { 
-            dob: DoB,
-            ...rest
-        };
-
-        newBioData.page = page;
-        newBioData.userId = userId;
-        newBioData.trackingNumber = generateTrackingNumber()
-
-        if (validate(newBioData)) {
+        if (validate(bioData)) {
 
             setIsLoading(true)
             
             try {
-                const newProfile = await createDoctorProfile(newBioData);
+                // Save Data to DB
+                if (formId) {
+                    const newProfile = await updateDoctorProfileById(formId, bioData);
 
-                if (newProfile.status === 201) {
-                    setTrackingNumber(newProfile.data?.trackingNumber ?? "")
-                    setDoctorProfileId(newProfile.data?.id ?? "")
+                    if (newProfile && newProfile.status === 201) {
+                        toast.success("Bio Data updated successfully")
 
-                    router.push(`/onboarding/${userId}?page=${nextPage}`)
-                    console.log("New Profile Data Passed:",newProfile.data);
-                    
-                }
-                
+                        setTrackingNumber(newProfile.data?.trackingNumber ?? "")
+                        setDoctorProfileId(newProfile.data?.id ?? "")
+                        // Route to the Next Form
+                        router.push(`/onboarding/${userId}?page=${nextPage}`)
+                        console.log("New Profile Data Passed:",newProfile.data);
+                        
+                    } else {
+                        throw new Error("Internal server error occurred")
+                    }
+
+                } else {
+                    const newProfile = await createDoctorProfile(bioData)
+                    setResumeBioData(bioData)
+                    if (newProfile && newProfile.status === 201) {
+                            toast.success("Bio Data updated successfully")
+
+                            setTrackingNumber(newProfile.data?.trackingNumber ?? "")
+                            setDoctorProfileId(newProfile.data?.id ?? "")
+                            // Route to the Next Form
+                            router.push(`/onboarding/${userId}?page=${nextPage}`)
+                            console.log("New Profile Data Passed:",newProfile.data);
+                    } else {
+                        throw Error("Internal server error occurred")
+                    }
+                }             
             } catch (error) {
                 console.log("Error creating new Profile:", error);
             } finally {
@@ -114,21 +122,19 @@ const BioDataForm = ({
             
 
         } else {
-            console.log("New Bio Data Failed:", newBioData);
+            console.log("New Bio Data Failed:", bioData);
         }
 
     }
 
-    const validate = (newBioData: Partial<DoctorProfile>) => {
-        const newErrors: Partial<NewBioDataFormProps> = {};
+    const validate = (bioData: BioDataFormProps) => {
+        const newErrors: Partial<BioDataFormProps> = {};
 
-        if (!newBioData.firstName) newErrors.firstName = "Firstname is required.";
+        if (!bioData.firstName) newErrors.firstName = "Firstname is required.";
         
-        if (!newBioData.lastName) newErrors.lastName = "Lastname is required.";
+        if (!bioData.lastName) newErrors.lastName = "Lastname is required.";
 
-        if (!newBioData.gender) newErrors.gender = "Gender is required.";
-
-        if (!newBioData.dob) newErrors.dob = "Date of Birth is required.";
+        if (!bioData.gender) newErrors.gender = "Gender is required.";
 
         setErrors(newErrors);
 
@@ -140,26 +146,6 @@ const BioDataForm = ({
         setBioData((prev) => ({ ...prev, [name]:value}));
         
     }
-
-    const resetBioData = () => {
-        setBioData(
-            {
-                firstName: "",
-                lastName: "",
-                middleName: "",
-                dob: undefined,
-                gender: "",
-                page: "BioData",
-                userId: userId,
-                trackingNumber: "",
-            }
-        )
-        setErrors({});
-        setIsSubmitted(false);
-        setIsLoading(false);
-      
-    }
-
 
   return (
 
@@ -220,6 +206,7 @@ const BioDataForm = ({
                         name="gender"
                         options={genderOptions}
                         register={register}
+                        value={bioData.gender}
                         errors={transformedErrors}
                         onChange={handleChange}
                     />     

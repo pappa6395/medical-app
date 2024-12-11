@@ -73,12 +73,12 @@ model DoctorProfile {
   firstName                  String
   lastName                   String
   middleName                 String?
-  dob                        String?
+  dob                        DateTime?
   gender                     String
   page                       String
   medicalLicense             String?
   yearsOfExperience          Int?
-  medicalLicenseExpiry       String?
+  medicalLicenseExpiry       DateTime?
   bio                        String?
   profilePicture             String?
   email                      String?

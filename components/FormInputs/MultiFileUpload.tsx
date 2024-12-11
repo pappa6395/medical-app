@@ -1,7 +1,6 @@
 import { formatToBytes } from '@/utils/formatToBytes';
 import { UploadDropzone } from '@/utils/uploadthing';
 import { File, FileX, XCircle } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react'
 import toast from 'react-hot-toast';
 

@@ -4,13 +4,15 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
-import { EducationFormProps, StepFormProps } from '@/utils/types';
+import { EducationInfoFormProps, StepFormProps } from '@/utils/types';
 import SelectInput, { SelectOptionProps } from '../FormInputs/SelectInput';
 import ArrayInput from '../FormInputs/ArrayInput';
 import MultiFileUpload, { FileProps } from '../FormInputs/MultiFileUpload';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { useRouter } from 'next/navigation';
 import { DoctorProfile } from '@prisma/client';
+import toast from 'react-hot-toast';
+import { useOnBoardingContext } from '@/context/context';
 
 
 const EducationInfoForm = ({
@@ -24,24 +26,40 @@ const EducationInfoForm = ({
 
     const router = useRouter();
 
-    const [educationData, setEducationData] = React.useState<EducationFormProps>({
-        medicalSchool: "",
-        graduationYear: "",
-        primarySpecialization: "",
-        otherSpecialties: [],
-        boardCertificates: [],
-        page: "Education Information",
+    const { 
+        trackingNumber, 
+        doctorProfileId,
+        resumeEducationData, 
+        setResumeEducationData,
+        resumingDoctorData, 
+    } = useOnBoardingContext();
+
+    const [educationData, setEducationData] = React.useState<EducationInfoFormProps>({
+        medicalSchool: resumeEducationData.medicalSchool || resumingDoctorData.medicalSchool || "",
+        graduationYear: resumeEducationData.graduationYear || resumingDoctorData.graduationYear || "",
+        primarySpecialization: resumeEducationData.primarySpecialization || resumingDoctorData.primarySpecialization || "",
+        otherSpecialties: resumeEducationData.otherSpecialties || resumingDoctorData.otherSpecialties,
+        boardCertificates: resumeEducationData.boardCertificates || resumingDoctorData.boardCertificates,
+        page: resumeEducationData.page || resumingDoctorData.page || "",
     });
 
-    const [errors, setErrors] = React.useState<Partial<EducationFormProps>>({});
+    const [errors, setErrors] = React.useState<Partial<EducationInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
     const [multiple, setMultiple] = React.useState<boolean>(false);
-    const [addMoreSpecialties, setAddMoreSpecialties] = React.useState<string[]>([]);
-    const [docs, setDocs] = React.useState([]);
 
-    //const {register, handleSubmit, reset, formState: {errors},} = useForm<EducationFormProps>()
+    const initialAddMoreSpecialties = educationData.otherSpecialties.length > 0 
+    ? educationData.otherSpecialties 
+    : resumingDoctorData.otherSpecialties ?? [];
+    const [addMoreSpecialties, setAddMoreSpecialties] = React.useState<string[]>(initialAddMoreSpecialties);
+
+    const initialBoardCertificates: any = educationData.boardCertificates.length > 0 
+    ? educationData.boardCertificates 
+    : resumingDoctorData.boardCertificates || [];
+    const [docs, setDocs] = React.useState<FileProps[]>(initialBoardCertificates);
+
+    //const {register, handleSubmit, reset, formState: {errors},} = useForm<EducationInfoFormProps>()
 
     const selectOptions: SelectOptionProps[] = [
         { value: 'medicine', label: 'Medicine' },
@@ -54,36 +72,25 @@ const EducationInfoForm = ({
     return acc;
   }, {} as Record<string, string[]>)
 
-    const {
-        otherSpecialties, 
-        boardCertificates,
-        ...rest
 
-    } = educationData
-
-    const newEducationData: Partial<DoctorProfile> = {
-        otherSpecialties,
-        boardCertificates,
-        ...rest
-    }
-
-    newEducationData.page = page
-    newEducationData.otherSpecialties = addMoreSpecialties
-    newEducationData.boardCertificates = docs.map((doc: FileProps) => doc.url)
+    educationData.page = page
+    educationData.otherSpecialties = addMoreSpecialties
+    educationData.boardCertificates = docs.map((doc: FileProps) => (doc.url))
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
 
-        if (validate(newEducationData)) {
+        if (validate(educationData)) {
 
             setIsLoading(true)
-            console.log("New Education Data:", newEducationData);
+            console.log("New Education Data:", educationData);
 
             try {
-                const res = await updateDoctorProfileById(formId, newEducationData);
-                console.log("Updated New Education Data:", res?.data);
+                const res = await updateDoctorProfileById(formId, educationData);
+                setResumeEducationData(educationData)
 
                 if (res?.status === 201) {
+                    toast.success("Education Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`/onboarding/${userId}?page=${nextPage}`)
                     console.log("Updated New Education Data Passed:", res.data);
@@ -98,13 +105,13 @@ const EducationInfoForm = ({
             }
 
         } else {
-            console.log("New Education Data:", newEducationData);
+            console.log("New Education Data:", educationData);
         }
 
     }
 
     const validate = (educationData: Partial<DoctorProfile>) => {
-        const newErrors: Partial<EducationFormProps> = {};
+        const newErrors: Partial<EducationInfoFormProps> = {};
 
         if (!educationData.medicalSchool) newErrors.medicalSchool = "Medical School is required.";
         
@@ -112,7 +119,7 @@ const EducationInfoForm = ({
 
         if (!educationData.primarySpecialization) newErrors.primarySpecialization = "Primary specialization is required.";
 
-        if (!educationData.boardCertificates) newErrors.boardCertificates = ["board certificate is required."]; 
+        if (!educationData.boardCertificates || educationData.boardCertificates.length === 0) newErrors.boardCertificates = ["board certificate is required."]; 
 
         setErrors(newErrors);
 
@@ -129,23 +136,6 @@ const EducationInfoForm = ({
             [name]: arrayFields.includes(name) 
             ? value.split(",").map((item) => item.trim()) : value }));
         
-    }
-
-    const resetEducationData = () => {
-        setEducationData(
-            {
-                medicalSchool: "",
-                graduationYear: "",
-                primarySpecialization: "",
-                otherSpecialties: [],
-                boardCertificates: [],
-                page: "Education Information",
-            }
-        )
-        setErrors({});
-        setIsSubmitted(false);
-        setIsLoading(false);
-      
     }
 
 

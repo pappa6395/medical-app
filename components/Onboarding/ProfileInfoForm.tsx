@@ -12,6 +12,7 @@ import { DoctorProfile } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { useOnBoardingContext } from '@/context/context';
+import toast from 'react-hot-toast';
 
 
 
@@ -26,25 +27,32 @@ const ProfileInfoForm = ({
 
     
     const router = useRouter()
+    const {
+        trackingNumber, 
+        doctorProfileId,
+        resumeProfileData,
+        setResumeProfileData,
+        resumingDoctorData
+    } = useOnBoardingContext()
 
     const [profileData, setProfileData] = React.useState<ProfileInfoFormProps>({
-        medicalLicense: "",
-        medicalLicenseExpiry: undefined,
-        yearsOfExperience: 0,
-        bio: "",
-        profilePicture: "",
-        page: "Profile Information",
+        medicalLicense: resumeProfileData.medicalLicense || resumingDoctorData.medicalLicense || "",
+        medicalLicenseExpiry: resumeProfileData.medicalLicenseExpiry || resumingDoctorData.medicalLicenseExpiry || undefined,
+        yearsOfExperience: resumeProfileData.yearsOfExperience || resumingDoctorData.yearsOfExperience || 0,
+        bio: resumeProfileData.bio || resumingDoctorData.bio || "",
+        profilePicture: resumeProfileData.profilePicture || resumingDoctorData.profilePicture || "",
+        page: resumeProfileData.page || resumingDoctorData.page || "",
     });
-    const [errors, setErrors] = React.useState<Partial<NewProfileInfoFormProps>>({});
+   
+    const [errors, setErrors] = React.useState<Partial<ProfileInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
-    const [profileImage, setProfileImage] = React.useState<string>("")
 
-    const {trackingNumber, doctorProfileId} = useOnBoardingContext()
-   
+    const initialProfileImage = profileData.profilePicture || resumingDoctorData.profilePicture || "";
+    const [profileImage, setProfileImage] = React.useState(initialProfileImage);
+
     
-
   const transformedErrors: Record<string, string[]> = 
   Object.entries(errors).reduce((acc, [key, value]) => {
     acc[key] = Array.isArray(value) ? value.map(String) : [String(value)];
@@ -54,47 +62,24 @@ const ProfileInfoForm = ({
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         
-        const { 
-            medicalLicenseExpiry,
-            profilePicture,  
-            yearsOfExperience,
-            medicalLicense,
-            bio,
-            page,
-        } = profileData;
-
-        const MedicalLicenseExpireDate = medicalLicenseExpiry?.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        });
-
-        const newProfileData = { 
-
-            medicalLicenseExpiry: MedicalLicenseExpireDate as string,
-            profilePicture: profileImage as string,
-            yearsOfExperience: yearsOfExperience as number,
-            medicalLicense: medicalLicense as string,
-            bio: bio as string,
-            page: page as string,
-        };
-
         profileData.page = page;
-        profileData.profilePicture = profileImage;
+        profileData.profilePicture = profileImage as string;
+        
 
         // console.log("Tracking Number:",tracking);
         // console.log("User ID:",userId);
 
-        if (validate(newProfileData)) {
+        if (validate(profileData)) {
 
             setIsLoading(true)
-            console.log("Profile Data:", newProfileData);
+            console.log("Profile Data:", profileData);
 
             try {
-                const res = await updateDoctorProfileById(formId, newProfileData);
-                console.log("Updated Profile Data:", res?.data);
+                const res = await updateDoctorProfileById(formId, profileData);
+                setResumeProfileData(profileData);
 
                 if (res?.status === 201) {
+                    toast.success("Profile Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`/onboarding/${userId}?page=${nextPage}`)
                     console.log("Updated Profile Data Passed:", res.data);
@@ -109,22 +94,20 @@ const ProfileInfoForm = ({
             }
 
         } else {
-            console.log("New Bio Data:", newProfileData);
+            console.log("New Bio Data:", profileData);
         }
 
     }
 
-    const validate = (newProfileData: Partial<DoctorProfile>) => {
-        const newErrors: Partial<NewProfileInfoFormProps> = {};
+    const validate = (newProfileData: ProfileInfoFormProps) => {
+        const newErrors: Partial<ProfileInfoFormProps> = {};
 
-        if (!newProfileData.medicalLicense) newErrors.medicalLicense = "Medical license is required.";
-        
-        if (!newProfileData.medicalLicenseExpiry) newErrors.medicalLicenseExpiry = "License expired date is required.";
+        if (!profileData.medicalLicense) newErrors.medicalLicense = "Medical license is required.";
 
-        if (!newProfileData.bio) newErrors.bio = "Biography is required.";
+        if (!profileData.bio) newErrors.bio = "Biography is required.";
 
-        if (!newProfileData.yearsOfExperience) {
-            newErrors.yearsOfExperience == 0 ? ("Year of experience is required") : ("")
+        if (!profileData.yearsOfExperience || newProfileData.yearsOfExperience === 0) {
+            toast.error("Year of Experience is required")
         }
 
         setErrors(newErrors);
@@ -144,21 +127,6 @@ const ProfileInfoForm = ({
         
     }
 
-    const resetProfileData = () => {
-        setProfileData(
-            {
-                medicalLicense: "",
-                medicalLicenseExpiry: undefined,
-                yearsOfExperience: 0, 
-                bio: "",
-                page: "Profile Information",
-            }
-        )
-        setErrors({});
-        setIsSubmitted(false);
-        setIsLoading(false);
-      
-    }
 
 
   return (
@@ -207,6 +175,7 @@ const ProfileInfoForm = ({
                         register={register}
                         name="bio"
                         placeholder="Enter your biography"
+                        value={profileData.bio}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />

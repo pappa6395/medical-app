@@ -7,9 +7,10 @@ import { AdditionalInfoFormProps, StepFormProps } from '@/utils/types';
 import TextAreaInput from '../FormInputs/TextAreaInput';
 import MultiFileUpload, { FileProps } from '../FormInputs/MultiFileUpload';
 import { useRouter } from 'next/navigation';
-import { updateDoctorProfileById } from '@/actions/onboarding';
+import { completeProfile } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
 import toast from 'react-hot-toast';
+import { useOnBoardingContext } from '@/context/context';
 
 
 const AdditionalInfoForm = ({
@@ -23,18 +24,30 @@ const AdditionalInfoForm = ({
 
     const router = useRouter();
 
+    const {
+        trackingNumber,
+        doctorProfileId,
+        resumeAdditionalData, 
+        setResumeAdditionalData,
+        resumingDoctorData, 
+    } = useOnBoardingContext();
+
     const [additionalData, setAdditionalData] = React.useState<AdditionalInfoFormProps>({
-        educationHistory: "",
-        research: "",
-        accomplishments: "",
-        additionalDocuments: [],
-        page: "Additional Information",
+        educationHistory: resumeAdditionalData.educationHistory || resumingDoctorData.educationHistory || "",
+        research: resumeAdditionalData.research || resumingDoctorData.research || "",
+        accomplishments: resumeAdditionalData.accomplishments || resumingDoctorData.accomplishments || "",
+        additionalDocuments: resumeAdditionalData.additionalDocuments || resumingDoctorData.additionalDocuments,
+        page: resumeAdditionalData.page || resumingDoctorData.page || "",
     });
     const [errors, setErrors] = React.useState<Partial<AdditionalInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
-    const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>([]);
+
+    const initialAdditionalDocuments: any = additionalData.additionalDocuments.length > 0 
+    ? additionalData.additionalDocuments 
+    : resumingDoctorData.additionalDocuments ?? []
+    const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>(initialAdditionalDocuments);
 
 
   const transformedErrors: Record<string, string[]> = 
@@ -43,35 +56,34 @@ const AdditionalInfoForm = ({
     return acc;
   }, {} as Record<string, string[]>)
 
-    const {
-        additionalDocuments,
-        ...rest
-    } = additionalData;
 
-    const newAdditionalData = {
-        additionalDocuments,
-       ...rest
-    }
-
-    newAdditionalData.page = page;  
-    newAdditionalData.additionalDocuments = additionalDocs.map((doc) => doc.url);
+    additionalData.page = page;  
+    additionalData.additionalDocuments = additionalDocs.map((doc) => doc.url);
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
 
-        if (validate(newAdditionalData)) {
+        if (validate(additionalData)) {
 
             setIsLoading(true)
-            console.log("New Additional Data:", newAdditionalData);
+            console.log("New Additional Data:", additionalData);
 
             try {
-                const res = await updateDoctorProfileById(formId, newAdditionalData);
-                console.log("Updated New Additional Data:", res?.data);
+                const res = await completeProfile(formId?formId:doctorProfileId, additionalData);
+                setResumeAdditionalData(additionalData)
 
                 if (res?.status === 201) {
                     //Extract the profile form data from the updated profile
-                    router.push(`/onboarding/${userId}?page=${nextPage}`)
+                    // SEND A WELCOME EMAIL
+
+                    toast.success("Profile Completed Successfully")
+
+                    //Route Them TO THE LOGIN
+                    router.push(`/login`)
                     console.log("Updated New Additional Data Passed:", res.data);
+                } else {
+                    setIsLoading(false);
+                    throw new Error("Something went wrong")
                 }
                 
             } catch (error) {
@@ -83,22 +95,22 @@ const AdditionalInfoForm = ({
             }
 
         } else {
-            console.log("New Additional Data:", newAdditionalData);
+            console.log("New Additional Data:", additionalData);
         }
 
 
     }
 
-    const validate = (newAdditionalData: Partial<DoctorProfile>) => {
+    const validate = (additionalData: Partial<DoctorProfile>) => {
         const newErrors: Partial<AdditionalInfoFormProps> = {};
         
-        if (!newAdditionalData.educationHistory) newErrors.educationHistory = "Education History is required.";
+        if (!additionalData.educationHistory) newErrors.educationHistory = "Education History is required.";
         
-        if (!newAdditionalData.accomplishments) newErrors.accomplishments = "Accomplishments is required.";
+        if (!additionalData.accomplishments) newErrors.accomplishments = "Accomplishments is required.";
 
-        if (!newAdditionalData.research) newErrors.research = "Research is required.";
+        if (!additionalData.research) newErrors.research = "Research is required.";
 
-        if (!newAdditionalData.additionalDocuments || newAdditionalData.additionalDocuments.length === 0) newErrors.additionalDocuments = ["Additional document is required"]
+        if (!additionalData.additionalDocuments || additionalData.additionalDocuments.length === 0) newErrors.additionalDocuments = ["Additional document is required"]
 
         setErrors(newErrors);
 
@@ -114,22 +126,6 @@ const AdditionalInfoForm = ({
             [name]: arrayFields.includes(name) 
             ? value.split(",").map((item) => item.trim()) : value }));
         
-    }
-
-    const resetAdditionalData = () => {
-        setAdditionalData(
-            {
-                educationHistory: "",
-                research: "",
-                accomplishments: "",
-                additionalDocuments: [],
-                page: "Additional Information",
-            }
-        )
-        setErrors({});
-        setIsSubmitted(false);
-        setIsLoading(false);
-      
     }
 
 
@@ -154,6 +150,7 @@ const AdditionalInfoForm = ({
                         name="educationHistory"
                         placeholder="enter your education history"
                         className='col-span-full sm:col-span-1'
+                        value={additionalData.educationHistory}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
@@ -163,6 +160,7 @@ const AdditionalInfoForm = ({
                         name="research"
                         placeholder="enter your published works or research"
                         className='col-span-full sm:col-span-1'
+                        value={additionalData.research}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
@@ -172,6 +170,7 @@ const AdditionalInfoForm = ({
                         name="accomplishments"
                         placeholder="enter any special accomplishment or award"
                         className='col-span-full sm:col-span-1'
+                        value={additionalData.accomplishments}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
@@ -186,7 +185,7 @@ const AdditionalInfoForm = ({
                 </div>
                 <div className='m-8 flex justify-center items-center'>
                     <SubmitButton 
-                        title="Save and Continue"
+                        title="Complete"
                         isLoading={isLoading} 
                         loadingTitle={"creating an account..."} />
                 </div>

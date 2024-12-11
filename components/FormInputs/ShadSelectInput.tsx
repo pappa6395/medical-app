@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 
 
@@ -8,7 +8,7 @@ type ShadSelectInputProps = {
     className?: string;
     optionTitle: string;
     options: ShadSelectOptionProps[];
-    selectOption: any;
+    selectOption: string;
     setSelectOption: (value: string) => void;
 }
 
@@ -40,7 +40,7 @@ const ShadSelectInput = ({
     <div className='mt-2'>
         <Select>
             <SelectTrigger className="w-[180px] bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-100">
-                <SelectValue placeholder="Select an option" />
+                <SelectValue placeholder={selectOption || "Select an option"}/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>

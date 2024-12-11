@@ -129,6 +129,7 @@ const AvailabilityInfoForm = ({
                         title="When are you available for this booking?" 
                         name="availabilityType"
                         options={availabilityOptions}
+                        value={availabilityData.meetingAvailability}
                         register={register}
                         errors={transformedErrors}
                         onChange={handleChange}

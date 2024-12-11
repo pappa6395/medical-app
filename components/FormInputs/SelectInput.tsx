@@ -55,7 +55,11 @@ const SelectInput = ({
                 dark:text-slate-200 dark:bg-slate-700'
             >
                 {options.map((option, i: number) => (
-                    <option key={i} value={option.value}>{option.label}</option>
+                    <option 
+                        key={i} 
+                        value={option.value}
+                    >{option.label}
+                    </option>
                 ))}
             </select>
         </div>

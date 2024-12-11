@@ -1,18 +1,21 @@
+"use server"
 
-
+import { PageProps } from "@/.next/types/app/(front)/verifyAccount/[id]/page";
 import { getUserById } from "@/actions/users";
 import VerifyTokenForm from "@/components/Frontend/VerifyTokenForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 
-export default async function VerifyAccount(params: any ) {
 
-  const { id } = await params
+export default async function VerifyAccount({params: paramsPromise}: PageProps){
 
+  const { id } = await paramsPromise
+  console.log("ID:", id);
+  
   //Get a User fromm DB
   const user = await getUserById(id);
   const userToken = user?.token;
-  const role = user?.role
+  const role = user?.role;
 
   return (
      <div className="min-h-screen flex items-center justify-center

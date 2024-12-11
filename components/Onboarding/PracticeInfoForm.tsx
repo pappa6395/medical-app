@@ -10,6 +10,8 @@ import ShadSelectInput from '../FormInputs/ShadSelectInput';
 import { useRouter } from 'next/navigation';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
+import toast from 'react-hot-toast';
+import { useOnBoardingContext } from '@/context/context';
 
 
 const PracticeInfoForm = ({
@@ -23,25 +25,44 @@ const PracticeInfoForm = ({
 
     const router = useRouter();
 
+    const { 
+        trackingNumber, 
+        doctorProfileId,
+        resumePracticeData, 
+        setResumePracticeData,
+        resumingDoctorData, 
+    } = useOnBoardingContext();
+
     const [practiceData, setPracticeData] = React.useState<PracticeInfoFormProps>({
-        hospitalName: "",
-        hospitalAddress: "",
-        hospitalContactNumber: "",
-        hospitalEmailAddress: "",
-        hospitalWebsite: "",
-        hospitalHoursOfOperation: "",
-        servicesOffered: [],
-        insuranceAccepted: "",
-        languagesSpoken: [],
-        page: "Practice Information",
+        hospitalName: resumePracticeData.hospitalName || resumingDoctorData.hospitalName || "",
+        hospitalAddress: resumePracticeData.hospitalAddress || resumingDoctorData.hospitalAddress || "",
+        hospitalContactNumber: resumePracticeData.hospitalContactNumber || resumingDoctorData.hospitalContactNumber || "",
+        hospitalEmailAddress: resumePracticeData.hospitalEmailAddress || resumingDoctorData.hospitalEmailAddress || "",
+        hospitalWebsite: resumePracticeData.hospitalWebsite || resumingDoctorData.hospitalWebsite || "",
+        hospitalHoursOfOperation: resumePracticeData.hospitalHoursOfOperation || resumingDoctorData.hospitalHoursOfOperation || "",
+        servicesOffered: resumePracticeData.servicesOffered || resumingDoctorData.servicesOffered,
+        insuranceAccepted: resumePracticeData.insuranceAccepted || resumingDoctorData.insuranceAccepted || "",
+        languagesSpoken: resumePracticeData.languagesSpoken || resumingDoctorData.languagesSpoken,
+        page: resumePracticeData.page || resumingDoctorData.page || "",
     });
+
     const [errors, setErrors] = React.useState<Partial<PracticeInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
-    const [services, setServices] = React.useState<string[]>([]);
-    const [langSpoken, setLangSpoken] = React.useState<string[]>([])
-    const [insuranceAcc, setInsuranceAcc] = React.useState<string>("");
+
+    const initialServices = practiceData.servicesOffered.length > 0 
+    ? practiceData.servicesOffered 
+    : resumingDoctorData.servicesOffered ?? [];
+    const [services, setServices] = React.useState(initialServices);
+
+    const initialLanguagesSpoken = practiceData.languagesSpoken.length > 0 
+    ? practiceData.languagesSpoken 
+    : resumingDoctorData.languagesSpoken ?? [];
+    const [langSpoken, setLangSpoken] = React.useState<string[]>(initialLanguagesSpoken)
+
+    const initialInsuranceAccepted = practiceData.insuranceAccepted || resumingDoctorData.insuranceAccepted || "";
+    const [insuranceAcc, setInsuranceAcc] = React.useState<string>(initialInsuranceAccepted);
 
 
     const insuranceOptions = [
@@ -56,39 +77,26 @@ const PracticeInfoForm = ({
     return acc;
   }, {} as Record<string, string[]>)
 
-    const {
-        languagesSpoken,
-        servicesOffered,
-        insuranceAccepted, 
-        ...rest
-    } = practiceData;
-
-    const newPracticeData = {
-        languagesSpoken,
-        servicesOffered,
-        insuranceAccepted,
-       ...rest
-    }
-
-    newPracticeData.page = page;
-    newPracticeData.languagesSpoken = langSpoken;
-    newPracticeData.servicesOffered = services;
-    newPracticeData.insuranceAccepted = insuranceAcc;
+    practiceData.page = page;
+    practiceData.languagesSpoken = langSpoken;
+    practiceData.servicesOffered = services;
+    practiceData.insuranceAccepted = insuranceAcc;
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
 
 
-        if (validate(newPracticeData)) {
+        if (validate(practiceData)) {
 
             setIsLoading(true)
-            console.log("New Education Data:", newPracticeData);
+            console.log("New Education Data:", practiceData);
 
             try {
-                const res = await updateDoctorProfileById(formId, newPracticeData);
-                console.log("Updated New Education Data:", res?.data);
+                const res = await updateDoctorProfileById(formId, practiceData);
+                setResumePracticeData(practiceData);
 
                 if (res?.status === 201) {
+                    toast.success("Practice Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`/onboarding/${userId}?page=${nextPage}`)
                     console.log("Updated New Education Data Passed:", res.data);
@@ -103,29 +111,29 @@ const PracticeInfoForm = ({
             }
 
         } else {
-            console.log("New Education Data:", newPracticeData);
+            console.log("New Education Data:", practiceData);
         }
 
     }
 
-    const validate = (newPracticeData: Partial<DoctorProfile>) => {
+    const validate = (practiceData: Partial<DoctorProfile>) => {
         const newErrors: Partial<PracticeInfoFormProps> = {};
 
-        if (!newPracticeData.hospitalName) newErrors.hospitalName = "Hospital name is required.";
+        if (!practiceData.hospitalName) newErrors.hospitalName = "Hospital name is required.";
         
-        if (!newPracticeData.hospitalAddress) newErrors.hospitalAddress = "Hospital address is required.";
+        if (!practiceData.hospitalAddress) newErrors.hospitalAddress = "Hospital address is required.";
 
-        if (!newPracticeData.hospitalContactNumber) newErrors.hospitalContactNumber = "Hospital contact number is required.";
+        if (!practiceData.hospitalContactNumber) newErrors.hospitalContactNumber = "Hospital contact number is required.";
 
-        if (!newPracticeData.hospitalEmailAddress) newErrors.hospitalEmailAddress = "Hospital email is required.";
+        if (!practiceData.hospitalEmailAddress) newErrors.hospitalEmailAddress = "Hospital email is required.";
 
-        if (!newPracticeData.hospitalHoursOfOperation) newErrors.hospitalHoursOfOperation = "Hours of operation is required.";
+        if (!practiceData.hospitalHoursOfOperation) newErrors.hospitalHoursOfOperation = "Hours of operation is required.";
 
-        if (!newPracticeData.servicesOffered) newErrors.servicesOffered = ["Serviced offered is required."];
+        if (!practiceData.servicesOffered || practiceData.servicesOffered.length === 0) newErrors.servicesOffered = ["Serviced offered is required."];
 
-        if (!newPracticeData.insuranceAccepted) newErrors.insuranceAccepted ? ("") : ("Insurance condition is required.");
+        if (!practiceData.insuranceAccepted) newErrors.insuranceAccepted ? ("") : ("Insurance condition is required.");
 
-        if (!newPracticeData.languagesSpoken) newErrors.languagesSpoken = ["Laguages spoken is required."];
+        if (!practiceData.languagesSpoken || practiceData.languagesSpoken.length === 0) newErrors.languagesSpoken = ["Laguages spoken is required."];
         
         setErrors(newErrors);
 
@@ -141,27 +149,6 @@ const PracticeInfoForm = ({
             [name]: arrayFields.includes(name) 
             ? value.split(",").map((item) => item.trim()) : value }));
         
-    }
-
-    const resetPracticeData = () => {
-        setPracticeData(
-            {
-                hospitalName: "",
-                hospitalAddress: "",
-                hospitalContactNumber: "",
-                hospitalEmailAddress: "",
-                hospitalWebsite: "",
-                hospitalHoursOfOperation: "",
-                servicesOffered: [],
-                insuranceAccepted: "",
-                languagesSpoken: [],
-                page: "Practice Information" 
-            }
-        )
-        setErrors({});
-        setIsSubmitted(false);
-        setIsLoading(false);
-      
     }
 
 

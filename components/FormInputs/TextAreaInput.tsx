@@ -8,6 +8,7 @@ type TextAreaInputProps = {
     errors: Record<string, string[]>;
     placeholder: string;
     disabled?: boolean;
+    value: string;
     className?: string;
     register?: boolean;
     onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -18,7 +19,8 @@ export default function TextAreaInput({
     name, 
     errors, 
     placeholder, 
-    disabled, 
+    disabled,
+    value, 
     className="col-span-full",
     register,
     onChange,
@@ -36,6 +38,7 @@ export default function TextAreaInput({
             id={name}
             name={name}
             placeholder={placeholder}
+            value={value}
             autoCapitalize="none"
             autoComplete="name"
             autoCorrect="off"

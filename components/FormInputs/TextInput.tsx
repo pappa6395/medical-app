@@ -3,6 +3,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { DoctorProfile } from '@prisma/client';
 
 
 type TextInputProps = {

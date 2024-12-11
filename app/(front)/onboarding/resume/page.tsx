@@ -1,3 +1,4 @@
+
 import TrackingForm from '@/components/Frontend/TrackingForm'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import React from 'react'
@@ -15,7 +16,6 @@ const page = () => {
         <CardContent className="border-none shadow-none">
           <TrackingForm />
         </CardContent>
-        
       </Card>
     </div>
 

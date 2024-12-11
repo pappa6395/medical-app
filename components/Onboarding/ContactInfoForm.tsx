@@ -8,6 +8,8 @@ import { ContactInfoFormProps, StepFormProps } from '@/utils/types';
 import { useRouter } from 'next/navigation';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
+import toast from 'react-hot-toast';
+import { useOnBoardingContext } from '@/context/context';
 
 const ContactInfoForm = ({
     page, 
@@ -20,21 +22,28 @@ const ContactInfoForm = ({
 
     const router = useRouter()
 
+    const {  
+        trackingNumber, 
+        doctorProfileId,
+        resumeContactData, 
+        setResumeContactData,
+        resumingDoctorData, 
+    } = useOnBoardingContext()
+
     const [contactData, setContactData] = React.useState<ContactInfoFormProps>({
         
-        email: "",
-        phone: "",
-        country: "",
-        city: "",
-        state: "",
-        page: "Contact Information",
+        email: resumeContactData.email || resumingDoctorData.email || "",
+        phone: resumeContactData.phone || resumingDoctorData.phone || "",
+        country: resumeContactData.country || resumingDoctorData.country || "",
+        city: resumeContactData.city || resumingDoctorData.city || "",
+        state: resumeContactData.state || resumingDoctorData.state || "",
+        page: resumeContactData.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<ContactInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
-    const [profileImage, setProfileImage] = React.useState<string>("")
 
 
     const transformedErrors: Record<string, string[]> = 
@@ -56,9 +65,10 @@ const ContactInfoForm = ({
 
             try {
                 const res = await updateDoctorProfileById(formId, contactData);
-                console.log("Updated Contact Data:", res?.data);
+                setResumeContactData(contactData);
 
                 if (res?.status === 201) {
+                    toast.success("Contact Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`/onboarding/${userId}?page=${nextPage}`)
                     console.log("Updated Contact Data Passed:", res.data);
@@ -101,23 +111,6 @@ const ContactInfoForm = ({
         const { name, value } = e.target
         setContactData((prev) => ({ ...prev, [name]:value}));
         
-    }
-
-    const resetContactData = () => {
-        setContactData(
-            {
-                email: "",
-                phone: "",
-                country: "",
-                city: "",
-                state: "",
-                page: "Contact Information", 
-            }
-        )
-        setErrors({});
-        setIsSubmitted(false);
-        setIsLoading(false);
-      
     }
 
 

@@ -59,7 +59,10 @@ export default function VerifyTokenForm({
 
     setLoading(true);
     const userInputToken = parseInt(data.token);
-
+    console.log("User Input Token:",userInputToken);
+    console.log("User Token:", userToken);
+    
+  
     if (userInputToken === userToken) {
       setShowNotification(false);
       //Update User

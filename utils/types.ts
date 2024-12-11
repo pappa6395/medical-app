@@ -86,17 +86,6 @@ export type BioDataFormProps = {
     trackingNumber: string;
 }
 
-export type NewBioDataFormProps = {
-    firstName: string;
-    lastName: string;
-    middleName?: string;
-    dob?: string | undefined;
-    gender: string;
-    page: string;
-    userId?: string | undefined;
-    trackingNumber: string;
-}
-
 export type ProfileInfoFormProps = {
     medicalLicense: string;
     yearsOfExperience: number;
@@ -124,7 +113,7 @@ export type ContactInfoFormProps = {
     page: string;
 }
 
-export type EducationFormProps = {
+export type EducationInfoFormProps = {
     medicalSchool: string;
     graduationYear: string;
     primarySpecialization: string;
@@ -148,7 +137,7 @@ export type PracticeInfoFormProps = {
 
 export type AdditionalInfoFormProps = {
     educationHistory: string;
-    research: string
+    research: string;
     accomplishments: string;
     additionalDocuments: string[];
     page: string;

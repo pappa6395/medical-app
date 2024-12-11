@@ -89,6 +89,7 @@ export async function createUser(submittedData: RegisterInputProps) {
 
 export async function getUserById(id:string) {
 
+  console.log("Getting user by id:", id);
   if (id) {
     try {
 

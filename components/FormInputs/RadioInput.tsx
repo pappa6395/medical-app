@@ -7,6 +7,7 @@ type RadioInputProps = {
     name: string;
     title: string;
     register: boolean;
+    value: string;
     options: Array<{value: string, label: string, description: string}>;
     errors: Record<string, string[]>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -18,6 +19,7 @@ const RadioInput = (
         title,  
         errors,
         options,
+        value,
         onChange, 
         className="col-span-full" 
     }: RadioInputProps) => {
@@ -42,6 +44,7 @@ const RadioInput = (
                                     type="radio" 
                                     name={name}
                                     value={option.value}
+                                    checked={value === option.value}
                                     onChange={onChange}                                    
                                     className="w-4 h-4 text-blue-600 bg-gray-100 
                                     border-gray-300 focus:ring-blue-500 

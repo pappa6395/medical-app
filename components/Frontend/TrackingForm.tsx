@@ -21,9 +21,13 @@ import {
 import SubmitButton from "../FormInputs/SubmitButton";
 import { Input } from "../ui/input";
 import { getApplicationByTn } from "@/actions/onboarding";
+import { useOnBoardingContext } from "@/context/context";
+
 
  
 export default function TrackingForm() {
+
+  const { resumingDoctorData, setResumingDoctorData } = useOnBoardingContext()
 
   const [isLoading, setIsLoading] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
@@ -46,7 +50,16 @@ export default function TrackingForm() {
     setIsLoading(true);
     
     try {
+      // Make request
       const res = await getApplicationByTn(data.trackingNumber); 
+      // Save this to the context API
+      setResumingDoctorData(res?.data ?? {})
+
+      // Navigate to the next page
+      // setDoctorProfileId(res.data?.doctorProfileId?? "")
+      // setPage(res.data?.page?? "")
+      // setIsLoading(false);
+      // setShowNotification(false);
       if (res?.status === 404) {
         setShowNotification(true);
         console.log("No application found with this tracking number");

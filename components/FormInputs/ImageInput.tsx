@@ -14,7 +14,7 @@ const ImageInput = ({
     endpoint = "",
 }: {
     label: string,
-    imageUrl?: string,
+    imageUrl?: string | undefined,
     setImageUrl: (url: string) => void,
     className?: string,
     endpoint?: string,  
