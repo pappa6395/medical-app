@@ -2,7 +2,7 @@
 
 import WelcomeEmail from "@/components/Emails/welcomeEmail";
 import { prismaClient } from "@/lib/db";
-import { DoctorProfile } from "@prisma/client";
+import { Availability, DoctorProfile } from "@prisma/client";
 import { Resend } from "resend";
 
 
@@ -88,7 +88,7 @@ export async function updateDoctorProfileById(
       }
     }
 
-}
+};
 
 export async function getApplicationByTn(trackingNumber: string) {
 
@@ -136,7 +136,7 @@ export async function getApplicationByTn(trackingNumber: string) {
     };
   }
   
-}
+};
 
 export async function completeProfile(
   id: string | undefined , 
@@ -202,7 +202,7 @@ export async function completeProfile(
       }
     }
 
-}
+};
 
 export async function getDoctorProfileById(id: string) {
 
@@ -250,4 +250,118 @@ export async function getDoctorProfileById(id: string) {
     };
   }
   
-}
+};
+
+export async function getDoctorAvailabilityById(userId: string | undefined) {
+
+  console.log("payload check:",userId);
+  
+  if (!userId) {
+    console.log("No ID found");
+    return {
+      data: null,
+      status: 404,
+      error: "Doctor ID is required"
+    };
+  }
+  
+  try {
+    const profile = await prismaClient.doctorProfile.findUnique({
+      where:{
+        userId,
+      },
+      include: {
+        availability: true,
+      }
+    });
+
+    if (!profile) {
+      console.log("No doctor profile found :", userId);
+      
+      return {
+        data: null,
+        status: 404,
+        error: "No doctor profile found with this ID"
+      };
+    }
+    console.log("Doctor profile found successfully!:", profile);
+    
+    return {
+      data: profile,
+      status: 200,
+      error: null
+    };
+
+  } catch (error) {
+    console.log("Error findind doctor profile:",error);
+    return {
+      data: null,
+      status: 500,
+      error: "Internal Server error occurred"
+    };
+  }
+  
+};
+
+export async function createAvailability(availData: Partial<Availability> ) {
+
+  console.log("payload check:",availData);
+
+
+    try {
+
+      const newAvail = await prismaClient.availability.create({
+      data: availData as Availability,
+      });
+      console.log(newAvail);
+
+      return {
+        data: newAvail,
+        status: 201,
+        error: null
+      };
+    } catch (error) {
+        console.log("Error creating availability:", error);
+        return {
+          data: null,
+          status: 500,
+          error: "Error response from Server"
+        };
+    }   
+  
+};
+
+export async function updateAvailabilityById(
+  id: string | undefined , 
+  updatedData: Partial<Availability>,
+) {
+
+  console.log("payload:",{id, updatedData});
+  
+    if (id && updatedData) {
+
+      try {
+        const updatedAvail = await prismaClient.availability.update({
+          where:{
+            id,
+          },
+          data: updatedData
+        });
+        console.log("Updated Availability:",updatedAvail);
+
+        return {
+          data: updatedAvail,
+          status: 201,
+          error: null
+        };
+      } catch (error) {
+        console.log("Error updating user:",error);
+        return {
+          data: null,
+          status: 500,
+          error: "Error response from Server"
+        };
+      }
+    }
+
+};
