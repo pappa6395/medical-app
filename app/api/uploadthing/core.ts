@@ -14,6 +14,18 @@ export const ourFileRouter = {
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: "Dev.Pap" };
     }),
+    serviceImage: f({ image: { maxFileSize: "4MB"}})
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url);
+      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      return { uploadedBy: "Dev.Pap" };
+    }),
+    specialtyImage: f({ image: { maxFileSize: "4MB"}})
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url);
+      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      return { uploadedBy: "Dev.Pap" };
+    }),
     doctorProfessionDocs: f({ pdf: { maxFileSize: "4MB", maxFileCount: 4}})
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("file url", file.url);

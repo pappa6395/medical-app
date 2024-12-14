@@ -13,26 +13,26 @@ const tags = Array.from({ length: 50 },(_,i) => ({
 export function ListPanel() {
   return (
     <div>
-        <ScrollArea className="h-96 w-full">
+        <ScrollArea className="h-96 space-x-4">
             {tags.map((tag, i) => (
-                <div key={i}>
+                <div key={i} className="mt-2 mr-4">
                 <Link 
                     href="/dashboard/doctor/appointments/view/1" 
-                    className="border border-gray-100 mb-2 shadow-sm text-xs py-3 px-2 
-                    inline-block w-full rounded-md bg-white dark:bg-slate-500 pb-2"
+                    className="border border-gray-100 shadow-sm text-xs py-3 px-4 
+                    inline-block w-full rounded-md bg-white dark:bg-slate-700"
                 >
                     <div className="flex justify-between items-center">
                         <h2>William Larsen</h2>
                         <span>4:00pm</span>
                     </div> 
-                    <div className="flex items-center gap-4">
+                    <div className="flex justify-between items-center gap-4">
                         <div className="flex items-center">
                             <Dot />
                             <span>Follow Up</span>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center flex-shrink-0">
                             <BriefcaseMedical className="w-4 h-4 mr-2" />
-                            <span>Family Medicine</span>
+                            <span>Medicine</span>
                         </div>
                     </div>
                 </Link>

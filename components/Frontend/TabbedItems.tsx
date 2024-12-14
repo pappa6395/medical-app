@@ -60,7 +60,7 @@ const TabbedItems = () => {
             content: ["Match and meet our doctors today. We are ready to cure you"]
         },
         {
-            title: "Specialists",
+            title: "Specialties",
             icon: <BriefcaseMedical/>,
             component: <LinkCard className='bg-blue-900'/>,
             content: ["Specialists are ready for you to help you find the solutions"]

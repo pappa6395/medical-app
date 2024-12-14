@@ -62,7 +62,7 @@ export default function NavBar({session}: {session: Session} ) {
   return (
     <header className='flex h-14 items-center 
             gap-4 border-b bg-muted/40 px-4 
-            lg:h-[60px] lg:px-6'
+            lg:h-[60px] lg:px-6 dark:bg-slate-900'
             >
                 <Sheet>
                     <SheetTrigger asChild>

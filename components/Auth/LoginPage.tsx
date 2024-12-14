@@ -17,7 +17,8 @@ export default function LoginPage() {
     <div className="relative min-h-screen flex-col">
         <div className="grid grid-cols-1 justify-center md:grid-cols-2 flex-1">
             <div className="hidden min-h-screen md:grid items-center">
-                <div className="md:grid flex-col items-center justify-center text-white dark:border-r">
+                <div className="md:grid flex-col items-center 
+                justify-center text-white dark:border-r bg-red-200">
                     <div className="">
                         <Image
                         src={loginImage2}
@@ -56,7 +57,8 @@ export default function LoginPage() {
                 </div>
                 
             </div>
-            <div className="bg-muted lg:p-8 items-center justify-center md:grid">
+            <div className="bg-muted min-h-screen lg:p-8 
+            items-center justify-center grid dark:bg-slate-950">
                 <Link
                 href="/examples/authentication"
                 className={cn(
@@ -67,7 +69,7 @@ export default function LoginPage() {
                 Login
                 </Link>
                     <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
-                    justify-center sm:w-[350px]">
+                    justify-center px-4 sm:px-0 sm:w-[350px]">
                         <div className="grid space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
                                 Welcome Back!
@@ -76,7 +78,6 @@ export default function LoginPage() {
                                 Enter your email and password below to login your account
                             </p>
                         </div>
-                        
                         <LoginAuth />
                         <p className="mt-5 text-center text-sm/6 
                         text-muted-foreground">

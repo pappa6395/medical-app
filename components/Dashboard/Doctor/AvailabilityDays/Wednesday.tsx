@@ -5,14 +5,13 @@ import toast from 'react-hot-toast'
 import SelectedTimes from './SelectedTimes'
 import { timesArray } from '@/config/constants'
 
-const Monday = ({profile, day}: {profile: any; day: string;}) => {
+const Wednesday = ({profile, day}: {profile: any; day: string }) => {
 
     const availability = profile?.availability || "";
     const initialData = profile?.availability[day] || [];
 
     const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
     const [isLoading, setIsLoading] = React.useState(false)
-
     
     const handleAddTime = (time: string) => {
 
@@ -25,13 +24,13 @@ const Monday = ({profile, day}: {profile: any; day: string;}) => {
         }        
         
     }
+    const handleRemoveTime = (index: number) => {   
+        setSelectedTimes(selectedTimes.filter((_,i) => i !== index))
+    }
     const handleAddAll = () => {
         setIsLoading(true),
         setSelectedTimes([...timesArray]),
         setIsLoading(false)
-    }
-    const handleRemoveTime = (index: number) => {   
-        setSelectedTimes(selectedTimes.filter((_,i) => i !== index))
     }
     const handleClearAll = () => {
         setIsLoading(true),
@@ -44,30 +43,27 @@ const Monday = ({profile, day}: {profile: any; day: string;}) => {
 
         try {
             if (profile?.id && availability?.id) {
-
                 const data = {
-                    monday: selectedTimes,
+                    wednesday: selectedTimes,
                     doctorProfileId: profile.id,
                 };
                 await updateAvailabilityById(availability?.id, data)
                 toast.success("Availability updated")
 
             } else if (profile?.id) {
-
                 console.log("Availablity not found");
                 const data = {
-                    monday: selectedTimes,
+                    wednesday: selectedTimes,
                     doctorProfileId: profile.id,
                 };
                 await createAvailability(data)
-                toast.success("Availability created") 
-
+                toast.success("Availability created")
+ 
             }
-            
 
         } catch (error) {
             toast.error("Profile not found")
-            console.log("Error creating availability:", error);
+            console.log("Error Profile and availability:", error);
             
         } finally {
             setIsLoading(false)
@@ -94,4 +90,4 @@ const Monday = ({profile, day}: {profile: any; day: string;}) => {
   )
 }
 
-export default Monday
+export default Wednesday

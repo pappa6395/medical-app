@@ -12,7 +12,7 @@ import { Resend } from "resend";
 export async function createUser(submittedData: RegisterInputProps) {
 
     console.log(submittedData);
-    const { fullName, email, phone, password, role, plan } = submittedData
+    const { fullName, email, phone, password, role, plan} = submittedData
 
     const inputPlan: string | string[] | undefined = plan;
     const pricePlan: string | null | undefined = Array.isArray(inputPlan) 

@@ -163,3 +163,19 @@ export type StepFormProps = {
     nextPage?: string;
     formId?: string;
 }
+
+export type ServiceFormProps = {
+    title: string;
+    imageUrl: string;
+    slug: string;
+};
+
+export type SpecialtyFormProps = {
+    title: string;
+    slug: string;
+};
+
+export type SymptomFormProps = {
+    title: string;
+    slug: string;
+};

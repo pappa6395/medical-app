@@ -15,15 +15,15 @@ export const metadata: Metadata = {
 interface RegisterPageProps {
     role?: string | string[] | undefined
     plan?: string | string[] | undefined
-    
 }
 
-export default function RegisterPage({role="USER", plan=""}: RegisterPageProps) {
+export default function RegisterPage({role="USER", plan="" }: RegisterPageProps) {
   return (
     <div className="relative min-h-screen flex-col">
         <div className="grid grid-cols-1 justify-center md:grid-cols-2 flex-1">
             <div className="hidden min-h-screen md:grid items-center">
-                <div className="md:grid flex-col items-center justify-center text-white dark:border-r">
+                <div className="md:grid flex-col items-center 
+                justify-center text-white dark:border-r">
                     <div className="">
                         <Image
                         src={loginImage2}
@@ -59,10 +59,10 @@ export default function RegisterPage({role="USER", plan=""}: RegisterPageProps) 
                         <footer className="text-sm">Sofia Davis</footer>
                         </blockquote>
                     </div>
-                </div>
-                
+                </div> 
             </div>
-            <div className="bg-muted lg:p-8 items-center justify-center md:grid">
+            <div className="bg-muted min-h-screen lg:p-8 items-center 
+            justify-center grid dark:bg-slate-950">
                 <Link
                 href="/examples/authentication"
                 className={cn(

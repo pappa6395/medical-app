@@ -1,48 +1,46 @@
 "use client"
 
 import { Tabs } from "flowbite-react";
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
-import { MdDashboard } from "react-icons/md";
 import React from 'react'
 import Monday from "./AvailabilityDays/Monday";
 import { Availability, DoctorProfile } from "@prisma/client";
 import Tuesday from "./AvailabilityDays/Tuesday";
+import Wednesday from "./AvailabilityDays/Wednesday";
+import Thursday from "./AvailabilityDays/Thursday";
+import Friday from "./AvailabilityDays/Friday";
+import Saturday from "./AvailabilityDays/Saturday";
+import Sunday from "./AvailabilityDays/Sunday";
 
 const AvailabilitySetting = ({profile}:{profile:DoctorProfile | undefined | null;}) => {
 
     const dayTabs = [
         {
             title: "Monday",
-            component: <Monday profile={profile}/>
+            component: <Monday profile={profile} day={"monday"}/>
         },
         {
             title: "Tuesday",
-            component: <Tuesday profile={profile}/>
+            component: <Tuesday profile={profile} day={"tuesday"}/>
         },
         {
             title: "Wednesday",
-            component: <>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control the content visibility and styling.</>
+            component: <Wednesday profile={profile} day={"wednesday"}/>
         },
         {
             title: "Thursday",
-            component: <>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control the content visibility and styling.</>
+            component: <Thursday profile={profile} day={"thursday"}/>
         },
         {
             title: "Friday",
-            component: <>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control the content visibility and styling.</>
+            component: <Friday profile={profile} day={"friday"}/>
         },
         {
             title: "Saturday",
-            component: <>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control the content visibility and styling.</>
+            component: <Saturday profile={profile} day={"saturday"}/>
         },
         {
             title: "Sunday",
-            component: <>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control the content visibility and styling.</>
+            component: <Sunday profile={profile} day={"sunday"}/>
         },
     ]
 
