@@ -1,21 +1,8 @@
 import { cn } from '@/lib/utils';
 import React, { ChangeEvent } from 'react'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
+import { ShadSelectInputProps } from '@/utils/types';
 
-
-type ShadSelectInputProps = {
-    label: string;
-    className?: string;
-    optionTitle: string;
-    options: ShadSelectOptionProps[];
-    selectOption: string;
-    setSelectOption: (value: string) => void;
-}
-
-export type ShadSelectOptionProps = {
-    value: string;
-    label: string;
-}
 
 const ShadSelectInput = ({
     label,

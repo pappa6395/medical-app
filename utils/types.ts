@@ -30,10 +30,10 @@ export type FAQItem = {
 };
 
 export type CardTotalProps = {
-    label: string;
+    title: string;
     icon: LucideIcon;
-    amount: string;
-    discription: string;
+    count: string | null;
+    href: string;
 };
 
 export type CardTransactionProps = {
@@ -179,3 +179,33 @@ export type SymptomFormProps = {
     title: string;
     slug: string;
 };
+
+export type StatsProps = {
+    doctors: string;
+    patients: string;
+    appointments: string;
+    services: string;
+};
+
+export type ShadSelectInputProps = {
+    label: string;
+    className?: string;
+    optionTitle: string;
+    options: ShadSelectOptionProps[];
+    selectOption: string;
+    setSelectOption: (value: string) => void;
+}
+
+export type ShadSelectOptionProps = {
+    value: string;
+    label: string;
+}
+
+export type MultiSelectInputProps = {
+    label: string;
+    className?: string;
+    optionTitle: string;
+    options: ShadSelectOptionProps[];
+    selectOption: ShadSelectOptionProps[];
+    setSelectOption: (value: ShadSelectOptionProps[]) => void;
+}

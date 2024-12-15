@@ -78,6 +78,37 @@ export async function getSymptom() {
 
 }
 
+export async function getSymptomBySlug(slug: string) {
+    
+    console.log("Payload check:", slug);
+    
+    try {
+
+        if (slug) {
+            const symptoms = await prismaClient.symptom.findUnique({
+                where: {
+                    slug,
+                }
+                
+            });
+            return {
+                data: symptoms,
+                status: 200,
+                error: null,
+    
+            };
+        }
+        
+    } catch (error) {
+        console.log("Error getting symptom:", error);
+        return {
+            data: null,
+            error: "Failed to get symptom",
+            status: 500,
+        };
+    }
+}
+
 export async function createManySymptoms() {
     
     
@@ -184,6 +215,40 @@ export async function createManySymptoms() {
             };
         }
     
+    
+
+}
+
+export async function updateSymptom(id: string, symptomData: SymptomFormProps) {
+
+    console.log("Payload check:", symptomData);
+    
+    if (id && symptomData) {
+        try {
+            
+            const updatedSymptom = await prismaClient.symptom.update({
+                where: {
+                    id,
+                },
+                data: symptomData,
+            });
+            revalidatePath("/dashboard/symptoms")
+            console.log("Update symptom:", updatedSymptom);
+            return {
+                data: updatedSymptom,
+                status: 201,
+                error: null,
+            };
+            
+        } catch (error) {
+            console.log("Error updating symptom:", error);
+            return {
+                data: null,
+                error: "Failed to update symptom",
+                status: 500,
+            };
+        }
+    }
     
 
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { addDays, format } from "date-fns"
+import { addDays, format, getMonth, getYear, setMonth } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -27,15 +27,50 @@ type DatePickerInputProps = {
     setDate:(value: Date | undefined) => void;
     name: string;
     className?: string;
+    startYear?: number;
+    endYear?: number;
+    currentYear?: number;
 }
 
 export default function DatePickerInput({
     date, 
     setDate,
+    currentYear = new Date().getFullYear(),
+    startYear = currentYear - 100,
+    endYear = currentYear + 10,
     name,
     className="col-span-full"
 }: DatePickerInputProps) {
   
+    const months = [
+        "January",
+        "February",
+        "March", 
+        "April", 
+        "May", 
+        "June", 
+        "July", 
+        "August", 
+        "September",
+        "Octorber", 
+        "November", 
+        "December",
+    ];
+    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => endYear - i);
+
+    const handleMonthChange = (month: string) => {
+        const newDate = setMonth(date as Date , months.indexOf(month));
+        setDate(newDate);
+    }
+    const handleYearChange = (year: string) => {
+        const newDate = new Date(parseInt(year), 0, 1);
+        setDate(newDate);
+    }
+    const handleSelect = (selectedDate: Date | undefined) => {
+        if (selectedDate) {
+            setDate(selectedDate)
+        }
+    }
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -58,29 +93,51 @@ export default function DatePickerInput({
                 className="flex w-auto flex-col 
                 space-y-2 p-2 dark:bg-slate-700"
             >
-                <Select
-                    onValueChange={(value) =>
-                    setDate(addDays(new Date(), parseInt(value)))
-                    }
-                >
-                    <SelectTrigger className="dark:border-gray-400">
-                        <SelectValue 
-                            placeholder="Select"
-                        />
-                    </SelectTrigger>
-                    <SelectContent position="popper">
-                    <SelectItem value="0">Today</SelectItem>
-                    <SelectItem value="1">Tomorrow</SelectItem>
-                    <SelectItem value="3">In 3 days</SelectItem>
-                    <SelectItem value="7">In a week</SelectItem>
-                    </SelectContent>
-                </Select>
+                <div className="flex justify-between p-2 gap-1">
+                    <Select 
+                        onValueChange={handleMonthChange}
+                        value={months[getMonth(date as Date)]}
+                    >
+                        <SelectTrigger className="dark:border-gray-400">
+                            <SelectValue 
+                                placeholder="Month"
+                            />
+                        </SelectTrigger>
+                        <SelectContent position="popper">
+                            {months.map((month,i) => {
+                                return (
+                                    <SelectItem key={i} value={month}>{month}</SelectItem>
+                                )
+                            })}
+                        </SelectContent>
+                    </Select>
+                    <Select
+                        onValueChange={handleYearChange}
+                        value={getYear(date as Date).toString()}
+                    >
+                        <SelectTrigger className="dark:border-gray-400">
+                            <SelectValue 
+                                placeholder="Year"
+                            />
+                        </SelectTrigger>
+                        <SelectContent position="popper">
+                            {years.map((year,i) => {
+                                return (
+                                    <SelectItem key={i} value={year.toString()}>{year}</SelectItem>
+                                )
+                            })}
+                        </SelectContent>
+                    </Select>
+                </div>
                 <div className="rounded-md border dark:border-slate-400 block">
                     <Calendar 
                         mode="single" 
                         selected={date} 
-                        onSelect={setDate}
-                        className="dark:bg-slate-700"    
+                        onSelect={handleSelect}
+                        className="dark:bg-slate-700"
+                        initialFocus
+                        month={date}    
+                        onMonthChange={setDate}
                     />
                 </div>
             </PopoverContent>

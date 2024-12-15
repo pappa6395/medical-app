@@ -1,39 +1,40 @@
 import React from 'react'
-import { Activity, ArrowUpRight, CreditCard, DollarSign, Users } from "lucide-react";
+import { Activity, ArrowUpRight, CalendarDays, CreditCard, DollarSign, LayoutGrid, Users, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardTotalProps, CardTransactionProps, SalesProps } from '@/utils/types';
 import CardTotal, { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Table, TableHead, TableHeader, TableRow } from '../ui/table';
 import CardTransaction from '../ui/cardTransaction';
 import SalesCard from '../ui/saleCard';
+import { getStats } from '@/actions/stats';
 
 
-const cardData: CardTotalProps[] = [
-    {
-      label: "Total Revenue",
-      amount: "$45,231.89",
-      discription: "+20.1% from last month",
-      icon: DollarSign
-    },
-    {
-      label: "Subscription",
-      amount: "+2350",
-      discription: "+180.1% from last month",
-      icon: Users
-    },
-    {
-      label: "Sales",
-      amount: "+12,234",
-      discription: "+19% from last month",
-      icon: CreditCard
-    },
-    {
-      label: "Active Mow",
-      amount: "+573",
-      discription: "+201 from last month",
-      icon: Activity
-    }
-]
+// const cardData: CardTotalProps[] = [
+//     {
+//       label: "Total Revenue",
+//       amount: "$45,231.89",
+//       discription: "+20.1% from last month",
+//       icon: DollarSign
+//     },
+//     {
+//       label: "Subscription",
+//       amount: "+2350",
+//       discription: "+180.1% from last month",
+//       icon: Users
+//     },
+//     {
+//       label: "Sales",
+//       amount: "+12,234",
+//       discription: "+19% from last month",
+//       icon: CreditCard
+//     },
+//     {
+//       label: "Active Mow",
+//       amount: "+573",
+//       discription: "+201 from last month",
+//       icon: Activity
+//     }
+// ]
 const transactionData: CardTransactionProps[] = [
     {
         customer: "Liam Johnson",
@@ -81,8 +82,37 @@ const userSalesData: SalesProps[] = [
   ];
 
 
-const Dashboard = () => {
+const Dashboard = async() => {
 
+  const stats = await getStats();
+
+  const statsCards: CardTotalProps[] = [
+    {
+      title: "Doctors",
+      icon: Users,
+      count: stats.doctors,
+      href: "/dashboard/doctors"
+    },
+    {
+      title: "Patients",
+      icon: UsersRound,
+      count: stats.patients,
+      href: "/dashboard/patients"
+    },
+    {
+      title: "Appointments",
+      icon: CalendarDays,
+      count: stats.appointments,
+      href: "/dashboard/appointments"
+    },
+    {
+      title: "Services",
+      icon: LayoutGrid,
+      count: stats.services,
+      href: "/dashboard/services"
+    },
+
+  ]
 
   return (
 
@@ -92,13 +122,13 @@ const Dashboard = () => {
         </div>
         <section className="grid w-full grid-cols-1 gap-4 gap-x-8 
         transition-all sm:grid-cols-2 xl:grid-cols-4">
-        {cardData.map((data, index) => (
+        {statsCards.map((stat, index) => (
           <CardTotal 
             key={index}
-            amount={data.amount}
-            discription={data.discription}
-            icon={data.icon}
-            label={data.label}
+            count={stat.count}
+            href={stat.href}
+            icon={stat.icon}
+            title={stat.title}
           />
         ))}
       </section>

@@ -1,3 +1,5 @@
+
+
 import React, { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 
@@ -8,10 +10,10 @@ const ToastProvider = ({ children }: {children: ReactNode}) => {
 
     <div>
         {children}
-        <Toaster
-            position="top-center"
-            reverseOrder={false}
-        />
+          <Toaster
+              position="top-center"
+              reverseOrder={false}
+          />
     </div>
 
   )

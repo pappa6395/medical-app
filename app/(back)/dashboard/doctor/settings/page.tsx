@@ -9,6 +9,7 @@ import AvailabilitySetting from '@/components/Dashboard/Doctor/AvailabilitySetti
 import { getDoctorAvailabilityById } from '@/actions/onboarding'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import DoctorServiceSettings from '@/components/Dashboard/Doctor/DoctorServiceSettings'
 
 
 const page = async() => {
@@ -23,15 +24,15 @@ const page = async() => {
       <Tabs defaultValue="availability" className="">
         <TabsList className="">
           <TabsTrigger value="availability">Availability</TabsTrigger>
-          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="service">Service Settings</TabsTrigger>
         </TabsList>
         <div className=''>
           <TabsContent value="availability" className='w-full'>
             {/* Availability Setting */}
             <AvailabilitySetting profile={profile?.data} />
           </TabsContent>
-          <TabsContent value="account">
-          Change your password here. After saving, you'll be logged out.
+          <TabsContent value="service">
+            <DoctorServiceSettings profile={profile?.data} />
           </TabsContent>
         </div>
     </Tabs>

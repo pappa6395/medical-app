@@ -5,7 +5,7 @@ const page = () => {
   return (
 
     <div>
-        <SymptomForm />
+        <SymptomForm title={"Create Symptom"} />
     </div>
 
   )

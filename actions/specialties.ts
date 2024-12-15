@@ -78,6 +78,38 @@ export async function getSpecialty() {
 
 }
 
+export async function getSpecialtyBySlug(slug: string) {
+    
+    console.log("Payload check:", slug);
+    
+    try {
+
+        if (slug) {
+            const Specialties = await prismaClient.speciality.findUnique({
+                where: {
+                    slug,
+                }
+                
+            });
+            return {
+                data: Specialties,
+                status: 200,
+                error: null,
+    
+            };
+        }
+        
+        
+    } catch (error) {
+        console.log("Error getting Specialty:", error);
+        return {
+            data: null,
+            error: "Failed to get Specialty",
+            status: 500,
+        };
+    }
+}
+
 export async function createManySpecialties() {
     
     
@@ -167,5 +199,39 @@ export async function deleteSpecialty(id: string) {
     }
 
 
+
+}
+
+export async function updateSpecialty(id: string, specialtyData: SpecialtyFormProps) {
+
+    console.log("Payload check:", specialtyData);
+    
+    if (id && specialtyData) {
+        try {
+            
+            const updatedSpecialty = await prismaClient.speciality.update({
+                where: {
+                    id,
+                },
+                data: specialtyData,
+            });
+            revalidatePath("/dashboard/specialties")
+            console.log("Update specialty:", updatedSpecialty);
+            return {
+                data: updatedSpecialty,
+                status: 201,
+                error: null,
+            };
+            
+        } catch (error) {
+            console.log("Error updating specialty:", error);
+            return {
+                data: null,
+                error: "Failed to update specialty",
+                status: 500,
+            };
+        }
+    }
+    
 
 }

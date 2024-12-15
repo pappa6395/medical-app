@@ -11,15 +11,17 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import generateSlug from '@/utils/generateSlug';
 import { SymptomFormProps } from '@/utils/types';
-import { createManySymptoms, createSymptom } from '@/actions/symptoms';
+import { createManySymptoms, createSymptom, updateSymptom } from '@/actions/symptoms';
+import { Symptom } from '@prisma/client';
 
-const SymptomForm = () => {
+const SymptomForm = ({title, initialData}: {title: string; initialData?: Partial<Symptom>}) => {
 
     const router = useRouter()
 
+    const editingId = initialData?.id
     const [symptomData, setSymptomData] = React.useState<SymptomFormProps>({
-        title: "",
-        slug: "",
+        title: initialData?.title ?? "",
+        slug: initialData?.slug ?? "",
     });
    
     const [errors, setErrors] = React.useState<Partial<SymptomFormProps>>({});
@@ -46,15 +48,24 @@ const SymptomForm = () => {
         console.log(symptomData);
 
         try {
-            const newSymptom = await createSymptom(symptomData)
-            console.log("New Symptom:", newSymptom);
+            if (editingId) {
+                const updatedSymptom = await updateSymptom(editingId, symptomData)
+                console.log("Update Symptom:", updatedSymptom);
 
-            if (newSymptom?.status === 201) {
-                toast.success("Symptom created successfully!");
-                
-                router.push(`/dashboard/symptoms`)
+                if (updatedSymptom?.status === 201) {
+                    toast.success("Symptom updated successfully!");
+                    router.push(`/dashboard/symptoms`)
+                }
+            } else {
+                const newSymptom = await createSymptom(symptomData)
+                console.log("New Symptom:", newSymptom);
+
+                if (newSymptom?.status === 201) {
+                    toast.success("Symptom created successfully!");
+                    router.push(`/dashboard/symptoms`)
+                }
             }
-
+            
         } catch (error) {
             console.error("Error creating New Symptom:", error);
             toast.error("Failed to create New Symptom");
@@ -115,7 +126,7 @@ const SymptomForm = () => {
         <div className="flex item-center justify-between px-6 border-b border-gray-200 py-4">
             <h1 className="scroll-m-20 text-3xl 
             font-semibold tracking-wide first:mt-0 mb-2">
-                Create Symptom
+                {title}
             </h1>
             <Button asChild variant={"outline"}>
                 <Link href="/dashboard/symptoms">
@@ -149,9 +160,9 @@ const SymptomForm = () => {
                         </Link>
                     </Button> */}
                     <SubmitButton 
-                        title="Create symptom"
+                        title={editingId ? "Update Symptom" : "Create Symptom"}
                         isLoading={isLoading} 
-                        loadingTitle={"creating a symptom..."} />
+                        loadingTitle={editingId ? "Updating..." : "Creating Symptom..."} />
                 </div>
             </form>
         </div>

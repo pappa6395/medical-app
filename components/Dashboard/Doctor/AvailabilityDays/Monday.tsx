@@ -5,10 +5,10 @@ import toast from 'react-hot-toast'
 import SelectedTimes from './SelectedTimes'
 import { timesArray } from '@/config/constants'
 
-const Monday = ({profile, day}: {profile: any; day: string;}) => {
-
+const Monday = ({profile, day}: {profile: any ; day: string;}) => {
+    
     const availability = profile?.availability || "";
-    const initialData = profile?.availability[day] || [];
+    const initialData = profile?.availability[day] || "";
 
     const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
     const [isLoading, setIsLoading] = React.useState(false)

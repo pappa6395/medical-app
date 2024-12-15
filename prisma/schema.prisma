@@ -61,7 +61,7 @@ model User {
   isVerfied     Boolean   @default(false)
   doctorProfile DoctorProfile?
   token         Int
-
+  doctorService DoctorService?
   serviceId     String? @db.ObjectId
   service       Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   specialityId  String? @db.ObjectId
@@ -72,9 +72,9 @@ model User {
 }
 
 model Availability {
-  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId  
   doctorProfileId   String    @db.ObjectId @unique
-  doctorProfile     DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade, onUpdate: Cascade)  
+  doctorProfile     DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   monday            String[]
   tuesday           String[]
   wednesday         String[]
@@ -85,10 +85,12 @@ model Availability {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
+  
 
 model Service {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
-  doctors           User[] 
+  doctors           User[]
+  doctorService     DoctorService?
   title             String
   slug              String @unique
   imageUrl          String
@@ -98,7 +100,8 @@ model Service {
 
 model Speciality {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
-  doctors           User[] 
+  doctors           User[]
+  doctorService     DoctorService?
   title             String
   slug              String @unique
   createdAt         DateTime  @default(now())
@@ -109,7 +112,6 @@ model Symptom {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   title             String
   slug              String @unique
-
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
@@ -157,4 +159,16 @@ model DoctorProfile {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model DoctorService {
+  id                         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId                     String   @db.ObjectId @unique
+  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serviceId                  String?  @db.ObjectId @unique
+  service                    Service? @relation(fields: [serviceId], references: [id])
+  specialityId               String?  @db.ObjectId @unique
+  speciality                 Speciality? @relation(fields: [specialityId], references: [id])
+  symptomId                  String[] @db.ObjectId @unique
+  
 }

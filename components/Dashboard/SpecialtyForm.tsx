@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
-import ImageInput from '../FormInputs/ImageInput';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Button } from '../ui/button';
@@ -12,16 +11,19 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import generateSlug from '@/utils/generateSlug';
 import { SpecialtyFormProps } from '@/utils/types';
-import { createManyServices, createService } from '@/actions/services';
-import { createManySpecialties, createSpecialty } from '@/actions/specialties';
+import { createManySpecialties, createSpecialty, updateSpecialty } from '@/actions/specialties';
+import { Speciality } from '@prisma/client';
 
-const SpecialtyForm = () => {
+const SpecialtyForm = ({title, initialData }: {title: string; initialData?: Partial<Speciality>}) => {
 
     const router = useRouter()
 
+    const editingId = initialData?.id
+    console.log("EditingId:", editingId);
+    
     const [specialtyData, setSpecialtyData] = React.useState<SpecialtyFormProps>({
-        title: "",
-        slug: "",
+        title: initialData?.title ?? "",
+        slug: initialData?.slug ?? "",
     });
    
     const [errors, setErrors] = React.useState<Partial<SpecialtyFormProps>>({});
@@ -48,14 +50,24 @@ const SpecialtyForm = () => {
         console.log(specialtyData);
 
         try {
-            const newSpecialty = await createSpecialty(specialtyData)
-            console.log("New Specialty:", newSpecialty);
+            if (editingId) {
+                const updatedSpecialty = await updateSpecialty(editingId, specialtyData)
+                console.log("New Specialty:", updatedSpecialty);
 
-            if (newSpecialty?.status === 201) {
-                toast.success("Specialty created successfully!");
-                
-                router.push(`/dashboard/specialties`)
+                if (updatedSpecialty?.status === 201) {
+                    toast.success("Specialty updated successfully!");
+                    router.push(`/dashboard/specialties`)
+                }
+            } else {
+                const newSpecialty = await createSpecialty(specialtyData)
+                console.log("New Specialty:", newSpecialty);
+
+                if (newSpecialty?.status === 201) {
+                    toast.success("Specialty created successfully!");
+                    router.push(`/dashboard/specialties`)
+                }
             }
+            
 
         } catch (error) {
             console.error("Error creating new specialty:", error);
@@ -117,7 +129,7 @@ const SpecialtyForm = () => {
         <div className="flex item-center justify-between px-6 border-b border-gray-200 py-4">
             <h1 className="scroll-m-20 text-3xl 
             font-semibold tracking-wide first:mt-0 mb-2">
-                Create Specialty
+                {title}
             </h1>
             <Button asChild variant={"outline"}>
                 <Link href="/dashboard/services">
@@ -151,9 +163,9 @@ const SpecialtyForm = () => {
                         </Link>
                     </Button> */}
                     <SubmitButton 
-                        title="Create specialty"
+                        title={editingId ? "Update Specialty" : "Create Specialty"}
                         isLoading={isLoading} 
-                        loadingTitle={"creating a specialty..."} />
+                        loadingTitle={editingId ? "Updating..." : "Creating Specialty..."} />
                 </div>
             </form>
         </div>
