@@ -61,7 +61,6 @@ model User {
   isVerfied     Boolean   @default(false)
   doctorProfile DoctorProfile?
   token         Int
-  doctorService DoctorService?
   serviceId     String? @db.ObjectId
   service       Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   specialityId  String? @db.ObjectId
@@ -90,7 +89,7 @@ model Availability {
 model Service {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   doctors           User[]
-  doctorService     DoctorService?
+  doctorProfile     DoctorProfile[]
   title             String
   slug              String @unique
   imageUrl          String
@@ -101,7 +100,7 @@ model Service {
 model Speciality {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   doctors           User[]
-  doctorService     DoctorService?
+  doctorProfile     DoctorProfile[]
   title             String
   slug              String @unique
   createdAt         DateTime  @default(now())
@@ -156,19 +155,15 @@ model DoctorProfile {
   research                   String?
   accomplishments            String?
   additionalDocuments        String[]
+  operationMode              String?
+  hourlyWage                 Int @default(100)
 
+  serviceId                  String?  @db.ObjectId
+  service                    Service? @relation(fields: [serviceId], references: [id])
+  specialityId               String?  @db.ObjectId
+  speciality                 Speciality? @relation(fields: [specialityId], references: [id])
+  symptomId                  String[] @db.ObjectId
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
 
-model DoctorService {
-  id                         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId                     String   @db.ObjectId @unique
-  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  serviceId                  String?  @db.ObjectId @unique
-  service                    Service? @relation(fields: [serviceId], references: [id])
-  specialityId               String?  @db.ObjectId @unique
-  speciality                 Speciality? @relation(fields: [specialityId], references: [id])
-  symptomId                  String[] @db.ObjectId @unique
-  
-}

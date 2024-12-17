@@ -1,4 +1,5 @@
 import { formatToBytes } from '@/utils/formatToBytes';
+import { FileProps } from '@/utils/types';
 import { UploadDropzone } from '@/utils/uploadthing';
 import { File, FileX, XCircle } from 'lucide-react';
 import React from 'react'
@@ -6,7 +7,7 @@ import toast from 'react-hot-toast';
 
 
 
-type MultiImageInputProps = {
+export type MultiImageInputProps = {
     label: string;
     files: FileProps[];
     setFiles: (urls: any) => void;
@@ -14,12 +15,6 @@ type MultiImageInputProps = {
     name: string;
     endpoint?: string;
     errors: Record<string, string[]>;   
-}
-export type FileProps = {
-    formatToBytes(size: any): React.ReactNode;
-    title: string;
-    size: string;
-    url: string;
 }
 
 const MultiFileUpload = ({
@@ -83,8 +78,6 @@ const MultiFileUpload = ({
                                     <span className="line-clamp-1">{file.title}</span>
                                     <span className='text-gray-500'>{formatToBytes(file.size)} KB</span>
                                 </div>
-                                    
-                        
                             </div>
                         </div>
                     )

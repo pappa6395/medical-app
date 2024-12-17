@@ -12,6 +12,8 @@ import { createDoctorProfile, updateDoctorProfileById } from '@/actions/onboardi
 import { useRouter } from 'next/navigation';
 import { useOnBoardingContext } from '@/context/context';
 import toast from 'react-hot-toast';
+import { DoctorProfile } from '@prisma/client';
+import { getDate } from 'date-fns';
 
 
 
@@ -35,7 +37,7 @@ const BioDataForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext()
 
-    console.log(trackingNumber, doctorProfileId);
+    //console.log(trackingNumber, doctorProfileId);
     
     const [bioData, setBioData] = React.useState<BioDataFormProps>({
         firstName: resumeBioData.firstName || resumingDoctorData.firstName || "",
@@ -67,7 +69,7 @@ const BioDataForm = ({
     acc[key] = Array.isArray(value) ? value.map(String) : [String(value)];
     return acc;
   }, {} as Record<string, string[]>)
-
+  
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -78,6 +80,8 @@ const BioDataForm = ({
         if (validate(bioData)) {
 
             setIsLoading(true)
+            console.log("Bio Data:", bioData);
+            
             
             try {
                 // Save Data to DB
@@ -118,8 +122,6 @@ const BioDataForm = ({
                 setIsLoading(false)
                 setIsSubmitted(true)
             }
-
-            
 
         } else {
             console.log("New Bio Data Failed:", bioData);

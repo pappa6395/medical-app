@@ -63,7 +63,7 @@ const TextInput = (
                 name={name}
                 placeholder={placeholder}
                 type={type}
-                value={value}
+                value={value !== 0 ? value : ""}
                 autoCapitalize="none"
                 autoComplete="name"
                 autoCorrect="off"

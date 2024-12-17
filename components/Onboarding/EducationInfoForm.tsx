@@ -4,10 +4,10 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
-import { EducationInfoFormProps, StepFormProps } from '@/utils/types';
+import { EducationInfoFormProps, FileProps, StepFormProps } from '@/utils/types';
 import SelectInput, { SelectOptionProps } from '../FormInputs/SelectInput';
 import ArrayInput from '../FormInputs/ArrayInput';
-import MultiFileUpload, { FileProps } from '../FormInputs/MultiFileUpload';
+import MultiFileUpload from '../FormInputs/MultiFileUpload';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { useRouter } from 'next/navigation';
 import { DoctorProfile } from '@prisma/client';
@@ -21,7 +21,8 @@ const EducationInfoForm = ({
     description,
     nextPage,
     formId,
-    userId
+    userId,
+    specialties
 }: StepFormProps) => {
 
     const router = useRouter();
@@ -34,12 +35,14 @@ const EducationInfoForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext();
 
+    console.log("Form ID:", formId);
+
     const [educationData, setEducationData] = React.useState<EducationInfoFormProps>({
         medicalSchool: resumeEducationData.medicalSchool || resumingDoctorData.medicalSchool || "",
         graduationYear: resumeEducationData.graduationYear || resumingDoctorData.graduationYear || "",
         primarySpecialization: resumeEducationData.primarySpecialization || resumingDoctorData.primarySpecialization || "",
-        otherSpecialties: resumeEducationData.otherSpecialties || resumingDoctorData.otherSpecialties,
-        boardCertificates: resumeEducationData.boardCertificates || resumingDoctorData.boardCertificates,
+        otherSpecialties: resumeEducationData.otherSpecialties || resumingDoctorData.otherSpecialties || [],
+        boardCertificates: resumeEducationData.boardCertificates || resumingDoctorData.boardCertificates || [],
         page: resumeEducationData.page || resumingDoctorData.page || "",
     });
 
@@ -59,12 +62,18 @@ const EducationInfoForm = ({
     : resumingDoctorData.boardCertificates || [];
     const [docs, setDocs] = React.useState<FileProps[]>(initialBoardCertificates);
 
+    const allSpecialties = specialties?.map((item) => {
+        return {
+            label: item.title,
+            value: item.id,
+        }
+    }) || [];
     //const {register, handleSubmit, reset, formState: {errors},} = useForm<EducationInfoFormProps>()
 
-    const selectOptions: SelectOptionProps[] = [
-        { value: 'medicine', label: 'Medicine' },
-        { value: 'massage', label: 'Massage' },
-    ]
+    // const selectOptions: SelectOptionProps[] = [
+    //     { value: 'medicine', label: 'Medicine' },
+    //     { value: 'massage', label: 'Massage' },
+    // ]
 
   const transformedErrors: Record<string, string[]> = 
   Object.entries(errors).reduce((acc, [key, value]) => {
@@ -83,8 +92,9 @@ const EducationInfoForm = ({
         if (validate(educationData)) {
 
             setIsLoading(true)
-            console.log("New Education Data:", educationData);
-
+            console.log("New Education Data:", educationData, formId);
+            
+            
             try {
                 const res = await updateDoctorProfileById(formId, educationData);
                 setResumeEducationData(educationData)
@@ -179,9 +189,10 @@ const EducationInfoForm = ({
                         label="Select Your Primary Specializations" 
                         name="primarySpecialization" 
                         register={register}
+                        placeholder="No specialization available"
                         multiple={multiple} 
                         className="col-span-full sm:col-span-1" 
-                        options={selectOptions}
+                        options={allSpecialties}
                         value={educationData.primarySpecialization}
                         onChange={handleChange}
                         errors={transformedErrors} />

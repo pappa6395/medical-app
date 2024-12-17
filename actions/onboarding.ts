@@ -1,14 +1,17 @@
 "use server"
 
 import WelcomeEmail from "@/components/Emails/welcomeEmail";
+import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/db";
 import { Availability, DoctorProfile } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
 
-export async function createDoctorProfile(formData: any) {
+export async function createDoctorProfile(formData: Partial<DoctorProfile>) {
 
-    console.log(formData);
+    console.log("Payload check:", formData);
     const { 
         dob, 
         firstName, 
@@ -22,15 +25,14 @@ export async function createDoctorProfile(formData: any) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-
     try {
 
         const newProfile = await prismaClient.doctorProfile.create({
         data: {
-            dob: dob as Date | undefined,
+            dob: dob as Date,
             firstName: firstName as string,
             lastName: lastName as string,
-            middleName: middleName as string | undefined,
+            middleName: middleName as string,
             gender: gender as string,
             userId: userId as string,
             trackingNumber: trackingNumber as string,
@@ -186,6 +188,7 @@ export async function completeProfile(
           },
           data: profileData
         });
+        //revalidatePath("/login");
         console.log("Updated Profile:",updatedProfile);
         return {
           data: updatedProfile,
@@ -226,6 +229,57 @@ export async function getDoctorProfileById(id: string) {
 
     if (!resumingData) {
       console.log("No application found for the provided tracking number:", id);
+      
+      return {
+        data: null,
+        status: 404,
+        error: "No application found with this tracking number"
+      };
+    }
+    console.log("Resuming Data Success:", resumingData);
+    
+    return {
+      data: resumingData,
+      status: 200,
+      error: null
+    };
+
+  } catch (error) {
+    console.log("Error updating user:",error);
+    return {
+      data: null,
+      status: 500,
+      error: "Internal Server error occurred"
+    };
+  }
+  
+};
+
+export async function getDoctorProfileByUserId(userId: string) {
+
+  console.log("payload check:",userId);
+  
+  if (!userId) {
+    console.log("No Tracking Number provided");
+    return {
+      data: null,
+      status: 404,
+      error: "Tracking Number is required"
+    };
+  }
+  
+  try {
+    const resumingData = await prismaClient.doctorProfile.findUnique({
+      where:{
+        userId,
+      },
+      select: {
+        id: true,
+      }
+    });
+
+    if (!resumingData) {
+      console.log("No application found for the provided tracking number:", userId);
       
       return {
         data: null,
@@ -313,7 +367,7 @@ export async function createAvailability(availData: Partial<Availability> ) {
       const newAvail = await prismaClient.availability.create({
       data: availData as Availability,
       });
-      console.log(newAvail);
+      console.log("Created new Availaibilty:", newAvail);
 
       return {
         data: newAvail,
@@ -365,3 +419,24 @@ export async function updateAvailabilityById(
     }
 
 };
+
+export async function getServerSideProps () {
+  
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  if (!user) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const profile = await getDoctorAvailabilityById(user.id);
+
+  return {
+    props: {
+      initialProfile: profile?.data || null,
+      user,
+    },
+  };
+}

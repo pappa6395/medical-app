@@ -23,7 +23,7 @@ import { Label } from "../ui/label"
 
 
 type DatePickerInputProps = {
-    date:Date | undefined;
+    date: Date | undefined;
     setDate:(value: Date | undefined) => void;
     name: string;
     className?: string;
@@ -56,14 +56,22 @@ export default function DatePickerInput({
         "November", 
         "December",
     ];
+
+    const [selectedYear, setSelectedYear] = React.useState<string | undefined>(undefined)
+    const [selectedMonth, setSelectedMonth] = React.useState<string | undefined>(undefined)
     const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => endYear - i);
+    //const months = Array.from({length: 12 }, (_, i) => new Date().getMonth() - i)
+    //const years = Array.from({ length: 100 }, (_,i) => new Date().getFullYear() - i);
 
     const handleMonthChange = (month: string) => {
         const newDate = setMonth(date as Date , months.indexOf(month));
+        setSelectedMonth(month);
         setDate(newDate);
     }
     const handleYearChange = (year: string) => {
-        const newDate = new Date(parseInt(year), 0, 1);
+        const newDate = new Date(date as Date);
+        newDate.setFullYear(Number(year));
+        setSelectedYear(year);
         setDate(newDate);
     }
     const handleSelect = (selectedDate: Date | undefined) => {
@@ -85,7 +93,11 @@ export default function DatePickerInput({
                 )}
             >
                 <CalendarIcon />
-                {date ? format<Date>(date, "PPP") : <span>Pick a date</span>}
+                {date ? date.toLocaleDateString("en-us",{
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                }) : <span>Pick a date</span>}
             </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -94,7 +106,8 @@ export default function DatePickerInput({
                 space-y-2 p-2 dark:bg-slate-700"
             >
                 <div className="flex justify-between p-2 gap-1">
-                    <Select 
+                    {selectedYear && (
+                        <Select 
                         onValueChange={handleMonthChange}
                         value={months[getMonth(date as Date)]}
                     >
@@ -111,9 +124,11 @@ export default function DatePickerInput({
                             })}
                         </SelectContent>
                     </Select>
+                    )}
                     <Select
                         onValueChange={handleYearChange}
-                        value={getYear(date as Date).toString()}
+                        value={selectedYear || undefined}
+                        //value={getYear(date as Date).toString()}
                     >
                         <SelectTrigger className="dark:border-gray-400">
                             <SelectValue 
@@ -123,7 +138,9 @@ export default function DatePickerInput({
                         <SelectContent position="popper">
                             {years.map((year,i) => {
                                 return (
-                                    <SelectItem key={i} value={year.toString()}>{year}</SelectItem>
+                                    <SelectItem key={i} value={year.toString()}>
+                                        {year}
+                                    </SelectItem>
                                 )
                             })}
                         </SelectContent>

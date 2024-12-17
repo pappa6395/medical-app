@@ -11,9 +11,10 @@ import EducationInfoForm from './EducationInfoForm'
 import PracticeInfoForm from './PracticeInfoForm'
 import AdditionalInfoForm from './AdditionalInfoForm'
 import { useOnBoardingContext } from '@/context/context'
+import { Speciality } from '@prisma/client'
 
 
-const OnboardingSteps = ({id}: {id: string}) => {
+const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality[]}) => {
 
   console.log("Onboarding Steps ID:", id);
   
@@ -75,7 +76,8 @@ const OnboardingSteps = ({id}: {id: string}) => {
           description="Please fill in your education information"
           page={page}
           userId={id}
-          nextPage={"practice"} 
+          nextPage={"practice"}
+          specialties={specialties} 
           formId={doctorProfileId? doctorProfileId : resumingDoctorData.id}
         />
     },

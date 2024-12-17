@@ -1,80 +1,297 @@
 "use client"
 
-import DatePickerInput from '@/components/FormInputs/DatePickerInput'
-import MultiSelectInput from '@/components/FormInputs/MultiSelectInput'
-import ShadSelectInput from '@/components/FormInputs/ShadSelectInput'
+import { updateDoctorProfileById } from '@/actions/onboarding'
 import { Button } from '@/components/ui/button'
-import { CardContent } from '@/components/ui/card'
-import { ShadSelectInputProps, ShadSelectOptionProps } from '@/utils/types'
-import { DoctorProfile, User } from '@prisma/client'
-import { Loader } from 'lucide-react'
-import { useSession } from 'next-auth/react'
+import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { DoctorProfile, Service, Speciality, Symptom } from '@prisma/client'
 import React from 'react'
+import toast from 'react-hot-toast'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
+import { Map, PictureInPicture2, Video } from 'lucide-react'
 
 const UpdateServiceForm = ({
     services, 
     specialties, 
     symptoms,
-    profile
+    profile,
 }: {
-    services: ShadSelectOptionProps[];
-    specialties: ShadSelectOptionProps[];
-    symptoms: ShadSelectOptionProps[];
+    services: Service[] | undefined | null;
+    specialties: Speciality[] | undefined | null;
+    symptoms: Symptom[] | undefined | null;
     profile: DoctorProfile | undefined | null;
 }) => {
 
     console.log("profile:", profile?.id);
-    
-    // if (status === 'loading') {
-    //     return <div>
-    //             <Loader className="mr-1 w-4 h-4 animate-spin" />
-    //             <span>Loading a user...</span>
-    //             </div>
-    // }
+    const profileId = profile?.id
 
-    const [selectedServiceId, setSelectedServiceId] = React.useState<string>("")
-    const [selectedSpecialtyId, setSelectedSpecialtyId] = React.useState<string>("")
-    const [selectedSymptomId, setSelectedSymptomId] = React.useState<ShadSelectOptionProps[]>([])
+    const [selectedServiceId, setSelectedServiceId] = React.useState<string>(profile?.serviceId ?? "")
+    const [selectedSpecialtyId, setSelectedSpecialtyId] = React.useState<string>(profile?.specialityId ?? "")
+    const [selectedSymptomId, setSelectedSymptomId] = React.useState<string[]>(profile?.symptomId || [])
+    const [selectedOperation, setSelectedOperation] = React.useState<string>(profile?.operationMode || "")
+    const [isServiceLoading, setIsServiceLoading] = React.useState(false)
+    const [isSpecialtyLoading, setIsSpecialtyLoading] = React.useState(false)
+    const [isSymptomLoading, setIsSymptomLoading] = React.useState(false)
+    const [isOperationLoading, setIsOperationLoading] = React.useState(false)
 
-    const handleUpdateService = () => {
+    const operationModes = [
+        { label: "Telehealth", slug: "telehealth",icon: Video },
+        { label: "In-person doctor visit", slug: "in-person-doctor-visit", icon: Map},
+        { label: "Both Telehealth and In-person doctor visit", slug: "both-telehealth-and-in-person-doctor-visit", icon: PictureInPicture2},
+    ]
+
+    const handleUpdateService = async () => {
 
         const serviceProviding = {
-            serviceId: selectedServiceId,
-            specialityId: selectedSpecialtyId,
-            symptomId: selectedSymptomId.map((item) => item.value),
-            doctorId: profile?.id
+            serviceId: selectedServiceId ?? "",
         }
+        setIsServiceLoading(true);
         console.log("Service Providing:",serviceProviding);
         
+        try {
+            await updateDoctorProfileById(profileId, serviceProviding )
+            toast.success("Updating Service successfully");
+
+        } catch (error) {
+            console.error("Error updating service providing:", error);
+            
+        } finally {
+            setIsServiceLoading(false);
+
+        };
+        
+    }
+    const handleUpdateSpecialty = async () => {
+
+        const specialtyProviding = {
+            specialityId: selectedSpecialtyId ?? "",
+        }
+        setIsSpecialtyLoading(true);
+        console.log("Specialty Providing:",specialtyProviding);
+        
+        try {
+            await updateDoctorProfileById(profileId, specialtyProviding )
+            toast.success("Updating specialty successfully");
+
+        } catch (error) {
+            console.error("Error updating specialty providing:", error);
+            
+        } finally {
+            setIsSpecialtyLoading(false);
+
+        };
+        
+    }
+    const handleUpdateSymptom = async () => {
+
+        const symptomProviding = {
+            symptomId: selectedSymptomId ?? [],
+        }
+        setIsSymptomLoading(true);
+        console.log("Symptom Providing:",symptomProviding);
+        
+        try {
+            await updateDoctorProfileById(profileId, symptomProviding )
+            toast.success("Updating symptom successfully");
+
+        } catch (error) {
+            console.error("Error updating symptom providing:", error);
+            
+        } finally {
+            setIsSymptomLoading(false);
+
+        };
+        
+    }
+    const handleUpdateOperationMode = async () => {
+
+        const operationModeProviding = {
+            operationMode: selectedOperation ?? "",
+        }
+        setIsOperationLoading(true);
+        console.log("Symptom Providing:",operationModeProviding);
+        
+        try {
+            await updateDoctorProfileById(profileId, operationModeProviding )
+            toast.success("Updating symptom successfully");
+
+        } catch (error) {
+            console.error("Error updating symptom providing:", error);
+            
+        } finally {
+            setIsOperationLoading(false);
+
+        };
         
     }
 
+
   return (
     <div className=''>
-        <CardContent className='space-y-3'>
-            <ShadSelectInput 
-                label='Select Service' 
-                optionTitle='Service' 
-                options={services}
-                selectOption={selectedServiceId}
-                setSelectOption={setSelectedServiceId}
-            />
-             <ShadSelectInput 
-                label='Select Specialty' 
-                optionTitle='Specialty' 
-                options={specialties}
-                selectOption={selectedSpecialtyId}
-                setSelectOption={setSelectedSpecialtyId}
-            />
-             <MultiSelectInput 
-                label='Select Symptom' 
-                optionTitle='Symptom' 
-                options={symptoms}
-                selectOption={selectedSymptomId}
-                setSelectOption={setSelectedSymptomId}
-            />
+        <CardContent className='space-y-3 border-none shadow-none'>
+        <div className='border shadow rounded-md p-4 mt-4'>
+                <div className='flex justify-between items-center'>
+                    <div>
+                        <CardTitle>Operation Modes</CardTitle>
+                        <CardDescription className='scroll-m-20 text-lg 
+                        font-semibold tracking-tight py-2'>
+                            Choose your operation mode you want to offer
+                        </CardDescription>
+                    </div>
+                        <Button 
+                            disabled={isOperationLoading} 
+                            variant={"outline"} 
+                            type="submit" 
+                            onClick={handleUpdateOperationMode}
+                        >
+                            {isServiceLoading ? 'Saving...' : "Update Operation mode"}
+                        </Button>
+                    </div>
+                <div className="grid grid-cols-4 gap-2">
+                    {
+                        operationModes?.map((operation,i) => {
+                            const Icon = operation.icon;
+                            return (
+                                <button 
+                                    onClick={() => setSelectedOperation(operation.label)} 
+                                    key={i} 
+                                    className={cn(
+                                        'border flex items-center justify-center flex-col dark:bg-blue-950 py-2 px-3 rounded-md cursor-pointer',
+                                        selectedOperation === operation.label
+                                        ? "border-2 border-sky-500 bg-slate-50" : "")}>
+                                    <Icon
+                                        className='w-14 h-14' 
+                                    />
+                                    <p className='text-xs'>{operation.label}</p>
+                                </button>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+            <div className='border shadow rounded-md p-4 mt-4'>
+                <div className='flex justify-between items-center'>
+                    <div>
+                        <CardTitle>Services</CardTitle>
+                        <CardDescription className='scroll-m-20 text-lg 
+                        font-semibold tracking-tight py-2'>
+                            Choose your service you want to offer
+                        </CardDescription>
+                    </div>
+                        <Button 
+                            disabled={isServiceLoading} 
+                            variant={"outline"} 
+                            type="submit" 
+                            onClick={handleUpdateService}
+                        >
+                            {isServiceLoading ? 'Saving...' : "Update Service"}
+                        </Button>
+                    </div>
+                <div className="grid grid-cols-4 gap-2">
+                    {
+                        services?.map((service,i) => {
+                            return (
+                                <button 
+                                    onClick={() => setSelectedServiceId(service.id)} 
+                                    key={i} 
+                                    className={cn(
+                                        'border flex items-center justify-center flex-col dark:bg-blue-950 py-2 px-3 rounded-md cursor-pointer',
+                                        selectedServiceId === service.id 
+                                        ? "border-2 border-sky-500 bg-slate-50" : "")}>
+                                    <Image 
+                                        src={service.imageUrl} 
+                                        alt={service.title}
+                                        width={100}
+                                        height={100}
+                                        className='w-14 h-14' 
+                                    />
+                                    <p className='text-xs'>{service.title}</p>
+                                </button>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+            <div className='border shadow rounded-md p-4'>
+                <div className='flex justify-between items-center'>
+                    <div>
+                        <CardTitle>Specialties</CardTitle>
+                        <CardDescription className='scroll-m-20 text-lg 
+                        font-semibold tracking-tight py-2'>
+                            Choose your specialty you want to offer
+                        </CardDescription>
+                    </div>
+                    <Button 
+                        disabled={isSpecialtyLoading} 
+                        variant={"outline"} 
+                        type="submit" 
+                        onClick={handleUpdateSpecialty}
+                    >
+                        {isSpecialtyLoading ? 'Saving...' : "Update Specialty"}
+                    </Button>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                    {
+                        specialties?.map((specialty,i) => {
+                            return (
+                                <button 
+                                    onClick={() => setSelectedSpecialtyId(specialty.id)}
+                                    key={i} 
+                                    className={cn(
+                                        'border flex items-center justify-center flex-col dark:bg-blue-950  py-2 px-3 rounded-md cursor-pointer',
+                                        selectedSpecialtyId === specialty.id 
+                                        ? "border-2 border-sky-500 bg-slate-50" : "")}>
+                                    <p className='text-xs'>{specialty.title}</p>
+                                </button>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+            <div className='border shadow rounded-md p-4'>
+                <div className='flex justify-between items-center'>
+                    <div>
+                        <CardTitle>Symptoms</CardTitle>
+                        <CardDescription className='scroll-m-20 text-lg 
+                        font-semibold tracking-tight py-2'>
+                            Choose your symptom you want to offer
+                        </CardDescription>
+                    </div>
+                    <Button 
+                        disabled={isSymptomLoading} 
+                        variant={"outline"} 
+                        type="submit" 
+                        onClick={handleUpdateSymptom}
+                    >
+                        {isSymptomLoading ? 'Saving...' : "Update Symptom"}
+                    </Button>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                    {
+                        symptoms?.map((symptom,i) => {
+                            const isSelected = selectedSymptomId.includes(symptom.id);
+                            return (
+                                <button
+                                    onClick={() => {
+                                        if (isSelected) {
+                                            setSelectedSymptomId(selectedSymptomId.filter(id => id!== symptom.id));
+                                        } else {
+                                            setSelectedSymptomId([...selectedSymptomId, symptom.id])
+                                        }
+                                    }}
+                                    key={i} 
+                                    className={cn(
+                                        'border flex items-center justify-center flex-col dark:bg-blue-950 py-2 px-3 rounded-md cursor-pointer',
+                                        selectedSymptomId.includes(symptom.id) 
+                                        ? "border-2 border-sky-500 bg-slate-50" : "" )}>
+                                    <p className='text-xs'>{symptom.title}</p>
+                                </button>
+                            )
+                        })
+                    }
+                </div>
+            </div>
         </CardContent>
-        <Button type="submit" onClick={handleUpdateService}>Save</Button>
     </div>
 
   )

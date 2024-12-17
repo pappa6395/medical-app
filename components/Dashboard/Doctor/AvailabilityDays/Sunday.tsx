@@ -7,8 +7,16 @@ import { timesArray } from '@/config/constants'
 
 const Sunday = ({profile, day}: {profile: any; day: string }) => {
 
-    const availability = profile?.availability || "";
-    const initialData = profile?.availability[day] || [];
+    //console.log("Availability:", profile.availability);
+    
+    let initialData: string[] = ["8:00 AM"]
+
+    if (profile && profile?.availability) {
+        initialData = profile && profile?.availability[day] || [];
+    };
+    const newAvailability = profile?.availability || "";
+
+    //let initialData = profile && profile?.availability[day] || [];
 
     const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
     const [isLoading, setIsLoading] = React.useState(false)
@@ -43,12 +51,12 @@ const Sunday = ({profile, day}: {profile: any; day: string }) => {
         setIsLoading(true)
 
         try {
-            if (profile?.id && availability?.id) {
+            if (profile?.id && newAvailability?.id) {
                 const data = {
                     sunday: selectedTimes,
                     doctorProfileId: profile.id,
                 };
-                await updateAvailabilityById(availability?.id, data)
+                await updateAvailabilityById(newAvailability?.id, data)
                 toast.success("Availability updated")
 
             } else if (profile?.id) {

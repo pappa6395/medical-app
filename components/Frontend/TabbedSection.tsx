@@ -1,9 +1,16 @@
-"use client"
+
 import React from "react";
 import TabbedItems from "./TabbedItems";
+import { getService } from "@/actions/services";
+import { getSpecialty } from "@/actions/specialties";
+import { getSymptom } from "@/actions/symptoms";
 
 
-const TabbedSection: React.FC = () => {
+const TabbedSection: React.FC = async() => {
+
+    const services = (await getService()).data ?? [];
+    const specialties = (await getSpecialty()).data ?? [];
+    const symptoms = (await getSymptom()).data ?? [];
 
   return (
     <section className="flex pb-12 pt-20 dark:bg-slate-900">
@@ -23,7 +30,7 @@ const TabbedSection: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <TabbedItems />
+            <TabbedItems services={services} specialties={specialties} symptoms={symptoms}/>
         </div>
     </section>
   );

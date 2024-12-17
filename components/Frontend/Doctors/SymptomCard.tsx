@@ -1,16 +1,16 @@
-import { Speciality } from '@prisma/client';
-import Link from 'next/link'
+import { Speciality, Symptom } from '@prisma/client';
+import Link from 'next/link';
 import React from 'react'
 
-type LinkCardProps ={
+type SymptomCardProps ={
     className?: string;
-    specialties?: Speciality[];
+    symptoms?: Symptom[];
 }
 
-const LinkCard = ({
+const SymptomCard = ({
     className,
-    specialties,
-}: LinkCardProps) => {
+    symptoms,
+}: SymptomCardProps) => {
 
 
   return (
@@ -18,7 +18,7 @@ const LinkCard = ({
     <div className='grid lg:grid-cols-5 
         md:grid-cols-3 sm:grid-cols-2 
         grid-col-1 gap-6'>
-            {specialties && specialties.map((item, i) => {
+            {symptoms && symptoms.map((item, i) => {
                 return (
                     <Link href={`/specialties/${item.slug}`} key={i} className={`flex gap-4
                         text-slate-50 rounded-md py-3 px-6 ${className} justify-between`}>
@@ -31,4 +31,4 @@ const LinkCard = ({
   )
 }
 
-export default LinkCard
+export default SymptomCard

@@ -164,7 +164,7 @@ const ProfileInfoForm = ({
                         value={profileData.yearsOfExperience}
                         errors={transformedErrors}
                         disabled={isLoading}
-                        onChange={handleChange} />
+                        onChange={(handleChange)} />
                     <DatePickerInput
                         name="Medical License Expired Date" 
                         date={profileData.medicalLicenseExpiry}
@@ -178,7 +178,7 @@ const ProfileInfoForm = ({
                         value={profileData.bio}
                         errors={transformedErrors}
                         disabled={isLoading}
-                        onChange={handleChange} />
+                        onChange={(handleChange)} />
                     <ImageInput 
                         label="Profession Profile Image"
                         imageUrl={profileImage}

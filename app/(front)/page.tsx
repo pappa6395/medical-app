@@ -5,6 +5,7 @@ import React from "react";
 import DoctorList from "@/components/DoctorList";
 
 export default function Home() {
+
   return (
     <section className="">
       <Hero />

@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client";
+import { Speciality, UserRole } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
@@ -143,6 +143,13 @@ export type AdditionalInfoFormProps = {
     page: string;
 }
 
+export type FileProps = {
+    formatToBytes(size: any): React.ReactNode;
+    title: string;
+    size: string;
+    url: string;
+}
+
 export type AvailabilityInfoFormProps = {
     meetingDuration: string;
     meetingAvailability: string;
@@ -162,6 +169,7 @@ export type StepFormProps = {
     userId?: string | undefined;
     nextPage?: string;
     formId?: string;
+    specialties?: Speciality[];
 }
 
 export type ServiceFormProps = {

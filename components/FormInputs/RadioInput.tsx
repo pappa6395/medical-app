@@ -7,7 +7,7 @@ type RadioInputProps = {
     name: string;
     title: string;
     register: boolean;
-    value: string;
+    value: string | undefined;
     options: Array<{value: string, label: string, description: string}>;
     errors: Record<string, string[]>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -3,9 +3,9 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 import SubmitButton from '../FormInputs/SubmitButton';
-import { AdditionalInfoFormProps, StepFormProps } from '@/utils/types';
+import { AdditionalInfoFormProps, FileProps, StepFormProps } from '@/utils/types';
 import TextAreaInput from '../FormInputs/TextAreaInput';
-import MultiFileUpload, { FileProps } from '../FormInputs/MultiFileUpload';
+import MultiFileUpload from '../FormInputs/MultiFileUpload';
 import { useRouter } from 'next/navigation';
 import { completeProfile } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
@@ -36,7 +36,9 @@ const AdditionalInfoForm = ({
         educationHistory: resumeAdditionalData.educationHistory || resumingDoctorData.educationHistory || "",
         research: resumeAdditionalData.research || resumingDoctorData.research || "",
         accomplishments: resumeAdditionalData.accomplishments || resumingDoctorData.accomplishments || "",
-        additionalDocuments: resumeAdditionalData.additionalDocuments || resumingDoctorData.additionalDocuments,
+        additionalDocuments: 
+            resumeAdditionalData.additionalDocuments 
+            || resumingDoctorData.additionalDocuments || [],
         page: resumeAdditionalData.page || resumingDoctorData.page || "",
     });
     const [errors, setErrors] = React.useState<Partial<AdditionalInfoFormProps>>({});
@@ -44,10 +46,11 @@ const AdditionalInfoForm = ({
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
 
-    const initialAdditionalDocuments: any = additionalData.additionalDocuments.length > 0 
+    const initialAddDocs: any = additionalData.additionalDocuments.length > 0 
     ? additionalData.additionalDocuments 
     : resumingDoctorData.additionalDocuments ?? []
-    const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>(initialAdditionalDocuments);
+    const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>(initialAddDocs);
+    
 
 
   const transformedErrors: Record<string, string[]> = 
@@ -58,7 +61,7 @@ const AdditionalInfoForm = ({
 
 
     additionalData.page = page;  
-    additionalData.additionalDocuments = additionalDocs.map((doc) => doc.url);
+    additionalData.additionalDocuments = additionalDocs.map((doc: FileProps) => (doc.url))
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
@@ -79,7 +82,12 @@ const AdditionalInfoForm = ({
                     toast.success("Profile Completed Successfully")
 
                     //Route Them TO THE LOGIN
-                    router.push(`/login`)
+                    if (userId) {
+                        router.push("/dashboard",)
+                    } else if (!userId) {
+                        router.push("/login")
+                    }
+                    
                     console.log("Updated New Additional Data Passed:", res.data);
                 } else {
                     setIsLoading(false);

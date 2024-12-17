@@ -11,6 +11,7 @@ type SelectInputProps = {
     className: string;
     options: SelectOptionProps[];
     multiple?: boolean;
+    placeholder?: string;
     errors: Record<string, string[]>;   
 };
 
@@ -25,6 +26,7 @@ const SelectInput = ({
     register,
     errors,
     onChange,
+    placeholder,
     value,
     className = "sm:cols-span-2",
     options = [],
@@ -47,20 +49,25 @@ const SelectInput = ({
                 name={name} 
                 multiple={multiple}
                 value={value}
+                defaultValue="Select your primary Specialization"
                 onChange={onChange}
                 className='block w-full border-0 mt-1 py-2 rounded-md
                 shadow-sm ring-1 ring-inset focus:ring-2
                 focus:ring-inset ring-gray-300 focus:ring-indigo-600 
                 sm:max-w-xs sm:text-sm sm:leading-6 text-slate-700 
                 dark:text-slate-200 dark:bg-slate-700'
-            >
-                {options.map((option, i: number) => (
-                    <option 
-                        key={i} 
-                        value={option.value}
-                    >{option.label}
-                    </option>
-                ))}
+            >   
+                <option value="" disabled >Select your primary Specialization</option>
+                {options.map((option, i: number) => {
+                    return (
+                        
+                <option 
+                    key={i} 
+                    value={option.value}
+                >{option.label}
+                </option>
+            )})}
+                
             </select>
         </div>
     </div>

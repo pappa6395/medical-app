@@ -5,47 +5,21 @@ import ServiceList from './Services/ServiceList'
 import LinkCard from './Doctors/LinkCard'
 import medicalImage from '../../public/medicalimage1.jpg'
 import { BriefcaseMedical, Microscope, Stethoscope, Syringe } from 'lucide-react'
+import { Service, Speciality, Symptom } from '@prisma/client'
+import SymptomCard from './Doctors/SymptomCard'
 
+type TabbedItemProps = {
+    services: Service[]
+    specialties?: Speciality[];
+    symptoms?: Symptom[]
+}
 
-const TabbedItems = () => {
-    const services = [
-        {
-            title: "Telehealth",
-            image: medicalImage,
-            slug: "telehealth",
-
-        },
-        {
-            title: "Video Prescription",
-            image: medicalImage,
-            slug: "video prescription",
-
-        },
-        {
-            title: "UTI Consult",
-            image: medicalImage,
-            slug: "uti consult",
-
-        },
-        {
-            title: "Mental Health",
-            image: medicalImage,
-            slug: "mental health",
-
-        },
-        {
-            title: "ED Consult",
-            image: medicalImage,
-            slug: "ed consult",
-
-        },
-        {
-            title: "Urgent Care",
-            image: medicalImage,
-            slug: "urgent care",
-
-        },
-    ]
+const TabbedItems = ({ 
+    services,
+    specialties,
+    symptoms,
+ }: TabbedItemProps) => {
+  
     const tabs = [
         {
             title: "Popular Services",
@@ -56,19 +30,19 @@ const TabbedItems = () => {
         {
             title: "Doctors",
             icon: <Stethoscope/>,
-            component: <LinkCard className='bg-slate-800'/>,
+            component: <LinkCard className='bg-slate-800' />,
             content: ["Match and meet our doctors today. We are ready to cure you"]
         },
         {
             title: "Specialties",
             icon: <BriefcaseMedical/>,
-            component: <LinkCard className='bg-blue-900'/>,
+            component: <LinkCard className='bg-slate-400 dark:bg-cyan-900 text-lg' specialties={specialties}/>,
             content: ["Specialists are ready for you to help you find the solutions"]
         },
         {
             title: "Symptoms",
             icon: <Microscope/>,
-            component: <LinkCard className='bg-green-600'/>,
+            component: <SymptomCard className='bg-slate-400 dark:bg-cyan-900 text-lg' symptoms={symptoms} />,
             content: ["Medical tips and knowledges are waiting right for you here"]
         },
     ]

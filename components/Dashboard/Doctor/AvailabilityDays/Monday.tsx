@@ -5,10 +5,21 @@ import toast from 'react-hot-toast'
 import SelectedTimes from './SelectedTimes'
 import { timesArray } from '@/config/constants'
 
+
+
 const Monday = ({profile, day}: {profile: any ; day: string;}) => {
     
-    const availability = profile?.availability || "";
-    const initialData = profile?.availability[day] || "";
+    
+
+    let initialData: string[] = ["8:00 AM"]
+
+    if (profile && profile?.availability) {
+        initialData = profile && profile?.availability[day] || [];
+    };
+    const newAvailability = profile?.availability || "";
+
+    //let initialData = profile && profile.availability[day] || [];
+    
 
     const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
     const [isLoading, setIsLoading] = React.useState(false)
@@ -43,14 +54,16 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
         setIsLoading(true)
 
         try {
-            if (profile?.id && availability?.id) {
+            if (profile?.id && newAvailability?.id) {
 
                 const data = {
                     monday: selectedTimes,
                     doctorProfileId: profile.id,
                 };
-                await updateAvailabilityById(availability?.id, data)
+                const updatedAvail = await updateAvailabilityById(newAvailability?.id, data)
                 toast.success("Availability updated")
+                console.log("Availability updated:", updatedAvail);
+                
 
             } else if (profile?.id) {
 
@@ -59,9 +72,10 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
                     monday: selectedTimes,
                     doctorProfileId: profile.id,
                 };
-                await createAvailability(data)
+                const createdAvail = await createAvailability(data)
                 toast.success("Availability created") 
-
+                console.log("Availability created:", createdAvail);
+                
             }
             
 
