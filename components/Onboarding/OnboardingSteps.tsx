@@ -107,18 +107,6 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           formId={doctorProfileId? doctorProfileId : resumingDoctorData.id}
         />
     },
-    // {
-    //   title: "Availability",
-    //   page: "availability",
-    //   component: 
-    //     <AvailabilityInfoForm 
-    //       title="Availability Information"
-    //       description="Please fill in your Availability information"
-    //       page={page}
-    //       userId={id}
-    //       formId={doctorProfileId}
-    //     />
-    // },
   ]
 
   const currentStep = steps.find((step) => step.page === page);
