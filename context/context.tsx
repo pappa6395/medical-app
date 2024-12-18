@@ -1,7 +1,7 @@
 "use client"
 
 import { AdditionalInfoFormProps, BioDataFormProps, ContactInfoFormProps, EducationInfoFormProps, PracticeInfoFormProps, ProfileInfoFormProps } from "@/utils/types";
-import { DoctorProfile } from "@prisma/client";
+import { Availability, DoctorProfile } from "@prisma/client";
 // context => useState to global level
 
 import { createContext, ReactNode, useContext, useState } from "react";
@@ -87,6 +87,7 @@ const initialPracticeData = {
     servicesOffered: [],
     insuranceAccepted: "",
     languagesSpoken: [],
+    hourlyWage: 100,
     page: "",
 }
 const initialAdditionalData = {
@@ -151,6 +152,7 @@ export function OnboardingContextProvider({children}: {children: ReactNode}) {
         setResumeAdditionalData: setResumeAdditionalData as (data: AdditionalInfoFormProps) => void,
         resumingDoctorData: resumingDoctorData,
         setResumingDoctorData: setResumingDoctorData,
+    
     }
 
     return <onBoardingContext.Provider value={contextValues}>

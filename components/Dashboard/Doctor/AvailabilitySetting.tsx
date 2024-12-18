@@ -12,8 +12,14 @@ import Saturday from "./AvailabilityDays/Saturday";
 import Sunday from "./AvailabilityDays/Sunday";
 import { Separator } from "@/components/ui/separator";
 
-const AvailabilitySetting = ({profile}:{profile: Partial<DoctorProfile>}) => {
+const AvailabilitySetting = ({
+    profile, 
+}:{
+    profile: DoctorProfile | undefined | null;
+}) => {
 
+    console.log("availability setting profile: ", profile);
+    
     const dayTabs = [
         {
             title: "Monday",

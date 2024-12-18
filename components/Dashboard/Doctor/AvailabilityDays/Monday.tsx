@@ -6,24 +6,21 @@ import SelectedTimes from './SelectedTimes'
 import { timesArray } from '@/config/constants'
 
 
-
 const Monday = ({profile, day}: {profile: any ; day: string;}) => {
-    
     
 
     let initialData: string[] = ["8:00 AM"]
 
     if (profile && profile?.availability) {
-        initialData = profile && profile?.availability[day] || [];
-    };
-    const newAvailability = profile?.availability || "";
+        initialData = profile.availability[day] || [];
+    }
 
-    //let initialData = profile && profile.availability[day] || [];
-    
+    const newAvailability = profile?.availability
 
     const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
     const [isLoading, setIsLoading] = React.useState(false)
-
+    
+    //let initialData = profile && profile.availability[day] || [];
     
     const handleAddTime = (time: string) => {
 
@@ -37,9 +34,7 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
         
     }
     const handleAddAll = () => {
-        setIsLoading(true),
-        setSelectedTimes([...timesArray]),
-        setIsLoading(false)
+        setSelectedTimes([...timesArray])
     }
     const handleRemoveTime = (index: number) => {   
         setSelectedTimes(selectedTimes.filter((_,i) => i !== index))
@@ -49,10 +44,11 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
         setSelectedTimes([]),
         setIsLoading(false) 
     }
+
     const handleSubmit = async() => {
 
         setIsLoading(true)
-
+        
         try {
             if (profile?.id && newAvailability?.id) {
 
@@ -77,7 +73,6 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
                 console.log("Availability created:", createdAvail);
                 
             }
-            
 
         } catch (error) {
             toast.error("Profile not found")

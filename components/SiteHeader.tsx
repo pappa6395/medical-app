@@ -25,7 +25,7 @@ export function SiteHeader({session}: {session: Session | null}) {
 
   const user = session?.user || {name: "Guest", email: "", image: null};
   const router = useRouter();
-  console.log("User's data:", user);
+  //console.log("User's data:", user);
   
   async function handleLogout() {
       await signOut()

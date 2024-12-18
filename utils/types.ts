@@ -1,4 +1,4 @@
-import { Speciality, UserRole } from "@prisma/client";
+import { DoctorProfile, Speciality, UserRole } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
@@ -132,6 +132,7 @@ export type PracticeInfoFormProps = {
     servicesOffered: string[];
     insuranceAccepted: string;
     languagesSpoken: string[];
+    hourlyWage: number;
     page: string;
 }
 
@@ -216,4 +217,68 @@ export type MultiSelectInputProps = {
     options: ShadSelectOptionProps[];
     selectOption: ShadSelectOptionProps[];
     setSelectOption: (value: ShadSelectOptionProps[]) => void;
+}
+
+export type Doctor = {
+    id: string;
+    name: string;
+    slug: string;
+    email: string;
+    phone: string;
+    doctorProfile: DoctorProfileCard | null;
+}
+
+export type DoctorDetail = {
+    id: string;
+    name: string;
+    slug: string;
+    email: string;
+    phone: string;
+    doctorProfile: DoctorProfileDetails | null;
+}
+
+export type DoctorProfileAvailability = {
+    monday: string[];
+    tuesday: string[];
+    wednesday: string[];
+    thursday: string[];
+    friday: string[];
+    saturday: string[];
+    sunday: string[];
+}
+
+export type DoctorProfileCard = {
+    firstName: string;
+    lastName: string;
+    gender: string;
+    bio: string | null;
+    profilePicture: string | null;
+    availability: DoctorProfileAvailability | null;
+    hourlyWage: number;
+}
+
+export interface DoctorProfileDetails extends DoctorProfileCard {
+    city: string | null;
+    state: string | null;
+    country: string | null;
+    yearsOfExperience: number | null;
+    medicalLicense: string | null;
+    medicalLicenseExpiry: Date | null;
+    boardCertificates: string[] | null;
+    otherSpecialties: string[] | null;
+    primarySpecialization: string | null;
+    hospitalName: string | null;
+    hospitalAddress: string | null;
+    hospitalContactNumber: string | null;
+    hospitalEmailAddress: string | null;
+    hospitalHoursOfOperation: string | null;
+    hospitalWebsite: string | null;
+    research: string | null;
+    accomplishments: string | null;
+    additionalDocuments: string[] | null;
+    graduationYear: string | null;
+    educationHistory: string | null;
+    servicesOffered: string[] | null;
+    insuranceAccepted: string | null;
+    languagesSpoken: string[] | null;
 }

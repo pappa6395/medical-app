@@ -3,13 +3,17 @@ import Image from 'next/image'
 import doctorProfile1 from '../../../../public/doctorProfile1.jpeg'
 import DoctorDetails from '@/components/DoctorDetails'
 import FixedBookButton from '@/components/FixedBookButton'
+import { getDoctorsBySlug } from '@/actions/users'
 
-const page = () => {
+const page = async ({params: {slug}}: {params:{slug: string}}) => {
 
+    // Fetch doctor data from API or database
+    const doctorSlug = await getDoctorsBySlug(slug) || null;
 
   return (
     <div>
-        <div className='bg-slate-50 dark:bg-slate-950 py-8 min-h-screen'>
+        {doctorSlug && doctorSlug?.id ? (
+            <div className='bg-slate-50 dark:bg-slate-950 py-8 min-h-screen'>
             <div className="bg-white dark:bg-slate-900 border 
                 border-gray-200 dark:border-gray-500 
                     min-w-screen mx-4 md:mx-24 shadow-md rounded-lg
@@ -20,17 +24,19 @@ const page = () => {
                             <div className='flex flex-col'>
                                 <h2 className='uppercase font-bold 
                                 text-2xl tracking-widest'>
-                                    Vijal Patel, PA-C
+                                    {doctorSlug.name}
                                 </h2>
-                                <p className='text-gray-500 text-xs uppercase'>Adult Health</p>
+                                <p className='text-gray-500 text-xs uppercase'>
+                                    {doctorSlug.doctorProfile?.primarySpecialization}
+                                </p>
                             </div>
                             <div className='py-6'>
-                                <p>In-person doctor visit</p>
-                                <p>3250 Lincolm Highway, Kendall Park, NJ 08824</p>
+                                <p>{doctorSlug.doctorProfile?.operationMode}</p>
+                                <p>{doctorSlug.doctorProfile?.hospitalAddress}</p>
                             </div>
                         </div>
                         <Image 
-                            src={doctorProfile1} 
+                            src={doctorSlug.doctorProfile?.profilePicture?? doctorProfile1} 
                             alt="doctor" 
                             width={200} 
                             height={250} 
@@ -39,15 +45,17 @@ const page = () => {
                     </div>
                 </div>
                 <div>
-                    <DoctorDetails />
+                    <DoctorDetails doctor={doctorSlug} />
                 </div>
             </div>
-            <FixedBookButton />
+            <FixedBookButton price={doctorSlug.doctorProfile?.hourlyWage}/>
         </div>
+        ) : (
+            <div className='flex flex-col items-center justify-center h-screen'>
+                <p className='text-gray-500 text-2xl'>Doctor Detail not found</p>
+            </div>
+        )}
     </div>
-    
-    
-
   )
 }
 

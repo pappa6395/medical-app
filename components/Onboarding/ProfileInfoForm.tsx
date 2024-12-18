@@ -106,7 +106,7 @@ const ProfileInfoForm = ({
 
         if (!profileData.bio) newErrors.bio = "Biography is required.";
 
-        if (!profileData.yearsOfExperience || newProfileData.yearsOfExperience === 0) {
+        if (!profileData.yearsOfExperience || newProfileData.yearsOfExperience <= 0) {
             toast.error("Year of Experience is required")
         }
 

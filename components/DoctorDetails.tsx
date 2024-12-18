@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from 'react'
 import Availability from './Availability'
+import { DoctorDetail } from '@/utils/types'
 
 
-const DoctorDetails = () => {
+const DoctorDetails = ({doctor}: {doctor: DoctorDetail}) => {
 
     const [isActive, setIsActive] = useState("availability")
 

@@ -4,15 +4,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import React, { useEffect } from 'react'
 import AvailabilitySetting from '../Doctor/AvailabilitySetting'
 import DoctorServiceSettings from '../Doctor/DoctorServiceSettings'
-import { DoctorProfile } from '@prisma/client'
+import { Availability, DoctorProfile } from '@prisma/client'
 import { getDoctorAvailabilityById } from '@/actions/onboarding'
 
 type DoctorSettingsProps = {
-    initialProfile: any,
-    userId: string,
-    services?: any,
-    specialties?: any,
-    symptoms?: any,
+    initialProfile: DoctorProfile | undefined | null;
+    userId: string;
+    services?: any;
+    specialties?: any;
+    symptoms?: any;
 }
 
 const DoctorSettings = ({
@@ -24,24 +24,10 @@ const DoctorSettings = ({
 
 }: DoctorSettingsProps) => {
 
-    const [profile, setProfile] = React.useState(initialProfile)
 
-    useEffect(() => {
-        const fetchAvailability = async () => {
-            try {
-                const updatedProfile = await getDoctorAvailabilityById(userId);
-                setProfile(updatedProfile?.data as Partial<DoctorProfile>);
-                console.log("Updated Doctor Availability:", updatedProfile);
+    console.log("DoctorSettings profile:", initialProfile);
+    
 
-            } catch (error) {
-                console.log("Failed to fetch doctor availability:", error);
-
-            }
-        };
-
-        fetchAvailability()
-        },[userId])
-        
   return (
 
     <div className='max-w-5xl mx-auto px-6 py-6'>
@@ -54,11 +40,11 @@ const DoctorSettings = ({
       <div className=''>
         <TabsContent value="availability" className='w-full'>
           {/* Availability Setting */}
-          <AvailabilitySetting profile={profile} />
+          <AvailabilitySetting profile={initialProfile} />
         </TabsContent>
         <TabsContent value="service" className='w-full'>
           <DoctorServiceSettings 
-            profile={profile}
+            profile={initialProfile}
             services={services}
             specialties={specialties}
             symptoms={symptoms}

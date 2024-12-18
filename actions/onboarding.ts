@@ -7,6 +7,7 @@ import { Availability, DoctorProfile } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
+import { Context } from "vm";
 
 
 export async function createDoctorProfile(formData: Partial<DoctorProfile>) {
@@ -420,23 +421,13 @@ export async function updateAvailabilityById(
 
 };
 
-export async function getServerSideProps () {
-  
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+export async function getServerSideProps (context: Context){
 
-  if (!user) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const profile = await getDoctorAvailabilityById(user.id);
+  const profile = await getDoctorAvailabilityById(context.params.id);
 
   return {
     props: {
-      initialProfile: profile?.data || null,
-      user,
+      profile,
     },
   };
 }

@@ -1,24 +1,24 @@
 
-import { createAvailability, updateAvailabilityById } from '@/actions/onboarding'
+import { createAvailability, getDoctorAvailabilityById, updateAvailabilityById } from '@/actions/onboarding'
 import React from 'react'
 import toast from 'react-hot-toast'
 import SelectedTimes from './SelectedTimes'
 import { timesArray } from '@/config/constants'
 
-const Tuesday = ({profile, day}: {profile: any; day: string; }) => {
+const Tuesday = ({profile, day}: {profile: any ; day: string;}) => {
 
-    
-   
+
     let initialData: string[] = ["8:00 AM"]
+
     if (profile && profile?.availability) {
-        initialData = profile && profile?.availability[day] || [];
+        initialData = profile.availability[day] || [];
     }
-    const newAvailability = profile?.availability || "";
 
-    //let initialData = profile && profile?.availability[day] || [];
+    const newAvailability = profile.availability
 
-    const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
-    const [isLoading, setIsLoading] = React.useState(false)
+        const [selectedTimes, setSelectedTimes] = React.useState<string[]>(initialData)
+        const [isLoading, setIsLoading] = React.useState(false)
+   
     
     const handleAddTime = (time: string) => {
 
@@ -35,9 +35,7 @@ const Tuesday = ({profile, day}: {profile: any; day: string; }) => {
         setSelectedTimes(selectedTimes.filter((_,i) => i !== index))
     }
     const handleAddAll = () => {
-        setIsLoading(true),
-        setSelectedTimes([...timesArray]),
-        setIsLoading(false)
+        setSelectedTimes([...timesArray])
     }
     const handleClearAll = () => {
         setIsLoading(true),
@@ -74,6 +72,7 @@ const Tuesday = ({profile, day}: {profile: any; day: string; }) => {
             
         } finally {
             setIsLoading(false)
+            
         }
 
     }

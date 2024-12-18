@@ -43,6 +43,7 @@ const PracticeInfoForm = ({
         servicesOffered: resumePracticeData.servicesOffered || resumingDoctorData.servicesOffered,
         insuranceAccepted: resumePracticeData.insuranceAccepted || resumingDoctorData.insuranceAccepted || "",
         languagesSpoken: resumePracticeData.languagesSpoken || resumingDoctorData.languagesSpoken,
+        hourlyWage: resumePracticeData.hourlyWage || resumingDoctorData.hourlyWage || 100,
         page: resumePracticeData.page || resumingDoctorData.page || "",
     });
 
@@ -89,7 +90,7 @@ const PracticeInfoForm = ({
         if (validate(practiceData)) {
 
             setIsLoading(true)
-            console.log("New Education Data:", practiceData);
+            console.log("New Practice Data:", practiceData);
 
             try {
                 const res = await updateDoctorProfileById(formId, practiceData);
@@ -99,11 +100,11 @@ const PracticeInfoForm = ({
                     toast.success("Practice Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`/onboarding/${userId}?page=${nextPage}`)
-                    console.log("Updated New Education Data Passed:", res.data);
+                    console.log("Updated New Practice Data Passed:", res.data);
                 }
                 
             } catch (error) {
-                console.log("Updating New Education data failed:", error);
+                console.log("Updating New Practice data failed:", error);
                 
             } finally {
                 setIsLoading(false)
@@ -111,12 +112,12 @@ const PracticeInfoForm = ({
             }
 
         } else {
-            console.log("New Education Data:", practiceData);
+            console.log("New Practice Data:", practiceData);
         }
 
     }
 
-    const validate = (practiceData: Partial<DoctorProfile>) => {
+    const validate = (practiceData: PracticeInfoFormProps) => {
         const newErrors: Partial<PracticeInfoFormProps> = {};
 
         if (!practiceData.hospitalName) newErrors.hospitalName = "Hospital name is required.";
@@ -131,7 +132,12 @@ const PracticeInfoForm = ({
 
         if (!practiceData.servicesOffered || practiceData.servicesOffered.length === 0) newErrors.servicesOffered = ["Serviced offered is required."];
 
-        if (!practiceData.insuranceAccepted) newErrors.insuranceAccepted ? ("") : ("Insurance condition is required.");
+        if (!practiceData.hourlyWage || practiceData.hourlyWage <= 0) {
+            
+            newErrors.hourlyWage?.toString() ? "Hourly wage is required." : "";
+            toast.error("Hourly Wage is required")
+            
+        }
 
         if (!practiceData.languagesSpoken || practiceData.languagesSpoken.length === 0) newErrors.languagesSpoken = ["Laguages spoken is required."];
         
@@ -141,15 +147,31 @@ const PracticeInfoForm = ({
     }
 
     const arrayFields = ["servicesOffered", "languagesSpoken"]
+    const numericFields = ["hourlyWage"];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) => {
         const { name, value } = e.target
-        setPracticeData((prev) => ({ 
-            ...prev, 
-            [name]: arrayFields.includes(name) 
-            ? value.split(",").map((item) => item.trim()) : value }));
+
+        setPracticeData((prev) => { 
+            if (arrayFields.includes(name)) {
+                return {
+                    ...prev,
+                    [name]: value.split(",").map((item) => item.trim())
+                };
+            }
+            if (numericFields.includes(name)) {
+                return {
+                    ...prev, 
+                    [name]: parseFloat(value) || 0
+                };
+            }
+            return {
+                ...prev,
+                [name]: value
         
-    }
+            };
+        });  
+    };
 
 
   return (
@@ -175,6 +197,17 @@ const PracticeInfoForm = ({
                         type="text"
                         className='col-span-full sm:col-span-1'
                         value={practiceData.hospitalName}
+                        errors={transformedErrors}
+                        disabled={isLoading}
+                        onChange={handleChange} />
+                    <TextInput
+                        label="Hourly Charge"
+                        register={register}
+                        name="hourlyWage"
+                        placeholder="Enter your hourly wage"
+                        type="number"
+                        className='col-span-full sm:col-span-1'
+                        value={practiceData.hourlyWage}
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
@@ -253,7 +286,7 @@ const PracticeInfoForm = ({
                     <SubmitButton 
                         title="Save and Continue"
                         isLoading={isLoading} 
-                        loadingTitle={"creating an account..."} />
+                        loadingTitle={"Updating an account..."} />
                 </div>
             </form>
         </div>

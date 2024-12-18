@@ -7,16 +7,15 @@ import React from "react";
 //import "react-multi-carousel/lib/style.css"
 import DoctorCard from "./DoctorCard";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
+import { DoctorProfile, User } from "@prisma/client";
+import { Doctor } from "@/utils/types";
 
-interface DoctorProps {
-  name: string;
-}
 
 export default function DoctorListCarousel({ 
     doctors, 
     isInPerson 
 }: {
-    doctors: DoctorProps[]; 
+    doctors: Doctor[]; 
     isInPerson?: boolean;
 }) {
         
@@ -73,7 +72,7 @@ export default function DoctorListCarousel({
     >
       <CarouselContent className="flex p-3 justify-between">
         {
-          doctors.map((doctor, i) => {
+          doctors && doctors.map((doctor: Doctor, i) => {
               return (
                 <CarouselItem key={i} className="flex md:basis-1/2 lg:basis-1/3">
                   <DoctorCard doctor={doctor} isInPerson={isInPerson}/>

@@ -14,12 +14,14 @@ const page = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
+  console.log("User:", user);
+  
   if (!user) {
     return <div>You must be logged in to access this page.</div>
   }
 
   const profile = await getDoctorAvailabilityById(user.id)
-
+  
   const services = (await getService()).data
   const specialties = (await getSpecialty()).data
   const symptoms =  (await getSymptom()).data
@@ -28,7 +30,7 @@ const page = async () => {
 
     <div>
       <DoctorSettings 
-        initialProfile={profile?.data} 
+        initialProfile={profile?.data}
         userId={user.id}
         services={services}
         specialties={specialties}

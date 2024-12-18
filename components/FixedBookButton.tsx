@@ -2,8 +2,11 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { Plus } from 'lucide-react'
+import { getFormattedDate } from '@/utils/formattedDate'
 
-const FixedBookButton = () => {
+const FixedBookButton = ({price}: {price: number | undefined}) => {
+
+  const BookDate = getFormattedDate()
 
   return (
 
@@ -13,8 +16,8 @@ const FixedBookButton = () => {
         py-8 px-6 rounded-md border border-gray-200 dark:border-gray-500">
         <div className='mx-auto max-w-4xl flex gap-4 justify-between'>
             <div className='w-full'>
-                <p className='font-bold text-lg'>$56</p>
-                <p className='font-semibold text-sm'>Tue, Mar 12 - 8:00 AM GMT+3</p>
+                <p className='font-bold text-xl'>${price}</p>
+                <p className='font-semibold text-md'>{BookDate}</p>
             </div>
             <Button
             variant="outline"
