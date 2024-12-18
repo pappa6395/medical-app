@@ -4,8 +4,11 @@ import doctorProfile1 from '../../../../public/doctorProfile1.jpeg'
 import DoctorDetails from '@/components/DoctorDetails'
 import FixedBookButton from '@/components/FixedBookButton'
 import { getDoctorsBySlug } from '@/actions/users'
+import { PageProps } from '@/.next/types/app/(front)/doctors/[slug]/page'
 
-const page = async ({params: {slug}}: {params:{slug: string}}) => {
+const page = async ({params: paramsPromise}: PageProps) => {
+
+    const { slug } = await paramsPromise
 
     // Fetch doctor data from API or database
     const doctorSlug = await getDoctorsBySlug(slug) || null;
