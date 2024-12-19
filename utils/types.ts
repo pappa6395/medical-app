@@ -248,6 +248,7 @@ export type DoctorProfileAvailability = {
 }
 
 export type DoctorProfileCard = {
+    id: string;
     firstName: string;
     lastName: string;
     gender: string;
@@ -281,4 +282,25 @@ export interface DoctorProfileDetails extends DoctorProfileCard {
     servicesOffered: string[] | null;
     insuranceAccepted: string | null;
     languagesSpoken: string[] | null;
+}
+
+export interface AppointmentProps {
+    appointmentDate: Date | undefined;
+    appointmentTime: string;
+    appointmentFormattedDate: string;
+    doctorId: string;
+    fee: number;
+
+    // Patient information
+    firstName: string;
+    lastName: string;
+    email: string;
+    gender: string;
+    phone: string;
+    dob: Date | undefined;
+    location: string;
+    appointmentReason: string;
+    medicalDocument: string[];
+    occupation: string;
+    patientId: string;
 }

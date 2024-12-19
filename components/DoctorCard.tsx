@@ -7,6 +7,7 @@ import { DoctorProfile, User } from '@prisma/client'
 import { Doctor, DoctorProfileAvailability } from '@/utils/types'
 import { getFormattedDate } from '@/utils/formattedDate'
 import generateSlug from '@/utils/generateSlug'
+import { getDayName } from '@/utils/getDayName'
 
 
 const DoctorCard = ({
@@ -17,55 +18,41 @@ const DoctorCard = ({
     isInPerson?: boolean;
 }) => {
 
-    const getDayName = (): keyof DoctorProfileAvailability => {
-        const daysOfWeek: (keyof DoctorProfileAvailability)[] = [
-            "sunday", 
-            "monday", 
-            "tuesday", 
-            "wednesday", 
-            "thursday", 
-            "friday", 
-            "saturday",
-        ];
-        const today = new Date();
-        const dayName = daysOfWeek[today.getDay()]
-        return dayName;        
-    }
     const today: keyof DoctorProfileAvailability = getDayName();
-    const times =doctor.doctorProfile?.availability?.[today] ?? null;
+    const times = doctor.doctorProfile?.availability?.[today] ?? null;
     const formattedDate = getFormattedDate();
     const slug = generateSlug(doctor.name)
 
-    const timeStamps = [
-        {
-            time: "8:30",
-            period: "am"
-        },
-        {
-            time: "9:30",
-            period: "am"
-        },
-        {
-            time: "10:30",
-            period: "am"
-        },
-        {
-            time: "11:30",
-            period: "am"
-        },
-        {
-            time: "1:30",
-            period: "pm"
-        },
-        {
-            time: "2:30",
-            period: "pm"
-        },
-        {
-            time: "3:30",
-            period: "pm"
-        },
-    ]
+    // const timeStamps = [
+    //     {
+    //         time: "8:30",
+    //         period: "am"
+    //     },
+    //     {
+    //         time: "9:30",
+    //         period: "am"
+    //     },
+    //     {
+    //         time: "10:30",
+    //         period: "am"
+    //     },
+    //     {
+    //         time: "11:30",
+    //         period: "am"
+    //     },
+    //     {
+    //         time: "1:30",
+    //         period: "pm"
+    //     },
+    //     {
+    //         time: "2:30",
+    //         period: "pm"
+    //     },
+    //     {
+    //         time: "3:30",
+    //         period: "pm"
+    //     },
+    // ]
 
 
   return (

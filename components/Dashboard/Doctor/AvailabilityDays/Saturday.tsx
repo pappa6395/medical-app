@@ -58,7 +58,7 @@ const Saturday = ({profile, day}: {profile: any; day: string; }) => {
                     doctorProfileId: profile.id,
                 };
                 await updateAvailabilityById(newAvailability?.id, data)
-                toast.success("Availability updated")
+                toast.success("Availability updated successfully")
                 
             } else if (profile?.id) {
                 console.log("Availablity not found");
@@ -67,7 +67,7 @@ const Saturday = ({profile, day}: {profile: any; day: string; }) => {
                     doctorProfileId: profile.id,
                 };
                 await createAvailability(data)
-                toast.success("Availability created")
+                toast.success("Availability created successfully")
                 
             }
 

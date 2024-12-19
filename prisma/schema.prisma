@@ -168,3 +168,27 @@ model DoctorProfile {
   updatedAt DateTime? @updatedAt
 }
 
+model Appointment {
+  id                        String @id @db.ObjectId @default(auto()) @map("_id")
+  appointmentDate           DateTime?
+  appointmentTime           String?
+  appointmentFormattedDate  String
+  doctorId                  String?
+  patientId                 String?
+  fee                       Int
+
+  // Patient information
+  firstName                 String?
+  lastName                  String?
+  email                     String?
+  gender                    String?
+  phone                     String?
+  dob                       DateTime?
+  location                  String?
+  appointmentReason         String?
+  medicalDocument           String[]
+  occupation                String?
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+}

@@ -190,6 +190,7 @@ export async function getDoctorsBySlug(slug: string) {
           phone: true,
           doctorProfile: {
             select: {
+              id: true,
               firstName: true,
               lastName: true,
               gender: true,

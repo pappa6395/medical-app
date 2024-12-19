@@ -32,6 +32,12 @@ export const ourFileRouter = {
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: "Dev.Pap" };
     }),
+    patientMedicalDocs: f({ pdf: { maxFileSize: "4MB", maxFileCount: 4}})
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url);
+      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      return { uploadedBy: "Dev.Pap" };
+    }),
     additionalDocs: f({ pdf: { maxFileSize: "4MB", maxFileCount: 4}})
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("file url", file.url);

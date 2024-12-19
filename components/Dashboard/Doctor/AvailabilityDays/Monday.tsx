@@ -57,7 +57,7 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
                     doctorProfileId: profile.id,
                 };
                 const updatedAvail = await updateAvailabilityById(newAvailability?.id, data)
-                toast.success("Availability updated")
+                toast.success("Availability updated successfully");
                 console.log("Availability updated:", updatedAvail);
                 
 
@@ -69,7 +69,7 @@ const Monday = ({profile, day}: {profile: any ; day: string;}) => {
                     doctorProfileId: profile.id,
                 };
                 const createdAvail = await createAvailability(data)
-                toast.success("Availability created") 
+                toast.success("Availability created successfully"); 
                 console.log("Availability created:", createdAvail);
                 
             }

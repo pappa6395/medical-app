@@ -19,6 +19,7 @@ import {
 import { useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { Session } from "next-auth"
+import { generateInitial } from "@/utils/generateInitial"
 
 
 export function SiteHeader({session}: {session: Session | null}) {
@@ -32,6 +33,7 @@ export function SiteHeader({session}: {session: Session | null}) {
       router.push("/login");
   }
 
+  const initial = generateInitial(user.name?? "");
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
@@ -55,7 +57,7 @@ export function SiteHeader({session}: {session: Session | null}) {
                             alt={user.name || "User Avatar"}
                             onError={(e) => (e.currentTarget.src = "https://github.com/shadcn.png")}/>
                           ) : (
-                            <AvatarFallback>MA</AvatarFallback>
+                            <AvatarFallback>{initial}</AvatarFallback>
                           )}
                         </Avatar>
                         <span className="sr-only">Toggle user menu</span>

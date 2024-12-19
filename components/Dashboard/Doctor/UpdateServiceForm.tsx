@@ -4,7 +4,7 @@ import { updateDoctorProfileById } from '@/actions/onboarding'
 import { Button } from '@/components/ui/button'
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { DoctorProfile, Service, Speciality, Symptom } from '@prisma/client'
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
@@ -30,15 +30,13 @@ const UpdateServiceForm = ({
     const [selectedSpecialtyId, setSelectedSpecialtyId] = React.useState<string>(profile?.specialityId ?? "");
     const [selectedSymptomId, setSelectedSymptomId] = React.useState<string[]>(profile?.symptomId || []);
     const [selectedOperation, setSelectedOperation] = React.useState<string>(profile?.operationMode || "");
-    const [selectedPrice, setSelectedPrice] = React.useState<number>(initialPrice ?? 0);
+    const [selectedPrice, setSelectedPrice] = React.useState<number>(initialPrice ?? 100);
     
     const [isServiceLoading, setIsServiceLoading] = React.useState(false);
     const [isSpecialtyLoading, setIsSpecialtyLoading] = React.useState(false);
     const [isSymptomLoading, setIsSymptomLoading] = React.useState(false);
     const [isOperationLoading, setIsOperationLoading] = React.useState(false);
     const [isPriceLoading, setIsPriceLoading] = React.useState(false);
-
-    console.log("Price:",selectedPrice);
     
 
     const operationModes = [
@@ -132,7 +130,6 @@ const UpdateServiceForm = ({
         
     }
     const handleUpdatePrice = async () => {
-
         const priceProviding = {
             hourlyWage: selectedPrice ?? "",
         }
@@ -152,7 +149,6 @@ const UpdateServiceForm = ({
         };
         
     }
-
 
   return (
     <div className=''>
@@ -192,6 +188,7 @@ const UpdateServiceForm = ({
                                     name="hourlyWage"
                                     type="number"
                                     placeholder="100"
+                                    value={initialPrice || 100}
                                     onChange={(e) => setSelectedPrice(+e.target.value)}
                                     className="block flex-1 border-0 bg-transparent
                                     dark:text-slate-50
