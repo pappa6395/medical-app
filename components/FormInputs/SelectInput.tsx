@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 type SelectInputProps = {
     label: string;
     name: string;
-    register: boolean;
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     value: string;
     className: string;
@@ -23,7 +22,6 @@ export type SelectOptionProps = {
 const SelectInput = ({
     label,
     name,
-    register,
     errors,
     onChange,
     placeholder,
@@ -57,7 +55,7 @@ const SelectInput = ({
                 sm:max-w-xs sm:text-sm sm:leading-6 text-slate-700 
                 dark:text-slate-200 dark:bg-slate-700'
             >   
-                <option value="" disabled >Select your primary Specialization</option>
+                <option value="" disabled >{placeholder}</option>
                 {options.map((option, i: number) => {
                     return (
                         
@@ -67,7 +65,6 @@ const SelectInput = ({
                 >{option.label}
                 </option>
             )})}
-                
             </select>
         </div>
     </div>

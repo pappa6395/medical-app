@@ -51,6 +51,9 @@ const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: st
         doctorId: doctor.id,
         patientId: "",
         fee: doctor.doctorProfile?.hourlyWage?? 0,
+        status: "",
+        meetingLink: "",
+        meetingProvider: "",
     })
     const [selectedTime, setSelectedTime] = useState("")
     const [medicalDocs, setMedicalDocs] = useState<FileProps[]>([]);
@@ -60,12 +63,18 @@ const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: st
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [errors, setErrors] = useState({})
     const [register, setRegister] = useState(false);
+    const [status, setStatus] = useState("");
+    const [meetingLink, setMeetingLink] = useState("")
+    const [meetingProvider, setMeetingProvider] = useState("")
 
     const router = useRouter()
     //const today: keyof DoctorProfileAvailability = getDayName();
     patientData.appointmentTime = selectedTime
     patientData.medicalDocument = medicalDocs.map((doc) => doc.url)
     patientData.patientId = patientId?? ""
+    patientData.status = status?? ""
+    patientData.meetingLink = meetingLink?? ""
+    patientData.meetingProvider = meetingProvider?? ""
 
     const genderOptions: GenderOptionProps[] = [
         { value: 'male', label: 'Male', description: '' },
@@ -126,6 +135,9 @@ const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: st
             doctorId: doctor.id,
             patientId: patientData?.patientId ?? "",
             fee: doctor.doctorProfile?.hourlyWage?? 0,
+            status: "",
+            meetingLink: "",
+            meetingProvider: "",
         });
         setErrors({});
         setRegister(false);

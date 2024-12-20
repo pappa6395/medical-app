@@ -303,4 +303,20 @@ export interface AppointmentProps {
     medicalDocument: string[];
     occupation: string;
     patientId: string;
+
+    status: string;
+    meetingLink: string;
+    meetingProvider: string;
+}
+
+export type StatusOptionsProps = {
+    label: string;
+    value: string;
+    description: string;
+}
+
+export type UpdateAppointmentFormProps = {
+    status: string;
+    meetingLink: string;
+    meetingProvider: string;
 }

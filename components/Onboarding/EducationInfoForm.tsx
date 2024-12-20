@@ -187,9 +187,8 @@ const EducationInfoForm = ({
                         onChange={handleChange} />
                     <SelectInput 
                         label="Select Your Primary Specializations" 
-                        name="primarySpecialization" 
-                        register={register}
-                        placeholder="No specialization available"
+                        name="primarySpecialization"
+                        placeholder='Select Your Primary Specializations' 
                         multiple={multiple} 
                         className="col-span-full sm:col-span-1" 
                         options={allSpecialties}

@@ -164,7 +164,7 @@ const UpdateServiceForm = ({
                             </CardDescription>
                         </div>
                         <Button
-                            disabled={isOperationLoading} 
+                            disabled={isPriceLoading} 
                             variant={"outline"} 
                             type="submit" 
                             onClick={handleUpdatePrice}
@@ -216,7 +216,7 @@ const UpdateServiceForm = ({
                         onClick={handleUpdateOperationMode}
                         className='dark:border-slate-400'
                     >
-                        {isServiceLoading ? 'Saving...' : "Update Operation mode"}
+                        {isOperationLoading ? 'Saving...' : "Update Operation mode"}
                     </Button>
                 </div>
                 <div className="grid grid-cols-4 gap-2">

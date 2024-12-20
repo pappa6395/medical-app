@@ -1,35 +1,36 @@
+import { getAppointmentByDoctorId } from '@/actions/appointments'
 import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
-import ListPanel from '@/components/Dashboard/Doctor/ListPanel'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
-import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader'
-import { Calendar } from 'lucide-react'
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
 import React from 'react'
 
-const page = () => {
+const page = async () => {
+
+  const session = await getServerSession(authOptions)
+      const user = session?.user
+      const userId = user?.id || ""
+  
+      if (!userId) {
+          return <div>You must be logged in to access this page.</div>
+      }
+      
+      const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+  
+      console.log("Appointment by ID:",appointments);
 
   return (
 
     <div>
-      {/* Header */}
-     
-      {/* 2 Panels */}
-      <div className="grid grid-cols-12 dark:bg-slate-950">
-        {/* List Panel */}
-        <div className="col-span-5 px-3 py-3 border-r border-gray-100">
-        <PanelHeader title={"Appointments"} count={"21"} icon={Calendar}/>
-        <div className='px-3'><ListPanel /></div>
-        </div>
-        <div className="col-span-7 px-3">
-          <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
-              <div className='flex items-center gap-4'>
-                  <NewButton title="New Appointment" href="#"/>
-              </div>
+        <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
+          <div className='flex items-center gap-4'>
+            <NewButton title="New Appointment" href="#"/>
           </div>
-          {/* Display Panel */}
-          <HomeDisplayCard />
         </div>
-      </div>
-      
+        {/* Display Panel */}
+        <div className='mt-4'>
+          <HomeDisplayCard count={appointments.length??0} />
+        </div>
     </div>
 
   )

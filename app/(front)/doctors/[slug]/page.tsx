@@ -58,7 +58,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
                     <DoctorDetails doctor={doctorSlug} patientId={patientId} />
                 </div>
             </div>
-            <FixedBookButton price={doctorSlug.doctorProfile?.hourlyWage}/>
+            {/* <FixedBookButton price={doctorSlug.doctorProfile?.hourlyWage}/> */}
         </div>
         ) : (
             <div className='flex flex-col items-center justify-center h-screen'>

@@ -11,7 +11,7 @@ const PanelHeader = ({
   icon,
 }: {
   title: string, 
-  count: string, 
+  count: number, 
   icon: LucideIcon
 }) => {
 
@@ -25,7 +25,7 @@ const PanelHeader = ({
             <span>{title}</span>
             <span className='bg-white dark:text-slate-600 w-6 h-6 rounded-full 
             flex items-center justify-center shadow-sm border text-xs'
-            >{count}
+            >{count.toString().padStart(2, "0")}
             </span>
         </div>
         
