@@ -24,7 +24,7 @@ const page = async() => {
         {/* List Panel */}
         <div className="lg:col-span-5 col-span-full px-3 py-3 border-r border-gray-100">
           <div className='flex items-center justify-between gap-4'>
-            <PanelHeader title={"Services"} count={(services.length).toString().padStart(2,"0")} icon={LayoutGrid}/>
+            <PanelHeader title={"Services"} count={+(services.length).toString().padStart(2,"0")} icon={LayoutGrid}/>
             <span className='lg:hidden'>
               <NewButton title="New Service" href="/dashboard/services/new"/>
             </span>
