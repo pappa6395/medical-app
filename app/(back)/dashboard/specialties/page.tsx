@@ -20,7 +20,7 @@ const page = async() => {
         {/* List Panel */}
         <div className="lg:col-span-5 col-span-full px-3 py-3 border-r border-gray-100">
           <div className='flex items-center justify-between gap-4'>
-            <PanelHeader title={"Specialties"} count={(specialties.length).toString().padStart(2,"0")} icon={Landmark}/>
+            <PanelHeader title={"Specialties"} count={+(specialties.length).toString().padStart(2,"0")} icon={Landmark}/>
             <span className='lg:hidden'>
               <NewButton title="New Specialty" href="/dashboard/specialties/new"/>
             </span>
