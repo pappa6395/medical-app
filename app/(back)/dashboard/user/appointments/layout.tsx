@@ -1,5 +1,5 @@
 
-import { getAppointmentByDoctorId } from '@/actions/appointments';
+import { getAppointmentByDoctorId, getAppointmentByPatientId } from '@/actions/appointments';
 import ListPanel from '@/components/Dashboard/Doctor/ListPanel';
 import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader';
 import NotAuthorized from '@/components/NotAuthorized';
@@ -17,14 +17,11 @@ const layout = async ({children}: {children: ReactNode}) => {
     const userId = user?.id || ""
     const role = user?.role
 
-    if (!userId) {
-        return <div>You must be logged in to access this page.</div>
-    }
-    if (user?.role !== "DOCTOR") {
-      return <NotAuthorized/>
-    }
+    if (user?.role !== "USER") {
+      return <div><NotAuthorized/></div>
+  }
     
-    const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+    const appointments = (await getAppointmentByPatientId(userId))?.data || []
 
     console.log("Appointment by ID:",appointments);
     

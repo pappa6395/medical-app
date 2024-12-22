@@ -1,36 +1,47 @@
-"use client"
-
-import * as React from "react"
-
-import { ScrollArea } from "@/components/ui/scroll-area"
-import Link from "next/link"
-import { CalendarCheck, Check, CircleEllipsis, CircleX, History } from "lucide-react"
-import { Appointment, UserRole } from "@prisma/client"
-import { timeAgo } from "@/utils/timeAgo"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
 
 
-export function ListPanel({appointment, role}: {appointment: Appointment[]; role: UserRole | undefined }) {
+import { PageProps } from '@/.next/types/app/(back)/dashboard/user/appointments/view/[id]/page';
+import { getAppointmentByPatientIdAndDoctorId } from '@/actions/appointments';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { authOptions } from '@/lib/auth';
+import { cn } from '@/lib/utils';
+import { timeAgo } from '@/utils/timeAgo';
+import { CalendarCheck, Check, CircleEllipsis, CircleX, History } from 'lucide-react';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
+import React from 'react'
 
-    const pathName = usePathname();
-    const currentRole = role?.toLowerCase()
+const page = async ({params: paramsPromise}: PageProps) => {
+
+  const { id } = await paramsPromise
+  console.log("ID:", id);
+
+  const session = await getServerSession(authOptions)
+  const user = session?.user
+  const userId = user?.id || ""
+
+  const appointments = (await getAppointmentByPatientIdAndDoctorId(id, userId))?.data || []
+  console.log("Appointments:", appointments);
+  
 
   return (
+
     <div>
-        <ScrollArea className="h-96 space-x-4">
-            {appointment.map((item) => (
-                <div key={item.id} className="mt-2 mr-4 cursor-pointer">
+      <ScrollArea className="h-96 space-x-4">
+      <h2 className='"scroll-m-20 text-lg font-medium tracking-tight"'>
+        Appointments ({appointments.length.toString().padStart(2,"0")})
+      </h2>
+       <div className="grid grid-cols-1 md:grid-cols-2">
+          {appointments.map((item) => {
+            return (
+              <div key={item.id} className="mt-2 mr-4 cursor-pointer">
                     <Link 
-                        href={`/dashboard/${currentRole}/appointments/view/${item.id}`}
+                        href={`/dashboard/doctor/appointments/view/${item.patientId}`}
                         className={cn(
-                            "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700", 
-                            item.status === "approved" ? "bg-green-100/80" : item.status === "rejected" ? "bg-red-100/80" : "bg-white",
-                            pathName === `/dashboard/doctor/appointments/view/${item.id}`
-                            && "border-slate-600 border-2")}
+                            "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700")}
                     >
                         <div className="flex justify-between items-center ">
-                            <h4 className="scroll-m-20 text-lg font-medium tracking-tight">{item.firstName} {item.lastName}</h4>
+                            <h4 className="scroll-m-20 text-base font-medium tracking-tight">{item.firstName} {item.lastName}</h4>
                             <div className="flex items-center flex-shrink-0 text-slate-500">
                                 <History className="w-4 h-4 mr-2" />
                                 <span className="scroll-m-20 text-base font-normal tracking-tight">{timeAgo(item.createdAt)}</span>
@@ -65,12 +76,14 @@ export function ListPanel({appointment, role}: {appointment: Appointment[]; role
                         </div>
                     </Link>
                 </div>
-            ))}
-        </ScrollArea>
+            )
+          })}
+       </div>
+      </ScrollArea>
+      
     </div>
-    
+
   )
 }
 
-
-export default ListPanel
+export default page

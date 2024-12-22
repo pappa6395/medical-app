@@ -1,13 +1,8 @@
 "use client";
-import { BaggageClaim } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+
 import React from "react";
-//import Carousel from "react-multi-carousel"
-//import "react-multi-carousel/lib/style.css"
 import DoctorCard from "./DoctorCard";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
-import { DoctorProfile, User } from "@prisma/client";
 import { Doctor } from "@/utils/types";
 
 

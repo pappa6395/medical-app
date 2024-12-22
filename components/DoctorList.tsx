@@ -2,11 +2,9 @@ import React from 'react'
 import SectionHeading from './ui/SectionHeading'
 import ToggleButton from './ToggleButton'
 import Link from 'next/link'
-import DoctorCard from './DoctorCard'
 import { ArrowUpRight, Map } from 'lucide-react'
 import DoctorListCarousel from './DoctorListCarousel'
 import { Button } from './ui/button'
-import { DoctorProfile, User } from '@prisma/client'
 import { Doctor } from '@/utils/types'
 
 

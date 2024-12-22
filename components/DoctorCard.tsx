@@ -3,7 +3,6 @@ import Link from 'next/link'
 import React from 'react'
 import doctorProfile1 from '../public/doctorProfile1.jpeg'
 import { Stethoscope, Video } from 'lucide-react'
-import { DoctorProfile, User } from '@prisma/client'
 import { Doctor, DoctorProfileAvailability } from '@/utils/types'
 import { getFormattedDate } from '@/utils/formattedDate'
 import generateSlug from '@/utils/generateSlug'
@@ -21,7 +20,7 @@ const DoctorCard = ({
     const today: keyof DoctorProfileAvailability = getDayName();
     const times = doctor.doctorProfile?.availability?.[today] ?? null;
     const formattedDate = getFormattedDate();
-    const slug = generateSlug(doctor.name)
+    const slug = generateSlug(`${doctor.doctorProfile?.firstName} ${doctor.doctorProfile?.lastName}`)
 
     // const timeStamps = [
     //     {
@@ -58,13 +57,15 @@ const DoctorCard = ({
   return (
 
     <div>
-        {times && times.length > 0 && (
+        {times && times.length > 0 ? (
              <div 
                 className='border dark:border-gray-600
                 bg-slate-50 dark:bg-slate-900 inline-flex flex-col py-7 px-6 rounded-md 
                 hover:border-gray-400 shadow-md'>
-             <Link href={`/doctors/${slug}`}>
-                 <h2 className='uppercase font-bold text-2xl py-2 tracking-widest'>{doctor.name}</h2>
+             <Link href={`/doctors/${slug}?id=${doctor.id}`}>
+                 <h2 className='uppercase font-bold text-2xl py-2 tracking-widest'>
+                    {`${doctor.doctorProfile?.firstName} ${doctor.doctorProfile?.lastName}`}
+                 </h2>
                  <p className=''>
                      3250 Lincoln Highway, Kendall Park, NJ 08824
                 </p> 
@@ -103,7 +104,7 @@ const DoctorCard = ({
                  <div className="py-3 grid grid-cols-3 gap-2">
                      {times.slice(0,5).map((item,i) => {
                          return (
-                             <Link href={`/doctors/${slug}`} key={i} 
+                             <Link href={`/doctors/${slug}?id=${doctor.id}`} key={i} 
                              className='bg-blue-600 text-white text-sm text-center p-2'>
                                  {item}
                              </Link>
@@ -117,6 +118,14 @@ const DoctorCard = ({
                      </Link>
                  </div>
              </div>
+            </div>
+        ) : (
+            <div>
+                <h2 className='text-center scroll-m-20 text-3xl font-medium 
+                    text-slate-600 dark:text-slate-100 tracking-tight 
+                    first:mt-0'>
+                    No {doctor.doctorProfile?.operationMode} Doctors for today
+                </h2>
             </div>
         )}
 

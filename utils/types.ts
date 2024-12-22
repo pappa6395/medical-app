@@ -256,6 +256,7 @@ export type DoctorProfileCard = {
     profilePicture: string | null;
     availability: DoctorProfileAvailability | null;
     hourlyWage: number;
+    operationMode: string | null;
 }
 
 export interface DoctorProfileDetails extends DoctorProfileCard {
@@ -319,4 +320,16 @@ export type UpdateAppointmentFormProps = {
     status: string;
     meetingLink: string;
     meetingProvider: string;
+}
+
+export type PatientProps = {
+    patientId: string;
+    name: string;
+    email: string;
+    phone: string;
+    location: string;
+    gender: string;
+    occupation: string;
+    doctorId: string;
+    dob: Date | undefined;
 }

@@ -2,21 +2,30 @@ import React from 'react'
 import Image from 'next/image'
 import doctorProfile1 from '../../../../public/doctorProfile1.jpeg'
 import DoctorDetails from '@/components/DoctorDetails'
-import FixedBookButton from '@/components/FixedBookButton'
-import { getDoctorsBySlug } from '@/actions/users'
+import { getDoctorsById, getDoctorsBySlug } from '@/actions/users'
 import { PageProps } from '@/.next/types/app/(front)/doctors/[slug]/page'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { getRecentAppointmentByPatientId } from '@/actions/appointments'
 
-const page = async ({params: paramsPromise}: PageProps) => {
+const page = async ({
+    params: paramsPromise,
+    searchParams
+}: PageProps) => {
 
-    const { slug } = await paramsPromise
+    const { id } = await searchParams
 
     // Fetch doctor data from API or database
-    const doctorSlug = await getDoctorsBySlug(slug) || null;
-
+    //const doctorSlug = await getDoctorsBySlug(slug) || null;
+    const doctorSlug = (await getDoctorsById(id)) || null;
+    console.log("doctorSlug: ", doctorSlug);
+    
     const session = await getServerSession(authOptions);
     const patientId = session?.user.id;
+
+    const appointment = (await getRecentAppointmentByPatientId(patientId))?.data || null
+    console.log("Appointment Data: ", appointment);
+    
 
   return (
     <div>
@@ -32,7 +41,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
                             <div className='flex flex-col'>
                                 <h2 className='uppercase font-bold 
                                 text-2xl tracking-widest'>
-                                    {doctorSlug.name}
+                                    {`${doctorSlug.doctorProfile?.firstName} ${doctorSlug.doctorProfile?.lastName}`}
                                 </h2>
                                 <p className='text-gray-500 text-xs uppercase'>
                                     {doctorSlug.doctorProfile?.primarySpecialization}
@@ -55,7 +64,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
                     </div>
                 </div>
                 <div>
-                    <DoctorDetails doctor={doctorSlug} patientId={patientId} />
+                    <DoctorDetails doctor={doctorSlug} appointment={appointment} patientId={patientId} />
                 </div>
             </div>
             {/* <FixedBookButton price={doctorSlug.doctorProfile?.hourlyWage}/> */}

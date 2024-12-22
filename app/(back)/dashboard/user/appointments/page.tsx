@@ -1,4 +1,4 @@
-import { getAppointmentByDoctorId } from '@/actions/appointments'
+import { getAppointmentByDoctorId, getAppointmentByPatientId } from '@/actions/appointments'
 import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
@@ -9,21 +9,20 @@ import React from 'react'
 const page = async () => {
 
   const session = await getServerSession(authOptions)
-      const user = session?.user
-      const userId = user?.id || ""
-      const role = user?.role.toLowerCase()
-  
-      if (!userId) {
-          return <div>You must be logged in to access this page.</div>
-      }
-      if (user?.role !== "DOCTOR") {
-        return <NotAuthorized/>
+  const user = session?.user
+  const userId = user?.id || ""
+  const role = user?.role.toLowerCase()
+
+
+      if (user?.role !== "USER") {
+          return <div><NotAuthorized/></div>
       }
       
-      const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+      const appointments = (await getAppointmentByPatientId(userId))?.data || []
   
       console.log("Appointment by ID:",appointments);
-
+  
+      
   return (
 
     <div>
@@ -34,10 +33,7 @@ const page = async () => {
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
-          <HomeDisplayCard 
-            count={appointments.length??0} 
-            href={`/dashboard/${role}/appointments/new`}
-            title={"Appointment"} />
+          <HomeDisplayCard count={appointments.length??0} title={"New Appointment"} href={`/dashboard/${role}/appointments/new`}  />
         </div>
     </div>
 

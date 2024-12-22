@@ -9,7 +9,7 @@ const ServiceCard  = ({ service }: {service: Service}) => {
 
   return (
 
-    <Link href={`/services/${service.slug}`} className='rounded-md 
+    <Link href={`/service/${service.slug}`} className='rounded-md 
     bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 
     duration-300 flex items-center gap-4 overflow-hidden px-2'>
         <Image

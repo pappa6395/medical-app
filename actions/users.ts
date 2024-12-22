@@ -249,3 +249,80 @@ export async function getDoctorsBySlug(slug: string) {
   }
   
 }
+
+export async function getDoctorsById(id: string) {
+
+  if (id) {
+    try {
+      const doctor = await prismaClient.user.findFirst({
+        where: {
+          role: "DOCTOR",
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          email: true,
+          phone: true,
+          doctorProfile: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              gender: true,
+              bio: true,
+              profilePicture: true,
+              operationMode: true,
+              hourlyWage: true,
+              city: true,
+              state: true,
+              country: true,
+              yearsOfExperience: true,
+              medicalLicense: true,
+              medicalLicenseExpiry: true,
+              boardCertificates: true,
+              otherSpecialties: true,
+              primarySpecialization: true,
+              hospitalName: true,
+              hospitalAddress: true,
+              hospitalContactNumber: true,
+              hospitalEmailAddress: true,
+              hospitalHoursOfOperation: true,
+              hospitalWebsite: true,
+              research: true,
+              accomplishments: true,
+              additionalDocuments: true,
+              graduationYear: true,
+              educationHistory: true,
+              servicesOffered: true,
+              insuranceAccepted: true,
+              languagesSpoken: true,
+
+              // Add other specific fields you need from the DoctorProfile
+              availability: {
+                select: {
+                  monday: true,
+                  tuesday: true,
+                  wednesday: true,
+                  thursday: true,
+                  friday: true,
+                  saturday: true,
+                  sunday: true,
+                }
+              }
+            }
+          }
+        },
+      });
+      if (!doctor) {
+        return null
+      };
+      return doctor
+    } catch (error) {
+      console.log("Error get Doctors:",error);
+      return null;
+    }
+  }
+  
+}

@@ -20,9 +20,18 @@ import MultiFileUpload from './FormInputs/MultiFileUpload'
 import toast from 'react-hot-toast'
 import { createAppointment } from '@/actions/appointments'
 import SubmitButton from './FormInputs/SubmitButton'
+import { Appointment } from '@prisma/client'
 
 
-const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: string | undefined}) => {
+const DoctorDetails = ({
+    doctor, 
+    patientId,
+    appointment,
+}: {
+    doctor: DoctorDetail; 
+    patientId: string | undefined;
+    appointment: Appointment | undefined | null;
+}) => {
 
 
     const [date, setDate] = useState<Date | undefined>(new Date());
@@ -35,25 +44,26 @@ const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: st
     const [selectedDoB, setSelectedDoB] = useState(undefined);
     const [imageUrl, setImageUrl] = useState([])
     const [patientData, setPatientData] = useState<AppointmentProps>({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        gender: "",
-        dob: selectedDoB || undefined,
-        location: "",
-        appointmentReason: "",
+        firstName: appointment?.firstName || "",
+        lastName: appointment?.lastName || "",
+        email: appointment?.email || "",
+        phone: appointment?.phone || "",
+        gender: appointment?.gender || "",
+        dob: appointment?.dob || selectedDoB || undefined,
+        location: appointment?.location || "",
+        appointmentReason:  "",
         medicalDocument: [],
-        occupation: "",
-        appointmentDate: date,
-        appointmentTime: "",
-        appointmentFormattedDate: longDate,
-        doctorId: doctor.id,
-        patientId: "",
-        fee: doctor.doctorProfile?.hourlyWage?? 0,
-        status: "",
-        meetingLink: "",
-        meetingProvider: "",
+        occupation: appointment?.occupation ||"",
+        appointmentDate: appointment?.appointmentDate || date,
+        appointmentTime: appointment?.appointmentTime || "",
+        appointmentFormattedDate: appointment?.appointmentFormattedDate || longDate,
+        doctorId: appointment?.doctorId || doctor.id,
+        patientId: appointment?.patientId || "",
+        fee: appointment?.fee || doctor.doctorProfile?.hourlyWage || 0,
+        status: appointment?.status || "",
+        meetingLink: appointment?.meetingLink || "",
+        meetingProvider: appointment?.meetingProvider || "",
+
     })
     const [selectedTime, setSelectedTime] = useState("")
     const [medicalDocs, setMedicalDocs] = useState<FileProps[]>([]);
@@ -91,7 +101,7 @@ const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: st
             const appointmentData = res?.data
             console.log("Appointment submitted:",appointmentData);
             toast.success("Appointment submitted successfully!")
-            router.push("/dashboard")
+            router.push("/dashboard/user/appointments")
         } catch (error) {
             console.log("Failed to create appointment:", error);
             toast.error("Failed to submit appointment. Please try again later.")
@@ -138,6 +148,7 @@ const DoctorDetails = ({doctor, patientId}: {doctor: DoctorDetail; patientId: st
             status: "",
             meetingLink: "",
             meetingProvider: "",
+            
         });
         setErrors({});
         setRegister(false);

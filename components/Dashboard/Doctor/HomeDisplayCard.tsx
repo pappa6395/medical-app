@@ -2,7 +2,15 @@ import { Calendar } from 'lucide-react'
 import React from 'react'
 import NewButton from './NewButton'
 
-const HomeDisplayCard = ({count}: {count: number;}) => {
+const HomeDisplayCard = ({
+  count, 
+  href,
+  title,
+}: {
+  count: number; 
+  href: string;
+  title: string;
+}) => {
 
   return (
 
@@ -11,11 +19,17 @@ const HomeDisplayCard = ({count}: {count: number;}) => {
         shadow-md rounded-md py-4 px-6 flex flex-col items-center gap-1'>
             <Calendar />
             <div className='py-3'>
-                <p className="leading-7 [&:not(:first-child)]:mt-6">
-                  You have {count} appointments today.
-                </p>
+                  {count && count > 1 ? (
+                    <p className="leading-7 [&:not(:first-child)]:mt-6">
+                      You have {count} {title}s today.
+                    </p>
+                  ) : (
+                    <p className="leading-7 [&:not(:first-child)]:mt-6">
+                      You have {count} {title} today.
+                    </p>
+                  )}
             </div>
-            <NewButton  title="New Appointment" href="#"/>
+            <NewButton  title={`New ${title}`} href={href}/>
         </div>
     </div>
 
