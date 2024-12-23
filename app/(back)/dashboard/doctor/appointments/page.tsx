@@ -22,7 +22,6 @@ const page = async () => {
       
       const appointments = (await getAppointmentByDoctorId(userId))?.data || []
   
-      console.log("Appointment by ID:",appointments);
 
   return (
 

@@ -13,8 +13,6 @@ const page = async () => {
 
   const session = await getServerSession(authOptions);
   const user = session?.user;
-
-  console.log("User:", user);
   
   if (!user) {
     return <div>You must be logged in to access this page.</div>

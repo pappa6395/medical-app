@@ -2,13 +2,14 @@
 
 import { updateDoctorProfileById } from '@/actions/onboarding'
 import { Button } from '@/components/ui/button'
-import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { DoctorProfile, Service, Speciality, Symptom } from '@prisma/client'
-import React, { ChangeEvent } from 'react'
+import { CardContent, CardDescription, CardTitle } from '@/components/ui/card'
+import { DoctorProfile, Speciality, Symptom } from '@prisma/client'
+import React from 'react'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { Map, PictureInPicture2, Video } from 'lucide-react'
+import { ServiceDoctorProfileCountProps } from '@/utils/types'
 
 const UpdateServiceForm = ({
     services, 
@@ -16,7 +17,7 @@ const UpdateServiceForm = ({
     symptoms,
     profile,
 }: {
-    services: Service[] | undefined | null;
+    services: ServiceDoctorProfileCountProps[] | undefined | null;
     specialties: Speciality[] | undefined | null;
     symptoms: Symptom[] | undefined | null;
     profile: DoctorProfile | undefined | null;
@@ -28,7 +29,7 @@ const UpdateServiceForm = ({
 
     const [selectedServiceId, setSelectedServiceId] = React.useState<string>(profile?.serviceId ?? "");
     const [selectedSpecialtyId, setSelectedSpecialtyId] = React.useState<string>(profile?.specialityId ?? "");
-    const [selectedSymptomId, setSelectedSymptomId] = React.useState<string[]>(profile?.symptomId || []);
+    const [selectedSymptomId, setSelectedSymptomId] = React.useState<string[]>(profile?.symptomIds || []);
     const [selectedOperation, setSelectedOperation] = React.useState<string>(profile?.operationMode || "");
     const [selectedPrice, setSelectedPrice] = React.useState<number>(initialPrice ?? 100);
     
@@ -90,7 +91,7 @@ const UpdateServiceForm = ({
     const handleUpdateSymptom = async () => {
 
         const symptomProviding = {
-            symptomId: selectedSymptomId ?? [],
+            symptomIds: selectedSymptomId ?? [],
         }
         setIsSymptomLoading(true);
         console.log("Symptom Providing:",symptomProviding);

@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { Service } from '@prisma/client'
+import { ServiceDoctorProfileCountProps } from '@/utils/types'
 
 
-const ServiceCard  = ({ service }: {service: Service}) => {
+const ServiceCard  = ({ service }: {service: ServiceDoctorProfileCountProps}) => {
 
 
   return (
@@ -20,7 +20,7 @@ const ServiceCard  = ({ service }: {service: Service}) => {
             className='w-14 h-14 object-contain aspect-video'/>
         <div className='flex flex-col w-2/3 py-4'>
             <h2>{service.title}</h2>
-            <p className='text-[0.6rem]'>936 Doctors Available</p>
+            <p className='text-[0.6rem]'>{service._count.doctorProfile.toString().padStart(2,"0")} Doctors Available</p>
         </div>
     </Link>
 

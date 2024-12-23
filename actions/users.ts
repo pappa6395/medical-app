@@ -4,7 +4,7 @@ import EmailTemplate from "@/components/Emails/emailTemplate";
 import { prismaClient } from "@/lib/db";
 import generateSlug from "@/utils/generateSlug";
 import { RegisterInputProps } from "@/utils/types";
-import { UserRole } from "@prisma/client";
+import { DoctorProfile, UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { Resend } from "resend";
 
@@ -107,7 +107,7 @@ export async function getUserById(id:string) {
         
     }
   }
-}
+};
 
 export async function updateUserById(id:string) {
   if (id) {
@@ -127,7 +127,7 @@ export async function updateUserById(id:string) {
       
     }
   }
-}
+};
 
 export async function getDoctors() {
   try {
@@ -143,6 +143,7 @@ export async function getDoctors() {
         phone: true,
         doctorProfile: {
           select: {
+            id: true,
             firstName: true,
             lastName: true,
             gender: true,
@@ -171,7 +172,7 @@ export async function getDoctors() {
     console.log("Error get Doctors:",error);
     return null;
   }
-}
+};
 
 export async function getDoctorsBySlug(slug: string) {
 
@@ -248,7 +249,7 @@ export async function getDoctorsBySlug(slug: string) {
     }
   }
   
-}
+};
 
 export async function getDoctorsById(id: string) {
 
@@ -325,4 +326,4 @@ export async function getDoctorsById(id: string) {
     }
   }
   
-}
+};

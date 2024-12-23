@@ -1,43 +1,31 @@
+
 import { PageProps } from '@/.next/types/app/(front)/service/[slug]/page'
-import { getDoctorsByServiceSlug, getOtherDoctorServicesByService } from '@/actions/doctors'
+import { getService } from '@/actions/services'
+import { getDoctors } from '@/actions/users'
 import DoctorCard from '@/components/DoctorCard'
-import generateSlug from '@/utils/generateSlug'
 import Link from 'next/link'
 import React from 'react'
 
 
 
 const page = async ({
-    params: paramsPromise, 
     searchParams 
 }: PageProps) => {
      
-    const { slug } = await paramsPromise
-    const title = slug.split("-").join(" ")
-    const { type } = await searchParams
-    console.log("Type:", type);
     
-    const services = (await getDoctorsByServiceSlug(slug))?.data || []
-    //console.log("doctors:", services);
+    const { mode } = await searchParams
+    console.log("Mode:", mode);
+    
+    const allDoctors = (await getDoctors()) || [];
+    
+    const doctors = allDoctors.filter(
+    (doctor) => doctor.doctorProfile?.operationMode === mode);
 
-    const serviceSlug = services.find(service => service.slug === slug);
-    
-    const doctorService = serviceSlug?.doctorProfile.map((doctor) => {
-        return {
-            id: doctor.userId,
-            name: `${doctor.firstName} ${doctor.lastName}`,
-            email: doctor.email??"",
-            phone: doctor.phone??"",
-            slug: generateSlug(`${doctor.firstName} ${doctor.lastName}`),
-            doctorProfile: doctor,
-        }
-    })
-    //console.log("Doctor Service:", doctorService);
-    
-    const otherServices = (await getOtherDoctorServicesByService(serviceSlug))?.data || []
-   // console.log("Other Services:", otherServices);
-    
+    const services = (await getService()).data || []
 
+    // const doctorsMode: any = doctors.find(doctor => doctor.doctorProfile?.operationMode === mode);
+    // const otherMode = (await getDoctorCategoryByDoctorMode(doctorsMode))?.data || []
+      
   return (
 
     <div className='container p-8'>
@@ -45,21 +33,36 @@ const page = async ({
             className='scroll-m-20 text-3xl font-extrabold 
             tracking-tight lg:text-4xl pb-6  capitalize'
         >
-            {title} ({doctorService?.length.toString().padStart(2,"0")})
+            {mode} ({doctors?.length.toString().padStart(2,"0")})
         </h1>
         <div className='max-5-xl mx-auto grid grid-cols-12 gap-6 lg:gap-10'>
             <div className='col-span-4 shadow border border-gray-200/50 rounded-sm p-6'>
                 <h2 className='scroll-m-20 text-xl font-semibold 
                 tracking-tight lg:text-2xl capitalize'
                 >
-                    Other Services
+                    Operations
                 </h2>
-                {otherServices && otherServices.length > 0 && (
+                {/* {doctors && doctors.length > 0 && (
                     <div className='py-3 flex flex-col text-sm gap-2'>
-                        {otherServices.map((service) => {
+                        {otherMode.map((doctor) => {
                             return (
                                 <Link 
-                                    href={`/service/${service.slug}?id=${service.id}`}
+                                    href={`/category?mode=${mode}`}
+                                    key={doctor.id} 
+                                    className='hover:text-blue-600'
+                                >
+                                    {doctor.doctorProfile?.operationMode}
+                                </Link>
+                            )
+                        })}
+                    </div>
+                )} */}
+                {services && services.length > 0 && (
+                    <div className='py-3 flex flex-col text-sm gap-2'>
+                        {services.map((service) => {
+                            return (
+                                <Link 
+                                    href={`/service/${service.slug}`}
                                     key={service.id} 
                                     className='hover:text-blue-600'
                                 >
@@ -69,12 +72,10 @@ const page = async ({
                         })}
                     </div>
                 )}
-                
-                
             </div>
             <div className='col-span-8 grid grid-cols-2 gap-4'>
-                {doctorService && doctorService.length > 0 ? (
-                    doctorService.map((doctor) => {
+                {doctors && doctors.length > 0 ? (
+                    doctors.map((doctor) => {
                         return (
                          <DoctorCard key={doctor.id} doctor={doctor} />
                         )

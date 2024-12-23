@@ -1,5 +1,5 @@
-import { PageProps } from '@/.next/types/app/(front)/service/[slug]/page'
-import { getDoctorsByServiceSlug, getOtherDoctorServicesByService } from '@/actions/doctors'
+import { PageProps } from '@/.next/types/app/(front)/specialty/[slug]/page'
+import { getDoctorsBySpecialtySlug, getOtherDoctorSpecialtiesBySpecialty } from '@/actions/doctors'
 import DoctorCard from '@/components/DoctorCard'
 import generateSlug from '@/utils/generateSlug'
 import Link from 'next/link'
@@ -17,12 +17,12 @@ const page = async ({
     const { type } = await searchParams
     console.log("Type:", type);
     
-    const services = (await getDoctorsByServiceSlug(slug))?.data || []
-    //console.log("doctors:", services);
+    const specialties = (await getDoctorsBySpecialtySlug(slug))?.data || []
+    //console.log("doctors:", specialtys);
 
-    const serviceSlug = services.find(service => service.slug === slug);
+    const specialtySlug = specialties.find(specialty => specialty.slug === slug);
     
-    const doctorService = serviceSlug?.doctorProfile.map((doctor) => {
+    const doctorSpecialty = specialtySlug?.doctorProfile.map((doctor) => {
         return {
             id: doctor.userId,
             name: `${doctor.firstName} ${doctor.lastName}`,
@@ -32,10 +32,10 @@ const page = async ({
             doctorProfile: doctor,
         }
     })
-    //console.log("Doctor Service:", doctorService);
+    //console.log("Doctor specialty:", doctorSpecialty);
     
-    const otherServices = (await getOtherDoctorServicesByService(serviceSlug))?.data || []
-   // console.log("Other Services:", otherServices);
+    const otherSpecialties = (await getOtherDoctorSpecialtiesBySpecialty(specialtySlug))?.data || []
+   // console.log("Other specialtys:", otherSpecialties);
     
 
   return (
@@ -45,25 +45,25 @@ const page = async ({
             className='scroll-m-20 text-3xl font-extrabold 
             tracking-tight lg:text-4xl pb-6  capitalize'
         >
-            {title} ({doctorService?.length.toString().padStart(2,"0")})
+            {title} ({doctorSpecialty?.length.toString().padStart(2,"0")})
         </h1>
         <div className='max-5-xl mx-auto grid grid-cols-12 gap-6 lg:gap-10'>
             <div className='col-span-4 shadow border border-gray-200/50 rounded-sm p-6'>
                 <h2 className='scroll-m-20 text-xl font-semibold 
                 tracking-tight lg:text-2xl capitalize'
                 >
-                    Other Services
+                    Other Specialties
                 </h2>
-                {otherServices && otherServices.length > 0 && (
+                {otherSpecialties && otherSpecialties.length > 0 && (
                     <div className='py-3 flex flex-col text-sm gap-2'>
-                        {otherServices.map((service) => {
+                        {otherSpecialties.map((specialty) => {
                             return (
                                 <Link 
-                                    href={`/service/${service.slug}?id=${service.id}`}
-                                    key={service.id} 
+                                    href={`/specialty/${specialty.slug}?id=${specialty.id}`}
+                                    key={specialty.id} 
                                     className='hover:text-blue-600'
                                 >
-                                    {service.title}
+                                    {specialty.title}
                                 </Link>
                             )
                         })}
@@ -73,8 +73,8 @@ const page = async ({
                 
             </div>
             <div className='col-span-8 grid grid-cols-2 gap-4'>
-                {doctorService && doctorService.length > 0 ? (
-                    doctorService.map((doctor) => {
+                {doctorSpecialty && doctorSpecialty.length > 0 ? (
+                    doctorSpecialty.map((doctor) => {
                         return (
                          <DoctorCard key={doctor.id} doctor={doctor} />
                         )

@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default async function VerifyAccount({params: paramsPromise}: PageProps){
 
   const { id } = await paramsPromise
-  console.log("ID:", id);
+
   
   //Get a User fromm DB
   const user = await getUserById(id);

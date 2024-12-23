@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image"
 import { Pill } from "lucide-react";
 import TransitionalText from "./TransitionalText";
-import { CommandMenu } from "../CommandMenu";
 import heroImage from "@/public/LoginImage.jpeg";
 
 const Hero = () => {
@@ -39,7 +38,7 @@ const Hero = () => {
                 </p>
                 {/* Search Bar Here */}
                 <div className="w-full flex-1 md:w-auto md:flex-none">
-                  <CommandMenu />
+                  <SearchBar />
                 </div>
                 {/* CTA BTNS */}
                 <ul className="flex flex-wrap items-center">

@@ -2,7 +2,8 @@
 
 import { Card } from "@/components/ui/card";
 import UpdateServiceForm from "./UpdateServiceForm";
-import { Service, Speciality, Symptom } from "@prisma/client";
+import { Speciality, Symptom } from "@prisma/client";
+import { ServiceDoctorProfileCountProps } from "@/utils/types";
 
 
 export default function DoctorServiceSettings({
@@ -12,7 +13,7 @@ export default function DoctorServiceSettings({
   symptoms,
 }: {
   profile: any;
-  services?: Service[];
+  services?: ServiceDoctorProfileCountProps[];
   specialties?: Speciality[];
   symptoms?: Symptom[];
 }) {

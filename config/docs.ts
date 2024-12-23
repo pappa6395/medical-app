@@ -17,24 +17,16 @@ export const docsConfig: DocsConfig = {
       href: "/findDoctors",
     },
     {
-      title: "Services",
-      href: "/services",
-    },
-    {
       title: "Telehealth Visit",
-      href: "/telehealth",
+      href: "/category?mode=Telehealth",
     },
     {
       title: "In-Person Visit",
-      href: "/inPerson",
-    },
-    {
-      title: "About Us",
-      href: "/aboutUs",
+      href: "/category?mode=In-person%20doctor%20visit",
     },
     {
       title: "Be Service Provider",
-      href: "/serviceProvider",
+      href: "/join/doctors",
     },
   ],
   sidebarNav: [

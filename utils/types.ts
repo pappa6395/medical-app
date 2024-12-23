@@ -333,3 +333,13 @@ export type PatientProps = {
     doctorId: string;
     dob: Date | undefined;
 }
+
+export type ServiceDoctorProfileCountProps = {
+    id: string;
+    title: string;
+    slug: string;
+    imageUrl: string;
+    _count: {
+        doctorProfile: number;
+    };
+}

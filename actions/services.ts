@@ -88,6 +88,19 @@ export async function getService() {
             const services = await prismaClient.service.findMany({
                 orderBy: {
                     createdAt: "desc",
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    imageUrl: true,
+                    slug: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    _count: {
+                        select: {
+                            doctorProfile: true
+                        }
+                    }
                 }
                 
             });

@@ -1,5 +1,5 @@
 import { PageProps } from '@/.next/types/app/(front)/service/[slug]/page'
-import { getDoctorsByServiceSlug, getOtherDoctorServicesByService } from '@/actions/doctors'
+import { getDoctorsBySymptomId, getOtherDoctorSymptomBySymptom } from '@/actions/doctors'
 import DoctorCard from '@/components/DoctorCard'
 import generateSlug from '@/utils/generateSlug'
 import Link from 'next/link'
@@ -11,20 +11,21 @@ const page = async ({
     params: paramsPromise, 
     searchParams 
 }: PageProps) => {
-     
-    const { slug } = await paramsPromise
-    const title = slug.split("-").join(" ")
-    const { type } = await searchParams
-    console.log("Type:", type);
-    
-    const services = (await getDoctorsByServiceSlug(slug))?.data || []
-    //console.log("doctors:", services);
 
-    const serviceSlug = services.find(service => service.slug === slug);
-    
-    const doctorService = serviceSlug?.doctorProfile.map((doctor) => {
+    const { slug } = await paramsPromise
+
+    const title = slug.split("-").join(" ")
+    const { id } = await searchParams
+
+    const symptoms = (await getDoctorsBySymptomId(id??""))?.data || []
+
+    const symptomId = symptoms.map((symptom) => {
+        return symptom.symptomIds = id
+    })
+
+    const doctorSymptom = symptoms?.map((doctor) => {
         return {
-            id: doctor.userId,
+            id: doctor.id,
             name: `${doctor.firstName} ${doctor.lastName}`,
             email: doctor.email??"",
             phone: doctor.phone??"",
@@ -32,11 +33,9 @@ const page = async ({
             doctorProfile: doctor,
         }
     })
-    //console.log("Doctor Service:", doctorService);
-    
-    const otherServices = (await getOtherDoctorServicesByService(serviceSlug))?.data || []
-   // console.log("Other Services:", otherServices);
-    
+
+    const otherSymptoms = symptomId ? (await getOtherDoctorSymptomBySymptom(symptomId))?.data || [] : []
+
 
   return (
 
@@ -45,7 +44,7 @@ const page = async ({
             className='scroll-m-20 text-3xl font-extrabold 
             tracking-tight lg:text-4xl pb-6  capitalize'
         >
-            {title} ({doctorService?.length.toString().padStart(2,"0")})
+            {title} ({doctorSymptom?.length.toString().padStart(2,"0")})
         </h1>
         <div className='max-5-xl mx-auto grid grid-cols-12 gap-6 lg:gap-10'>
             <div className='col-span-4 shadow border border-gray-200/50 rounded-sm p-6'>
@@ -54,27 +53,25 @@ const page = async ({
                 >
                     Other Services
                 </h2>
-                {otherServices && otherServices.length > 0 && (
+                {otherSymptoms && otherSymptoms.length > 0 && (
                     <div className='py-3 flex flex-col text-sm gap-2'>
-                        {otherServices.map((service) => {
+                        {otherSymptoms.map((symptom) => {
                             return (
                                 <Link 
-                                    href={`/service/${service.slug}?id=${service.id}`}
-                                    key={service.id} 
+                                    href={`/symptom/${symptom.slug}?id=${symptom.id}`}
+                                    key={symptom.id} 
                                     className='hover:text-blue-600'
                                 >
-                                    {service.title}
+                                    {symptom.title}
                                 </Link>
                             )
                         })}
                     </div>
                 )}
-                
-                
             </div>
             <div className='col-span-8 grid grid-cols-2 gap-4'>
-                {doctorService && doctorService.length > 0 ? (
-                    doctorService.map((doctor) => {
+                {doctorSymptom && doctorSymptom.length > 0 ? (
+                    doctorSymptom.map((doctor) => {
                         return (
                          <DoctorCard key={doctor.id} doctor={doctor} />
                         )
@@ -83,7 +80,6 @@ const page = async ({
             </div>
         </div>
     </div>
-
   )
 }
 

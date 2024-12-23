@@ -26,7 +26,6 @@ const layout = async ({children}: {children: ReactNode}) => {
     
     const appointments = (await getAppointmentByDoctorId(userId))?.data || []
 
-    console.log("Appointment by ID:",appointments);
     
 
   return (

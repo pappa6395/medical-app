@@ -9,7 +9,6 @@ import { authOptions } from '@/lib/auth'
 import { getRecentAppointmentByPatientId } from '@/actions/appointments'
 
 const page = async ({
-    params: paramsPromise,
     searchParams
 }: PageProps) => {
 

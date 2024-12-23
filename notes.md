@@ -138,3 +138,50 @@ any special accomplishments or awards
 malpractice Insurance Information (if applicable)
 Any additional Documents (CV, Medical Certificate, etc...) Upload
 
+const prisma = new PrismaClient();
+
+// Search function
+async function search(query: string) {
+  const results = await Promise.all([
+    prisma.service.findMany({
+      where: {
+        OR: [
+          { title: { contains: query, mode: 'insensitive'}},
+          { slug: { contains: query, mode: 'insensitive'}},
+        ],
+      },
+    }),
+    prisma.symptom.findMany({
+      where: {
+        OR: [
+          { title: { contains: query, mode: 'insensitive' }},
+          { slug: { contains: query, mode: 'insensitive' }},
+        ],
+      },
+    }),
+    prisma.doctorProfile.findMany({
+      where: {
+        OR: [
+          { firstName: { contains: query, mode: 'insensitive' }},
+          { lastName: { contains: query, mode: 'insensitive' }},
+          { middleName: { contains: query, mode: 'insensitive' }},
+          { bio: { contains: query, mode: 'insensitive' }},
+          { medicalLicense: { contains: query, mode: 'insensitive' }},
+          { primarySpecialization: { contains: query, mode: 'insensitive' }},
+          { otherSpecialties: { hasSome: [query] }},
+          { boardCertificates: { hasSome: [query] }},
+          { servicesOffered: { hasSome: [query] }},
+          { educationHistory: { contains: query, mode: 'insensitive' }},
+          { research: { contains: query, mode: 'insensitive' }},
+          { accomplishments: { contains: query, mode: 'insensitive' }},
+        ],
+      },
+    }),
+  ]),
+
+  return {
+    services: results[0],
+    symptoms: results[1],
+    doctorProfiles: results[2],
+  };
+}

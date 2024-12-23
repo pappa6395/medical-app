@@ -1,15 +1,15 @@
 "use client"
+
 import React, { useState } from 'react'
-import { HiUserCircle } from 'react-icons/hi'
 import ServiceList from './Services/ServiceList'
 import LinkCard from './Doctors/LinkCard'
-import medicalImage from '../../public/medicalimage1.jpg'
 import { BriefcaseMedical, Microscope, Stethoscope, Syringe } from 'lucide-react'
 import { Service, Speciality, Symptom } from '@prisma/client'
 import SymptomCard from './Doctors/SymptomCard'
+import { ServiceDoctorProfileCountProps } from '@/utils/types'
 
 type TabbedItemProps = {
-    services: Service[]
+    services: ServiceDoctorProfileCountProps[]
     specialties?: Speciality[];
     symptoms?: Symptom[]
 }

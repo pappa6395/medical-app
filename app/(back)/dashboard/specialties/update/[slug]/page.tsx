@@ -9,7 +9,6 @@ const page = async({ params: paramsPromise }: PageProps) => {
   const { slug } = await paramsPromise
 
   const specialty = (await getSpecialtyBySlug(slug))?.data
-  console.log("service:", specialty);
   
   return (
 

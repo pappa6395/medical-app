@@ -4,12 +4,10 @@ import Hero from "../../components/Frontend/Hero";
 import React from "react";
 import DoctorList from "@/components/DoctorList";
 import { getDoctors } from "@/actions/users";
-import { DoctorProfile } from "@prisma/client";
 
 export default async function Home() {
 
   const doctors = (await getDoctors()) || [];
-
 
   const teleHealthDoctors: any = doctors.filter(
     (doctor) => doctor.doctorProfile?.operationMode === "Telehealth");
@@ -25,12 +23,13 @@ export default async function Home() {
       <Brands />
       <TabbedSection />
       <DoctorList 
+        title={"Telehealth"}
         className="bg-slate-100 dark:bg-slate-950"
         doctors={teleHealthDoctors}
       />
       <DoctorList 
         className="bg-white dark:bg-slate-800" 
-        title="In-person doctor visit" 
+        title={"In-person doctor visit"} 
         isInPerson={true}
         doctors={inpersonDoctors}
       />

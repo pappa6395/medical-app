@@ -9,13 +9,13 @@ import { Doctor } from '@/utils/types'
 
 
 const DoctorList = ({ 
-    title ="Telehealth visit", 
+    title="", 
     isInPerson,
     doctors, 
     className = "bg-slate-100 py-8 lg:py-24" 
 }: {
-    title?:string; 
-    isInPerson?:boolean;
+    title?: string; 
+    isInPerson?: boolean;
     doctors: Doctor[]; 
     className?:string;
 }) => {
@@ -56,7 +56,7 @@ const DoctorList = ({
                     <ToggleButton />
                 )}
                <Button asChild>
-                    <Link href={"#"}>
+                    <Link href={`/category?mode=${title}`}>
                         See All
                         <ArrowUpRight className='h-4 w-4 ms-2' />
                     </Link>

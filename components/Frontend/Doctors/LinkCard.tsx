@@ -20,7 +20,7 @@ const LinkCard = ({
         grid-col-1 gap-6'>
             {specialties && specialties.map((item, i) => {
                 return (
-                    <Link href={`/specialties/${item.slug}`} key={i} className={`flex gap-4
+                    <Link href={`/specialty/${item.slug}`} key={i} className={`flex gap-4
                         text-slate-50 rounded-md py-3 px-6 ${className} justify-between`}>
                             <h2>{item.title}</h2>
                             <span aria-hidden="true">&rarr;</span>
