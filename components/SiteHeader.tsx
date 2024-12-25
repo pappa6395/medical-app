@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { CommandMenu } from "@/components/CommandMenu"
 import { MainNav } from "@/components/MainNav"
 import { MobileNav } from "@/components/MobileNav"
 import { ModeSwitcher } from "@/components/ModeSwitcher"

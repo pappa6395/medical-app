@@ -317,6 +317,10 @@ export async function getRecentAppointmentByPatientId(patientId: string | undefi
                 where: {
                     patientId: patientId,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                },
+                take: 1,
                 
             });
             if (!appointment) {

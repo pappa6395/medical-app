@@ -131,8 +131,7 @@ const Dashboard = async() => {
             title={stat.title}
           />
         ))}
-      </section>
-
+        </section>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
             <CardContent>
                 <CardHeader className="px-2">

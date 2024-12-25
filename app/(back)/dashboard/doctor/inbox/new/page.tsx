@@ -1,15 +1,14 @@
 import { getAppointmentByDoctorId } from '@/actions/appointments'
-import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
-import NewButton from '@/components/Dashboard/Doctor/NewButton'
+import InboxForm from '@/components/Dashboard/InboxForm'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
-import generateSlug from '@/utils/generateSlug'
+import { PatientProps } from '@/utils/types'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
 const page = async () => {
 
-  const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions)
     const user = session?.user
     const userId = user?.id || ""
     const role = user?.role.toLowerCase()
@@ -20,7 +19,6 @@ const page = async () => {
     if (user?.role !== "DOCTOR") {
       return <NotAuthorized/>
     }
-    const slug = generateSlug(user?.name??"")
     
     const appointments = (await getAppointmentByDoctorId(userId))?.data || []
 
@@ -41,25 +39,30 @@ const page = async () => {
         }
       });
       
-      const patients = Array.from(uniquePatientsMap.values())
+      const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
       // console.log("Patients:", patients);
+      const users = patients.map((patient) => {
+        return {
+            value: patient.patientId,
+            label: patient.name,
+        }
+      })
+      
+
 
   return (
 
+
+       
+
     <div>
-        <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
-          <div className='flex items-center gap-4'>
-            <NewButton title="New User" href={`/doctor/${slug}`}/>
-          </div>
-        </div>
-        {/* Display Panel */}
-        <div className='mt-4'>
-          <HomeDisplayCard 
-            count={patients.length??0} 
-            href={`/doctors/${slug}`} 
-            title={"Patient"} />
-        </div>
-    </div>
+      <div className="relative py-4 w-full max-h-full">
+        <InboxForm title={"New Message"} session={session} users={users} />
+      </div>
+    </div> 
+
+
+
 
   )
 }

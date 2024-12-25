@@ -1,9 +1,8 @@
 "use client"
+
 import React, { useState } from 'react'
 import { AppointmentProps, DoctorDetail, FileProps, GenderOptionProps } from '@/utils/types'
-import { getDayName } from '@/utils/getDayName'
 import { getFormattedDate } from '@/utils/formattedDate'
-import Link from 'next/link'
 import { Button } from './ui/button'
 import { Calendar } from './ui/calendar'
 import { getDayFromDate } from '@/utils/getDayFromDate'
@@ -11,7 +10,6 @@ import { getLongDate } from '@/utils/getLongDate'
 import { DollarSign } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import TextInput from './FormInputs/TextInput'
-import ImageInput from './FormInputs/ImageInput'
 import { useRouter } from 'next/navigation'
 import RadioInput from './FormInputs/RadioInput'
 import DatePickerInput from './FormInputs/DatePickerInput'
@@ -57,7 +55,8 @@ const DoctorDetails = ({
         appointmentDate: appointment?.appointmentDate || date,
         appointmentTime: appointment?.appointmentTime || "",
         appointmentFormattedDate: appointment?.appointmentFormattedDate || longDate,
-        doctorId: appointment?.doctorId || doctor.id,
+        doctorId: doctor.id,
+        doctorName: doctor.name || "",
         patientId: appointment?.patientId || "",
         fee: appointment?.fee || doctor.doctorProfile?.hourlyWage || 0,
         status: appointment?.status || "",
@@ -143,6 +142,7 @@ const DoctorDetails = ({
             appointmentTime: "",
             appointmentFormattedDate: longDate?? undefined,
             doctorId: doctor.id,
+            doctorName: doctor.name,
             patientId: patientData?.patientId ?? "",
             fee: doctor.doctorProfile?.hourlyWage?? 0,
             status: "",

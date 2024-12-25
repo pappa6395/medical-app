@@ -1,21 +1,32 @@
 
 import React from 'react'
-import { Button } from '../ui/button'
-import Link from 'next/link'
-import { DoctorProfile } from '@prisma/client';
-import { useOnBoardingContext } from '@/context/context';
+import AnalyticCards from '../AnalyticCards';
+import { Session } from 'next-auth';
+import { AnalyticProps } from '@/utils/types';
+
 
 const DoctorDashboard = ({ 
-  id, 
-  doctorProfileId 
+  session,
+  analytics 
 }: {
-  id?: string; 
-  doctorProfileId?: string;}) => {
+  session?: Session | null; 
+  analytics?: AnalyticProps[];
+}) => {
 
+  const user = session?.user
+  
   
   return (
-    <div>
-      <h2>Doctor Dashboard</h2>
+    <div className='px-8 py-4'>
+      <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
+        Welcome, Dr. {user?.name}
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {analytics && analytics.map((item,i) => {
+          return <AnalyticCards key={i} data={item}/>
+        })}
+      </div>
+      {/* <h2>Doctor Dashboard</h2>
       <Button asChild>
         {doctorProfileId ? (
           <Link href={`/onboarding/resume`}>
@@ -27,7 +38,7 @@ const DoctorDashboard = ({
         </Link>
         )}
         
-      </Button>
+      </Button> */}
     </div>
   )
 }

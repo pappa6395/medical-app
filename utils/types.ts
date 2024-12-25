@@ -1,5 +1,5 @@
 import { DoctorProfile, Speciality, UserRole } from "@prisma/client";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, LucideProps } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 import { Icons } from "@/components/ui/icons"
@@ -256,6 +256,7 @@ export type DoctorProfileCard = {
     profilePicture: string | null;
     availability: DoctorProfileAvailability | null;
     hourlyWage: number;
+    hospitalAddress: string | null;
     operationMode: string | null;
 }
 
@@ -290,6 +291,7 @@ export interface AppointmentProps {
     appointmentTime: string;
     appointmentFormattedDate: string;
     doctorId: string;
+    doctorName: string;
     fee: number;
 
     // Patient information
@@ -334,6 +336,11 @@ export type PatientProps = {
     dob: Date | undefined;
 }
 
+export type DoctorProps = {
+    doctorId: string;
+    doctorName: string | null;
+}
+
 export type ServiceDoctorProfileCountProps = {
     id: string;
     title: string;
@@ -342,4 +349,21 @@ export type ServiceDoctorProfileCountProps = {
     _count: {
         doctorProfile: number;
     };
+}
+
+export type AnalyticProps = {
+    title: string;
+    count: number;
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+    unit: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+    detailLink: string;
+}
+
+export type InboxProps = {
+    recieverId: string ;
+    senderId: string;   
+    senderName: string;
+    senderEmail: string;
+    message: string; 
+    subject: string;
 }

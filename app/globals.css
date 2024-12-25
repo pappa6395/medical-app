@@ -90,3 +90,37 @@ body {
   background-position: -215px center;
   object-fit: cover;
 }
+
+/* Global styles for all headings */
+.heading {
+  margin: 10px 0;
+}
+
+/* Specific styles for each level */
+h1.heading {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+h2.heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+h3.heading {
+  font-size: 1.25rem;
+  font-weight: semibold;
+}
+
+.editor-image {
+  max-width: 500px;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 8px; /* Optional: Add styling */
+}
+
+.editor-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

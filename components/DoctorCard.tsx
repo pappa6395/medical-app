@@ -66,8 +66,8 @@ const DoctorCard = ({
                  <h2 className='uppercase font-bold text-2xl py-2 tracking-widest'>
                     {`${doctor.doctorProfile?.firstName} ${doctor.doctorProfile?.lastName}`}
                  </h2>
-                 <p className=''>
-                     3250 Lincoln Highway, Kendall Park, NJ 08824
+                 <p className='truncate'>
+                     {doctor.doctorProfile?.hospitalAddress}
                 </p> 
                  <div className='flex items-center justify-evenly gap-4 py-4'>
                      <div className="relative">

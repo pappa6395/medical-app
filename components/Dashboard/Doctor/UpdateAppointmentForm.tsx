@@ -44,8 +44,8 @@ const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefi
 
     const meetingProvider = [
         {
-            label: "None Selected",
-            value: "noneSelected",
+            label: "Select your meeting provider",
+            value: "noProviderSelected",
             description: '',
         },
         {

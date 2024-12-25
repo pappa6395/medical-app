@@ -17,7 +17,7 @@ const page = async () => {
       if (!userId) {
           return <div>You must be logged in to access this page.</div>
       }
-      if (user?.role !== "DOCTOR") {
+      if (user?.role !== "USER") {
         return <NotAuthorized/>
       }
       

@@ -151,6 +151,7 @@ export async function getDoctors() {
             profilePicture: true,
             operationMode: true,
             hourlyWage: true,
+            hospitalAddress: true,
             // Add other specific fields you need from the DoctorProfile
             availability: {
               select: {

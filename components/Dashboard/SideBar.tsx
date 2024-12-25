@@ -58,6 +58,14 @@ export default function SideBar({session}: {session: Session}) {
                 path: "/dashboard/user/appointments",
                 icon: CalendarClock
             },
+            { 
+                title: "Doctors", 
+                path: "/dashboard/user/doctors", 
+                icon: CircleUser 
+            },
+            {   title: "Inbox", 
+                path: "/dashboard/user/inbox", 
+                icon: Mail },
             {
                 title: "Settings",
                 path: "/dashboard/user/settings",
@@ -82,7 +90,6 @@ export default function SideBar({session}: {session: Session}) {
             { title: "Dashboard", path: "/dashboard", icon: Home },
             { title: "Patients", path: "/dashboard/doctor/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/doctor/appointments", icon: CalendarDays },
-            { title: "Tasks", path: "/dashboard/doctor/tasks", icon: ClipboardList },
             { title: "Inbox", path: "/dashboard/doctor/inbox", icon: Mail },
             {
                 title: "Settings",
@@ -91,7 +98,6 @@ export default function SideBar({session}: {session: Session}) {
             }
         ],
     };
-    console.log("Role:",role);
     let sideBarLinks = roles[role] || [];
     
     // const sideBarLinks = [

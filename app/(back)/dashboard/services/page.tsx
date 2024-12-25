@@ -50,7 +50,6 @@ const page = async() => {
                   <div className='py-3'>
                     {" "}
                       <p>You have {(services.length).toString().padStart(2,"0")} services today.</p>
-                      <p>11 New Patients, 3 Follow Ups, 4 Annual Physicals</p>
                   </div>
                   <NewButton  title="New Service" href={"/dashboard/services/new"}/>
               </div>
