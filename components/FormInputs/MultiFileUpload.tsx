@@ -76,8 +76,8 @@ const MultiFileUpload = ({
                                     <File className='flex flex-shrink-0'/>
                                 <div className='flex flex-col truncate'>
                                     <span className="line-clamp-1 ps-2">{file.title}</span>
-                                    {file.size > 0 && (
-                                        <span className='text-gray-500 ps-2'>{formatToBytes(file.size)} KB</span>
+                                    {file.size && file.size > 0 && (
+                                        <span className='text-gray-500 ps-2'>{formatToBytes(file.size??0)} KB</span>
                                     )}
 
                                 </div>
