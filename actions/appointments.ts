@@ -3,7 +3,7 @@
 import NewAppointmentEmail from "@/components/Emails/new-appointment";
 import UpdatedAppointmentEmail from "@/components/Emails/updatedAppointment";
 import { prismaClient } from "@/lib/db";
-import { AppointmentProps, ServiceFormProps, UpdateAppointmentFormProps } from "@/utils/types";
+import { AppointmentProps } from "@/utils/types";
 import { Appointment } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
@@ -13,7 +13,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function createAppointment(data: AppointmentProps) {
 
-    console.log("Payload check:", data);
+    //console.log("Payload check:", data);
 
     if (data) {
 
@@ -28,7 +28,7 @@ export async function createAppointment(data: AppointmentProps) {
             });
             revalidatePath("/dashboard/doctor/appointments")
             revalidatePath("/dashboard/user/appointments")
-            console.log("New appointment:", newAppointment);
+            //console.log("New appointment:", newAppointment);
 
             //Send the email to the Doctor
             const doctorName = doctor?.name;
@@ -63,11 +63,11 @@ export async function createAppointment(data: AppointmentProps) {
     }
     
 
-}
+};
 
 export async function updateAppointment(id: string, data: AppointmentProps) {
 
-    console.log("Payload check:", data);
+    //console.log("Payload check:", data);
     
     if (id && data) {
         try {
@@ -79,7 +79,7 @@ export async function updateAppointment(id: string, data: AppointmentProps) {
                 data,
             });
             revalidatePath("/dashboard/doctors/appointments")
-            console.log("Update appointment:", updatedAppointment);
+            //console.log("Update appointment:", updatedAppointment);
             return {
                 data: updatedAppointment,
                 status: 201,
@@ -97,12 +97,12 @@ export async function updateAppointment(id: string, data: AppointmentProps) {
     }
     
 
-}
+};
 
 export async function updateAppointmentById(id: string, data: Partial<AppointmentProps>) {
 
-    console.log("Payload check ID:", id);
-    console.log("Payload check:", data);
+    //console.log("Payload check ID:", id);
+    //console.log("Payload check:", data);
     
     if (id && data) {
 
@@ -115,7 +115,7 @@ export async function updateAppointmentById(id: string, data: Partial<Appointmen
             });
             revalidatePath("/dashboard/doctor/appointments")
             revalidatePath("/dashboard/user/appointments")
-            console.log("Update appointment:", updatedAppointment);
+            //console.log("Update appointment:", updatedAppointment);
 
             //Send the email to the Doctor
             const patientId = updatedAppointment?.patientId??""
@@ -156,7 +156,7 @@ export async function updateAppointmentById(id: string, data: Partial<Appointmen
     }
     
 
-}
+};
 
 export async function getAppointments() {
     
@@ -183,11 +183,11 @@ export async function getAppointments() {
             };
 
         }
-}
+};
 
 export async function getAppointmentById(id: string) {
     
-    console.log("Payload check:", id);
+    //console.log("Payload check:", id);
     try {
 
         if (id) {
@@ -213,11 +213,11 @@ export async function getAppointmentById(id: string) {
             status: 500,
         };
     }
-}
+};
 
 export async function getAppointmentByDoctorId(doctorId: string) {
     
-    console.log("Payload check:", doctorId);
+    //console.log("Payload check:", doctorId);
     try {
 
         if (doctorId) {
@@ -243,11 +243,11 @@ export async function getAppointmentByDoctorId(doctorId: string) {
             status: 500,
         };
     }
-}
+};
 
 export async function getAppointmentByPatientId(patientId: string) {
     
-    console.log("Payload check:", patientId);
+    //console.log("Payload check:", patientId);
     try {
 
         if (patientId) {
@@ -273,12 +273,12 @@ export async function getAppointmentByPatientId(patientId: string) {
             status: 500,
         };
     }
-}
+};
 
 export async function getAppointmentByPatientIdAndDoctorId(patientId: string, doctorId: string) {
     
-    console.log("Payload check patient ID:", patientId);
-    console.log("Payload check doctor ID:", doctorId);
+    //console.log("Payload check patient ID:", patientId);
+    //console.log("Payload check doctor ID:", doctorId);
     try {
 
         if (patientId) {
@@ -305,11 +305,11 @@ export async function getAppointmentByPatientIdAndDoctorId(patientId: string, do
             status: 500,
         };
     }
-}
+};
 
 export async function getRecentAppointmentByPatientId(patientId: string | undefined) {
     
-    console.log("Payload check:", patientId);
+    //console.log("Payload check:", patientId);
     try {
 
         if (patientId) {
@@ -346,7 +346,7 @@ export async function getRecentAppointmentByPatientId(patientId: string | undefi
             status: 500,
         };
     }
-}
+};
 
 export async function deleteAppointment(id: string) {
     
@@ -378,4 +378,4 @@ export async function deleteAppointment(id: string) {
 
 
 
-}
+};

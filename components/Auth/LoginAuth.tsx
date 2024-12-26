@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
 import SubmitButton from "../FormInputs/SubmitButton"
 import { LoginProps } from "@/utils/types"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi"
@@ -28,6 +28,8 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [showNotification, setShowNotification] = React.useState<boolean>(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const returnUrl = searchParams.get('returnUrl') || "/dashboard"
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
@@ -77,7 +79,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
             resetForm();
             setIsLoading(false);
             console.log("Login Successful");
-            router.push("/dashboard");
+            router.push(returnUrl);
           }
         } catch (error) {
           setIsLoading(false);

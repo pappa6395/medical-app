@@ -43,8 +43,8 @@ const Hero = () => {
                 {/* CTA BTNS */}
                 <ul className="flex flex-wrap items-center">
                   <li>
-                    <Link href="/" className="inline-flex items-center justify-center rounded-md 
-                      bg-blue-600 px-6 py-3 text-center text-base font-medium 
+                    <Link href="/service/urgent-care" className="inline-flex items-center justify-center rounded-md 
+                      bg-blue-800 dark:bg-blue-700 px-6 py-3 text-center text-base font-medium 
                       text-white hover:bg-blue-700 lg:px-7">
                         Need Doctor Urgently
                     </Link>

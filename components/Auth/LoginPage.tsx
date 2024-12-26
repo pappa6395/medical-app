@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 }
 
 export default function LoginPage() {
+    
   return (
     <div className="relative min-h-screen flex-col">
         <div className="grid grid-cols-1 justify-center md:grid-cols-2 flex-1">

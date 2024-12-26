@@ -17,13 +17,13 @@ const page = async ({
     // Fetch doctor data from API or database
     //const doctorSlug = await getDoctorsBySlug(slug) || null;
     const doctorSlug = (await getDoctorsById(id)) || null;
-    console.log("doctorSlug: ", doctorSlug);
+    // console.log("doctorSlug: ", doctorSlug);
     
     const session = await getServerSession(authOptions);
     const patientId = session?.user.id;
 
     const appointment = (await getRecentAppointmentByPatientId(patientId))?.data || null
-    console.log("Appointment Data: ", appointment);
+    //console.log("Appointment Data: ", appointment);
     
 
   return (

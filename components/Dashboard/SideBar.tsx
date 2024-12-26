@@ -3,7 +3,6 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import LogoutButton from "./LogoutButton";
 import {
   Bell, 
   BriefcaseMedical, 
@@ -27,15 +26,10 @@ import {
   Settings, 
   ShoppingCart, 
   Syringe, 
+  UserRoundPen, 
   Users 
 } from "lucide-react"
-import {
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle
-} from "@/components/ui/card";
+
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -46,6 +40,7 @@ export default function SideBar({session}: {session: Session}) {
 
     const { user } = session;
     const role = user?.role
+    const id = user?.id
 
     const pathName = usePathname();
     const router = useRouter()
@@ -91,6 +86,10 @@ export default function SideBar({session}: {session: Session}) {
             { title: "Patients", path: "/dashboard/doctor/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/doctor/appointments", icon: CalendarDays },
             { title: "Inbox", path: "/dashboard/doctor/inbox", icon: Mail },
+            { 
+                title: "Profile", 
+                path: `/dashboard/doctor/profile/${id}`, 
+                icon: UserRoundPen },
             {
                 title: "Settings",
                 path: "/dashboard/doctor/settings",

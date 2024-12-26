@@ -9,11 +9,9 @@ import RadioInput from '../FormInputs/RadioInput';
 import { BioDataFormProps, GenderOptionProps, StepFormProps } from '@/utils/types';
 import { generateTrackingNumber } from '@/lib/generateTracking';
 import { createDoctorProfile, updateDoctorProfileById } from '@/actions/onboarding';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useOnBoardingContext } from '@/context/context';
 import toast from 'react-hot-toast';
-import { DoctorProfile } from '@prisma/client';
-import { getDate } from 'date-fns';
 
 
 
@@ -24,6 +22,8 @@ const BioDataForm = ({
     userId,
     nextPage,
     formId="",
+    doctorProfile,
+
 }: StepFormProps) => {
 
     // Get context data
@@ -37,17 +37,18 @@ const BioDataForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext()
 
+    const pathname = usePathname()
     //console.log(trackingNumber, doctorProfileId);
     
     const [bioData, setBioData] = React.useState<BioDataFormProps>({
-        firstName: resumeBioData.firstName || resumingDoctorData.firstName || "",
-        lastName: resumeBioData.lastName || resumingDoctorData.lastName || "",
-        middleName: resumeBioData.middleName || resumingDoctorData.middleName || "",
-        dob: resumeBioData.dob || resumingDoctorData.dob || undefined,
-        gender: resumeBioData.gender || resumingDoctorData.gender || "",
-        page: resumeBioData.page || resumingDoctorData.page || "",
-        userId: resumeBioData.userId || resumingDoctorData.userId || "",
-        trackingNumber: resumeBioData.trackingNumber || resumingDoctorData.trackingNumber || "",
+        firstName: doctorProfile.firstName || resumingDoctorData.firstName || "",
+        lastName: doctorProfile.lastName || resumingDoctorData.lastName || "",
+        middleName: doctorProfile.middleName || resumingDoctorData.middleName || "",
+        dob: doctorProfile.dob || resumingDoctorData.dob || undefined,
+        gender: doctorProfile.gender || resumingDoctorData.gender || "",
+        page: doctorProfile.page || resumingDoctorData.page || "",
+        userId: doctorProfile.userId || resumingDoctorData.userId || "",
+        trackingNumber: doctorProfile.trackingNumber || resumingDoctorData.trackingNumber || "",
     });
     const [errors, setErrors] = React.useState<Partial<BioDataFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -69,7 +70,8 @@ const BioDataForm = ({
     acc[key] = Array.isArray(value) ? value.map(String) : [String(value)];
     return acc;
   }, {} as Record<string, string[]>)
-  
+
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -82,11 +84,10 @@ const BioDataForm = ({
             setIsLoading(true)
             console.log("Bio Data:", bioData);
             
-            
             try {
                 // Save Data to DB
                 if (formId) {
-                    const newProfile = await updateDoctorProfileById(formId, bioData);
+                    const newProfile = await updateDoctorProfileById(doctorProfile.id, bioData);
 
                     if (newProfile && newProfile.status === 201) {
                         toast.success("Bio Data updated successfully")
@@ -94,7 +95,7 @@ const BioDataForm = ({
                         setTrackingNumber(newProfile.data?.trackingNumber ?? "")
                         setDoctorProfileId(newProfile.data?.id ?? "")
                         // Route to the Next Form
-                        router.push(`/onboarding/${userId}?page=${nextPage}`)
+                        router.push(`${pathname}?page=${nextPage}`)
                         console.log("New Profile Data Passed:",newProfile.data);
                         
                     } else {

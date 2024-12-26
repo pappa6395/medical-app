@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export async function createInboxMessage(data: InboxProps) {
 
-    console.log("Payload check:", data);
+    //console.log("Payload check:", data);
     
     if (data) {
         try {
@@ -14,7 +14,7 @@ export async function createInboxMessage(data: InboxProps) {
                 data,
             })
             revalidatePath("/dashboard/doctor/inbox")
-            console.log("New Message:", newMessage);
+            //console.log("New Message:", newMessage);
             return {
                 data: newMessage,
                 status: 201,
@@ -32,7 +32,7 @@ export async function createInboxMessage(data: InboxProps) {
     }
     
 
-}
+};
 
 export async function getInboxMessages(recieverId: string) {
     
@@ -63,7 +63,7 @@ export async function getInboxMessages(recieverId: string) {
         };
 
     }
-}
+};
 
 export async function getInboxMessageById(id: string) {
     
@@ -82,7 +82,7 @@ export async function getInboxMessageById(id: string) {
         return null;
 
     }
-}
+};
 
 export async function getInboxSentMessages(senderId: string) {
     
@@ -113,7 +113,7 @@ export async function getInboxSentMessages(senderId: string) {
         };
 
     }
-}
+};
 
 export async function deleteInboxMessage(id: string) {
     
@@ -143,4 +143,4 @@ export async function deleteInboxMessage(id: string) {
 
     }
 
-}
+};

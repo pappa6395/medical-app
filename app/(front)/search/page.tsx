@@ -17,10 +17,10 @@ const page = async ({
      
 
     const { query } = await searchParams
-    console.log("Query:", query);
+    //console.log("Query:", query);
     
     const searchData = await getDoctorsBySearch(query as string)
-    console.log("Search data:", searchData);
+    //console.log("Search data:", searchData);
     
     const doctors = searchData?.doctors || [];
     const searchServices = searchData?.services || [];
@@ -29,12 +29,12 @@ const page = async ({
     const allServices = (await getService()).data || [];
     const services = searchServices?.length > 0 ? searchServices : allServices
 
-    console.log("doctors:", doctors);
-    console.log("searchServices:", searchServices);
-    console.log("specialties:", specialties);
-    console.log("symptoms:", symptoms);
-    console.log("all services", allServices);
-    console.log("services", services);
+    // console.log("doctors:", doctors);
+    // console.log("searchServices:", searchServices);
+    // console.log("specialties:", specialties);
+    // console.log("symptoms:", symptoms);
+    // console.log("all services", allServices);
+    // console.log("services", services);
 
   return (
 

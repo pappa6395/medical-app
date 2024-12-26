@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import React from 'react'
 import BioDataForm from './BioDataForm'
 import ProfileInfoForm from './ProfileInfoForm'
@@ -11,15 +11,25 @@ import EducationInfoForm from './EducationInfoForm'
 import PracticeInfoForm from './PracticeInfoForm'
 import AdditionalInfoForm from './AdditionalInfoForm'
 import { useOnBoardingContext } from '@/context/context'
-import { Speciality } from '@prisma/client'
+import { DoctorProfile, Speciality } from '@prisma/client'
 
 
-const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality[]}) => {
+const OnboardingSteps = ({
+  id, 
+  specialties,
+  doctorProfile,
+}: {
+  id: string; 
+  specialties: Speciality[]
+  doctorProfile: DoctorProfile;
+}) => {
 
   console.log("Onboarding Steps ID:", id);
-  
+
+  const pathname = usePathname()
   const params = useSearchParams()
   const page = params.get("page")?? "bioData"
+  
 
   const {
     trackingNumber, 
@@ -38,7 +48,8 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           page={page}
           userId={id}
           nextPage={"profile"}
-          formId={doctorProfileId? doctorProfileId : resumingDoctorData.id} 
+          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          doctorProfile={doctorProfile} 
         />
     },
     {
@@ -51,7 +62,8 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           page={page}
           userId={id}
           nextPage={"contact"}
-          formId={doctorProfileId? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          doctorProfile={doctorProfile} 
         />
     },
     {
@@ -64,7 +76,8 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           page={page}
           userId={id}
           nextPage={"education"}
-          formId={doctorProfileId? doctorProfileId : resumingDoctorData.id} 
+          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          doctorProfile={doctorProfile}  
         />
     },
     {
@@ -78,7 +91,8 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           userId={id}
           nextPage={"practice"}
           specialties={specialties} 
-          formId={doctorProfileId? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          doctorProfile={doctorProfile} 
         />
     },
     {
@@ -91,7 +105,8 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           page={page}
           userId={id}
           nextPage={"additional"}
-          formId={doctorProfileId? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          doctorProfile={doctorProfile} 
         />
     },
     {
@@ -104,7 +119,8 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
           page={page}
           userId={id}
           nextPage="final"
-          formId={doctorProfileId? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          doctorProfile={doctorProfile} 
         />
     },
   ]
@@ -120,7 +136,7 @@ const OnboardingSteps = ({id, specialties}: {id: string; specialties: Speciality
             return (
               <Link
                 key={i}
-                href={`/onboarding/${id}?page=${step.page}`} 
+                href={`${pathname}?page=${step.page}`} 
                 className={cn(
                   "block py-3 px-4 bg-teal-600 dark:bg-teal-800 text-slate-100 dark:text-slate-200 text-base shadow-inner border-b border-gray-400 dark:border-gray-200", 
                   step.page === page ? "bg-teal-800 text-slate-100" : "")}

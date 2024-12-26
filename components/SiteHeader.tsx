@@ -41,49 +41,49 @@ export function SiteHeader({session}: {session: Session | null}) {
       <div className="flex h-14 items-center px-4">
         <MainNav />
         <MobileNav />
-        <div className="flex flex-1 items-center justify-between gap-2 md:justify-end">
-          <div className="w-full p-4">
-            <SearchBar />
-          </div>
+        <div className="flex flex-1 items-center justify-end">
           <nav className="flex items-center gap-4">
-           {session && user ? (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="rounded-full">
-                        <Avatar>
-                          {user.image ? (
-                            <AvatarImage 
-                            src={user.image}
-                            alt={user.name || "User Avatar"}
-                            onError={(e) => (e.currentTarget.src = "https://github.com/shadcn.png")}/>
-                          ) : (
-                            <AvatarFallback>{initial}</AvatarFallback>
-                          )}
-                        </Avatar>
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel className="text-center">{user.name}</DropdownMenuLabel>
-                    <DropdownMenuLabel 
-                      className="text-center text-muted-foreground"
-                    >{user.email}
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Link href={"/dashboard"}>Dashboard</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>) : (
-              <Button asChild className="bg-slate-500">
-                <Link href="/login">
-                    <LogIn className="mr-2 h-4 w-4" />Login
-                </Link>
-              </Button>
-            )}
+            <div className="w-full">
+              <SearchBar />
+            </div>
+            {session && user ? (
+              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                      <Button variant="secondary" size="icon" className="rounded-full">
+                          <Avatar>
+                            {user.image ? (
+                              <AvatarImage 
+                              src={user.image}
+                              alt={user.name || "User Avatar"}
+                              onError={(e) => (e.currentTarget.src = "https://github.com/shadcn.png")}/>
+                            ) : (
+                              <AvatarFallback>{initial}</AvatarFallback>
+                            )}
+                          </Avatar>
+                          <span className="sr-only">Toggle user menu</span>
+                      </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                      <DropdownMenuLabel className="text-center">{user.name}</DropdownMenuLabel>
+                      <DropdownMenuLabel 
+                        className="text-center text-muted-foreground"
+                      >{user.email}
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <Link href={"/dashboard"}>Dashboard</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>Support</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                  </DropdownMenuContent>
+              </DropdownMenu>) : (
+                <Button asChild className="bg-slate-500">
+                  <Link href="/login">
+                      <LogIn className="mr-2 h-4 w-4" />Login
+                  </Link>
+                </Button>
+              )}
             <ModeSwitcher />
           </nav>
         </div>

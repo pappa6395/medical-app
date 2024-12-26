@@ -27,7 +27,7 @@ export async function createSpecialty(specialtyData: SpecialtyFormProps) {
                 data: specialtyData,
             });
             revalidatePath("/dashboard/specialties")
-            console.log("New specialty:", newSpecialty);
+            //console.log("New specialty:", newSpecialty);
             return {
                 data: newSpecialty,
                 status: 201,
@@ -45,7 +45,7 @@ export async function createSpecialty(specialtyData: SpecialtyFormProps) {
     }
     
 
-}
+};
 
 export async function getSpecialty() {
     
@@ -76,7 +76,7 @@ export async function getSpecialty() {
 
 
 
-}
+};
 
 export async function getSpecialtyBySlug(slug: string) {
     
@@ -108,7 +108,7 @@ export async function getSpecialtyBySlug(slug: string) {
             status: 500,
         };
     }
-}
+};
 
 export async function createManySpecialties() {
     
@@ -168,7 +168,7 @@ export async function createManySpecialties() {
     
     
 
-}
+};
 
 export async function deleteSpecialty(id: string) {
     
@@ -200,7 +200,7 @@ export async function deleteSpecialty(id: string) {
 
 
 
-}
+};
 
 export async function updateSpecialty(id: string, specialtyData: SpecialtyFormProps) {
 
@@ -216,7 +216,7 @@ export async function updateSpecialty(id: string, specialtyData: SpecialtyFormPr
                 data: specialtyData,
             });
             revalidatePath("/dashboard/specialties")
-            console.log("Update specialty:", updatedSpecialty);
+            //console.log("Update specialty:", updatedSpecialty);
             return {
                 data: updatedSpecialty,
                 status: 201,
@@ -234,4 +234,4 @@ export async function updateSpecialty(id: string, specialtyData: SpecialtyFormPr
     }
     
 
-}
+};

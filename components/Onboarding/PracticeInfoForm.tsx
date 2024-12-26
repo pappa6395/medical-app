@@ -7,7 +7,7 @@ import SubmitButton from '../FormInputs/SubmitButton';
 import { PracticeInfoFormProps, StepFormProps } from '@/utils/types';
 import ArrayInput from '../FormInputs/ArrayInput';
 import ShadSelectInput from '../FormInputs/ShadSelectInput';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
 import toast from 'react-hot-toast';
@@ -20,7 +20,8 @@ const PracticeInfoForm = ({
     description,
     nextPage,
     formId,
-    userId
+    userId,
+    doctorProfile
 }: StepFormProps) => {
 
     const router = useRouter();
@@ -33,18 +34,20 @@ const PracticeInfoForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext();
 
+    const pathname = usePathname();
+
     const [practiceData, setPracticeData] = React.useState<PracticeInfoFormProps>({
-        hospitalName: resumePracticeData.hospitalName || resumingDoctorData.hospitalName || "",
-        hospitalAddress: resumePracticeData.hospitalAddress || resumingDoctorData.hospitalAddress || "",
-        hospitalContactNumber: resumePracticeData.hospitalContactNumber || resumingDoctorData.hospitalContactNumber || "",
-        hospitalEmailAddress: resumePracticeData.hospitalEmailAddress || resumingDoctorData.hospitalEmailAddress || "",
-        hospitalWebsite: resumePracticeData.hospitalWebsite || resumingDoctorData.hospitalWebsite || "",
-        hospitalHoursOfOperation: resumePracticeData.hospitalHoursOfOperation || resumingDoctorData.hospitalHoursOfOperation || "",
-        servicesOffered: resumePracticeData.servicesOffered || resumingDoctorData.servicesOffered,
-        insuranceAccepted: resumePracticeData.insuranceAccepted || resumingDoctorData.insuranceAccepted || "",
-        languagesSpoken: resumePracticeData.languagesSpoken || resumingDoctorData.languagesSpoken,
-        hourlyWage: resumePracticeData.hourlyWage || resumingDoctorData.hourlyWage || 100,
-        page: resumePracticeData.page || resumingDoctorData.page || "",
+        hospitalName: doctorProfile.hospitalName || resumingDoctorData.hospitalName || "",
+        hospitalAddress: doctorProfile.hospitalAddress || resumingDoctorData.hospitalAddress || "",
+        hospitalContactNumber: doctorProfile.hospitalContactNumber || resumingDoctorData.hospitalContactNumber || "",
+        hospitalEmailAddress: doctorProfile.hospitalEmailAddress || resumingDoctorData.hospitalEmailAddress || "",
+        hospitalWebsite: doctorProfile.hospitalWebsite || resumingDoctorData.hospitalWebsite || "",
+        hospitalHoursOfOperation: doctorProfile.hospitalHoursOfOperation || resumingDoctorData.hospitalHoursOfOperation || "",
+        servicesOffered: doctorProfile.servicesOffered || resumingDoctorData.servicesOffered,
+        insuranceAccepted: doctorProfile.insuranceAccepted || resumingDoctorData.insuranceAccepted || "",
+        languagesSpoken: doctorProfile.languagesSpoken || resumingDoctorData.languagesSpoken,
+        hourlyWage: doctorProfile.hourlyWage || resumingDoctorData.hourlyWage || 100,
+        page: doctorProfile.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<PracticeInfoFormProps>>({});
@@ -67,6 +70,7 @@ const PracticeInfoForm = ({
 
 
     const insuranceOptions = [
+        { value: "n/a", label: "select insurance condition"},
         { value: 'yes', label: 'Yes' },
         { value: 'no', label: 'No' },
         
@@ -93,13 +97,13 @@ const PracticeInfoForm = ({
             console.log("New Practice Data:", practiceData);
 
             try {
-                const res = await updateDoctorProfileById(formId, practiceData);
+                const res = await updateDoctorProfileById(doctorProfile.id, practiceData);
                 setResumePracticeData(practiceData);
 
                 if (res?.status === 201) {
                     toast.success("Practice Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
-                    router.push(`/onboarding/${userId}?page=${nextPage}`)
+                    router.push(`${pathname}?page=${nextPage}`)
                     console.log("Updated New Practice Data Passed:", res.data);
                 }
                 

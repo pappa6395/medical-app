@@ -27,7 +27,7 @@ export async function createSymptom(symptomData: SymptomFormProps) {
                 data: symptomData,
             });
             revalidatePath("/dashboard/symptoms")
-            console.log("New Symptom:", newSymptom);
+            //console.log("New Symptom:", newSymptom);
             return {
                 data: newSymptom,
                 status: 201,
@@ -45,7 +45,7 @@ export async function createSymptom(symptomData: SymptomFormProps) {
     }
     
 
-}
+};
 
 export async function getSymptom() {
     
@@ -76,7 +76,7 @@ export async function getSymptom() {
 
 
 
-}
+};
 
 export async function getSymptomBySlug(slug: string) {
     
@@ -107,7 +107,7 @@ export async function getSymptomBySlug(slug: string) {
             status: 500,
         };
     }
-}
+};
 
 export async function createManySymptoms() {
     
@@ -217,7 +217,7 @@ export async function createManySymptoms() {
     
     
 
-}
+};
 
 export async function updateSymptom(id: string, symptomData: SymptomFormProps) {
 
@@ -233,7 +233,7 @@ export async function updateSymptom(id: string, symptomData: SymptomFormProps) {
                 data: symptomData,
             });
             revalidatePath("/dashboard/symptoms")
-            console.log("Update symptom:", updatedSymptom);
+            //console.log("Update symptom:", updatedSymptom);
             return {
                 data: updatedSymptom,
                 status: 201,
@@ -251,7 +251,7 @@ export async function updateSymptom(id: string, symptomData: SymptomFormProps) {
     }
     
 
-}
+};
 
 export async function deleteSymptom(id: string) {
     
@@ -283,4 +283,4 @@ export async function deleteSymptom(id: string) {
 
 
 
-}
+};

@@ -14,7 +14,7 @@ export default async function Home() {
   const inpersonDoctors: any = doctors.filter(
     (doctor) => doctor.doctorProfile?.operationMode === "In-person doctor visit");
 
-  console.log("Telehealth:",teleHealthDoctors);
+  //console.log("Telehealth:",teleHealthDoctors);
   
 
   return (

@@ -6,8 +6,8 @@ import SubmitButton from '../FormInputs/SubmitButton';
 import { AdditionalInfoFormProps, FileProps, StepFormProps } from '@/utils/types';
 import TextAreaInput from '../FormInputs/TextAreaInput';
 import MultiFileUpload from '../FormInputs/MultiFileUpload';
-import { useRouter } from 'next/navigation';
-import { completeProfile } from '@/actions/onboarding';
+import { usePathname, useRouter } from 'next/navigation';
+import { completeProfile, updateDoctorProfileById } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
 import toast from 'react-hot-toast';
 import { useOnBoardingContext } from '@/context/context';
@@ -19,7 +19,8 @@ const AdditionalInfoForm = ({
     description,
     nextPage,
     formId,
-    userId
+    userId,
+    doctorProfile,
 }: StepFormProps) => {
 
     const router = useRouter();
@@ -32,23 +33,36 @@ const AdditionalInfoForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext();
 
+    const pathname = usePathname()
+
     const [additionalData, setAdditionalData] = React.useState<AdditionalInfoFormProps>({
-        educationHistory: resumeAdditionalData.educationHistory || resumingDoctorData.educationHistory || "",
-        research: resumeAdditionalData.research || resumingDoctorData.research || "",
-        accomplishments: resumeAdditionalData.accomplishments || resumingDoctorData.accomplishments || "",
+        educationHistory: doctorProfile.educationHistory || resumingDoctorData.educationHistory || "",
+        research: doctorProfile.research || resumingDoctorData.research || "",
+        accomplishments: doctorProfile.accomplishments || resumingDoctorData.accomplishments || "",
         additionalDocuments: 
-            resumeAdditionalData.additionalDocuments 
+        doctorProfile.additionalDocuments 
             || resumingDoctorData.additionalDocuments || [],
-        page: resumeAdditionalData.page || resumingDoctorData.page || "",
+        page: doctorProfile.page || resumingDoctorData.page || "",
     });
     const [errors, setErrors] = React.useState<Partial<AdditionalInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
     const [register, setRegister] = React.useState<boolean>(false);
 
-    const initialAddDocs: any = additionalData.additionalDocuments.length > 0 
-    ? additionalData.additionalDocuments 
-    : resumingDoctorData.additionalDocuments ?? []
+    const isOnboarding = pathname.split("/").includes("onboarding");
+
+    // const initialAddDocs: any = additionalData.additionalDocuments.length > 0 
+    // ? additionalData.additionalDocuments 
+    // : resumingDoctorData.additionalDocuments ?? []
+
+    const initialAddDocs = doctorProfile.additionalDocuments.map((item) => {
+        return {
+            formatToBytes: () => item,
+            title: item,
+            size: 0,
+            url: item,
+        }
+    })
     const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>(initialAddDocs);
     
 
@@ -72,27 +86,44 @@ const AdditionalInfoForm = ({
             console.log("New Additional Data:", additionalData);
 
             try {
-                const res = await completeProfile(formId?formId:doctorProfileId, additionalData);
-                setResumeAdditionalData(additionalData)
 
-                if (res?.status === 201) {
-                    //Extract the profile form data from the updated profile
-                    // SEND A WELCOME EMAIL
-
-                    toast.success("Profile Completed Successfully")
-
-                    //Route Them TO THE LOGIN
-                    if (userId) {
-                        router.push("/dashboard",)
-                    } else if (!userId) {
-                        router.push("/login")
-                    }
+                if (isOnboarding) {
+                    const res = await completeProfile(formId?formId:doctorProfileId, additionalData);
+                    setResumeAdditionalData(additionalData)
                     
-                    console.log("Updated New Additional Data Passed:", res.data);
+                    if (res?.status === 201) {
+                        //Extract the profile form data from the updated profile
+                        // SEND A WELCOME EMAIL
+    
+                        toast.success("Profile Completed Successfully")
+    
+                        //Route Them TO THE LOGIN
+                        
+                        if (userId && isOnboarding) {
+                            router.push("/dashboard",)
+                        } else if (!userId && isOnboarding) {
+                            router.push("/login")
+                        }
+                        
+                        console.log("Updated New Additional Data Passed:", res.data);
+                    } else {
+                        setIsLoading(false);
+                        throw new Error("Something went wrong")
+                    }
                 } else {
-                    setIsLoading(false);
-                    throw new Error("Something went wrong")
-                }
+                    const res = await updateDoctorProfileById(doctorProfile.id, additionalData);
+                    setResumeAdditionalData(additionalData)
+
+                    if (res?.status === 201) {
+    
+                        toast.success("Profile Completed Successfully")
+                        
+                        console.log("Updated New Additional Data Passed:", res.data);
+                    } else {
+                        setIsLoading(false);
+                        throw new Error("Something went wrong")
+                    }
+                } 
                 
             } catch (error) {
                 console.log("Updating New Additional data failed:", error);
@@ -157,7 +188,6 @@ const AdditionalInfoForm = ({
                         register={register}
                         name="educationHistory"
                         placeholder="enter your education history"
-                        className='col-span-full sm:col-span-1'
                         value={additionalData.educationHistory}
                         errors={transformedErrors}
                         disabled={isLoading}
@@ -167,7 +197,6 @@ const AdditionalInfoForm = ({
                         register={register}
                         name="research"
                         placeholder="enter your published works or research"
-                        className='col-span-full sm:col-span-1'
                         value={additionalData.research}
                         errors={transformedErrors}
                         disabled={isLoading}
@@ -177,7 +206,6 @@ const AdditionalInfoForm = ({
                         register={register}
                         name="accomplishments"
                         placeholder="enter any special accomplishment or award"
-                        className='col-span-full sm:col-span-1'
                         value={additionalData.accomplishments}
                         errors={transformedErrors}
                         disabled={isLoading}
@@ -193,9 +221,9 @@ const AdditionalInfoForm = ({
                 </div>
                 <div className='m-8 flex justify-center items-center'>
                     <SubmitButton 
-                        title="Complete"
+                        title={isOnboarding ? 'Complete' : 'Save'}
                         isLoading={isLoading} 
-                        loadingTitle={"creating an account..."} />
+                        loadingTitle={isOnboarding ? "creating an account..." : "Saving..."} />
                 </div>
             </form>
         </div>

@@ -9,7 +9,7 @@ import SelectInput, { SelectOptionProps } from '../FormInputs/SelectInput';
 import ArrayInput from '../FormInputs/ArrayInput';
 import MultiFileUpload from '../FormInputs/MultiFileUpload';
 import { updateDoctorProfileById } from '@/actions/onboarding';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { DoctorProfile } from '@prisma/client';
 import toast from 'react-hot-toast';
 import { useOnBoardingContext } from '@/context/context';
@@ -22,7 +22,8 @@ const EducationInfoForm = ({
     nextPage,
     formId,
     userId,
-    specialties
+    specialties,
+    doctorProfile,
 }: StepFormProps) => {
 
     const router = useRouter();
@@ -35,15 +36,17 @@ const EducationInfoForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext();
 
+    const pathname = usePathname();
+
     console.log("Form ID:", formId);
 
     const [educationData, setEducationData] = React.useState<EducationInfoFormProps>({
-        medicalSchool: resumeEducationData.medicalSchool || resumingDoctorData.medicalSchool || "",
-        graduationYear: resumeEducationData.graduationYear || resumingDoctorData.graduationYear || "",
-        primarySpecialization: resumeEducationData.primarySpecialization || resumingDoctorData.primarySpecialization || "",
-        otherSpecialties: resumeEducationData.otherSpecialties || resumingDoctorData.otherSpecialties || [],
-        boardCertificates: resumeEducationData.boardCertificates || resumingDoctorData.boardCertificates || [],
-        page: resumeEducationData.page || resumingDoctorData.page || "",
+        medicalSchool: doctorProfile.medicalSchool || resumingDoctorData.medicalSchool || "",
+        graduationYear: doctorProfile.graduationYear || resumingDoctorData.graduationYear || "",
+        primarySpecialization: doctorProfile.primarySpecialization || resumingDoctorData.primarySpecialization || "",
+        otherSpecialties: doctorProfile.otherSpecialties || resumingDoctorData.otherSpecialties || [],
+        boardCertificates: doctorProfile.boardCertificates || resumingDoctorData.boardCertificates || [],
+        page: doctorProfile.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<EducationInfoFormProps>>({});
@@ -57,9 +60,19 @@ const EducationInfoForm = ({
     : resumingDoctorData.otherSpecialties ?? [];
     const [addMoreSpecialties, setAddMoreSpecialties] = React.useState<string[]>(initialAddMoreSpecialties);
 
-    const initialBoardCertificates: any = educationData.boardCertificates.length > 0 
-    ? educationData.boardCertificates 
-    : resumingDoctorData.boardCertificates || [];
+    // const initialBoardCertificates: any = educationData.boardCertificates.length > 0 
+    // ? educationData.boardCertificates 
+    // : resumingDoctorData.boardCertificates || [];
+
+    const initialBoardCertificates = doctorProfile.boardCertificates.map((item) => {
+        return {
+            formatToBytes: () => item,
+            title: item,
+            size: 0,
+            url: item,
+        }
+    })
+
     const [docs, setDocs] = React.useState<FileProps[]>(initialBoardCertificates);
 
     const allSpecialties = specialties?.map((item) => {
@@ -96,13 +109,13 @@ const EducationInfoForm = ({
             
             
             try {
-                const res = await updateDoctorProfileById(formId, educationData);
+                const res = await updateDoctorProfileById(doctorProfile.id, educationData);
                 setResumeEducationData(educationData)
 
                 if (res?.status === 201) {
                     toast.success("Education Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
-                    router.push(`/onboarding/${userId}?page=${nextPage}`)
+                    router.push(`${pathname}?page=${nextPage}`)
                     console.log("Updated New Education Data Passed:", res.data);
                 }
                 

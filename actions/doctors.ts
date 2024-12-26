@@ -7,7 +7,7 @@ import generateSlug from "@/utils/generateSlug";
 
 export async function getDoctorsByServiceSlug(slug: string) {
     
-    console.log("Payload check:", slug);
+    //console.log("Payload check:", slug);
     
     try {
         if (slug) {
@@ -41,11 +41,11 @@ export async function getDoctorsByServiceSlug(slug: string) {
         }
 
     }
-}
+};
 
 export async function getDoctorsBySpecialtySlug(slug: string) {
     
-    console.log("Payload check:", slug);
+    //console.log("Payload check:", slug);
     
     try {
         if (slug) {
@@ -79,11 +79,11 @@ export async function getDoctorsBySpecialtySlug(slug: string) {
         }
 
     }
-}
+};
 
 export async function getDoctorsBySymptomId(symptomId: string) {
     
-    console.log("Payload check:", symptomId);
+    //console.log("Payload check:", symptomId);
 
     if (!symptomId) {
         console.error("Invalid input: Symptom ID is required.");
@@ -106,7 +106,7 @@ export async function getDoctorsBySymptomId(symptomId: string) {
                 }
             });
             
-            console.log("Doctor symptoms:", doctorProfiles);
+            //console.log("Doctor symptoms:", doctorProfiles);
             return {
                 data: doctorProfiles,
                 status: 200,
@@ -123,11 +123,11 @@ export async function getDoctorsBySymptomId(symptomId: string) {
         }
 
     }
-}
+};
 
 export async function getOtherDoctorServicesByService(service: any) {
     
-    console.log("Payload check:", service);
+    //console.log("Payload check:", service);
     
     if (!service || !service.id) {
         console.log("Invalid input: Service or ServiceId is missing");
@@ -147,7 +147,7 @@ export async function getOtherDoctorServicesByService(service: any) {
                 },
                 
             });
-            console.log("Other Services:", services);
+            //console.log("Other Services:", services);
             return {
                 data: services,
                 status: 200,
@@ -163,11 +163,11 @@ export async function getOtherDoctorServicesByService(service: any) {
         }
 
     }
-}
+};
 
 export async function getOtherDoctorSpecialtiesBySpecialty(specialty: any) {
     
-    console.log("Payload check:", specialty);
+    //console.log("Payload check:", specialty);
     
     if (!specialty || !specialty.id) {
         console.log("Invalid input: Specialty or SpecialtyId is missing");
@@ -187,7 +187,7 @@ export async function getOtherDoctorSpecialtiesBySpecialty(specialty: any) {
                 },
                 
             });
-            console.log("Other Specialties:", specialties);
+            //console.log("Other Specialties:", specialties);
             return {
                 data: specialties,
                 status: 200,
@@ -203,11 +203,11 @@ export async function getOtherDoctorSpecialtiesBySpecialty(specialty: any) {
         }
 
     }
-}
+};
 
 export async function getOtherDoctorSymptomBySymptom(symptomId: any) {
 
-    console.log("Payload check:", symptomId);
+    //console.log("Payload check:", symptomId);
 
     if (!symptomId) {
         console.log("Invalid input: Symptom or SymptomId is missing");
@@ -228,7 +228,7 @@ export async function getOtherDoctorSymptomBySymptom(symptomId: any) {
                 },
 
             });
-            console.log("Other Symptoms:", symptoms);
+            //console.log("Other Symptoms:", symptoms);
             return {
                 data: symptoms,
                 status: 200,
@@ -242,7 +242,7 @@ export async function getOtherDoctorSymptomBySymptom(symptomId: any) {
             status: 500,
         }
     }
-}
+};
 
 export async function getDoctorsBySearch(query: string) {
     
@@ -315,4 +315,4 @@ export async function getDoctorsBySearch(query: string) {
         };
     }
       
-}
+};

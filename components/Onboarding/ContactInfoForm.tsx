@@ -5,7 +5,7 @@ import React from 'react'
 import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
 import { ContactInfoFormProps, StepFormProps } from '@/utils/types';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { DoctorProfile } from '@prisma/client';
 import toast from 'react-hot-toast';
@@ -17,7 +17,8 @@ const ContactInfoForm = ({
     description,
     nextPage,
     formId,
-    userId
+    userId,
+    doctorProfile,
 }: StepFormProps) => {
 
     const router = useRouter()
@@ -30,14 +31,16 @@ const ContactInfoForm = ({
         resumingDoctorData, 
     } = useOnBoardingContext()
 
+    const pathname = usePathname()
+
     const [contactData, setContactData] = React.useState<ContactInfoFormProps>({
         
-        email: resumeContactData.email || resumingDoctorData.email || "",
-        phone: resumeContactData.phone || resumingDoctorData.phone || "",
-        country: resumeContactData.country || resumingDoctorData.country || "",
-        city: resumeContactData.city || resumingDoctorData.city || "",
-        state: resumeContactData.state || resumingDoctorData.state || "",
-        page: resumeContactData.page || resumingDoctorData.page || "",
+        email: doctorProfile.email || resumingDoctorData.email || "",
+        phone: doctorProfile.phone || resumingDoctorData.phone || "",
+        country: doctorProfile.country || resumingDoctorData.country || "",
+        city: doctorProfile.city || resumingDoctorData.city || "",
+        state: doctorProfile.state || resumingDoctorData.state || "",
+        page: doctorProfile.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<ContactInfoFormProps>>({});
@@ -64,13 +67,13 @@ const ContactInfoForm = ({
             console.log("Contact Data:", contactData);
 
             try {
-                const res = await updateDoctorProfileById(formId, contactData);
+                const res = await updateDoctorProfileById(doctorProfile.id, contactData);
                 setResumeContactData(contactData);
 
                 if (res?.status === 201) {
                     toast.success("Contact Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
-                    router.push(`/onboarding/${userId}?page=${nextPage}`)
+                    router.push(`${pathname}?page=${nextPage}`)
                     console.log("Updated Contact Data Passed:", res.data);
                 }
                 

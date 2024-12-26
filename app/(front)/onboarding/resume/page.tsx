@@ -1,9 +1,19 @@
 
 import TrackingForm from '@/components/Frontend/TrackingForm'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
-const page = () => {
+const page = async () => {
+  
+   const session = await getServerSession(authOptions)
+      const id = session?.user.id
+  
+      if (id) {
+          redirect(`/onboarding/${id}`)
+      }
 
   return (
 

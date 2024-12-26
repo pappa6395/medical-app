@@ -27,7 +27,7 @@ export async function createService(serviceData: ServiceFormProps) {
                 data: serviceData,
             });
             revalidatePath("/dashboard/services")
-            console.log("New service:", updatedService);
+            //console.log("New service:", updatedService);
             return {
                 data: updatedService,
                 status: 201,
@@ -45,7 +45,7 @@ export async function createService(serviceData: ServiceFormProps) {
     }
     
 
-}
+};
 
 export async function updateService(id: string, serviceData: ServiceFormProps) {
 
@@ -61,7 +61,7 @@ export async function updateService(id: string, serviceData: ServiceFormProps) {
                 data: serviceData,
             });
             revalidatePath("/dashboard/services")
-            console.log("Update service:", updatedService);
+            //console.log("Update service:", updatedService);
             return {
                 data: updatedService,
                 status: 201,
@@ -79,7 +79,7 @@ export async function updateService(id: string, serviceData: ServiceFormProps) {
     }
     
 
-}
+};
 
 export async function getService() {
     
@@ -123,7 +123,7 @@ export async function getService() {
     
     
 
-}
+};
 
 export async function getServiceBySlug(slug: string) {
     
@@ -155,7 +155,7 @@ export async function getServiceBySlug(slug: string) {
             status: 500,
         };
     }
-}
+};
 
 export async function createManyServices() {
     
@@ -221,7 +221,7 @@ export async function createManyServices() {
     
     
 
-}
+};
 
 export async function deleteService(id: string) {
     
@@ -253,4 +253,4 @@ export async function deleteService(id: string) {
 
 
 
-}
+};

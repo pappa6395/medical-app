@@ -31,7 +31,7 @@ const MultiFileUpload = ({
         const updatedFiles = files.filter((file, index) => index !== fileIndex)
         setFiles(updatedFiles);    
     }
-    
+
   return (
 
     <div className={className}>
@@ -71,12 +71,15 @@ const MultiFileUpload = ({
                                 >
                                 <XCircle className='' />
                             </button>
-                            <div className="flex gap-4 py-3 rounded-md px-6 bg-white 
+                            <div className="flex items-center gap-4 py-3 rounded-md px-6 bg-white 
                             dark:bg-slate-800 border border-slate-200">
-                                    <File/>
-                                <div className='flex flex-col'>
-                                    <span className="line-clamp-1">{file.title}</span>
-                                    <span className='text-gray-500'>{formatToBytes(file.size)} KB</span>
+                                    <File className='flex flex-shrink-0'/>
+                                <div className='flex flex-col truncate'>
+                                    <span className="line-clamp-1 ps-2">{file.title}</span>
+                                    {file.size > 0 && (
+                                        <span className='text-gray-500 ps-2'>{formatToBytes(file.size)} KB</span>
+                                    )}
+
                                 </div>
                             </div>
                         </div>
@@ -102,12 +105,12 @@ const MultiFileUpload = ({
                 onUploadError={(error) => {
                     toast.error("Image upload failed, Try again");
                     console.log(`Error! ${error.message}`, error);
-                    
+
                 }}
             /> 
         )}
     </div>
-    
+
   )
 }
 

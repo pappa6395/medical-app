@@ -1,5 +1,6 @@
 
-import { PageProps } from '@/.next/types/app/(front)/onboarding/[id]/page';
+
+import { PageProps } from '@/.next/types/app/(back)/dashboard/doctor/profile/[id]/page';
 import { getDoctorProfileById, getDoctorProfileByUserId } from '@/actions/onboarding';
 import { getSpecialty } from '@/actions/specialties';
 import OnboardingSteps from '@/components/Onboarding/OnboardingSteps'
@@ -16,6 +17,8 @@ const page = async({params: paramsPromise}: PageProps) => {
 
     const specialties = (await getSpecialty()).data || [];
     const doctorProfile = (await getDoctorProfileByUserId(id))?.data as DoctorProfile
+    
+    //console.log("Doctor Profile:", doctorProfile);
 
 
   return (

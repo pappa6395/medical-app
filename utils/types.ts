@@ -1,4 +1,4 @@
-import { DoctorProfile, Speciality, UserRole } from "@prisma/client";
+import { DoctorProfile, DoctorStatus, Speciality, UserRole } from "@prisma/client";
 import { LucideIcon, LucideProps } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
@@ -146,8 +146,8 @@ export type AdditionalInfoFormProps = {
 
 export type FileProps = {
     formatToBytes(size: any): React.ReactNode;
-    title: string;
-    size: string;
+    title?: string;
+    size?: number;
     url: string;
 }
 
@@ -171,6 +171,7 @@ export type StepFormProps = {
     nextPage?: string;
     formId?: string;
     specialties?: Speciality[];
+    doctorProfile: DoctorProfile;
 }
 
 export type ServiceFormProps = {
@@ -258,6 +259,7 @@ export type DoctorProfileCard = {
     hourlyWage: number;
     hospitalAddress: string | null;
     operationMode: string | null;
+    status: DoctorStatus | null;
 }
 
 export interface DoctorProfileDetails extends DoctorProfileCard {
@@ -284,6 +286,7 @@ export interface DoctorProfileDetails extends DoctorProfileCard {
     servicesOffered: string[] | null;
     insuranceAccepted: string | null;
     languagesSpoken: string[] | null;
+    
 }
 
 export interface AppointmentProps {

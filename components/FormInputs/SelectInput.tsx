@@ -47,6 +47,7 @@ const SelectInput = ({
                 name={name} 
                 multiple={multiple}
                 value={value}
+                onSelect={() => value}
                 onChange={onChange}
                 className='block w-full border-0 mt-1 py-2 rounded-md
                 shadow-sm ring-1 ring-inset focus:ring-2

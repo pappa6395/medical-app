@@ -4,7 +4,7 @@ import EmailTemplate from "@/components/Emails/emailTemplate";
 import { prismaClient } from "@/lib/db";
 import generateSlug from "@/utils/generateSlug";
 import { RegisterInputProps } from "@/utils/types";
-import { DoctorProfile, UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { Resend } from "resend";
 
@@ -135,6 +135,9 @@ export async function getDoctors() {
       where: {
         role: "DOCTOR"
       },
+      orderBy: {
+        createdAt: "desc"
+      },
       select: {
         id: true,
         name: true,
@@ -152,6 +155,7 @@ export async function getDoctors() {
             operationMode: true,
             hourlyWage: true,
             hospitalAddress: true,
+            status: true,
             // Add other specific fields you need from the DoctorProfile
             availability: {
               select: {
@@ -272,7 +276,9 @@ export async function getDoctorsById(id: string) {
               id: true,
               firstName: true,
               lastName: true,
+              middleName: true,
               gender: true,
+              dob: true,
               bio: true,
               profilePicture: true,
               operationMode: true,
@@ -300,6 +306,7 @@ export async function getDoctorsById(id: string) {
               servicesOffered: true,
               insuranceAccepted: true,
               languagesSpoken: true,
+              status: true,
 
               // Add other specific fields you need from the DoctorProfile
               availability: {

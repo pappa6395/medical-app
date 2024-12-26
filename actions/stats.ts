@@ -1,9 +1,12 @@
 import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/db";
-import { CalendarDays, Mail, Plus, UsersRound } from "lucide-react";
+import { CalendarDays, LayoutGrid, Mail, Plus, Users, UsersRound } from "lucide-react";
 import { getServerSession } from "next-auth";
-import { getAppointmentByDoctorId, getAppointmentByPatientId } from "./appointments";
+import { getAppointmentByDoctorId, getAppointmentByPatientId, getAppointments } from "./appointments";
 import { getInboxMessages } from "./inbox";
+import { UserRole } from "@prisma/client";
+import { getDoctors } from "./users";
+import { getService } from "./services";
 
 export async function getStats() {
     
@@ -29,7 +32,76 @@ export async function getStats() {
                 services: null,
             };
         }
-}
+};
+
+export async function getAdminAnalytics() {
+    
+    try {
+        const session = await getServerSession(authOptions)
+        const user = session?.user
+        const userId = user?.id??""
+        const appointments = (await getAppointments())?.data || []
+        const doctors = await getDoctors() || []
+        
+        const uniquePatientsMap = new Map();
+
+        appointments.forEach((app) => {
+            if (!uniquePatientsMap.has(app.patientId)) {
+            uniquePatientsMap.set(app.patientId, {
+                patientId : app.patientId,
+                name: `${app.firstName} ${app.lastName}`,
+                email: app.email,
+                phone: app.phone,
+                location: app.location,
+                gender: app.gender,
+                occupation: app.occupation,
+                dob: app.dob,
+            });
+            }
+        });
+      
+        const patients = Array.from(uniquePatientsMap.values())
+        const messages = (await getInboxMessages(userId))?.data || [];
+        const services = (await getService())?.data || [];
+
+        const analytics = [
+            {
+                title: "Doctors",
+                count: doctors.length ?? 0,
+                icon: Users,
+                unit: Plus,
+                detailLink: "/dashboard/doctors"
+            },
+            {
+                title: "Patients",
+                count: patients.length ?? 0,
+                icon: UsersRound,
+                unit: Plus,
+                detailLink: "/dashboard/patients"
+            },
+            {
+                title: "Appointments",
+                count: appointments.length ?? 0,
+                icon: CalendarDays,
+                unit: Plus,
+                detailLink: "/dashboard/appointments"
+            },
+            {
+                title: "Services",
+                count: services.length ?? 0,
+                icon: LayoutGrid,
+                unit: Plus,
+                detailLink: "/dashboard/services"
+            },
+        ]
+
+        return analytics 
+        
+    } catch (error) {
+        console.log("Error getting service:", error);
+        return []
+    }
+};
 
 export async function getDoctorAnalytics() {
     
@@ -57,7 +129,7 @@ export async function getDoctorAnalytics() {
         });
       
         const patients = Array.from(uniquePatientsMap.values())
-        const messages = (await getInboxMessages(user!.id))?.data || [];
+        const messages = (await getInboxMessages(userId))?.data || [];
 
         const analytics = [
             {
@@ -89,7 +161,7 @@ export async function getDoctorAnalytics() {
         console.log("Error getting service:", error);
         return []
     }
-}
+};
 
 export async function getUserAnalytics() {
     
@@ -143,4 +215,4 @@ export async function getUserAnalytics() {
         console.log("Error getting service:", error);
         return []
     }
-}
+};

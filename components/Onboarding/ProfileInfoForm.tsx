@@ -9,7 +9,7 @@ import TextAreaInput from '../FormInputs/TextAreaInput';
 import { NewProfileInfoFormProps, ProfileInfoFormProps, StepFormProps } from '@/utils/types';
 import ImageInput from '../FormInputs/ImageInput';
 import { DoctorProfile } from '@prisma/client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { updateDoctorProfileById } from '@/actions/onboarding';
 import { useOnBoardingContext } from '@/context/context';
 import toast from 'react-hot-toast';
@@ -23,6 +23,7 @@ const ProfileInfoForm = ({
     nextPage,
     formId="",
     userId="",
+    doctorProfile,
 }: StepFormProps) => {
 
     
@@ -35,13 +36,15 @@ const ProfileInfoForm = ({
         resumingDoctorData
     } = useOnBoardingContext()
 
+    const pathname = usePathname()
+
     const [profileData, setProfileData] = React.useState<ProfileInfoFormProps>({
-        medicalLicense: resumeProfileData.medicalLicense || resumingDoctorData.medicalLicense || "",
-        medicalLicenseExpiry: resumeProfileData.medicalLicenseExpiry || resumingDoctorData.medicalLicenseExpiry || undefined,
-        yearsOfExperience: resumeProfileData.yearsOfExperience || resumingDoctorData.yearsOfExperience || 0,
-        bio: resumeProfileData.bio || resumingDoctorData.bio || "",
-        profilePicture: resumeProfileData.profilePicture || resumingDoctorData.profilePicture || "",
-        page: resumeProfileData.page || resumingDoctorData.page || "",
+        medicalLicense: doctorProfile.medicalLicense || resumingDoctorData.medicalLicense || "",
+        medicalLicenseExpiry: doctorProfile.medicalLicenseExpiry || resumingDoctorData.medicalLicenseExpiry || undefined,
+        yearsOfExperience: doctorProfile.yearsOfExperience || resumingDoctorData.yearsOfExperience || 0,
+        bio: doctorProfile.bio || resumingDoctorData.bio || "",
+        profilePicture: doctorProfile.profilePicture || resumingDoctorData.profilePicture || "",
+        page: doctorProfile.page || resumingDoctorData.page || "",
     });
    
     const [errors, setErrors] = React.useState<Partial<ProfileInfoFormProps>>({});
@@ -75,13 +78,13 @@ const ProfileInfoForm = ({
             console.log("Profile Data:", profileData);
 
             try {
-                const res = await updateDoctorProfileById(formId, profileData);
+                const res = await updateDoctorProfileById(doctorProfile.id, profileData);
                 setResumeProfileData(profileData);
 
                 if (res?.status === 201) {
                     toast.success("Profile Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
-                    router.push(`/onboarding/${userId}?page=${nextPage}`)
+                    router.push(`${pathname}?page=${nextPage}`)
                     console.log("Updated Profile Data Passed:", res.data);
                 }
                 
