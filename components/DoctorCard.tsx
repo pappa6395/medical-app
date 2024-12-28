@@ -88,7 +88,7 @@ const DoctorCard = ({
                      <div className='flex flex-col gap-2'>
                          <p className='flex items-center'>
                              <Stethoscope className='w-4 h-4 mr-2 flex-shrink-0' />
-                             <span>Medicine</span>
+                             <span>{doctor.doctorProfile?.primarySpecialization}</span>
                          </p>
                          <p className="text-sm text-center bg-green-200 dark:bg-green-800 py-3 px-1 uppercase">
                              Available today

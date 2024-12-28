@@ -260,6 +260,7 @@ export type DoctorProfileCard = {
     hospitalAddress: string | null;
     operationMode: string | null;
     status: DoctorStatus | null;
+    primarySpecialization: string | null;
 }
 
 export interface DoctorProfileDetails extends DoctorProfileCard {
@@ -272,6 +273,7 @@ export interface DoctorProfileDetails extends DoctorProfileCard {
     boardCertificates: string[] | null;
     otherSpecialties: string[] | null;
     primarySpecialization: string | null;
+    medicalSchool: string | null;
     hospitalName: string | null;
     hospitalAddress: string | null;
     hospitalContactNumber: string | null;

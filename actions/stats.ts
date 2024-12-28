@@ -183,7 +183,7 @@ export async function getUserAnalytics() {
         });
       
         const doctors = Array.from(uniquePatientsMap.values())
-        const messages = (await getInboxMessages(user!.id))?.data || [];
+        const messages = (await getInboxMessages(userId))?.data || [];
 
         const analytics = [
             {

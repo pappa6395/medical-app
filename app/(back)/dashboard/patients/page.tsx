@@ -17,7 +17,7 @@ const page = async () => {
     if (!userId) {
         return <div>You must be logged in to access this page.</div>
     }
-    if (user?.role !== "DOCTOR") {
+    if (user?.role !== "ADMIN") {
       return <NotAuthorized/>
     }
     const slug = generateSlug(user?.name??"")
@@ -49,14 +49,14 @@ const page = async () => {
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <NewButton title="New User" href={`/doctor/${slug}`}/>
+            <NewButton title="New Patient" href={`#`}/>
           </div>
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
             count={patients.length??0} 
-            href={`/doctors/${slug}`} 
+            href={`#`} 
             title={"Patient"} />
         </div>
     </div>

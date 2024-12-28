@@ -36,7 +36,7 @@ export function SiteHeader({session}: {session: Session | null}) {
   const initial = generateInitial(user.name?? "");
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
+    <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <div className="flex h-14 items-center px-4">
         <MainNav />

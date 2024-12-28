@@ -78,7 +78,7 @@ const EducationInfoForm = ({
     const allSpecialties = specialties?.map((item) => {
         return {
             label: item.title,
-            value: item.id,
+            value: item.title,
         }
     }) || [];
     //const {register, handleSubmit, reset, formState: {errors},} = useForm<EducationInfoFormProps>()

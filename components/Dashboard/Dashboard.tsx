@@ -1,7 +1,7 @@
 import React from 'react'
 import { Activity, ArrowUpRight, CalendarDays, CreditCard, DollarSign, LayoutGrid, Users, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CardTotalProps, CardTransactionProps, Doctor, SalesProps } from '@/utils/types';
+import { AppointmentProps, CardTotalProps, CardTransactionProps, Doctor, PatientProps, SalesProps } from '@/utils/types';
 import CardTotal, { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Table, TableHead, TableHeader, TableRow } from '../ui/table';
 import CardTransaction from '../ui/cardTransaction';
@@ -12,6 +12,8 @@ import { getServerSession } from 'next-auth';
 import AnalyticCards from '../AnalyticCards';
 import { getDoctors } from '@/actions/users';
 import Link from 'next/link';
+import { getAppointments } from '@/actions/appointments';
+import { generateInitial } from '@/utils/generateInitial';
 
 
 
@@ -69,8 +71,27 @@ const Dashboard = async() => {
   const user = session?.user
 
   const doctors = await getDoctors() || [] as Doctor[]
-  
+  const appointments = (await getAppointments()).data || [] as AppointmentProps[]
+  const uniquePatientsMap = new Map();
 
+    appointments.forEach((app) => {
+      if (!uniquePatientsMap.has(app.patientId)) {
+        uniquePatientsMap.set(app.patientId, {
+          patientId : app.patientId,
+          name: `${app.firstName} ${app.lastName}`,
+          email: app.email,
+          phone: app.phone,
+          location: app.location,
+          gender: app.gender,
+          occupation: app.occupation,
+          doctorId: app.doctorId,
+          dob: app.dob,
+        });
+      }
+    });
+    
+    const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
+    const image = null
 
 
   // const statsCards: CardTotalProps[] = [
@@ -113,7 +134,7 @@ const Dashboard = async() => {
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
-            <CardContent>
+            {/* <CardContent>
                 <CardHeader className="px-2">
                     <CardTitle className='flex justify-between'>
                         <div>Transactions</div>
@@ -145,7 +166,7 @@ const Dashboard = async() => {
                             />
                         ))}
                 </Table>
-            </CardContent>
+            </CardContent> */}
             <CardContent>
                     <section className='flex justify-between'>
                       <div>
@@ -161,7 +182,7 @@ const Dashboard = async() => {
                         </Button>
                     </section>
                     {doctors.slice(0,5).map((data, index) => {
-                      const status = data.doctorProfile?.status
+                      const status = data.doctorProfile?.status??"PENDING"
                       return (
                         <SalesCard
                           key={index}
@@ -169,7 +190,32 @@ const Dashboard = async() => {
                           email={data.email}
                           name={data.name}
                           image={data.doctorProfile?.profilePicture}
-                          wage={data.doctorProfile?.hourlyWage}
+                          profileId={data.doctorProfile?.id}
+                        />
+                    )})}
+            </CardContent>
+            <CardContent>
+                    <section className='flex justify-between'>
+                      <div>
+                        <CardTitle>Recent Patients</CardTitle>
+                        <p className="text-sm text-gray-400">
+                        You made 265 sales this month.
+                        </p>
+                      </div>
+                        <Button asChild className='p-3'>
+                          <Link href="/dashboard/patients">
+                            View All
+                          </Link>
+                        </Button>
+                    </section>
+                    {patients.map((data, index) => {
+                      return (
+                        <SalesCard
+                          key={index}
+                          email={data.email??""}
+                          name={data.name}
+                          image={image}
+                          profileId={data.patientId??""}
                         />
                     )})}
             </CardContent> 

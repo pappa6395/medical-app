@@ -26,7 +26,7 @@ const ShadSelectInput = ({
     </label>
     <div className='mt-2'>
         <Select>
-            <SelectTrigger className="w-[180px] bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-100">
+            <SelectTrigger className="w-full bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-100">
                 <SelectValue placeholder={selectOption || "Select an option"}/>
             </SelectTrigger>
             <SelectContent>

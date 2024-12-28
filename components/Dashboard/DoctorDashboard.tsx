@@ -26,19 +26,6 @@ const DoctorDashboard = ({
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
-      {/* <h2>Doctor Dashboard</h2>
-      <Button asChild>
-        {doctorProfileId ? (
-          <Link href={`/onboarding/resume`}>
-          Update your Doctor Profile application
-        </Link>
-        ) : (
-          <Link href={`/onboarding/${id}`}>
-          Create your Doctor Profile
-        </Link>
-        )}
-        
-      </Button> */}
     </div>
   )
 }

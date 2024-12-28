@@ -3,34 +3,33 @@
 import * as React from "react"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
-import Link from "next/link"
-import { Doctor } from "@/utils/types"
+import { PatientProps } from "@/utils/types"
 import SalesCard from "@/components/ui/saleCard"
 
 
 export function AdminDoctorPanel({
-    doctors,
+    patients,
 }: {
-    doctors: Doctor[]; 
+    patients: PatientProps[]; 
 }) {
 
+    const image = null;
 
   return (
     <div>
         <ScrollArea className="h-auto space-x-4">
-            {doctors.map((data, index) => {
-                const status = data.doctorProfile?.status??"PENDING"
+            {patients.map((data, index) => {
                 return (
-                    <Link key={index} href={`/dashboard/doctors/view/${data.id}`}>
+                    <div key={index} className="index">
                         <SalesCard 
                             email={data.email}
                             name={data.name}
-                            status={status}
-                            image={data.doctorProfile?.profilePicture}
-                            profileId={data.doctorProfile?.id}
+                            image={image}
+                            profileId={data.patientId}
                             className="py-4 mr-4"
                         />
-                    </Link> 
+                    </div>
+                    
                 )})
             }
         </ScrollArea>

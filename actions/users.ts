@@ -156,6 +156,7 @@ export async function getDoctors() {
             hourlyWage: true,
             hospitalAddress: true,
             status: true,
+            primarySpecialization: true,
             // Add other specific fields you need from the DoctorProfile
             availability: {
               select: {
@@ -292,6 +293,7 @@ export async function getDoctorsById(id: string) {
               boardCertificates: true,
               otherSpecialties: true,
               primarySpecialization: true,
+              medicalSchool: true,
               hospitalName: true,
               hospitalAddress: true,
               hospitalContactNumber: true,

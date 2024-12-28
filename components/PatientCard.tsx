@@ -2,10 +2,11 @@ import { cn } from "@/lib/utils";
 import { generateInitial } from "@/utils/generateInitial";
 import { DoctorStatus } from "@prisma/client";
 import Image from 'next/image';
-import ApproveBtn from "../Dashboard/ApproveBtn";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { Button } from "./button";
 import Link from "next/link";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { format } from "date-fns";
+import { formattedDate } from "@/utils/formattedDate";
 
 
 
@@ -14,18 +15,25 @@ export default function SalesCard({
     email,
     image,
     status,
-    profileId,
+    appointmentId,
+    createdAt,
     className=""
 }: {
     name: string;
     email: string;
     image: string | undefined | null;
     status?: DoctorStatus;
-    profileId: string | undefined;
+    appointmentId: string | undefined;
+    createdAt: Date | undefined; 
     className?: string;
 }) {
 
     const initial = generateInitial(name)
+    const createDate = createdAt?.toLocaleDateString("en-us", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    })
 
     return (
       <div className={cn('flex justify-between items-center gap-3',className)}>
@@ -47,7 +55,7 @@ export default function SalesCard({
                     
                 </div>
                 <div className='text-sm'>
-                    <p>{name}</p>
+                    <p>{name} <span className="text-xs">({createDate})</span></p>
                     <div className='text-ellipsis overflow-hidden 
                     whitespace-nowrap w-[120px] sm:w-auto text-gray-400'
                     >
@@ -55,16 +63,13 @@ export default function SalesCard({
                     </div>
                 </div>
             </section>
-            {status ? (
-                <ApproveBtn status={status} profileId={profileId} />
-            ) : (
-                <Button asChild variant={"outline"}>
-                    <Link href={`/dashboard/patients/view/${profileId}`}>
+            <div>
+                <Button asChild variant={"outline"} className="text-xs mr-2">
+                    <Link href={`/dashboard/appointments/view/${appointmentId}`}>
                         View
                     </Link>
                 </Button>
-            )}
-            
+            </div>
       </div>
     )
 }

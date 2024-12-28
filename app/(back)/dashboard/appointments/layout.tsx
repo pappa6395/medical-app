@@ -1,12 +1,14 @@
 
-import { getAppointmentByDoctorId } from '@/actions/appointments';
-import { getDoctors } from '@/actions/users';
-import AdminDoctorPanel from '@/components/Dashboard/Doctor/AdminDoctorPanel';
+import { getAppointmentByDoctorId, getAppointments } from '@/actions/appointments';
+import AdminAppointmentPanel from '@/components/Dashboard/Doctor/AdminAppointmentPanel';
+import AdminPatientPanel from '@/components/Dashboard/Doctor/AdminPatientPanel';
 import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader';
 import PatientPanel from '@/components/Dashboard/Doctor/PatientPanel';
 import NotAuthorized from '@/components/NotAuthorized';
 import { authOptions } from '@/lib/auth';
-import { UsersRound } from 'lucide-react';
+import { AppointmentProps, PatientProps } from '@/utils/types';
+import { Appointment } from '@prisma/client';
+import { CalendarDays, UsersRound } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 
@@ -27,9 +29,12 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
       return <NotAuthorized/>
     }
     
-    const doctors = (await getDoctors()) || [];
-    
+    const appointments = (await getAppointments())?.data || []
 
+    // Option 1 : [patientIds] => remove dups => fetch users with these ids
+    // Option 2 : [patientId, name, email] => remove dups
+
+    
   return (
 
     <div>
@@ -37,10 +42,10 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
       {/* 2 Panels */}
       <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
         {/* Patient Panel */}
-        <div className="col-span-5 px-3 py-3 border-r border-gray-100">
-          <PanelHeader title={"Doctors"} count={doctors.length??0} icon={UsersRound}/>
+        <div className="col-span-5 px-3 border-r border-gray-100">
+          <PanelHeader title={"Appointments"} count={appointments.length??0} icon={CalendarDays}/>
           <div className='px-3'>
-            <AdminDoctorPanel doctors={doctors} />
+            <AdminAppointmentPanel appointments={appointments} />
           </div>
         </div>
         <div className="col-span-7 md:grid hidden px-3">

@@ -32,3 +32,20 @@ export const getFormattedDate = () => {
     return `${dayName}, ${monthName} ${day}`;
 }
 
+export function formatCreatedDate(createdDate: Date | undefined): string {
+    const day = createdDate?.getDate()?? undefined;
+    const month = createdDate?.toLocaleString('default', { month: 'long' })?? undefined;
+    const year = createdDate?.getFullYear()?? undefined;
+
+    const daySuffix = (day: number | undefined): string => {
+        if (day && day >= 11 && day <= 13) return "th";
+        switch (day && day % 10) {
+            case 1: return "st";
+            case 2: return "nd";
+            case 3: return "rd";
+            default: return "th";
+        }
+    };
+
+    return `${day}${daySuffix(day)} ${month} ${year}`;
+}
