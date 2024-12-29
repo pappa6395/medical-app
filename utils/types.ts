@@ -252,6 +252,8 @@ export type DoctorProfileCard = {
     id: string;
     firstName: string;
     lastName: string;
+    middleName?: string | null;
+    dob?: Date | null;
     gender: string;
     bio: string | null;
     profilePicture: string | null;
@@ -288,6 +290,7 @@ export interface DoctorProfileDetails extends DoctorProfileCard {
     servicesOffered: string[] | null;
     insuranceAccepted: string | null;
     languagesSpoken: string[] | null;
+    status: DoctorStatus | null;
     
 }
 

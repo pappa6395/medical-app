@@ -37,13 +37,12 @@ export function SiteHeader({session}: {session: Session | null}) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <div className="flex h-14 items-center px-4">
         <MainNav />
         <MobileNav />
         <div className="flex flex-1 items-center justify-end">
           <nav className="flex items-center gap-4">
-            <div className="w-full">
+            <div className="w-full hidden md:block">
               <SearchBar />
             </div>
             {session && user ? (
@@ -78,7 +77,7 @@ export function SiteHeader({session}: {session: Session | null}) {
                       <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
               </DropdownMenu>) : (
-                <Button asChild className="bg-slate-500">
+                <Button asChild className="bg-slate-500 px-3 py-3">
                   <Link href="/login">
                       <LogIn className="mr-2 h-4 w-4" />Login
                   </Link>

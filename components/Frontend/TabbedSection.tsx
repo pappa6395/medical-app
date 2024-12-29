@@ -13,7 +13,7 @@ const TabbedSection: React.FC = async() => {
     const symptoms = (await getSymptom()).data ?? [];
 
   return (
-    <section className="flex pb-12 pt-20 dark:bg-slate-900">
+    <section className="flex pb-12 pt-20 dark:bg-slate-900 px-3">
         <div className="flex flex-col items-center justify-center w-full">
             <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4">

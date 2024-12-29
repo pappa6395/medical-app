@@ -1,6 +1,8 @@
 
 
-import { PageProps } from '@/.next/types/app/(back)/dashboard/user/appointments/view/[id]/page';
+
+
+import { PageProps } from '@/.next/types/app/(back)/dashboard/user/doctors/page';
 import { getAppointmentByPatientIdAndDoctorId } from '@/actions/appointments';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { authOptions } from '@/lib/auth';

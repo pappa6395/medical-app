@@ -4,6 +4,7 @@ import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader';
 import PatientPanel from '@/components/Dashboard/Doctor/PatientPanel';
 import NotAuthorized from '@/components/NotAuthorized';
 import { authOptions } from '@/lib/auth';
+import { PatientProps } from '@/utils/types';
 import { UsersRound } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
@@ -48,7 +49,7 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
       }
     });
     
-    const patients = Array.from(uniquePatientsMap.values())
+    const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
     console.log("Patients:", patients);
     
     

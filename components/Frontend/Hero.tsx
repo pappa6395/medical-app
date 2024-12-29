@@ -15,7 +15,7 @@ const Hero = () => {
     ];
 
   return (
-    <div className="bg-blue-950 dark:bg-slate-900 flex flex-col justify-between">
+    <div className="bg-blue-950 dark:bg-slate-900 flex flex-col justify-between px-3">
         <div className="relative pb-[110px] pt-[50px] dark:bg-dark 
         lg:pt-[50px] max-w-6xl mx-auto">
         <div className="container">

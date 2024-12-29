@@ -73,9 +73,6 @@ export async function getSpecialty() {
         };
 
     }
-
-
-
 };
 
 export async function getSpecialtyBySlug(slug: string) {

@@ -59,7 +59,7 @@ const DoctorCard = ({
     <div>
         {times && times.length > 0 ? (
              <div 
-                className='border dark:border-gray-600
+                className='border dark:border-gray-600 w-[300px] sm:w-[300px] h-[450px] sm:h-[420px]
                 bg-slate-50 dark:bg-slate-900 inline-flex flex-col py-7 px-6 rounded-md 
                 hover:border-gray-400 shadow-md'>
              <Link href={`/doctors/${slug}?id=${doctor.id}`}>
@@ -90,7 +90,8 @@ const DoctorCard = ({
                              <Stethoscope className='w-4 h-4 mr-2 flex-shrink-0' />
                              <span>{doctor.doctorProfile?.primarySpecialization}</span>
                          </p>
-                         <p className="text-sm text-center bg-green-200 dark:bg-green-800 py-3 px-1 uppercase">
+                         <p className="text-sm text-center bg-green-200 
+                         dark:bg-green-800 py-3 px-2 rounded-md uppercase">
                              Available today
                          </p>
                      </div>
@@ -113,7 +114,7 @@ const DoctorCard = ({
                      <Link 
                          href="/doctors/slug" 
                          className='bg-blue-900 text-center
-                          text-white p-2 text-sm'>
+                          text-white p-2 text-sm text-nowrap truncate'>
                              <span>More time</span>
                      </Link>
                  </div>

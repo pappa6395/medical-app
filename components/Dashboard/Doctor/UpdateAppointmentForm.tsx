@@ -31,12 +31,12 @@ const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefi
             description: '',
         },
         {
-            label: "Approve",
+            label: "Approved",
             value: "approved",
             description: '',
         },
         {
-            label: "Reject",
+            label: "Rejected",
             value: "rejected",
             description: '',
         },

@@ -79,6 +79,7 @@ export async function updateAppointment(id: string, data: AppointmentProps) {
                 data,
             });
             revalidatePath("/dashboard/doctors/appointments")
+            revalidatePath("/dashboard/user/settings")
             //console.log("Update appointment:", updatedAppointment);
             return {
                 data: updatedAppointment,
@@ -255,6 +256,9 @@ export async function getAppointmentByPatientId(patientId: string) {
                 where: {
                     patientId: patientId,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                }
                 
             });
             return {

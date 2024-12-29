@@ -12,7 +12,6 @@ const Layout =  async ({children}:{children:ReactNode}) => {
   
   return (
     <div className=''>
-      
         <SiteHeader session={session} />
           {children}
         <Footer />

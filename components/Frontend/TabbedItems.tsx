@@ -51,7 +51,7 @@ const TabbedItems = ({
 
   return (
 
-    <div className='w-full'>
+    <div className='w-full px-3'>
         <div className="text-lg font-medium flex w-full
         text-gray-500 border-b border-gray-200
         dark:text-gray-400 dark:border-gray-700">

@@ -1,16 +1,9 @@
 
 
 import { PageProps } from '@/.next/types/app/(back)/dashboard/patients/view/[id]/page';
-import { getAppointmentById, getAppointmentByPatientId, getRecentAppointmentByPatientId } from '@/actions/appointments';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
-import { timeAgo } from '@/utils/timeAgo';
-import { format } from 'date-fns';
-import { Calendar, CalendarCheck, Check, CircleEllipsis, CircleX, History, Mail, Phone, Video } from 'lucide-react';
-import pdfIcon from '@/public/pdf.png'
+import { getAppointmentById } from '@/actions/appointments';
+import { Calendar, Mail, Phone, Video } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 import React from 'react'
 import { Button } from '@/components/ui/button';
 import { CardDescription, CardTitle } from '@/components/ui/card';

@@ -69,7 +69,7 @@ export default function DoctorListCarousel({
         {
           doctors && doctors.map((doctor: Doctor, i) => {
               return (
-                <CarouselItem key={i} className="flex md:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={i} className="flex justify-center md:basis-1/2 lg:basis-1/3">
                   <DoctorCard doctor={doctor} isInPerson={isInPerson}/>
                 </CarouselItem>
               )
@@ -78,8 +78,10 @@ export default function DoctorListCarousel({
         }
          
       </CarouselContent>
-      <CarouselPrevious className="p-12 border-none sm:p-4 bg-transparent" size={"icon"}/>
-      <CarouselNext className="p-12 border-none sm:p-4 bg-transparent" size={"icon"}/>
+      <CarouselPrevious className="hidden sm:block translate-x-24 sm:translate-x-0 p-16 border-none sm:p-4 bg-transparent" size={"icon"}/>
+      <CarouselNext className="hidden sm:block -translate-x-24 sm:-translate-x-0 p-16 border-none sm:p-4 bg-transparent" size={"icon"}/>
+      <CarouselPrevious className="block sm:hidden translate-y-32  translate-x-24 p-16 border-none sm:p-4 bg-transparent" size={"icon"}/>
+      <CarouselNext className="block sm:hidden translate-y-32 -translate-x-24 p-16 border-none sm:p-4 bg-transparent" size={"icon"}/>
     </Carousel>
     
   );

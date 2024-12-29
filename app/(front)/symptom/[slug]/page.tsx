@@ -1,6 +1,7 @@
 import { PageProps } from '@/.next/types/app/(front)/service/[slug]/page'
 import { getDoctorsBySymptomId, getOtherDoctorSymptomBySymptom } from '@/actions/doctors'
 import DoctorCard from '@/components/DoctorCard'
+import SymptomPanel from '@/components/SymptomPanel'
 import generateSlug from '@/utils/generateSlug'
 import Link from 'next/link'
 import React from 'react'
@@ -39,8 +40,9 @@ const page = async ({
 
   return (
 
-    <div className='container p-8'>
-        <h1 
+    <div className='p-8'>
+        <SymptomPanel doctors={doctorSymptom} symptoms={otherSymptoms} title={title} />
+        {/* <h1 
             className='scroll-m-20 text-3xl font-extrabold 
             tracking-tight lg:text-4xl pb-6  capitalize'
         >
@@ -78,7 +80,7 @@ const page = async ({
                     })
                 ) : "No doctor available in this category."} 
             </div>
-        </div>
+        </div> */}
     </div>
   )
 }

@@ -70,7 +70,7 @@ export async function updateDoctorProfileById(
           },
           data: updatedData
         });
-        //console.log("Updated Profile:",updatedProfile);
+        console.log("Updated Profile:",updatedProfile);
 
         return {
           data: updatedProfile,

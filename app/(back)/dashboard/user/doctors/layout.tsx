@@ -53,7 +53,7 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
       <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
         {/* Patient Panel */}
         <div className="col-span-5 px-3 py-3 border-r border-gray-100">
-          <PanelHeader title={"Patients"} count={doctors.length??0} icon={UsersRound}/>
+          <PanelHeader title={"Doctors"} count={doctors.length??0} icon={UsersRound}/>
           <div className='px-3'>
             <DoctorPanel doctors={doctors} role={role} userId={userId} />
           </div>

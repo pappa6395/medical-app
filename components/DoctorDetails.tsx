@@ -19,6 +19,7 @@ import toast from 'react-hot-toast'
 import { createAppointment } from '@/actions/appointments'
 import SubmitButton from './FormInputs/SubmitButton'
 import { Appointment } from '@prisma/client'
+import DoctorProfileDetail from './Dashboard/Doctor/DoctorProfileDetail'
 
 
 const DoctorDetails = ({
@@ -26,7 +27,7 @@ const DoctorDetails = ({
     patientId,
     appointment,
 }: {
-    doctor: DoctorDetail; 
+    doctor: DoctorDetail 
     patientId: string | undefined;
     appointment: Appointment | undefined | null;
 }) => {
@@ -156,6 +157,7 @@ const DoctorDetails = ({
         setIsLoading(false);
         setIsSubmitted(false);
     }
+    
     const transformedErrors: Record<string, string[]> = 
     Object.entries(errors).reduce((acc, [key, value]) => {
         acc[key] = Array.isArray(value) ? value.map(String) : [String(value)];
@@ -188,7 +190,7 @@ const DoctorDetails = ({
                                 'py-4 px-4 w-full bg-slate-50 dark:bg-slate-100 text-slate-800 uppercase tracking-wide border-b-2 border-blue-500'
                             )}
                         onClick={() => setIsActive("details")} >
-                        Service Details
+                        Doctor Details
                     </button>
                     <button 
                         className={isActive === 'availability' 
@@ -249,7 +251,7 @@ const DoctorDetails = ({
                         
                     ) : (
                         <div>
-                            Service Details Component
+                            <DoctorProfileDetail doctor={doctor} />
                         </div>
                     )}
                 </div>

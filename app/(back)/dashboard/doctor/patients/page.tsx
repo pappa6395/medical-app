@@ -1,4 +1,5 @@
 import { getAppointmentByDoctorId } from '@/actions/appointments'
+import { getDoctorsById } from '@/actions/users'
 import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
@@ -23,7 +24,9 @@ const page = async () => {
     const slug = generateSlug(user?.name??"")
     
     const appointments = (await getAppointmentByDoctorId(userId))?.data || []
-
+    const doctors = await getDoctorsById(userId)
+    const doctorSlug = generateSlug(`${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`)
+    
     const uniquePatientsMap = new Map();
 
       appointments.forEach((app) => {
@@ -49,14 +52,14 @@ const page = async () => {
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <NewButton title="New User" href={`/doctor/${slug}`}/>
+            <NewButton title="New Patient" href={`/doctors/${doctorSlug}?id=${userId}`}/>
           </div>
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
             count={patients.length??0} 
-            href={`/doctors/${slug}`} 
+            href={`/doctors/${doctorSlug}?id=${userId}`} 
             title={"Patient"} />
         </div>
     </div>

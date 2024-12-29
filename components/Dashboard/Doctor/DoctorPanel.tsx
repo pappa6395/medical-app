@@ -29,13 +29,13 @@ export function DoctorPanel({
     <div>
         <ScrollArea className="h-96 space-x-4">
             {doctors.map((item: DoctorProps, i) => {
-                const slug = generateSlug(item.doctorName??"")
+                const slug = generateSlug(item.doctorName??"Unknown Name")
                 return (
                     <div key={i} className="mt-2 mr-4 cursor-pointer">
                         <Link 
                             href={`/doctors/${slug}?id=${item.doctorId}`}
                             className={cn(
-                                "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700", 
+                                "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700 focus:border-green-500", 
                                 pathName === `/dashboard/doctor/patients/view/${item.doctorId}`
                                 && "border-green-600 bg-green-50 border-2")}
                         >

@@ -18,7 +18,7 @@ export default async function Home() {
   
 
   return (
-    <section className="">
+    <section className="m-0 p-0">
       <Hero />
       <Brands />
       <TabbedSection />

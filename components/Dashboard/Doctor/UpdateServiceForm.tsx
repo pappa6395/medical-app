@@ -43,7 +43,7 @@ const UpdateServiceForm = ({
     const operationModes = [
         { label: "Telehealth", slug: "telehealth",icon: Video },
         { label: "In-person doctor visit", slug: "in-person-doctor-visit", icon: Map},
-        { label: "Both Telehealth and In-person doctor visit", slug: "both-telehealth-and-in-person-doctor-visit", icon: PictureInPicture2},
+        //{ label: "Both Telehealth and In-person doctor visit", slug: "both-telehealth-and-in-person-doctor-visit", icon: PictureInPicture2},
     ]
 
     const handleUpdateService = async () => {
@@ -297,7 +297,8 @@ const UpdateServiceForm = ({
                     </div>
                     <Button 
                         disabled={isSpecialtyLoading} 
-                        variant={"outline"} 
+                        variant={"outline"}
+                        
                         type="submit" 
                         onClick={handleUpdateSpecialty}
                         className='dark:border-slate-400'

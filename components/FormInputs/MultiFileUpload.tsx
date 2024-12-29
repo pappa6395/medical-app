@@ -2,6 +2,7 @@ import { formatToBytes } from '@/utils/formatToBytes';
 import { FileProps } from '@/utils/types';
 import { UploadDropzone } from '@/utils/uploadthing';
 import { File, FileX, XCircle } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react'
 import toast from 'react-hot-toast';
 
@@ -48,10 +49,10 @@ const MultiFileUpload = ({
                     onClick={() => setFiles([])}
                     type="button"
                     className='flex space-x-2 bg-slate-600 
-                    rounded-md shadow text-slate-50 py-2 px-4'
+                    rounded-full shadow text-slate-50 py-2 px-4'
                     >
-                    <FileX className='w-5 h-5' />
-                    <span>Delete Files</span>
+                    <FileX className='w-5 h-5 ml-1'/>
+                    <span></span>
                  </button>
             )} 
         </div>
@@ -75,10 +76,10 @@ const MultiFileUpload = ({
                             dark:bg-slate-800 border border-slate-200">
                                     <File className='flex flex-shrink-0'/>
                                 <div className='flex flex-col truncate'>
-                                    <span className="line-clamp-1 ps-2">{file.title}</span>
-                                    {file.size && file.size > 0 && (
-                                        <span className='text-gray-500 ps-2'>{formatToBytes(file.size??0)} KB</span>
-                                    )}
+                                    <Link href={file.url} target="_blank" className="line-clamp-1 ps-2">{file.title}</Link>
+                                    {file.size && file.size > 0 ? (
+                                        <span className='text-gray-500 ps-2'>{formatToBytes(file.size)}KB</span>
+                                    ) : ""}
 
                                 </div>
                             </div>

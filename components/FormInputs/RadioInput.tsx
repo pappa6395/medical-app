@@ -6,7 +6,7 @@ type RadioInputProps = {
     className?: string;
     name: string;
     title: string;
-    register: boolean;
+    register?: boolean;
     value: string | undefined;
     options: Array<{value: string, label: string, description: string}>;
     errors: Record<string, string[]>;
@@ -44,7 +44,7 @@ const RadioInput = (
                                     type="radio" 
                                     name={name}
                                     value={option.value}
-                                    checked
+                                    checked={value === option.value}
                                     onChange={onChange}                                    
                                     className="w-4 h-4 text-blue-600 bg-gray-100 
                                     border-gray-300 focus:ring-blue-500 
@@ -61,7 +61,7 @@ const RadioInput = (
                             {options.find((item,i) => item.description.length > 0)  && (
                                 <p 
                                 className='m-2 p-2 text-sm text-slate-600 
-                                dark:text-slate-300 '
+                                dark:text-slate-300'
                             >{option.description}
                             </p>
                             )}

@@ -67,6 +67,7 @@ const ApproveBtn = ({
       
     } finally {
       setIsLoading(false);
+      setSelectedOption("PENDING");
     }
 
   }
