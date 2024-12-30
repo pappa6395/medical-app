@@ -71,32 +71,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    
-        <html lang="en" suppressHydrationWarning>
-          <body className={reStyle.className}>
-          <NextSSRPlugin
-          /**
-           * The `extractRouterConfig` will extract **only** the route configs
-           * from the router to prevent additional information from being
-           * leaked to the client. The data passed to the client is the same
-           * as if you were to fetch `/api/uploadthing` directly.
-           */
-          routerConfig={extractRouterConfig(ourFileRouter)}
+
+      <html lang="en" suppressHydrationWarning>  
+        <body className={reStyle.className}>
+        <NextSSRPlugin
+        /**
+         * The `extractRouterConfig` will extract **only** the route configs
+         * from the router to prevent additional information from being
+         * leaked to the client. The data passed to the client is the same
+         * as if you were to fetch `/api/uploadthing` directly.
+         */
+        routerConfig={extractRouterConfig(ourFileRouter)}
         />  
-            <ToastProvider>
-                <OnboardingContextProvider>
-                  <ThemeProvider
-                          attribute="class"
-                          defaultTheme="system"
-                          enableSystem
-                          disableTransitionOnChange
-                        >
-                            {children} 
-                    </ThemeProvider>
-                </OnboardingContextProvider>
-              </ToastProvider>
+          <ToastProvider>
+              <OnboardingContextProvider>
+                <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                      >
+                          {children} 
+                  </ThemeProvider>
+              </OnboardingContextProvider>
+            </ToastProvider>
         </body>
       </html>
+    
   );   
 }

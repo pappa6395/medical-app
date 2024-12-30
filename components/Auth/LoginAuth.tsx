@@ -91,14 +91,36 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
         resetForm();
         
       }
+  };
+
+  const handleSignInWithProvider = async () => {
+    setIsLoading(true);
+    try {
+      const res = await signIn("google");
+      console.log("Google Sign-in successful:", res);
+      
+      if (res?.error) {
+        throw new Error(res.error);
+      };
+
+      router.push(returnUrl);
+
+    } catch (error) {
+      console.error("Network Error:", error);
+      toast.error("Its seems something is wrong with your Network");
+
+    } finally {
+      setIsLoading(false);
+      
     }
+  }
 
   const resetForm = () => {
     setLoginData({ email: "", password: "" })
     setErrors({});
     setIsSubmitted(false);
     setIsLoading(false);
-  }
+  };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -144,7 +166,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button variant="outline" type="button" disabled={isLoading} onClick={handleSignInWithProvider}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (

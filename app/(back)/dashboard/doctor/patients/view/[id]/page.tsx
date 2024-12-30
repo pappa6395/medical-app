@@ -36,7 +36,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
             return (
               <div key={item.id} className="mt-2 mr-4 cursor-pointer">
                     <Link 
-                        href={`/dashboard/doctor/appointments/view/${item.patientId}`}
+                        href={`/dashboard/doctor/appointments`}
                         className={cn(
                             "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700")}
                     >

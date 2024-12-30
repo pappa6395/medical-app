@@ -15,6 +15,7 @@ export type RegisterInputProps = {
     email: string;
     phone: string;
     password: string;
+    token?: number;
     role?: string | string[] | undefined;
     plan?: string | string[] | undefined;
 }
@@ -234,7 +235,7 @@ export type DoctorDetail = {
     name: string;
     slug: string;
     email: string;
-    phone: string;
+    phone: string | null;
     doctorProfile: DoctorProfileDetails | null;
 }
 
@@ -374,4 +375,11 @@ export type InboxProps = {
     senderEmail: string;
     message: string; 
     subject: string;
+}
+
+export type ComposeMailProps = {
+    to: string;
+    subject: string;
+    message: string;
+    attachments: FileProps[];
 }

@@ -37,7 +37,7 @@ const DoctorDetails = ({
 
     const formattedDate = getFormattedDate();
     const day = getDayFromDate(date?.toDateString());
-    const longDate = getLongDate(date!.toDateString());
+    const longDate = date && getLongDate(date.toDateString());
     const times = doctor.doctorProfile?.availability?.[day] ?? null;
 
     const [selectedDoB, setSelectedDoB] = useState(undefined);
@@ -55,7 +55,7 @@ const DoctorDetails = ({
         occupation: appointment?.occupation ||"",
         appointmentDate: appointment?.appointmentDate || date,
         appointmentTime: appointment?.appointmentTime || "",
-        appointmentFormattedDate: appointment?.appointmentFormattedDate || longDate,
+        appointmentFormattedDate: appointment?.appointmentFormattedDate??"",
         doctorId: doctor.id,
         doctorName: doctor.name || "",
         patientId: appointment?.patientId || "",
@@ -141,7 +141,7 @@ const DoctorDetails = ({
             occupation: "",
             appointmentDate: date?? undefined,
             appointmentTime: "",
-            appointmentFormattedDate: longDate?? undefined,
+            appointmentFormattedDate: "",
             doctorId: doctor.id,
             doctorName: doctor.name,
             patientId: patientData?.patientId ?? "",

@@ -13,6 +13,7 @@ import { HiInformationCircle } from "react-icons/hi"
 import TextInput from "../FormInputs/TextInput"
 import { createUser } from "@/actions/users"
 import toast from "react-hot-toast"
+import { signIn } from "next-auth/react"
 
 
 interface UserAuthFormProps {
@@ -166,7 +167,7 @@ export default function RegisterAuth({ role="USER", plan="", ...props }: UserAut
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button variant="outline" type="button" disabled={isLoading} onClick={() => signIn("google")}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (

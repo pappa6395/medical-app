@@ -15,22 +15,39 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdownMenu";
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { Session } from "next-auth"
 import { generateInitial } from "@/utils/generateInitial"
 import SearchBar from "./Frontend/SearchBar"
+import toast from "react-hot-toast"
 
 
 export function SiteHeader({session}: {session: Session | null}) {
 
   const user = session?.user || {name: "Guest", email: "", image: null};
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("returnUrl") || "/login";
   //console.log("User's data:", user);
   
   async function handleLogout() {
-      await signOut()
-      router.push("/login");
+
+    try {
+      const result = await signOut();
+      console.log("Sign-out result:", result);
+
+    // Clear any client-side cookies if necessary
+    document.cookie = "next-auth.session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "next-auth.csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    router.push(returnUrl);
+    toast.success("User logged out successfully")
+    
+    } catch (error) {
+      console.error("Sign-out error:", error);
+      toast.error("Failed to log out. Please try again")
+    }
   }
 
   const initial = generateInitial(user.name?? "");

@@ -50,16 +50,16 @@ export async function createUser(submittedData: RegisterInputProps) {
         data: {
             name: fullName,
             slug: generateSlug(fullName),
-            email,
+            email: email,
             phone,
-            password: hashedPassword,
+            password: hashedPassword || "GoogleAuthentication",
             role: role as UserRole,
             plan: pricePlan,
             token: userToken,
         },
         });
         //Send an Email with the Token on the link as a search param
-        const token = newUser.token;
+        const token = newUser.token??0;
         const userId = newUser.id;
         const firstName = newUser.name.split(" ")[0];
         const linkText = "Verify your Account ";

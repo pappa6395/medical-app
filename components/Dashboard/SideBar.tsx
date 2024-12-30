@@ -21,6 +21,7 @@ import {
   Microscope, 
   Package, 
   Package2, 
+  Pencil, 
   Power, 
   Search, 
   Settings, 
@@ -60,7 +61,8 @@ export default function SideBar({session}: {session: Session}) {
             },
             {   title: "Inbox", 
                 path: "/dashboard/user/inbox", 
-                icon: Mail },
+                icon: Mail 
+            },
             {
                 title: "Settings",
                 path: "/dashboard/user/settings",
@@ -86,6 +88,7 @@ export default function SideBar({session}: {session: Session}) {
             { title: "Patients", path: "/dashboard/doctor/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/doctor/appointments", icon: CalendarDays },
             { title: "Inbox", path: "/dashboard/doctor/inbox", icon: Mail },
+            { title: "Compose", path: "/dashboard/doctor/compose", icon: Pencil },
             { 
                 title: "Profile", 
                 path: `/dashboard/doctor/profile/${id}`, 

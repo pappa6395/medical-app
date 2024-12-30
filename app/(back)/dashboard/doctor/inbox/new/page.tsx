@@ -52,17 +52,11 @@ const page = async () => {
 
   return (
 
-
-       
-
     <div>
       <div className="relative py-4 w-full max-h-full">
         <InboxForm title={"New Message"} session={session} users={users} />
       </div>
     </div> 
-
-
-
 
   )
 }

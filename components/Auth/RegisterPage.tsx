@@ -63,37 +63,28 @@ export default function RegisterPage({role="USER", plan="" }: RegisterPageProps)
             </div>
             <div className="bg-muted min-h-screen lg:p-8 items-center 
             justify-center grid dark:bg-slate-950">
-                <Link
-                href="/examples/authentication"
-                className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "absolute right-4 top-4 md:right-8 md:top-8"
-                )}
-                >
-                SignUp
-                </Link>
-                    <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
-                        justify-center sm:w-[350px]">
-                        <div className="grid space-y-2 text-center">
-                            <h1 className="text-2xl font-semibold tracking-tight">
-                                Create an account
-                            </h1>
-                            <p className="text-sm text-muted-foreground">
-                                Enter your email below to create your account
-                            </p>
-                        </div>
-                        <RegisterAuth role={role} plan={plan} />
-                        <p className="mt-5 text-center text-sm/6 
-                        text-muted-foreground">
-                        <span>Already have an Account?</span>{' '}
-                        <Link 
-                            href="/login" 
-                            className="underline underline-offset-4 
-                            hover:text-primary">
-                            Sign In
-                        </Link>
+                <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
+                    justify-center sm:w-[350px]">
+                    <div className="grid space-y-2 text-center">
+                        <h1 className="text-2xl font-semibold tracking-tight">
+                            Create an account
+                        </h1>
+                        <p className="text-sm text-muted-foreground">
+                            Enter your email below to create your account
                         </p>
                     </div>
+                    <RegisterAuth role={role} plan={plan} />
+                    <p className="mt-5 text-center text-sm/6 
+                    text-muted-foreground">
+                    <span>Already have an Account?</span>{' '}
+                    <Link 
+                        href="/login" 
+                        className="underline underline-offset-4 
+                        hover:text-primary">
+                        Sign In
+                    </Link>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

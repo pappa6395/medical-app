@@ -11,7 +11,7 @@ import React from 'react'
 const page = async ({params: paramsPromise}: PageProps) => {
 
   const { id } = await paramsPromise
-
+  
   const appointmentById = await getAppointmentById(id)
   const appointment = appointmentById?.data
   

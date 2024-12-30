@@ -80,7 +80,6 @@ const MultiFileUpload = ({
                                     {file.size && file.size > 0 ? (
                                         <span className='text-gray-500 ps-2'>{formatToBytes(file.size)}KB</span>
                                     ) : ""}
-
                                 </div>
                             </div>
                         </div>

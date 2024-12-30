@@ -60,37 +60,28 @@ export default function LoginPage() {
             </div>
             <div className="bg-muted min-h-screen lg:p-8 
             items-center justify-center grid dark:bg-slate-950">
-                <Link
-                href="/examples/authentication"
-                className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "absolute right-4 top-4 md:right-8 md:top-8"
-                )}
-                >
-                Login
-                </Link>
-                    <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
-                    justify-center px-4 sm:px-0 sm:w-[350px]">
-                        <div className="grid space-y-2 text-center">
-                            <h1 className="text-2xl font-semibold tracking-tight">
-                                Welcome Back!
-                            </h1>
-                            <p className="text-sm text-muted-foreground">
-                                Enter your email and password below to login your account
-                            </p>
-                        </div>
-                        <LoginAuth />
-                        <p className="mt-5 text-center text-sm/6 
-                        text-muted-foreground">
-                        <span>Don't have an Account?</span>{' '}
-                        <Link 
-                            href="/register" 
-                            className="underline underline-offset-4 
-                            hover:text-primary">
-                            Create a new account
-                        </Link>
+                <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
+                justify-center px-4 sm:px-0 sm:w-[350px]">
+                    <div className="grid space-y-2 text-center">
+                        <h1 className="text-2xl font-semibold tracking-tight">
+                            Welcome Back!
+                        </h1>
+                        <p className="text-sm text-muted-foreground">
+                            Enter your email and password below to login your account
                         </p>
                     </div>
+                    <LoginAuth />
+                    <p className="mt-5 text-center text-sm/6 
+                    text-muted-foreground">
+                    <span>Don't have an Account?</span>{' '}
+                    <Link 
+                        href="/register" 
+                        className="underline underline-offset-4 
+                        hover:text-primary">
+                        Create a new account
+                    </Link>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
