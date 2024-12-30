@@ -226,7 +226,7 @@ export type Doctor = {
     name: string;
     slug: string;
     email: string;
-    phone: string;
+    phone: string | null;
     doctorProfile: DoctorProfileCard | null;
 }
 
