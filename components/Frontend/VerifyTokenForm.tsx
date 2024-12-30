@@ -41,7 +41,7 @@ export default function VerifyTokenForm({
   id,
   role
 }: {
-  userToken: number | undefined;
+  userToken: number | undefined | null;
   id: string;
   role: UserRole | undefined;
 }) {
