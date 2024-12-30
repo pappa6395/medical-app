@@ -32,7 +32,14 @@ export default function RegisterAuth({ role="USER", plan="", ...props }: UserAut
         plan,
   });
 
-  const [errors, setErrors] = React.useState<Partial<RegisterInputProps>>({});
+  const [errors, setErrors] = React.useState<Partial<RegisterInputProps>>({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    role,
+    plan,
+  });
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [showNotification, setShowNotification] = React.useState<boolean>(false)
@@ -44,7 +51,12 @@ export default function RegisterAuth({ role="USER", plan="", ...props }: UserAut
   };
 
   const validate = () => {
-    const newErrors: Partial<RegisterInputProps> = {};
+    const newErrors: Partial<RegisterInputProps> = {
+      fullName: "",
+      email: "",
+      phone: "",
+      password: "",
+    };
 
     if (!formData.fullName) newErrors.fullName = "Fullname is required.";
     if (!formData.email) newErrors.email = "Email is required.";
@@ -61,7 +73,9 @@ export default function RegisterAuth({ role="USER", plan="", ...props }: UserAut
 
   const transformedErrors: Record<string, string[]> = 
     Object.entries(errors).reduce((acc, [key, value]) => {
-      acc[key] = Array.isArray(value) ? value : [value];
+      acc[key] = Array.isArray(value) ? 
+      value.filter((v): v is string => typeof v === 'string') 
+      : [value].filter((v): v is string => typeof v === 'string');
       return acc;
     }, {} as Record<string, string[]>)
 
