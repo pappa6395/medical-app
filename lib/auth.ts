@@ -29,18 +29,18 @@ export const authOptions: NextAuthOptions = {
     // }),
     GoogleProvider({
       //Checking if the role exista and if not add USER Bydefault
-      profile(profile) {
-        return { role: profile.role ?? "USER", ...profile }
-      },
+      // profile(profile) {
+      //   return { role: profile.role ?? "USER", ...profile }
+      // },
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      authorization: {
-        params: {
-          scope: "openid email profile phone",
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-      },
+      // authorization: {
+      //   params: {
+      //     scope: "openid email profile phone",
+      //     access_type: 'offline',
+      //     prompt: 'consent',
+      //   },
+      // },
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -111,7 +111,8 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await prismaClient.user.findFirst({
         where: { email },
       });
-
+      //console.log("Pass Checked 1");
+      
       // If user doesn't exist in the database, create a new token for the first-time login
       if (!dbUser) {
         // Create user if not exist
@@ -139,7 +140,8 @@ export const authOptions: NextAuthOptions = {
           data: { token: null },
         });
       }
-
+      //console.log("Pass Checked 2");
+      
       //Refresh the token (or generate a new one as needed)
       const generateToken = () => {
         const min = 100000; // Minimum 6-figure number
@@ -155,6 +157,9 @@ export const authOptions: NextAuthOptions = {
         data: { token: newToken },
       });
 
+      //console.log("Pass Checked 3");
+      //console.log("Token Updated:", token);
+      
       //Return updated token information
       return {
         id: dbUser.id,
@@ -174,6 +179,8 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role;
         (session.user as any).token  = token.token;
       }
+      //console.log("Pass Checked 4");
+      
       return session;
     },
   },

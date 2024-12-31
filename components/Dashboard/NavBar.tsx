@@ -11,34 +11,20 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet";
 import {
-  Bell, 
   BriefcaseMedical, 
   CalendarClock, 
   CalendarDays, 
   CircleUser, 
   Home, 
-  LineChart, 
   Mail, 
   Menu, 
   Microscope, 
-  Package, 
-  Package2, 
-  Search, 
   Settings, 
-  ShoppingCart, 
   Syringe, 
   Users 
 } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle
-} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,13 +33,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdownMenu";
-import { Input } from "@/components/ui/input";
 import ModeToggle from "../ModeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { generateInitial } from "@/utils/generateInitial";
 import { cn } from "@/lib/utils";
+import SearchBar from "../Frontend/SearchBar";
 
 
 
@@ -162,16 +148,9 @@ export default function NavBar({session}: {session: Session} ) {
                     </SheetContent>
                 </Sheet>
                 <div className="w-full flex-1">
-                    <form>
-                        <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                            type="search"
-                            placeholder="Search products..."
-                            className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                            />
-                        </div>
-                    </form>
+                    <div className="relative">
+                        <SearchBar />
+                    </div>
                 </div>
                 <ModeToggle />
             <DropdownMenu>
@@ -179,7 +158,7 @@ export default function NavBar({session}: {session: Session} ) {
                     <Button variant="secondary" size="icon" className="rounded-full">
                         <Avatar>
                             {user.image ? 
-                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> 
+                            <AvatarImage src={user.image} alt="userImage" /> 
                             :  <AvatarFallback>{initial}</AvatarFallback> }
                         </Avatar>
                         <span className="sr-only">Toggle user menu</span>

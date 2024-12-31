@@ -11,6 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import Image from "next/image";
 
 interface NewAppointmentEmailProps {
   doctorName?: string;
@@ -32,10 +33,10 @@ export const NewAppointmentEmail = ({
     <Preview>{subject}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img
-          src={`https://utfs.io/f/nZhGQ10Fr4u8Qqr1DD5nDRH3UrOSVTNFz2tKCxwjeJodWLkb`}
-          width="32"
-          height="32"
+        <Image
+          src="https://utfs.io/f/nZhGQ10Fr4u8aJ1TryUsPG2nKqBJiw4H8W6kz3yv7YgLVSQN"
+          width={100}
+          height={32}
           alt="Claridy"
         />
  

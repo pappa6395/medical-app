@@ -14,6 +14,7 @@ export async function createInboxMessage(data: InboxProps) {
                 data,
             })
             revalidatePath("/dashboard/doctor/inbox")
+            revalidatePath("/dashboard/user/inbox")
             //console.log("New Message:", newMessage);
             return {
                 data: newMessage,

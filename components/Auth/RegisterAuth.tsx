@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
 import SubmitButton from "../FormInputs/SubmitButton"
 import { RegisterInputProps } from "@/utils/types"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi"
 import TextInput from "../FormInputs/TextInput"
@@ -44,6 +44,8 @@ export default function RegisterAuth({ role="USER", plan="", ...props }: UserAut
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [showNotification, setShowNotification] = React.useState<boolean>(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const returnUrl = searchParams.get('returnUrl') || "/dashboard"
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -109,6 +111,28 @@ export default function RegisterAuth({ role="USER", plan="", ...props }: UserAut
       }
     } 
 
+  }
+
+  const handleSignInWithProvider = async () => {
+    setIsLoading(true);
+    try {
+      const res = await signIn("google", {redirect: false});
+      console.log("Google Sign-in successful:", res);
+      
+      if (res?.error) {
+        throw new Error(res.error);
+      };
+
+      router.push(returnUrl);
+
+    } catch (error) {
+      console.error("Network Error:", error);
+      toast.error("Its seems something is wrong with your Network");
+
+    } finally {
+      setIsLoading(false);
+
+    }
   }
 
   const resetForm = () => {

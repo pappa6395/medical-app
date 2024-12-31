@@ -96,7 +96,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
   const handleSignInWithProvider = async () => {
     setIsLoading(true);
     try {
-      const res = await signIn("google");
+      const res = await signIn("google", {redirect: false});
       console.log("Google Sign-in successful:", res);
       
       if (res?.error) {
@@ -111,7 +111,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
 
     } finally {
       setIsLoading(false);
-      
+
     }
   }
 
@@ -166,7 +166,12 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading} onClick={handleSignInWithProvider}>
+      <Button 
+        variant="outline" 
+        type="button" 
+        disabled={isLoading} 
+        onClick={handleSignInWithProvider}
+      >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (

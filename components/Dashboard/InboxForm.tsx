@@ -31,6 +31,7 @@ const InboxForm = ({
     session,
 }: InboxFormProps) => {
 
+    const role = session?.user.role;
 
     const router = useRouter()
    
@@ -71,7 +72,7 @@ const InboxForm = ({
             const res = await createInboxMessage(inboxData);
             if (res?.status === 201) {
                 toast.success("Message sent successfully!");
-                router.push(`/dashboard/doctor/inbox`)
+                router.push(`/dashboard/${role==="DOCTOR"? "doctor" : "user"}/inbox`)
             }
 
         } catch (error) {
@@ -172,7 +173,7 @@ const InboxForm = ({
                 </div>
                 <div className='mt-6 flex gap-4'>
                     <Button asChild variant={"outline"} className='mt-2'>
-                        <Link href="/dashboard/doctor/inbox">
+                        <Link href={`/dashboard/${role==="DOCTOR"? "doctor" : "user"}/inbox`}>
                             Cancel
                         </Link>
                     </Button>

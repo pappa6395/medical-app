@@ -44,7 +44,7 @@ export const EmailTemplate = ({
  
         <Section style={section}>
           <Text style={text}>
-            Hey <strong>{firstName}</strong>!
+            Dear <strong>{firstName}</strong>!
           </Text>
           <Text style={text}>{message}</Text>
  

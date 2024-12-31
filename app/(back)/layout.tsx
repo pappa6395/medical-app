@@ -13,7 +13,6 @@ const Layout = async ({children}:{children:ReactNode}) => {
     redirect("/login")
   }
 
-  const user = session.user;
 
   return (
     <div className='grid min-h-screen md:w-full w-fit md:grid-cols=[220px_1fr] 

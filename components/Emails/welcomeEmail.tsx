@@ -11,6 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import Image from "next/image";
 
 interface WelcomeEmailProps {
   firstName?: string;
@@ -30,10 +31,10 @@ export const WelcomeEmail = ({
     <Preview>{previewText}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img
+        <Image
           src="https://utfs.io/f/nZhGQ10Fr4u8aJ1TryUsPG2nKqBJiw4H8W6kz3yv7YgLVSQN"
-          width="32"
-          height="32"
+          width={100}
+          height={32}
           alt="Claridy"
         />
  
@@ -43,7 +44,7 @@ export const WelcomeEmail = ({
  
         <Section style={section}>
           <Text style={text}>
-            Hey <strong>{firstName}</strong>!
+            Dear <strong>{firstName}</strong>!
           </Text>
           <Text style={text}>{message}</Text>
  

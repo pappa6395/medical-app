@@ -291,9 +291,9 @@ const UserProfilePanel = ({
             </div>
             <div className='m-8 flex justify-center items-center'>
                 <SubmitButton 
-                    title="Save and Continue"
+                    title="Update Profile"
                     isLoading={isLoading} 
-                    loadingTitle={"creating an account..."} 
+                    loadingTitle={"updating a profile..."} 
                 />
             </div>
         </form>

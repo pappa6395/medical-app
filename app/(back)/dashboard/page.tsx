@@ -8,8 +8,6 @@ import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
 import { authOptions } from '@/lib/auth'
 import { Doctor, PatientProps } from '@/utils/types'
-import { Appointment, DoctorProfile } from '@prisma/client'
-
 import { getServerSession } from 'next-auth'
 import React from 'react'
 

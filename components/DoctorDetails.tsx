@@ -20,6 +20,7 @@ import { createAppointment } from '@/actions/appointments'
 import SubmitButton from './FormInputs/SubmitButton'
 import { Appointment } from '@prisma/client'
 import DoctorProfileDetail from './Dashboard/Doctor/DoctorProfileDetail'
+import { createRoom } from '@/actions/hms'
 
 
 const DoctorDetails = ({
@@ -97,6 +98,20 @@ const DoctorDetails = ({
        console.log(patientData);
        setIsLoading(true)
        try {
+            //Generate room and the room id
+            const doctorFirstName = doctor.doctorProfile?.firstName
+            const patientFirstName = appointment?.firstName
+            const roomName = `Dr.${doctorFirstName} - ${patientFirstName} meeting appointment`
+            const roomData = await createRoom(roomName)
+            //Use the room id to generate the meetingLink
+            if (roomData.error) {
+                toast.error(roomData.error)
+                return 
+            }
+            const meetingLink = `/meeting/${roomData.roomId}`; 
+            patientData.meetingLink = meetingLink;
+
+            //Create an appointment
             const res = await createAppointment(patientData)
             const appointmentData = res?.data
             console.log("Appointment submitted:",appointmentData);

@@ -383,3 +383,9 @@ export type ComposeMailProps = {
     message: string;
     attachments: FileProps[];
 }
+
+export interface TokenData {
+    roomId: string;
+    userName: string;
+    role: string;
+};
