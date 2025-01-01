@@ -1,9 +1,9 @@
 
 import { PageProps } from '@/.next/types/app/(back)/dashboard/doctor/appointments/view/[id]/page'
 import { getAppointmentById } from '@/actions/appointments';
-import UpdateAppointmentForm from '@/components/Dashboard/Doctor/UpdateAppointmentForm';
 import { Button } from '@/components/ui/button';
 import { CardDescription, CardTitle } from '@/components/ui/card';
+import { convertTimeStringToDateTime } from '@/utils/convertTimeStringtoDateTime';
 import { getAgeFromDoB } from '@/utils/getAgeFromDoB';
 import { Calendar, Mail, Phone, Video } from 'lucide-react';
 import Link from 'next/link';
@@ -16,6 +16,9 @@ const page = async ({params: paramsPromise}: PageProps) => {
 
   const appointmentById = await getAppointmentById(id)
   const appointment = appointmentById?.data
+
+  const convertTime = convertTimeStringToDateTime(appointment?.appointmentDate ,appointment?.appointmentTime)
+  console.log("ConvertTime:", convertTime);
   
   const dob = appointment?.dob?.toLocaleDateString("en-us", {
     day: 'numeric',
@@ -77,7 +80,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
                 </div>
                 <Button variant={"outline"}>
                     {appointment?.status === "approved" 
-                    ? `${appointment.appointmentFormattedDate} ${appointment.appointmentTime}` 
+                    ? `${appointment.appointmentFormattedDate} - ${appointment.appointmentTime}` 
                     : appointment?.status === "rejected" 
                     ? "Cancelled" : "Pending"}
                 </Button>
@@ -86,10 +89,21 @@ const page = async ({params: paramsPromise}: PageProps) => {
              <div className='space-y-2'>
                 <div className="flex items-center justify-between">
                   <h3 className='capitalize'>{" "}{appointment?.meetingProvider} Link</h3>
-                  <Button variant={"outline"} asChild>
-                    <Link href={appointment?.meetingLink??"#"}>
-                    <Video className='h-4 w-4'/>
-                    <span>Join Meeting</span>
+                  <Button 
+                    variant={"outline"} 
+                    asChild
+                    disabled={new Date() < new Date(appointment?.appointmentDate??"") 
+                      ? true : new Date() < new Date(convertTime) 
+                      ? true : false}
+                    className={new Date() < new Date(appointment?.appointmentDate??"") 
+                      ? "opacity-50 cursor-not-allowed" : new Date() < new Date(convertTime) 
+                      ? "opacity-50 cursor-not-allowed" : "" }
+                  >
+                    <Link 
+                      href={new Date() < new Date(appointment?.appointmentDate??"") 
+                        ? "#" : new Date() < new Date(convertTime) 
+                        ? "#" : appointment?.meetingLink}
+                    ><Video className='h-4 w-4'/>Join Meeting
                     </Link>
                   </Button>
                 </div>

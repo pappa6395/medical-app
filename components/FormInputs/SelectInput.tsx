@@ -60,6 +60,7 @@ const SelectInput = ({
                         <option 
                             key={i} 
                             value={option.value}
+                            defaultValue={"100ms"}
                         >{option.label}
                         </option>
                     )})}

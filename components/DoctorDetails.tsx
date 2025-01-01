@@ -54,9 +54,9 @@ const DoctorDetails = ({
         appointmentReason:  "",
         medicalDocument: [],
         occupation: appointment?.occupation ||"",
-        appointmentDate: appointment?.appointmentDate || date,
-        appointmentTime: appointment?.appointmentTime || "",
-        appointmentFormattedDate: appointment?.appointmentFormattedDate??"",
+        appointmentDate: undefined,
+        appointmentTime: "",
+        appointmentFormattedDate: "",
         doctorId: doctor.id,
         doctorName: doctor.name || "",
         patientId: appointment?.patientId || "",
@@ -80,6 +80,8 @@ const DoctorDetails = ({
 
     const router = useRouter()
     //const today: keyof DoctorProfileAvailability = getDayName();
+    patientData.appointmentDate = date
+    patientData.appointmentFormattedDate = longDate??""
     patientData.appointmentTime = selectedTime
     patientData.medicalDocument = medicalDocs.map((doc) => doc.url)
     patientData.patientId = patientId?? ""
@@ -114,7 +116,7 @@ const DoctorDetails = ({
             //Create an appointment
             const res = await createAppointment(patientData)
             const appointmentData = res?.data
-            console.log("Appointment submitted:",appointmentData);
+            //console.log("Appointment submitted:",appointmentData);
             toast.success("Appointment submitted successfully!")
             router.push("/dashboard/user/appointments")
         } catch (error) {
@@ -183,6 +185,10 @@ const DoctorDetails = ({
         if (patientId) {
             if (!selectedTime) {
                 toast.error("Please select time");
+                return;
+            }
+            if (!longDate) {
+                toast.error("Please select a date");
                 return;
             }
             setStep((currStep) => currStep + 1)

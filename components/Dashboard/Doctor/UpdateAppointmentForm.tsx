@@ -7,6 +7,7 @@ import TextInput from '@/components/FormInputs/TextInput'
 import { CardDescription, CardTitle } from '@/components/ui/card'
 import { StatusOptionsProps, UpdateAppointmentFormProps } from '@/utils/types'
 import { Appointment } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 import React, { FormEvent } from 'react'
 import toast from 'react-hot-toast'
 
@@ -14,7 +15,7 @@ import toast from 'react-hot-toast'
 
 const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefined | null}) => {
 
-
+    const router = useRouter();
     const [meetingData, setMeetingData] = React.useState<UpdateAppointmentFormProps>({
         status: appointment?.status || "",
         meetingLink: appointment?.meetingLink || "",
@@ -23,6 +24,7 @@ const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefi
     const [isLoading, setIsLoading] = React.useState(false)
     const [errors, setErrors] = React.useState<Partial<UpdateAppointmentFormProps>>({});
     const [register, setRegister] = React.useState(false)
+
 
     const statusOptions: StatusOptionsProps[] = [
         {
@@ -45,12 +47,12 @@ const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefi
     const meetingProvider = [
         {
             label: "Select your meeting provider",
-            value: "noProviderSelected",
+            value: "",
             description: '',
         },
         {
-            label: "Zoom",
-            value: "zoom",
+            label: "100ms",
+            value: "100ms",
             description: '',
         },
         {
@@ -59,8 +61,8 @@ const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefi
             description: '',
         },
         {
-            label: "Microsoft Team",
-            value: "microsoftTeam",
+            label: "Zoom",
+            value: "zoom",
             description: '',
         },
     ]
@@ -80,6 +82,7 @@ const UpdateAppointmentForm = ({appointment}: {appointment: Appointment | undefi
                 const res = updateMeeting?.data
                 console.log("Meeting updated successfully:", res);
                 toast.success("Meeting updated successfully")
+                router.push("/dashboard")
 
             } catch (error) {
                 console.log(error);

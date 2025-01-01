@@ -4,13 +4,13 @@ import { generateSecureToken } from '@/actions/hms';
 import { TokenData } from '@/utils/types';
 import { selectIsConnectedToRoom, useHMSActions, useHMSStore } from '@100mslive/react-sdk';
 import { Session } from 'next-auth';
-import { useRouter } from 'next/navigation';
 import React from 'react'
+import VideoCallUi from './VideoCallUi';
+import VideoCallFooter from './VideoCallFooter';
 
 
 const MeetingPage = ({roomId, session}: {roomId: string; session: Session}) => {
 
-    const router = useRouter();
     const hmsActions = useHMSActions();
     const isConnected = useHMSStore(selectIsConnectedToRoom);
     const [token, setToken] = React.useState<string | null>(null);
@@ -45,13 +45,16 @@ const MeetingPage = ({roomId, session}: {roomId: string; session: Session}) => {
         }
     }, [token, isConnected, hmsActions])
 
+
+
   return (
 
-        <div>
+        <div className='m-0 p-0 font-semibold bg-[#262238] text-slate-100'>
             {isConnected ? (
                 <div>
                     <h2>Video Call: Room {roomId}</h2>
-                    {/* Video call interface goes here */}
+                    <VideoCallUi />
+                    <VideoCallFooter />
                 </div>
             ) : (
                 <p>Connecting to the room...</p>

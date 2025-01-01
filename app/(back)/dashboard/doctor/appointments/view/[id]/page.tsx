@@ -3,8 +3,11 @@ import { PageProps } from '@/.next/types/app/(back)/dashboard/doctor/appointment
 import { getAppointmentById } from '@/actions/appointments';
 import UpdateAppointmentForm from '@/components/Dashboard/Doctor/UpdateAppointmentForm';
 import { Button } from '@/components/ui/button';
+import { convertTimeStringToDateTime } from '@/utils/convertTimeStringtoDateTime';
 import { getAgeFromDoB } from '@/utils/getAgeFromDoB';
-import { Calendar } from 'lucide-react';
+import { getLongDate } from '@/utils/getLongDate';
+import { getDate } from 'date-fns';
+import { Calendar, CalendarCheck, Clock } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 
@@ -14,7 +17,13 @@ const page = async ({params: paramsPromise}: PageProps) => {
   
   const appointmentById = await getAppointmentById(id)
   const appointment = appointmentById?.data
+  console.log("Appointment:", appointment);
   
+  const convertTime = convertTimeStringToDateTime(appointment?.appointmentDate ,appointment?.appointmentTime)
+  console.log("ConvertTime:", convertTime);
+
+  
+
   const dob = appointment?.dob?.toLocaleDateString("en-us", {
     day: 'numeric',
     month: 'long',
@@ -104,11 +113,46 @@ const page = async ({params: paramsPromise}: PageProps) => {
           <p className='px-3'>{medicalDocs}</p>
           </div>
         </div> 
-        <div className=''>
-          <UpdateAppointmentForm appointment={appointment} />
-        </div>
+        {appointment?.status === "approved" ? (
+          <div className='flex px-3 py-3 justify-between items-center'>
+            <h2 className='scroll-m-20 text-xl font-semibold 
+            tracking-tight px-3'>
+              Appointment Booked:
+            </h2>
+            <div className='flex flex-col mr-2'>
+              <div className='flex flex-row items-center gap-2'>
+                <CalendarCheck className='w-4 h-4'/> 
+                <span>{appointment?.appointmentFormattedDate}</span>
+              </div>
+              <div className='flex flex-row items-center gap-2'>
+                <Clock className='w-4 h-4'/> 
+                <span>{appointment?.appointmentTime}</span>
+              </div>
+            </div>
+            <Button 
+              variant={"default"} 
+              asChild
+              disabled={new Date() < new Date(appointment?.appointmentDate??"") 
+                ? true : new Date() < new Date(convertTime) 
+                ? true : false}
+              className={new Date() < new Date(appointment?.appointmentDate??"") 
+                ? "opacity-50 cursor-not-allowed" : new Date() < new Date(convertTime) 
+                ? "opacity-50 cursor-not-allowed" : "" }
+            >
+              <Link 
+                href={new Date() < new Date(appointment?.appointmentDate??"") 
+                  ? "#" : new Date() < new Date(convertTime) 
+                  ? "#" : appointment?.meetingLink}
+              >Join Meeting
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <div className=''>
+            <UpdateAppointmentForm appointment={appointment} />
+          </div>
+        )}
     </div>
-
   )
 }
 
