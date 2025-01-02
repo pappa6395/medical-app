@@ -44,6 +44,11 @@ const UserProfilePanel = ({
         status: initialProfile?.status??"",
         meetingLink: initialProfile?.meetingLink??"",
         meetingProvider: initialProfile?.meetingProvider??"",
+        transactionId: initialProfile?.transactionId || "",
+        paymentStatus: initialProfile?.paymentStatus || "pending",
+        paymentMethod: initialProfile?.paymentMethod || "",
+        paidAmount: initialProfile?.paidAmount || 0,
+        reference: initialProfile?.reference || "",
     })
     const [selectedTime, setSelectedTime] = React.useState("")
     const [errors, setErrors] = React.useState({})
@@ -134,6 +139,11 @@ const UserProfilePanel = ({
             status: initialProfile?.status??"",
             meetingLink: initialProfile?.meetingLink??"",
             meetingProvider: initialProfile?.meetingProvider??"",
+            transactionId: initialProfile?.transactionId || "",
+            paymentStatus: initialProfile?.paymentStatus || "pending",
+            paymentMethod: initialProfile?.paymentMethod || "",
+            paidAmount: initialProfile?.paidAmount || 0,
+            reference: initialProfile?.reference || "",
         })
     }
 
