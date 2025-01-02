@@ -1,4 +1,4 @@
-import { DoctorProfile, DoctorStatus, Speciality, UserRole } from "@prisma/client";
+import { DoctorProfile, DoctorStatus, PaymentStatus, Sale, Speciality, UserRole } from "@prisma/client";
 import { LucideIcon, LucideProps } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
@@ -38,18 +38,21 @@ export type CardTotalProps = {
 };
 
 export type CardTransactionProps = {
-    customer: string;
-    email: string;
-    type: string;
-    status: string;
+    id: string | undefined | null;
+    customer: string | undefined | null;
+    transactionId: string | undefined | null;
+    email: string | undefined | null;
+    status: string | undefined;
     date: string;
-    amount: string;
+    amount: number | undefined | null;
+    role: UserRole | undefined;
 };
 
 export type SalesProps = {
     name: string
     email: string
     salesAmount: string
+    image: string | null;
 }
 
 export type TabsSettingCategoryProps = {
@@ -319,6 +322,41 @@ export interface AppointmentProps {
     status: string;
     meetingLink: string;
     meetingProvider: string;
+
+    transactionId: string;
+    paymentStatus: PaymentStatus;
+    paymentMethod: string;
+    paidAmount: number;
+    reference: string;
+}
+
+export interface TransactionConfigProps {
+    reference: string;
+    email: string;
+    amount: number;
+    publicKey: string;
+}
+
+export interface AppointmentSaleProps {  
+    id: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
+    transactionId: string | null;
+    paidAmount: number | null;
+    paymentStatus: PaymentStatus;
+    paymentMethod: string | null;
+    createdAt: Date;
+    sale: SaleAppProps[]
+}
+
+export type SaleAppProps = {
+    appointmentId: string | null;         
+    doctorId: string | null;           
+    doctorName: string | null;      
+    patientId: string | null;
+    patientName: string | null;     
+    totalAmount: number | null;   
 }
 
 export type StatusOptionsProps = {

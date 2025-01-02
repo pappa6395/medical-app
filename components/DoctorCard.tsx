@@ -112,7 +112,7 @@ const DoctorCard = ({
                          )
                      })}
                      <Link 
-                         href="/doctors/slug" 
+                         href={`/doctors/${slug}?id=${doctor.id}`}
                          className='bg-blue-900 text-center
                           text-white p-2 text-sm text-nowrap truncate'>
                              <span>More time</span>

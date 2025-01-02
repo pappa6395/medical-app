@@ -215,6 +215,34 @@ model Appointment {
   meetingLink               String @default("#")
   meetingProvider           String @default("")
 
+  transactionId             String?
+  reference                 String?
+  paymentStatus             PaymentStatus @default(pending)
+  paymentMethod             String?
+  paidAmount                Int?
+  sale                      Sale[]
+
   createdAt                 DateTime @default(now())
   updatedAt                 DateTime @updatedAt
+}
+
+enum PaymentStatus {
+  pending
+  success
+  failed
+}
+
+model Sale {
+  id                     String @id @db.ObjectId @default(auto()) @map("_id")
+  appointmentId          String @db.ObjectId
+  doctorId               String
+  doctorName             String
+  patientId              String
+  patientName            String
+  totalAmount            Int
+  
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  appointment            Appointment @relation(fields: [appointmentId], references: [id])
 }

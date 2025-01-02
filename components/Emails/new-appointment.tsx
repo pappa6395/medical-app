@@ -12,6 +12,7 @@ import {
   Text,
 } from "@react-email/components";
 import Image from "next/image";
+import MedicalLogo from '@/public/Medical-Care Online.png'
 
 interface NewAppointmentEmailProps {
   doctorName?: string;
@@ -33,13 +34,12 @@ export const NewAppointmentEmail = ({
     <Preview>{subject}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Image
-          src="https://utfs.io/f/nZhGQ10Fr4u8aJ1TryUsPG2nKqBJiw4H8W6kz3yv7YgLVSQN"
+        {/* <Image
+          src={MedicalLogo}
           width={100}
           height={32}
-          alt="Claridy"
-        />
- 
+          alt="Medical-app" 
+        /> */}
         <Text style={title}>
           <strong>@{doctorName}</strong>, You have a new appointment
         </Text>

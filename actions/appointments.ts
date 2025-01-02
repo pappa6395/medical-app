@@ -13,7 +13,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function createAppointment(data: AppointmentProps) {
 
-    //console.log("Payload check:", data);
+    console.log("Payload check:", data);
 
     if (data) {
 
@@ -226,6 +226,64 @@ export async function getAppointmentByDoctorId(doctorId: string) {
                 where: {
                     doctorId: doctorId,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                }
+                
+            });
+            return {
+                data: appointment,
+                status: 200,
+                error: null,
+    
+            };
+        }
+        
+    } catch (error) {
+        console.log("Error getting appointment:", error);
+        return {
+            data: null,
+            error: "Failed to get appointment!",
+            status: 500,
+        };
+    }
+};
+
+export async function getAppointmentSaleByDoctorId(doctorId: string) {
+    
+    //console.log("Payload check:", doctorId);
+    try {
+
+        if (doctorId) {
+            const appointment = await prismaClient.appointment.findMany({
+                where: {
+                    doctorId: doctorId,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+                select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    transactionId: true,
+                    paidAmount: true,
+                    paymentStatus: true,
+                    paymentMethod: true,
+                    createdAt: true,
+                    sale: {
+                        select: {
+                            appointmentId: true,
+                            doctorId: true,
+                            patientId: true,
+                            totalAmount: true,
+                            doctorName: true,
+                            patientName: true,
+                        }
+
+                    }
+                },
                 
             });
             return {
@@ -291,6 +349,9 @@ export async function getAppointmentByPatientIdAndDoctorId(patientId: string, do
                     patientId: patientId,
                     doctorId: doctorId,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                }
                 
             });
             return {
@@ -310,6 +371,7 @@ export async function getAppointmentByPatientIdAndDoctorId(patientId: string, do
         };
     }
 };
+
 
 export async function getRecentAppointmentByPatientId(patientId: string | undefined) {
     

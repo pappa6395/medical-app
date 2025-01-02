@@ -11,6 +11,7 @@ import {
   CalendarDays, 
   CircleUser, 
   ClipboardList, 
+  DollarSign, 
   Globe, 
   Home, 
   Icon, 
@@ -87,6 +88,7 @@ export default function SideBar({session}: {session: Session}) {
             { title: "Dashboard", path: "/dashboard", icon: Home },
             { title: "Patients", path: "/dashboard/doctor/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/doctor/appointments", icon: CalendarDays },
+            { title: "Sales", path: "/dashboard/doctor/sales", icon: DollarSign },
             { title: "Inbox", path: "/dashboard/doctor/inbox", icon: Mail },
             { title: "Compose", path: "/dashboard/doctor/compose", icon: Pencil },
             { 

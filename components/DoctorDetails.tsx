@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useState } from 'react'
-import { AppointmentProps, DoctorDetail, FileProps, GenderOptionProps } from '@/utils/types'
+import React, { useEffect, useState } from 'react'
+import { AppointmentProps, DoctorDetail, FileProps, GenderOptionProps, TransactionConfigProps } from '@/utils/types'
 import { getFormattedDate } from '@/utils/formattedDate'
 import { Button } from './ui/button'
 import { Calendar } from './ui/calendar'
 import { getDayFromDate } from '@/utils/getDayFromDate'
 import { getLongDate } from '@/utils/getLongDate'
-import { DollarSign } from 'lucide-react'
+import { CalendarDays, Check, CheckCircle, DollarSign } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import TextInput from './FormInputs/TextInput'
 import { useRouter } from 'next/navigation'
@@ -18,9 +18,14 @@ import MultiFileUpload from './FormInputs/MultiFileUpload'
 import toast from 'react-hot-toast'
 import { createAppointment } from '@/actions/appointments'
 import SubmitButton from './FormInputs/SubmitButton'
-import { Appointment } from '@prisma/client'
+import { Appointment, PaymentStatus } from '@prisma/client'
 import DoctorProfileDetail from './Dashboard/Doctor/DoctorProfileDetail'
 import { createRoom } from '@/actions/hms'
+import { createSale } from '@/actions/sales'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
+import { PaystackButton } from 'react-paystack'
+import paystackLogo from '@/public/paystack.svg'
+import Image from 'next/image'
 
 
 const DoctorDetails = ({
@@ -41,8 +46,15 @@ const DoctorDetails = ({
     const longDate = date && getLongDate(date.toDateString());
     const times = doctor.doctorProfile?.availability?.[day] ?? null;
 
+    const [paymentDetails, setPaymentDetails] = useState({
+        transactionId: "",
+        reference: "",
+        paymentMethod: "",
+        paidAmount: 0,
+        paymentStatus: "pending" as PaymentStatus,
+    })
+    const [isClient, setIsClient] = useState(false);
     const [selectedDoB, setSelectedDoB] = useState(undefined);
-    const [imageUrl, setImageUrl] = useState([])
     const [patientData, setPatientData] = useState<AppointmentProps>({
         firstName: appointment?.firstName || "",
         lastName: appointment?.lastName || "",
@@ -64,19 +76,25 @@ const DoctorDetails = ({
         status: appointment?.status || "",
         meetingLink: appointment?.meetingLink || "",
         meetingProvider: appointment?.meetingProvider || "",
+        transactionId: appointment?.transactionId || "",
+        paymentStatus: appointment?.paymentStatus || "pending",
+        paymentMethod: appointment?.paymentMethod || "",
+        paidAmount: appointment?.paidAmount || 0,
+        reference: appointment?.reference || "",
 
     })
-    const [selectedTime, setSelectedTime] = useState("")
+    const [selectedTime, setSelectedTime] = useState("");
     const [medicalDocs, setMedicalDocs] = useState<FileProps[]>([]);
-    const [isActive, setIsActive] = useState("availability")
-    const [step, setStep] = useState(1)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isActive, setIsActive] = useState("availability");
+    const [step, setStep] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState({});
     const [register, setRegister] = useState(false);
     const [status, setStatus] = useState("");
-    const [meetingLink, setMeetingLink] = useState("")
-    const [meetingProvider, setMeetingProvider] = useState("")
+    const [meetingLink, setMeetingLink] = useState("");
+    const [meetingProvider, setMeetingProvider] = useState("");
+    const [paymentSuccess, setPaymentSuccess] = useState(false);
 
     const router = useRouter()
     //const today: keyof DoctorProfileAvailability = getDayName();
@@ -99,7 +117,15 @@ const DoctorDetails = ({
        e.preventDefault()
        console.log(patientData);
        setIsLoading(true)
-       try {
+
+       //Update payment details (optional)
+       patientData.transactionId = paymentDetails.transactionId;
+       patientData.paymentStatus = paymentDetails.paymentStatus;
+       patientData.paymentMethod = paymentDetails.paymentMethod;
+       patientData.paidAmount = paymentDetails.paidAmount;
+       patientData.reference = paymentDetails.reference;
+
+;       try {
             //Generate room and the room id
             const doctorFirstName = doctor.doctorProfile?.firstName
             const patientFirstName = appointment?.firstName
@@ -116,7 +142,20 @@ const DoctorDetails = ({
             //Create an appointment
             const res = await createAppointment(patientData)
             const appointmentData = res?.data
-            //console.log("Appointment submitted:",appointmentData);
+            console.log("Create Appointment successfully:", appointmentData);
+            
+            const saleData = {
+                appointmentId: appointment?.id ?? "",
+                doctorId: doctor.id?? "",
+                doctorName: `${doctor.doctorProfile?.firstName} ${doctor.doctorProfile?.lastName}`,
+                patientId: patientData.patientId ?? "",
+                patientName: `${patientData?.firstName} ${patientData?.lastName}`,
+                totalAmount: patientData.fee ?? 0,
+            }
+            //Create a sale
+            const sale = await createSale(saleData)
+            console.log("Sale created successfully:", sale);
+            
             toast.success("Appointment submitted successfully!")
             router.push("/dashboard/user/appointments")
         } catch (error) {
@@ -124,7 +163,8 @@ const DoctorDetails = ({
             toast.error("Failed to submit appointment. Please try again later.")
         } finally {
             setIsLoading(false)
-            setIsSubmitted(true)
+            setIsSubmitted(false)
+            setPaymentSuccess(false)
         }
         
     };
@@ -166,11 +206,15 @@ const DoctorDetails = ({
             status: "",
             meetingLink: "",
             meetingProvider: "",
+            transactionId: "",
+            paymentStatus: "pending",
+            paymentMethod: "",
+            paidAmount: 0,
+            reference: "",
             
         });
         setErrors({});
         setRegister(false);
-        setImageUrl([]);
         setIsLoading(false);
         setIsSubmitted(false);
     }
@@ -196,6 +240,46 @@ const DoctorDetails = ({
             router.push('/login')
         }
     }
+
+    //Payment Service
+    const transactionConfig: TransactionConfigProps  = {
+        reference: (new Date()).getTime().toString(),
+        email: appointment?.email ?? "",
+        amount: doctor.doctorProfile?.hourlyWage ?? 0,
+        publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? "",
+    
+    }
+
+    //const initializePayment = usePaystackPayment(transactionConfig);
+    useEffect(() => {
+        setIsClient(true)
+    },[])
+
+    const handleOnSuccess = (ref: any) => {
+        setPaymentDetails({
+            transactionId: ref.transaction,
+            paymentStatus: ref.status,
+            paymentMethod: 'card',
+            paidAmount: doctor.doctorProfile?.hourlyWage??0,
+            reference: ref.reference,
+        })
+        setPaymentSuccess(true);
+        setStep(currStep => currStep+1)
+        console.log("Payment References:", ref);
+        
+    };
+    //console.log("Payment Details:", paymentDetails);
+
+    const handleOnClose = () => {
+        setStep(currStep => currStep-1)
+        console.log('closed')
+    }
+
+    const componentProps = {
+        ...transactionConfig,
+        onSuccess: (reference: any) => handleOnSuccess(reference),
+        onClose: handleOnClose,
+    };
 
   return (
 
@@ -291,7 +375,7 @@ const DoctorDetails = ({
 
                 */}
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                    Patient Information Form
+                    {step >= 4 ? ("") : ("Patient Information Form")}
                 </h3>
                 {step === 2 ? (
                     <div className={cn("grid gap-6 py-4 mx-auto px-6")}>
@@ -381,69 +465,215 @@ const DoctorDetails = ({
                         </form>
                     </div>  
                 ) : (
-                    <div className={cn("grid gap-6 py-4 mx-auto px-6")}>
-                    <form onSubmit={handleSubmit}>
-                        <div className="">
-                            <div className="grid grid-cols-2 gap-6">
-                                <TextInput
-                                    label="Address / Location"
-                                    register={register}
-                                    name="location"
-                                    placeholder="Enter your location"
-                                    type="text"
-                                    value={patientData.location}
-                                    errors={transformedErrors}
-                                    disabled={isLoading}
-                                    onChange={handleChange}
-                                    className='col-span-full sm:col-span-1'
-                                />
-                                <TextInput
-                                    label="Occupation"
-                                    register={register}
-                                    name="occupation"
-                                    placeholder="Enter your occupation"
-                                    type="text"
-                                    value={patientData.occupation}
-                                    errors={transformedErrors}
-                                    disabled={isLoading}
-                                    onChange={handleChange} 
-                                    className='col-span-full sm:col-span-1'
-                                />
-                                <TextAreaInput
-                                    label="Reason for seeing the doctor"
-                                    register={register}
-                                    name="appointmentReason"
-                                    placeholder="Enter your appointment reason"
-                                    value={patientData.appointmentReason}
-                                    errors={transformedErrors}
-                                    disabled={isLoading}
-                                    onChange={handleChange} 
-                                />
-                                <MultiFileUpload
-                                    label='Medical document upload'
-                                    name="medicalDocuments"
-                                    files={medicalDocs}
-                                    setFiles={setMedicalDocs}
-                                    endpoint='patientMedicalDocs'
-                                    errors={transformedErrors}
-                                />
+                    <div className='p-8'>
+                        {step === 3 ? (
+                            <div className={cn("grid gap-6 py-4 mx-auto px-6")}>
+                            <form onSubmit={handleSubmit}>
+                                <div className="">
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <TextInput
+                                            label="Address / Location"
+                                            register={register}
+                                            name="location"
+                                            placeholder="Enter your location"
+                                            type="text"
+                                            value={patientData.location}
+                                            errors={transformedErrors}
+                                            disabled={isLoading}
+                                            onChange={handleChange}
+                                            className='col-span-full sm:col-span-1'
+                                        />
+                                        <TextInput
+                                            label="Occupation"
+                                            register={register}
+                                            name="occupation"
+                                            placeholder="Enter your occupation"
+                                            type="text"
+                                            value={patientData.occupation}
+                                            errors={transformedErrors}
+                                            disabled={isLoading}
+                                            onChange={handleChange} 
+                                            className='col-span-full sm:col-span-1'
+                                        />
+                                        <TextAreaInput
+                                            label="Reason for seeing the doctor"
+                                            register={register}
+                                            name="appointmentReason"
+                                            placeholder="Enter your appointment reason"
+                                            value={patientData.appointmentReason}
+                                            errors={transformedErrors}
+                                            disabled={isLoading}
+                                            onChange={handleChange} 
+                                        />
+                                        <MultiFileUpload
+                                            label='Medical document upload'
+                                            name="medicalDocuments"
+                                            files={medicalDocs}
+                                            setFiles={setMedicalDocs}
+                                            endpoint='patientMedicalDocs'
+                                            errors={transformedErrors}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='mt-8 flex justify-between items-center gap-4'>
+                                    <Button 
+                                        type="button" 
+                                        onClick={() => setStep(currStep => currStep-1)}
+                                    >
+                                    Previous
+                                    </Button>
+                                    <Button 
+                                        type="button" 
+                                        onClick={() => setStep(currStep => currStep+1)}
+                                    >
+                                    Next
+                                    </Button>
+                                </div>
+                            </form>
+                            </div>  
+                        ) : (
+                            <div className='p-8'>
+                                {step === 4 ? (
+                                    <Card className='w-full flex py-3 flex-col items-center max-w-md mx-auto'>
+                                    <CardHeader>
+                                        <CardTitle className='text-3xl font-bold text-center'>
+                                            Make a Payment
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className='space-y-6 border-none shadow-none'>
+                                        <div className='text-center'>
+                                            <p className='text-sm text-muted-foreground'>
+                                                Total Amount
+                                            </p>
+                                            <p className='text-4xl font-bold'>
+                                                THB {doctor.doctorProfile?.hourlyWage.toLocaleString()}
+                                                {" "}
+                                            </p>
+                                        </div>
+                                    </CardContent>
+                                    <CardFooter className='w-full justify-center'>
+                                        {isClient && (
+                                            <div className='w-full'>
+                                                <PaystackButton
+                                                    className='bg-gradient-to-r from-indigo-300 to-cyan-300 
+                                                    dark:bg-blue-600 text-primary-foreground dark:text-slate-100 
+                                                    shadow hover:bg-gradient-to-r hover:from-indigo-500 
+                                                    hover:to-cyan-500 w-full h-12 rounded-md px-8 text-lg' 
+                                                    {...componentProps} 
+                                                >
+                                                <div className='flex justify-center items-center gap-4'>
+                                                    <span>Pay with Paystack</span>
+                                                    <Image 
+                                                        src={paystackLogo}
+                                                        alt="paystack"
+                                                        width={512}
+                                                        height={504}
+                                                        className='w-4 h-4'
+                                                    />  
+                                                </div>      
+                                                </PaystackButton>
+                                            </div>
+                                        )}
+                                    </CardFooter>
+                                    </Card>
+                                ) : (
+                                    <div className={cn("grid gap-6 mx-auto px-6")}>
+                                        <form onSubmit={handleSubmit}>
+                                            {/* <div className="">
+                                                <div className="grid grid-cols-2 gap-6">
+                                                    {isClient && (
+                                                        <div>
+                                                            <Button
+                                                                type={"button"}
+                                                                variant={"outline"} 
+                                                                size={"full"}
+                                                                onClick={() => {
+                                                                initializePayment({onSuccess, onClose})
+                                                            }}>Pay with PayStack (NGN)
+                                                            <Image 
+                                                                src={paystackLogo}
+                                                                alt="paystack"
+                                                                width={512}
+                                                                height={504}
+                                                                className='w-4 h-4' 
+                                                            />
+                                                            </Button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div> */}
+                                            <div className='mt-8 flex justify-center items-center gap-4'>
+                                                {paymentSuccess ? (
+                                                    <Card className='w-full flex py-3 flex-col 
+                                                    items-center max-w-md mx-auto bg-green-50'>
+                                                        <CardHeader>
+                                                            <CardTitle className='text-3xl flex items-center 
+                                                            gap-2 font-bold text-center text-green-600'>
+                                                                <CheckCircle  className='w-20 h-20 text-green-600'/>
+                                                                Payment Successful
+                                                            </CardTitle>
+                                                        </CardHeader>
+                                                        <CardContent className='space-y-6 border-none shadow-none'>
+                                                            <div className='text-center'>
+                                                                <p className='text-sm text-muted-foreground'>
+                                                                    Transaction No: {paymentDetails.transactionId}
+
+                                                                </p>
+                                                            </div>
+                                                        </CardContent>
+                                                        <CardFooter className='justify-center'>
+                                                            {isClient && (
+                                                                <div className='w-full'>
+                                                                    <SubmitButton 
+                                                                        title={'Complete Appointment'} 
+                                                                        isLoading={isLoading} 
+                                                                        loadingTitle={''}                                    
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </CardFooter>
+                                                    </Card> 
+                                                ) : (
+                                                    <Card className='w-full flex py-3 flex-col 
+                                                items-center max-w-md mx-auto'>
+                                                    <CardHeader>
+                                                        <CardTitle className='text-3xl font-bold text-center'>
+                                                            Payment Successful
+                                                        </CardTitle>
+                                                    </CardHeader>
+                                                    <CardContent className='space-y-6 border-none shadow-none'>
+                                                        <div className='text-center'>
+                                                            <p className='text-sm text-muted-foreground'>
+                                                                Total Amount
+                                                            </p>
+                                                            <p className='text-4xl font-bold'>
+                                                                THB {doctor.doctorProfile?.hourlyWage.toLocaleString()}
+                                                                {" "}
+                                                            </p>
+                                                        </div>
+                                                    </CardContent>
+                                                    <CardFooter className='justify-center'>
+                                                        {isClient && (
+                                                            <div className='w-full'>
+                                                                <SubmitButton 
+                                                                    title={'Complete Appointment'} 
+                                                                    isLoading={isLoading} 
+                                                                    loadingTitle={''}                                    
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </CardFooter>
+                                                </Card>
+                                                )}
+                                                    
+                                            </div>
+                                        </form>
+                                </div>
+                                )}
                             </div>
-                        </div>
-                        <div className='mt-8 flex justify-between items-center gap-4'>
-                                <Button 
-                                    type="button" 
-                                    onClick={() => setStep(currStep => currStep-1)}
-                                >
-                                Previous
-                                </Button>
-                                <SubmitButton 
-                                    title={'Complete Appointment'} 
-                                    isLoading={isLoading} 
-                                    loadingTitle={''}                                    
-                                />
-                        </div>
-                    </form>
-                </div>  
+                        )}
+                    </div>
+                    
                 )}
                  
             </div>

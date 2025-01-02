@@ -13,56 +13,8 @@ import AnalyticCards from '../AnalyticCards';
 import { getDoctors } from '@/actions/users';
 import Link from 'next/link';
 import { getAppointments } from '@/actions/appointments';
-import { generateInitial } from '@/utils/generateInitial';
 import ApproveBtn from './ApproveBtn';
 
-
-
-const transactionData: CardTransactionProps[] = [
-    {
-        customer: "Liam Johnson",
-        email: "liam@example.com",
-        type: "Sale",
-        status: "Fulfilled",
-        date: "23-06-2024",
-        amount: "$ 250.00",
-    },
-    {
-        customer: "Olivia Smith",
-        email: "olivia@example.com",
-        type: "Refund",
-        status: "Declined",
-        date: "15-07-2024",
-        amount: "-",
-    },
-]
-const userSalesData: SalesProps[] = [
-    {
-      name: "Olivia Martin",
-      email: "olivia.martin@email.com",
-      salesAmount: "+$1,999.00"
-    },
-    {
-      name: "Jackson Lee",
-      email: "isabella.nguyen@email.com",
-      salesAmount: "+$1,999.00"
-    },
-    {
-      name: "Isabella Nguyen",
-      email: "isabella.nguyen@email.com",
-      salesAmount: "+$39.00"
-    },
-    {
-      name: "William Kim",
-      email: "will@email.com",
-      salesAmount: "+$299.00"
-    },
-    {
-      name: "Sofia Davis",
-      email: "sofia.davis@email.com",
-      salesAmount: "+$39.00"
-    }
-];
 
 
 const Dashboard = async() => {
