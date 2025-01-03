@@ -23,7 +23,7 @@ export default function SalesCard({
     name: string;
     email: string;
     role?: UserRole | undefined;
-    image: string | undefined | null;
+    image?: string | undefined | null;
     status?: DoctorStatus;
     profileId: string | undefined;
     className?: string;

@@ -2,12 +2,12 @@
 import React from 'react'
 import AnalyticCards from '../AnalyticCards';
 import { Session } from 'next-auth';
-import { AnalyticProps, Doctor, DoctorDetail, PatientProps } from '@/utils/types';
+import { AnalyticProps, Doctor, PatientProps } from '@/utils/types';
 import { CardContent, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import SalesCard from '../ui/saleCard';
-import { Appointment, DoctorProfile } from '@prisma/client';
+import { Appointment } from '@prisma/client';
 import RecentAppointmentCard from '../RecentAppointmentCard';
 import { ScrollArea } from '../ui/scroll-area';
 import { CheckCircle, CircleEllipsis, CircleX } from 'lucide-react';
@@ -28,10 +28,7 @@ const DoctorDashboard = ({
 }) => {
 
   const user = session?.user
-  const userId = user?.id??""
   const role = user?.role
-  const image = null;
-
 
   
   return (
@@ -121,7 +118,6 @@ const DoctorDashboard = ({
                 role={role}
                 email={data.email??""}
                 name={data.name}
-                image={image}
                 profileId={data.patientId??""}
               />
           )})}

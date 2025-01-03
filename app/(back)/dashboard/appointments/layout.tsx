@@ -1,14 +1,10 @@
 
-import { getAppointmentByDoctorId, getAppointments } from '@/actions/appointments';
+import { getAppointments } from '@/actions/appointments';
 import AdminAppointmentPanel from '@/components/Dashboard/Doctor/AdminAppointmentPanel';
-import AdminPatientPanel from '@/components/Dashboard/Doctor/AdminPatientPanel';
 import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader';
-import PatientPanel from '@/components/Dashboard/Doctor/PatientPanel';
 import NotAuthorized from '@/components/NotAuthorized';
 import { authOptions } from '@/lib/auth';
-import { AppointmentProps, PatientProps } from '@/utils/types';
-import { Appointment } from '@prisma/client';
-import { CalendarDays, UsersRound } from 'lucide-react';
+import { CalendarDays } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 
@@ -19,8 +15,6 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
     const session = await getServerSession(authOptions)
     const user = session?.user
     const userId = user?.id || ""
-    const role = user?.role
-    
 
     if (!userId) {
         return <div>You must be logged in to access this page.</div>
@@ -43,7 +37,7 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
       <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
         {/* Patient Panel */}
         <div className="col-span-5 px-3 border-r border-gray-100">
-          <PanelHeader title={"Appointments"} count={appointments.length??0} icon={CalendarDays}/>
+          <PanelHeader title={"Appointments"} count={appointments?.length??0} icon={CalendarDays}/>
           <div className='px-3'>
             <AdminAppointmentPanel appointments={appointments} />
           </div>

@@ -12,7 +12,6 @@ const page = async () => {
   const session = await getServerSession(authOptions)
   const user = session?.user
   const userId = user?.id || ""
-  const role = user?.role.toLowerCase()
 
   if (!userId) {
       return <div>You must be logged in to access this page.</div>
@@ -36,7 +35,7 @@ const page = async () => {
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
-            count={appointments.length??0} 
+            count={appointments?.length??0} 
             href={`#`} 
             title={"Appointments"} />
         </div>

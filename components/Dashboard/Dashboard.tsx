@@ -1,12 +1,9 @@
 import React from 'react'
-import { Activity, ArrowUpRight, CalendarDays, CreditCard, DollarSign, LayoutGrid, Users, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AppointmentProps, CardTotalProps, CardTransactionProps, Doctor, PatientProps, SalesProps } from '@/utils/types';
-import CardTotal, { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Table, TableHead, TableHeader, TableRow } from '../ui/table';
-import CardTransaction from '../ui/cardTransaction';
+import { AppointmentProps, Doctor, PatientProps } from '@/utils/types';
+import { CardContent, CardTitle } from '../ui/card';
 import SalesCard from '../ui/saleCard';
-import { getAdminAnalytics, getStats } from '@/actions/stats';
+import { getAdminAnalytics } from '@/actions/stats';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import AnalyticCards from '../AnalyticCards';
@@ -24,7 +21,7 @@ const Dashboard = async() => {
   const user = session?.user
 
   const doctors = await getDoctors() || [] as Doctor[]
-  const appointments = (await getAppointments()).data || [] as AppointmentProps[]
+  const appointments = (await getAppointments()).data || []
   const uniquePatientsMap = new Map();
 
     appointments.forEach((app) => {
@@ -44,36 +41,6 @@ const Dashboard = async() => {
     });
     
     const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
-    const image = null
-
-
-  // const statsCards: CardTotalProps[] = [
-  //   {
-  //     title: "Doctors",
-  //     icon: Users,
-  //     count: stats.doctors,
-  //     href: "/dashboard/doctors"
-  //   },
-  //   {
-  //     title: "Patients",
-  //     icon: UsersRound,
-  //     count: stats.patients,
-  //     href: "/dashboard/patients"
-  //   },
-  //   {
-  //     title: "Appointments",
-  //     icon: CalendarDays,
-  //     count: stats.appointments,
-  //     href: "/dashboard/appointments"
-  //   },
-  //   {
-  //     title: "Services",
-  //     icon: LayoutGrid,
-  //     count: stats.services,
-  //     href: "/dashboard/services"
-  //   },
-
-  // ]
 
   return (
 
@@ -87,39 +54,6 @@ const Dashboard = async() => {
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
-        {/* <CardContent>
-            <CardHeader className="px-2">
-                <CardTitle className='flex justify-between'>
-                    <div>Transactions</div>
-                    <Button>
-                        <span>View All</span><ArrowUpRight />
-                    </Button>
-                </CardTitle>
-                <CardDescription>Recent transactions from your store.</CardDescription>
-            </CardHeader>
-            <Table x-chunk="dashboard-05-chunk-3">
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Customer</TableHead>
-                        <TableHead className="hidden xl:table-cell">Type</TableHead>
-                        <TableHead className="hidden lg:table-cell">Status</TableHead>
-                        <TableHead className="text-sm">Date</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                </TableHeader>
-                    {transactionData.map((data, index) => (
-                        <CardTransaction 
-                            key={index} 
-                            customer={data.customer}
-                            email={data.email}
-                            type={data.type}
-                            status={data.status}
-                            date={data.date}
-                            amount={data.amount}
-                        />
-                    ))}
-            </Table>
-        </CardContent> */}
         <CardContent>
           <section className='flex justify-between'>
             <div>
@@ -165,7 +99,6 @@ const Dashboard = async() => {
                 key={index}
                 email={data.email??""}
                 name={data.name}
-                image={image}
                 profileId={data.patientId??""}
               />
           )})}
