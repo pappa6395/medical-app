@@ -93,8 +93,6 @@ const DoctorDashboard = ({
       </div>
       <div className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
         <Card>
-          <CardHeader>Hello</CardHeader>
-          <CardDescription>This is Papdev</CardDescription>
           <CardContent className='shadow-none border-none'>
             <div className='flex flex-col justify-between'>
                 <div className='flex justify-between'>
