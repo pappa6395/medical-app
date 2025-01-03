@@ -1,9 +1,10 @@
 
+
 import React from 'react'
 import AnalyticCards from '../AnalyticCards';
 import { Session } from 'next-auth';
 import { AnalyticProps, Doctor, PatientProps } from '@/utils/types';
-import { CardContent, CardTitle } from '../ui/card';
+import { Card, CardContent, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import SalesCard from '../ui/saleCard';
@@ -90,36 +91,38 @@ const DoctorDashboard = ({
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
-      <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-      <CardContent>
-        <div className='flex flex-col justify-between'>
-            <div className='flex justify-between'>
-              <CardTitle>Recent Appointments</CardTitle>
-              <Button asChild className='p-3 mr-5'>
-                <Link href="/dashboard/doctor/appointments">
-                  View All
-                </Link>
-              </Button>
+      <div className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
+        <Card>
+          <CardContent className='shadow-none border-none'>
+            <div className='flex flex-col justify-between'>
+                <div className='flex justify-between'>
+                  <CardTitle>Recent Appointments</CardTitle>
+                  <Button asChild className='p-3 mr-5'>
+                    <Link href="/dashboard/doctor/appointments">
+                      View All
+                    </Link>
+                  </Button>
+                </div>
+                <div className="">
+                  {appointments && appointments.slice(0,5).map((data, index) => {
+                    const status = data.status??"PENDING"
+                    return (
+                      <RecentAppointmentCard
+                        key={index}
+                        role={role}
+                        id={data.id??""}
+                        status={status}
+                        firstName={data.firstName??""}
+                        lastName={data.lastName??""}
+                        appointmentTime={data.appointmentTime??""}
+                        appointmentFormattedDate={data.appointmentFormattedDate??""}
+                        createdAt={data.createdAt}
+                      />
+                  )})}
+              </div>
             </div>
-            <div className="">
-              {appointments && appointments.slice(0,5).map((data, index) => {
-                const status = data.status??"PENDING"
-                return (
-                  <RecentAppointmentCard
-                    key={index}
-                    role={role}
-                    id={data.id}
-                    status={status}
-                    firstName={data.firstName??""}
-                    lastName={data.lastName??""}
-                    appointmentTime={data.appointmentTime??""}
-                    appointmentFormattedDate={data.appointmentFormattedDate}
-                    createdAt={data.createdAt}
-                  />
-              )})}
-          </div>
-        </div>
-      </CardContent>
+          </CardContent>
+        </Card>  
       {/* <CardContent>
         <section className='flex justify-between'>
           <div>
@@ -142,7 +145,7 @@ const DoctorDashboard = ({
             />
         )})}
       </CardContent>  */}
-      </section>
+      </div>
     </div>
   )
 }
