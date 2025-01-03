@@ -13,56 +13,55 @@ import React from 'react'
 
 const page = async() => {
 
-  const session = await getServerSession(authOptions);
-  const user = session?.user
-  const userId = user?.id??""
-  const role = user?.role;
+  // const session = await getServerSession(authOptions);
+  // const user = session?.user
+  // const userId = user?.id??""
+  // const role = user?.role;
 
-  //const doctorProfileId = (await getDoctorProfileByUserId(id)).data || "";
-  const doctorAnalytics = await getDoctorAnalytics() || []
-  const userAnalytics = await getUserAnalytics() || []
+  // const doctorAnalytics = await getDoctorAnalytics() || []
+  // const userAnalytics = await getUserAnalytics() || []
   
-  // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
-  const appointments = (await getAppointmentByDoctorId(userId))?.data || []
-      // Option 1 : [patientIds] => remove dups => fetch users with these ids
-      // Option 2 : [patientId, name, email] => remove dups
-      const uniquePatientsMap = new Map();
+  // // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
+  // const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+  //     // Option 1 : [patientIds] => remove dups => fetch users with these ids
+  //     // Option 2 : [patientId, name, email] => remove dups
+  //     const uniquePatientsMap = new Map();
   
-      appointments.forEach((app) => {
-        if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap.set(app.patientId, {
-            patientId : app.patientId,
-            name: `${app.firstName} ${app.lastName}`,
-            email: app.email,
-            phone: app.phone,
-            location: app.location,
-            gender: app.gender,
-            occupation: app.occupation,
-            doctorId: app.doctorId,
-            dob: app.dob,
-          });
-        }
-      });
+  //     appointments.forEach((app) => {
+  //       if (!uniquePatientsMap.has(app.patientId)) {
+  //         uniquePatientsMap.set(app.patientId, {
+  //           patientId : app.patientId,
+  //           name: `${app.firstName} ${app.lastName}`,
+  //           email: app.email,
+  //           phone: app.phone,
+  //           location: app.location,
+  //           gender: app.gender,
+  //           occupation: app.occupation,
+  //           doctorId: app.doctorId,
+  //           dob: app.dob,
+  //         });
+  //       }
+  //     });
       
-      const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
-      console.log("Patients:", patients);
-      const recentAppointments = (await getAppointments()).data
-      const doctors = await getDoctorsById(userId)
+  //     const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
+  //     console.log("Patients:", patients);
+  //     const recentAppointments = (await getAppointments()).data
+  //     const doctors = await getDoctorsById(userId)
       
-    //for User, Recent get doctor by patientId and Recent appointment  by patientId
-    const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
-    const uniqueDoctorsMap = new Map();
+  //   //for User, Recent get doctor by patientId and Recent appointment  by patientId
+  //   const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
+  //   const uniqueDoctorsMap = new Map();
   
-      appointmentByPatientId.forEach((app) => {
-        if (!uniqueDoctorsMap.has(app.doctorId)) {
-          uniqueDoctorsMap.set(app.doctorId, {
-            doctorId : app.doctorId,
-            name: app.doctorName??'Unknown Name'
-          });
-        }
-      });
-      const doctorsPatientId = Array.from(uniqueDoctorsMap.values()) as Doctor[]
-      console.log("doctorsPatientId:", doctorsPatientId);
+  //     appointmentByPatientId.forEach((app) => {
+  //       if (!uniqueDoctorsMap.has(app.doctorId)) {
+  //         uniqueDoctorsMap.set(app.doctorId, {
+  //           doctorId : app.doctorId,
+  //           name: app.doctorName??'Unknown Name'
+  //         });
+  //       }
+  //     });
+  //     const doctorsPatientId = Array.from(uniqueDoctorsMap.values()) as Doctor[]
+  //     console.log("doctorsPatientId:", doctorsPatientId);
        
     //----------------------------------------------------------------//
 
