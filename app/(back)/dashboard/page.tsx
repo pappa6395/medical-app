@@ -7,7 +7,8 @@ import Dashboard from '@/components/Dashboard/Dashboard'
 import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
 import { authOptions } from '@/lib/auth'
-import { Doctor, PatientProps } from '@/utils/types'
+import { AppointmentProps, Doctor, PatientProps } from '@/utils/types'
+import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -23,7 +24,7 @@ const page = async() => {
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
   
-  const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+  const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
   // // Option 1 : [patientIds] => remove dups => fetch users with these ids
   // // Option 2 : [patientId, name, email] => remove dups
   const uniquePatientsMap = new Map();
@@ -73,7 +74,7 @@ const page = async() => {
         <DoctorDashboard 
           session={session} 
           analytics={doctorAnalytics}
-          patients={patients} 
+          //patients={patients} 
           // doctors={doctors}
           // appointments={recentAppointments}
         />
