@@ -20,9 +20,9 @@ const Layout = async ({children}:{children:ReactNode}) => {
         <SideBar session={session} />
         <div className='flex flex-col'>
           <NavBar session={session} />
-          {/* <div className='p-4'>
+          <div className='p-4'>
             {children}
-          </div>    */}
+          </div>   
         </div>
     </div>
   )
