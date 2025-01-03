@@ -22,13 +22,15 @@ const DoctorDashboard = ({
 }: {
   session?: Session | null; 
   analytics?: AnalyticProps[];
-  patients: PatientProps[];
-  doctors: Doctor | undefined | null;
-  appointments: Appointment[] | undefined | null;
+  patients?: PatientProps[];
+  doctors?: Doctor | undefined | null;
+  appointments?: Appointment[] | undefined | null;
 }) => {
 
   const user = session?.user
   const role = user?.role
+
+  
 
   
   return (
@@ -111,7 +113,7 @@ const DoctorDashboard = ({
                 </Link>
               </Button>
           </section>
-          {patients.map((data, index) => {
+          {patients && patients.map((data, index) => {
             return (
               <SalesCard
                 key={index}

@@ -1,6 +1,5 @@
 
 
-import { PageProps } from '@/.next/types/app/(back)/dashboard/patients/view/[id]/page';
 import { getAppointmentById } from '@/actions/appointments';
 import { Calendar, Mail, Phone, Video } from 'lucide-react';
 import Link from 'next/link';
@@ -8,6 +7,8 @@ import React from 'react'
 import { Button } from '@/components/ui/button';
 import { CardDescription, CardTitle } from '@/components/ui/card';
 import { getAgeFromDoB } from '@/utils/getAgeFromDoB';
+import { PageProps } from '@/.next/types/app/(back)/dashboard/appointments/view/[id]/page';
+
 
 const page = async ({params: paramsPromise}: PageProps) => {
 
@@ -35,7 +36,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
 
   return (
 
-    <div>
+  <div>
     <div className='flex justify-between mt-2 border-b px-4 py-4'>
       <div className=''>
         <h2 className="scroll-m-20 pb-2 text-2xl 
@@ -83,7 +84,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
             </Button>
         </div>
         {appointment?.status === "approved" ? (
-         <div className='space-y-2'>
+        <div className='space-y-2'>
             <div className="flex items-center justify-between">
               <h3 className='capitalize'>{" "}{appointment?.meetingProvider} Link</h3>
               <Button variant={"outline"} asChild>
@@ -110,9 +111,9 @@ const page = async ({params: paramsPromise}: PageProps) => {
                 </Button>
               </div>
             </div>
-         </div>
+        </div>
         ) : (
-          ""
+          <div/>
         )} 
       </div> 
     </div>
@@ -162,7 +163,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
       <p className='px-3'>{medicalDocs}</p>
       </div>
     </div> 
-</div>
+  </div>
 
   )
 }

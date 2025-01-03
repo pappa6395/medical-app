@@ -20,26 +20,6 @@ const DoctorList = ({
     className?:string;
 }) => {
     
-    // const doctors: {name: string}[] = [
-    //     {
-    //         name: "John"
-    //     },
-    //     {
-    //         name: "David"
-    //     },
-    //     {
-    //         name: "Sandy"
-    //     },
-    //     {
-    //         name: "Gilgamesh"
-    //     },
-    //     {
-    //         name: "Spongbob"
-    //     },
-    //     {
-    //         name: "Harry"
-    //     },
-    // ]
 
   return (
 

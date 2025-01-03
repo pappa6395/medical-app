@@ -21,7 +21,7 @@ const PatientDashboard = ({
 }: {
   session?: Session | null; 
   analytics?: AnalyticProps[];
-  doctors: Doctor[] | undefined;
+  doctors?: Doctor[] | undefined;
   appointments?: Appointment[];
   role: UserRole;
 }) => {

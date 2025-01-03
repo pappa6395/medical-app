@@ -22,37 +22,6 @@ const DoctorCard = ({
     const formattedDate = getFormattedDate();
     const slug = generateSlug(`${doctor.doctorProfile?.firstName} ${doctor.doctorProfile?.lastName}`)
 
-    // const timeStamps = [
-    //     {
-    //         time: "8:30",
-    //         period: "am"
-    //     },
-    //     {
-    //         time: "9:30",
-    //         period: "am"
-    //     },
-    //     {
-    //         time: "10:30",
-    //         period: "am"
-    //     },
-    //     {
-    //         time: "11:30",
-    //         period: "am"
-    //     },
-    //     {
-    //         time: "1:30",
-    //         period: "pm"
-    //     },
-    //     {
-    //         time: "2:30",
-    //         period: "pm"
-    //     },
-    //     {
-    //         time: "3:30",
-    //         period: "pm"
-    //     },
-    // ]
-
 
   return (
 
