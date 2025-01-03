@@ -92,56 +92,56 @@ const DoctorDashboard = ({
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
       <CardContent>
-        <section className='flex justify-between'>
+        <section className='flex flex-col justify-between'>
           <div>
             <CardTitle>Recent Appointments</CardTitle>
           </div>
+            <ScrollArea className="h-96 py-3 space-x-4">
+            {appointments && appointments.slice(0,5).map((data, index) => {
+              const status = data.status??"PENDING"
+              return (
+                <RecentAppointmentCard
+                  key={index}
+                  role={role}
+                  id={data.id}
+                  status={status}
+                  firstName={data.firstName??""}
+                  lastName={data.lastName??""}
+                  appointmentTime={data.appointmentTime??""}
+                  appointmentFormattedDate={data.appointmentFormattedDate}
+                  createdAt={data.createdAt}
+                />
+            )})}
+          </ScrollArea>
+        </section>
+        <Button asChild className='p-3'>
+          <Link href="/dashboard/doctor/appointments">
+            View All
+          </Link>
+        </Button>
+      </CardContent>
+      {/* <CardContent>
+        <section className='flex justify-between'>
+          <div>
+            <CardTitle>Recent Patients</CardTitle>
+          </div>
             <Button asChild className='p-3'>
-              <Link href="/dashboard/doctor/appointments">
+              <Link href="/dashboard/doctor/patients">
                 View All
               </Link>
             </Button>
         </section>
-        <ScrollArea className="h-96 space-x-4">
-          {appointments && appointments.slice(0,5).map((data, index) => {
-            const status = data.status??"PENDING"
-            return (
-              <RecentAppointmentCard
-                key={index}
-                role={role}
-                id={data.id}
-                status={status}
-                firstName={data.firstName??""}
-                lastName={data.lastName??""}
-                appointmentTime={data.appointmentTime??""}
-                appointmentFormattedDate={data.appointmentFormattedDate}
-                createdAt={data.createdAt}
-              />
-          )})}
-        </ScrollArea>
-        </CardContent>
-        <CardContent>
-          <section className='flex justify-between'>
-            <div>
-              <CardTitle>Recent Patients</CardTitle>
-            </div>
-              <Button asChild className='p-3'>
-                <Link href="/dashboard/doctor/patients">
-                  View All
-                </Link>
-              </Button>
-          </section>
-          {patients && patients.map((data, index) => {
-            return (
-              <SalesCard
-                key={index}
-                role={role}
-                email={data.email??""}
-                name={data.name}
-                profileId={data.patientId??""}
-              />
-          )})}
-        </CardContent> 
+        {patients && patients.map((data, index) => {
+          return (
+            <SalesCard
+              key={index}
+              role={role}
+              email={data.email??""}
+              name={data.name}
+              profileId={data.patientId??""}
+            />
+        )})}
+      </CardContent>  */}
       </section>
     </div>
   )
