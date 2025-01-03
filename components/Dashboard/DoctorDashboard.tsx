@@ -91,8 +91,8 @@ const DoctorDashboard = ({
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-      <CardContent>
-        <section className='flex flex-col justify-between'>
+      {/* <CardContent>
+        <div className='flex flex-col justify-between'>
           <div>
             <CardTitle>Recent Appointments</CardTitle>
           </div>
@@ -113,13 +113,13 @@ const DoctorDashboard = ({
                 />
             )})}
           </ScrollArea>
-        </section>
+        </div>
         <Button asChild className='p-3'>
           <Link href="/dashboard/doctor/appointments">
             View All
           </Link>
         </Button>
-      </CardContent>
+      </CardContent> */}
       {/* <CardContent>
         <section className='flex justify-between'>
           <div>
