@@ -27,29 +27,8 @@ const page = async() => {
   const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
   // // Option 1 : [patientIds] => remove dups => fetch users with these ids
   // // Option 2 : [patientId, name, email] => remove dups
-  const uniquePatientsMap = new Map();
-
-  appointments.forEach((app) => {
-    if (!uniquePatientsMap.has(app.patientId)) {
-      uniquePatientsMap.set(app.patientId, {
-        patientId : app.patientId,
-        name: `${app.firstName} ${app.lastName}`,
-        email: app.email,
-        phone: app.phone,
-        location: app.location,
-        gender: app.gender,
-        occupation: app.occupation,
-        doctorId: app.doctorId,
-        dob: app.dob,
-      });
-    }
-  });
-    
-  const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
-  // console.log("Patients:", patients);
-    
-  // const recentAppointments = (await getAppointments()).data
-  // const doctors = await getDoctorsById(userId)
+  const recentAppointments = (await getAppointments()).data
+  const doctors = await getDoctorsById(userId)
     
   //for User, Recent get doctor by patientId and Recent appointment  by patientId
   // const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
@@ -74,9 +53,9 @@ const page = async() => {
         <DoctorDashboard 
           session={session} 
           analytics={doctorAnalytics}
-          //patients={patients} 
-          // doctors={doctors}
-          // appointments={recentAppointments}
+          patientsApp={appointments} 
+          doctors={doctors}
+          appointments={recentAppointments}
         />
       </div>
     )

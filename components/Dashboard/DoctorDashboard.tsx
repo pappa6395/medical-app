@@ -16,13 +16,13 @@ import { CheckCircle, CircleEllipsis, CircleX } from 'lucide-react';
 const DoctorDashboard = ({ 
   session,
   analytics,
-  patients,
+  patientsApp,
   doctors,
   appointments, 
 }: {
   session?: Session | null; 
   analytics?: AnalyticProps[];
-  patients?: PatientProps[];
+  patientsApp?: Appointment[];
   doctors?: Doctor | undefined | null;
   appointments?: Appointment[] | undefined | null;
 }) => {
@@ -30,7 +30,25 @@ const DoctorDashboard = ({
   const user = session?.user
   const role = user?.role
 
+  const uniquePatientsMap = new Map();
   
+    patientsApp && patientsApp.forEach((app) => {
+      if (!uniquePatientsMap.has(app.patientId)) {
+        uniquePatientsMap.set(app.patientId, {
+          patientId : app.patientId,
+          name: `${app.firstName} ${app.lastName}`,
+          email: app.email,
+          phone: app.phone,
+          location: app.location,
+          gender: app.gender,
+          occupation: app.occupation,
+          doctorId: app.doctorId,
+          dob: app.dob,
+        });
+      }
+    });
+      
+    const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
 
   
   return (
