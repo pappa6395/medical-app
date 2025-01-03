@@ -44,7 +44,7 @@ const Dashboard = async() => {
 
   return (
 
-    <main className="flex flex-col gap-5 w-full">
+    <div className="flex flex-col gap-5 w-full">
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
         Welcome, Admin. {user?.name}
       </h1>
@@ -104,7 +104,7 @@ const Dashboard = async() => {
           )})}
         </CardContent> 
       </section>
-    </main>
+    </div>
         
   )
 }

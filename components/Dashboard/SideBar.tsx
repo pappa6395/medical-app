@@ -104,45 +104,6 @@ export default function SideBar({session}: {session: Session}) {
     };
     let sideBarLinks = roles[role] || [];
     
-    // const sideBarLinks = [
-    //     {
-    //         name: "Dashboard",
-    //         path: "/dashboard",
-    //         icon: Home
-    //     },
-    //     {
-    //         name: "Products",
-    //         path: "/dashboard/products",
-    //         icon: Package 
-    //     },
-    //     {
-    //         name: "Orders",
-    //         path: "/dashboard/orders",
-    //         icon: ShoppingCart, 
-    //         badgeCount: 6
-    //     },
-    //     {
-    //         name: "Customers",
-    //         path: "/dashboard/customers",
-    //         icon: Users
-    //     },
-    //     {
-    //         name: "Analytics",
-    //         path: "/dashboard/analytics",
-    //         icon: LineChart
-    //     },
-    //     {
-    //         name: "Settings",
-    //         path: "/dashboard/settings",
-    //         icon: Settings
-    //     },
-    //     {
-    //         name: "Online",
-    //         path: "/dashboard/settings",
-    //         icon: Globe
-    //     },
-
-    // ]
     const handleLogout = async() => {
         await signOut();
         router.push("/login");
@@ -183,14 +144,6 @@ export default function SideBar({session}: {session: Session}) {
                                     >   
                                         {Icon && <Icon className='h-5 w-5' />}
                                         {item.title}
-                                        {/* {item.badgeCount && (
-                                        <Badge className='ml-auto flex h-6 w-6 
-                                        shrink-0 items-center justify-center 
-                                        rounded-full'
-                                        >
-                                            {item.badgeCount}
-                                        </Badge>
-                                        )} */}
                                     </Link>
                                 )
                             })

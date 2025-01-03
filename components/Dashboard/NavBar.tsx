@@ -103,56 +103,57 @@ export default function NavBar({session}: {session: Session} ) {
     }
 
   return (
-    <header className='flex h-14 items-center 
-            gap-4 border-b bg-muted/40 px-4 
-            lg:h-[60px] lg:px-6 dark:bg-slate-900'
-            >
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <Button 
-                            variant="outline" 
-                            size="icon" 
-                            className='shrink-0 md:hidden'>
-                            <Menu className='h-5 w-5' />
-                            <span className='sr-only'>Toggle navigation menu</span>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className='flex flex-col'>
-                        <SheetHeader>
-                            <SheetTitle>
-                                Medical-App
-                            </SheetTitle>
-                            <SheetDescription>
-                                Medical Online Services
-                            </SheetDescription>
-                        </SheetHeader>
-                        <nav className='grid gap-2 text-lg font-medium'>
-                            {
-                                sideBarLinks.map((item, i) => {
-                                    const Icon = item.icon
-                                    return (
-                                        <Link
-                                            key={i}
-                                            href={item.path}
-                                            className={cn(
-                                                'flex items-center gap-3 rounded-lg px3 py-2 text-muted-foreground transition-all hover:text-primary',
-                                                pathName === item.path ? "bg-muted text-primary" : "" )}
-                                        >   
-                                            {Icon && <Icon className='h-5 w-5' />}
-                                            {item.title}
-                                        </Link>
-                                    )
-                                })
-                            }
-                        </nav>
-                    </SheetContent>
-                </Sheet>
-                <div className="w-full flex-1">
-                    <div className="relative">
-                        <SearchBar />
-                    </div>
+    <div>
+        <header className='flex h-14 items-center 
+        gap-4 border-b bg-muted/40 px-4 
+        lg:h-[60px] lg:px-6 dark:bg-slate-900'
+        >
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className='shrink-0 md:hidden'>
+                        <Menu className='h-5 w-5' />
+                        <span className='sr-only'>Toggle navigation menu</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className='flex flex-col'>
+                    <SheetHeader>
+                        <SheetTitle>
+                            Medical-App
+                        </SheetTitle>
+                        <SheetDescription>
+                            Medical Online Services
+                        </SheetDescription>
+                    </SheetHeader>
+                    <nav className='grid gap-2 text-lg font-medium'>
+                        {
+                            sideBarLinks.map((item, i) => {
+                                const Icon = item.icon
+                                return (
+                                    <Link
+                                        key={i}
+                                        href={item.path}
+                                        className={cn(
+                                            'flex items-center gap-3 rounded-lg px3 py-2 text-muted-foreground transition-all hover:text-primary',
+                                            pathName === item.path ? "bg-muted text-primary" : "" )}
+                                    >   
+                                        {Icon && <Icon className='h-5 w-5' />}
+                                        {item.title}
+                                    </Link>
+                                )
+                            })
+                        }
+                    </nav>
+                </SheetContent>
+            </Sheet>
+            <div className="w-full flex-1">
+                <div className="relative">
+                    <SearchBar />
                 </div>
-                <ModeToggle />
+            </div>
+            <ModeToggle />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="secondary" size="icon" className="rounded-full">
@@ -177,7 +178,9 @@ export default function NavBar({session}: {session: Session} ) {
                     <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            </header>
+        </header>
+    </div>
+        
   );
 }
 

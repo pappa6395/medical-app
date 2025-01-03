@@ -19,7 +19,7 @@ const Layout = async ({children}:{children:ReactNode}) => {
     lg:grid-cols-[280px_1fr] dark:bg-slate-950'>
         <SideBar session={session} />
         <div className='flex flex-col'>
-            <NavBar session={session} />
+          <NavBar session={session} />
           <div className='p-4'>
             {children}
           </div>   

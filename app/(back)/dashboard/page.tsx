@@ -66,37 +66,35 @@ const page = async() => {
        
     //----------------------------------------------------------------//
 
-  // if (role === "DOCTOR") {
-  //   return (
-  //     <div>
-  //       <DoctorDashboard 
-  //         session={session} 
-  //         analytics={doctorAnalytics}
-  //         patients={patients} 
-  //         doctors={doctors}
-  //         appointments={recentAppointments}
-  //       />
-  //     </div>
-  //   )
-  // };
-  // if (role === "USER") {
-  //   return (
-  //     <div>
-  //       <p>The user role is {role}</p>
-  //       <PatientDashboard 
-  //         session={session} 
-  //         analytics={userAnalytics} 
-  //         doctors={doctorsPatientId}
-  //         appointments={appointmentByPatientId}
-  //         role={role} 
-  //       />
-  //     </div>
-  //   )
-  // }
+  if (role === "DOCTOR") {
+    return (
+      <div>
+        <DoctorDashboard 
+          session={session} 
+          analytics={doctorAnalytics}
+          patients={patients} 
+          doctors={doctors}
+          appointments={recentAppointments}
+        />
+      </div>
+    )
+  };
+  if (role === "USER") {
+    return (
+      <div>
+        <PatientDashboard 
+          session={session} 
+          analytics={userAnalytics} 
+          doctors={doctorsPatientId}
+          appointments={appointmentByPatientId}
+          role={role} 
+        />
+      </div>
+    )
+  }
 
   return (
     <div>
-      <p>The user role is {role}</p>
       <Dashboard />
     </div>
   )

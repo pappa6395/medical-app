@@ -28,9 +28,9 @@ export const UpdatedAppointmentEmail = ({
   subject,
   message,
 }: UpdatedAppointmentEmailProps) => (
-  <Html>
+  <Html lang="en">
     <Head />
-    <Preview>{subject}</Preview>
+    <title>{subject}</title>
     <Body style={main}>
       <Container style={container}>
         <Image

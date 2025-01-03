@@ -29,9 +29,10 @@ export const NewAppointmentEmail = ({
   subject,
   message,
 }: NewAppointmentEmailProps) => (
-  <Html>
+  
+  <Html lang="en">
     <Head />
-    <Preview>{subject}</Preview>
+    <title>{subject}</title>
     <Body style={main}>
       <Container style={container}>
         {/* <Image

@@ -26,9 +26,9 @@ export const WelcomeEmail = ({
   message,
   previewText,
 }: WelcomeEmailProps) => (
-  <Html>
+  <Html lang="en">
     <Head />
-    <Preview>{previewText}</Preview>
+    <title>{previewText}</title>
     <Body style={main}>
       <Container style={container}>
         <Image

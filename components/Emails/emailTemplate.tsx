@@ -26,9 +26,9 @@ export const EmailTemplate = ({
   linkText,
   message,
 }: EmailTemplateProps) => (
-  <Html>
+  <Html lang="en">
     <Head />
-    <Preview>{linkText}</Preview>
+    <title>{linkText}</title>
     <Body style={main}>
       <Container style={container}>
         <Img
