@@ -28,7 +28,7 @@ const page = async() => {
   // // Option 1 : [patientIds] => remove dups => fetch users with these ids
   // // Option 2 : [patientId, name, email] => remove dups
   //const recentAppointments = (await getAppointments()).data
-  const doctors = await getDoctorsById(userId)
+  //const doctors = await getDoctorsById(userId)
     
   //for User, Recent get doctor by patientId and Recent appointment  by patientId
   // const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
@@ -54,7 +54,7 @@ const page = async() => {
           session={session} 
           analytics={doctorAnalytics}
           patientsApp={appointments} 
-          doctors={doctors}
+          //doctors={doctors}
           // appointments={recentAppointments}
         />
       </div>
