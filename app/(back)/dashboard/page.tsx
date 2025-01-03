@@ -24,7 +24,7 @@ const page = async() => {
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
   
-  //const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
+  const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
   // // Option 1 : [patientIds] => remove dups => fetch users with these ids
   // // Option 2 : [patientId, name, email] => remove dups
   const recentAppointments = (await getAppointments())?.data || []
@@ -53,7 +53,7 @@ const page = async() => {
         <DoctorDashboard 
           session={session} 
           analytics={doctorAnalytics}
-          //patientsApp={appointments} 
+          patientsApp={appointments} 
           doctors={doctors}
           appointments={recentAppointments}
         />
