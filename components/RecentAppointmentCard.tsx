@@ -1,8 +1,7 @@
 "use client"
 
 import React from 'react'
-import { ScrollArea } from './ui/scroll-area'
-import { Appointment, UserRole } from '@prisma/client'
+import { UserRole } from '@prisma/client'
 import { CalendarCheck, Check, CircleEllipsis, CircleX, History } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -74,12 +73,11 @@ const RecentAppointmentCard = ({
                         <span className="scroll-m-20 font-normal 
                         tracking-tight"
                         >
-                            {status === "" ? "pending" : status}
+                            {status}
                         </span>
                     </div>
                     <span className="scroll-m-20 text-lg font-normal tracking-tight">{appointmentTime}</span>
                 </div>
-                
             </Link>
         </div>
     </div>

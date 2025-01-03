@@ -216,7 +216,7 @@ export async function getAppointmentById(id: string) {
     }
 };
 
-export async function getAppointmentByDoctorId(doctorId: string) {
+export async function getAppointmentByDoctorId(doctorId: string | undefined) {
     
     //console.log("Payload check:", doctorId);
     try {
