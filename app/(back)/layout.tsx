@@ -17,14 +17,18 @@ const Layout = async ({children}:{children:ReactNode}) => {
   return (
     <div className='grid min-h-screen md:w-full w-fit md:grid-cols=[220px_1fr] 
     lg:grid-cols-[280px_1fr] dark:bg-slate-950'>
-        <SideBar session={session} />
-        <div className='flex flex-col'>
-          <NavBar session={session} />
-          <div className='p-4'>
-            {children}
-          </div>   
-        </div>
+      {children}
     </div>
+    // <div className='grid min-h-screen md:w-full w-fit md:grid-cols=[220px_1fr] 
+    // lg:grid-cols-[280px_1fr] dark:bg-slate-950'>
+    //     <SideBar session={session} />
+    //     <div className='flex flex-col'>
+    //       <NavBar session={session} />
+    //       <div className='p-4'>
+    //         {children}
+    //       </div>   
+    //     </div>
+    // </div>
   )
 }
 
