@@ -18,33 +18,33 @@ const Dashboard = ({
   doctors,
   appointments,
 }: {
-  analytics: AnalyticProps[];
-  session: Session | null;
-  doctors: Doctor[];
-  appointments: Appointment[];
+  analytics?: AnalyticProps[];
+  session?: Session | null;
+  doctors?: Doctor[];
+  appointments?: Appointment[];
 }) => {
 
   const user = session?.user
 
-  const uniquePatientsMap = new Map();
+  // const uniquePatientsMap = new Map();
 
-    appointments.forEach((app) => {
-      if (!uniquePatientsMap.has(app.patientId)) {
-        uniquePatientsMap.set(app.patientId, {
-          patientId : app.patientId,
-          name: `${app.firstName} ${app.lastName}`,
-          email: app.email,
-          phone: app.phone,
-          location: app.location,
-          gender: app.gender,
-          occupation: app.occupation,
-          doctorId: app.doctorId,
-          dob: app.dob,
-        });
-      }
-    });
+  //   appointments.forEach((app) => {
+  //     if (!uniquePatientsMap.has(app.patientId)) {
+  //       uniquePatientsMap.set(app.patientId, {
+  //         patientId : app.patientId,
+  //         name: `${app.firstName} ${app.lastName}`,
+  //         email: app.email,
+  //         phone: app.phone,
+  //         location: app.location,
+  //         gender: app.gender,
+  //         occupation: app.occupation,
+  //         doctorId: app.doctorId,
+  //         dob: app.dob,
+  //       });
+  //     }
+  //   });
     
-    const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
+  //   const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
 
   return (
 
