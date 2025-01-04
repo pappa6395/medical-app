@@ -329,7 +329,7 @@ export async function getDoctorsById(id: string) {
       if (!doctor) {
         return null
       };
-      return doctor as Doctor
+      return doctor
     } catch (error) {
       console.log("Error get Doctors:",error);
       return null;

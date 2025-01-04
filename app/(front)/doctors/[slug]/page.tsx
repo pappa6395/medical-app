@@ -2,12 +2,13 @@ import React from 'react'
 import Image from 'next/image'
 import doctorProfile1 from '../../../../public/doctorProfile1.jpeg'
 import DoctorDetails from '@/components/DoctorDetails'
-import { getDoctorsById, getDoctorsBySlug } from '@/actions/users'
-import { PageProps } from '@/.next/types/app/(front)/doctors/[slug]/page'
+import { getDoctorsById } from '@/actions/users'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { getRecentAppointmentByPatientId } from '@/actions/appointments'
 import { CheckCircle, CircleEllipsis, CircleX } from 'lucide-react'
+import { PageProps } from '@/.next/types/app/api/auth/[...nextauth]/route'
+
 
 const page = async ({
     searchParams
@@ -15,13 +16,63 @@ const page = async ({
 
     const { id } = await searchParams
 
-    // Fetch doctor data from API or database
-    //const doctorSlug = await getDoctorsBySlug(slug) || null;
-    const doctorSlug = (await getDoctorsById(id))
+    const doctorSlug = (await getDoctorsById(id)) || {
+        id: "",
+        name: "",
+        slug: "",
+        email: "",
+        phone: "",
+        doctorProfile: {
+            id: "",
+            firstName: "",
+            lastName: "",
+            middleName: "",
+            gender: "",
+            dob: null,
+            bio: "",
+            profilePicture: "/public/defaultImage.png",
+            operationMode: "",
+            hourlyWage: 0,
+            city: "",
+            state: "",
+            country: "",
+            yearsOfExperience: 0,
+            medicalLicense: "",
+            medicalLicenseExpiry: null,
+            boardCertificates: [],
+            otherSpecialties: [],
+            primarySpecialization: "",
+            medicalSchool: "",
+            hospitalName: "",
+            hospitalAddress: "",
+            hospitalContactNumber: "",
+            hospitalEmailAddress: "",
+            hospitalHoursOfOperation: "",
+            hospitalWebsite: "",
+            research: "",
+            accomplishments: "",
+            additionalDocuments: [],
+            graduationYear: "",
+            educationHistory: "",
+            servicesOffered: [],
+            insuranceAccepted: "",
+            languagesSpoken: [],
+            status: "PENDING",
+            availability: {
+                monday: [],
+                tuesday: [],
+                wednesday: [],
+                thursday: [],
+                friday: [],
+                saturday: [],
+                sunday: [],
+        }
+        },
+    }
     // console.log("doctorSlug: ", doctorSlug);
     
     const session = await getServerSession(authOptions);
-    const patientId = session?.user.id;
+    const patientId = session?.user.id ?? "";
 
     const appointment = (await getRecentAppointmentByPatientId(patientId))?.data || null
     //console.log("Appointment Data: ", appointment);

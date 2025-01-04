@@ -234,7 +234,7 @@ export type Doctor = {
 }
 
 export type DoctorDetail = {
-    id: string;
+    id: string | undefined;
     name: string;
     slug: string;
     email: string;

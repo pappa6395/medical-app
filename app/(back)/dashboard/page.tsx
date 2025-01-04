@@ -67,7 +67,7 @@ const page = async() => {
       additionalDocuments: [],
       graduationYear: "",
       educationHistory: "",
-      servicesOffered: "",
+      servicesOffered: [],
       insuranceAccepted: "",
       languagesSpoken: [],
       status: "PENDING",

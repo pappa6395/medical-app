@@ -33,7 +33,7 @@ const DoctorDetails = ({
     patientId,
     appointment,
 }: {
-    doctor: DoctorDetail 
+    doctor: DoctorDetail
     patientId: string | undefined;
     appointment: Appointment | undefined | null;
 }) => {
@@ -69,7 +69,7 @@ const DoctorDetails = ({
         appointmentDate: undefined,
         appointmentTime: "",
         appointmentFormattedDate: "",
-        doctorId: doctor.id,
+        doctorId: doctor.id || "",
         doctorName: doctor.name || "",
         patientId: appointment?.patientId || "",
         fee: appointment?.fee || doctor.doctorProfile?.hourlyWage || 0,
@@ -196,13 +196,13 @@ const DoctorDetails = ({
             appointmentReason: "",
             medicalDocument: [],
             occupation: "",
-            appointmentDate: date?? undefined,
+            appointmentDate: date ?? undefined,
             appointmentTime: "",
             appointmentFormattedDate: "",
-            doctorId: doctor.id,
-            doctorName: doctor.name,
+            doctorId: doctor.id ?? "",
+            doctorName: doctor.name ?? "",
             patientId: patientData?.patientId ?? "",
-            fee: doctor.doctorProfile?.hourlyWage?? 0,
+            fee: doctor.doctorProfile?.hourlyWage ?? 0,
             status: "",
             meetingLink: "",
             meetingProvider: "",

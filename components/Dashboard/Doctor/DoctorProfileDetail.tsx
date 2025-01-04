@@ -5,6 +5,9 @@ import Image from 'next/image'
 import pdfIcon from '@/public/pdf.png'
 import { format } from 'date-fns'
 import { DoctorDetail } from '@/utils/types'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdownMenu'
+import { Button } from '@/components/ui/button'
+import { Menu } from 'lucide-react'
 
 
 const DoctorProfileDetail = ({
@@ -13,9 +16,8 @@ const DoctorProfileDetail = ({
     doctor: DoctorDetail,
 }) => {
 
-    const dob = doctor?.doctorProfile?.dob as Date
+    const dob = doctor?.doctorProfile?.dob ?? null
     const medLicense = doctor?.doctorProfile?.medicalLicenseExpiry as Date
-    const formattedDob = format(dob, "dd/MM/yyyy")
     const formattedMedLicense = format(medLicense, "dd/MM/yyyy")
 
   return (
@@ -23,11 +25,35 @@ const DoctorProfileDetail = ({
     <ScrollArea className="h-auto w-auto space-x-4">
         <div className="w-full">
             <Tabs defaultValue="doctordetails" className="w-full">
-                <TabsList>
-                    <TabsTrigger value="doctordetails">Doctor Details</TabsTrigger>
-                    <TabsTrigger value="educationinfo">Education Info </TabsTrigger>
-                    <TabsTrigger value="practiceinfo">Practice Info </TabsTrigger>
-                    <TabsTrigger value="additionalinfo">Additional info </TabsTrigger>
+                <TabsList className='bg-transparent sm:bg-zinc-600'>
+                    <TabsTrigger className='hidden sm:block' value="doctordetails">Doctor Details</TabsTrigger>
+                    <TabsTrigger className='hidden sm:block' value="educationinfo">Education Info </TabsTrigger>
+                    <TabsTrigger className='hidden sm:block' value="practiceinfo">Practice Info </TabsTrigger>
+                    <TabsTrigger className='hidden sm:block' value="additionalinfo">Additional info </TabsTrigger>
+                    <div className='block sm:hidden translate-x-72'>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Menu className='w-6 h-6' />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-56 dark:bg-slate-800 p-2">
+                                <DropdownMenuLabel>Doctor Details</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <TabsTrigger value="doctordetails">Doctor Details</TabsTrigger>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <TabsTrigger value="educationinfo">Education Info </TabsTrigger>
+                                    </DropdownMenuItem> 
+                                    <DropdownMenuItem>
+                                        <TabsTrigger value="practiceinfo">Practice Info </TabsTrigger>
+                                    </DropdownMenuItem> 
+                                    <DropdownMenuItem>
+                                    <TabsTrigger value="additionalinfo">Additional info </TabsTrigger>
+                                    </DropdownMenuItem>  
+                                <DropdownMenuSeparator />
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 </TabsList>
                 <TabsContent value="doctordetails">
                     <div className="grid">
@@ -36,7 +62,7 @@ const DoctorProfileDetail = ({
                             uppercase border-b pb-2 mb-1"
                             >Bio Data
                             </h2>
-                            <div className="grid grid-cols-2 gap-4 py-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
                                 <div className="flex items-center divide-x-2 divide-gray-300">
                                     <span className="mr-3 tracking-wider font-semibold 
                                     text-slate-700"
@@ -89,14 +115,14 @@ const DoctorProfileDetail = ({
                             uppercase border-b pb-2 mb-1"
                             >Profile Information
                             </h2>
-                            <div className="grid grid-cols-2 gap-4 py-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
                                     <span className="mr-3 tracking-wider font-semibold 
                                     text-slate-700"
                                     >Medical License
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.medicalLicense}
+                                        {doctor?.doctorProfile?.medicalLicense ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -105,7 +131,7 @@ const DoctorProfileDetail = ({
                                     >Years of Experience
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.yearsOfExperience}
+                                        {doctor?.doctorProfile?.yearsOfExperience ?? 0}
                                     </span>
                                 </div>
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
@@ -114,12 +140,12 @@ const DoctorProfileDetail = ({
                                     >Medical License Expiry
                                     </span>
                                     <span className="px-2">
-                                        {formattedMedLicense}
+                                        {formattedMedLicense ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.bio}
+                                        {doctor?.doctorProfile?.bio ?? ""}
                                     </span>
                                 </div>
                             </div>
@@ -133,14 +159,14 @@ const DoctorProfileDetail = ({
                             uppercase border-b pb-2 mb-1"
                             >Education Information
                             </h2>
-                            <div className="grid grid-cols-2 gap-4 py-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
                                 <div className="flex items-center divide-x-2 divide-gray-300">
                                     <span className="mr-3 tracking-wider font-semibold 
                                     text-slate-700"
                                     >Graduation Year
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.graduationYear}
+                                        {doctor?.doctorProfile?.graduationYear ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -149,7 +175,7 @@ const DoctorProfileDetail = ({
                                     >Primary Specialization
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.primarySpecialization}
+                                        {doctor?.doctorProfile?.primarySpecialization ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
@@ -158,7 +184,7 @@ const DoctorProfileDetail = ({
                                     >Medical School
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.medicalSchool}
+                                        {doctor?.doctorProfile?.medicalSchool ?? ""}
                                     </span>
                                 </div>
                                 <div className="space-y-3 col-span-full">
@@ -186,7 +212,7 @@ const DoctorProfileDetail = ({
                                         {doctor.doctorProfile?.boardCertificates 
                                         && doctor?.doctorProfile?.boardCertificates.map((item,i) => {
                                             return (
-                                                <div  key={i} className="flex px-2 py-1 border border-gray-200 gap-2">
+                                                <div  key={i} className="flex px-2 py-1 border w-auto truncate border-gray-200 gap-2">
                                                     <Image 
                                                         src={pdfIcon} 
                                                         alt="pdficon" 
@@ -211,14 +237,14 @@ const DoctorProfileDetail = ({
                             uppercase border-b pb-2 mb-1"
                             >Practice Information
                             </h2>
-                            <div className="grid grid-cols-2 gap-4 py-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
                                 <div className="flex items-center divide-x-2 divide-gray-300">
                                     <span className="mr-3 tracking-wider font-semibold 
                                     text-slate-700"
                                     >Hospital Name
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hospitalName}
+                                        {doctor?.doctorProfile?.hospitalName ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -227,7 +253,7 @@ const DoctorProfileDetail = ({
                                     >Hourly Charge
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hourlyWage}
+                                        {doctor?.doctorProfile?.hourlyWage ?? 0}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -236,7 +262,7 @@ const DoctorProfileDetail = ({
                                     >Hospital Address
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hospitalAddress}
+                                        {doctor?.doctorProfile?.hospitalAddress ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -245,7 +271,7 @@ const DoctorProfileDetail = ({
                                     >Hospital Contact
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hospitalContactNumber}
+                                        {doctor?.doctorProfile?.hospitalContactNumber ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -254,7 +280,7 @@ const DoctorProfileDetail = ({
                                     >Hospital Hours of operation
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hospitalHoursOfOperation}
+                                        {doctor?.doctorProfile?.hospitalHoursOfOperation ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center divide-x-2 divide-gray-300">
@@ -263,25 +289,25 @@ const DoctorProfileDetail = ({
                                     >Do you accept Insurance
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.insuranceAccepted}
+                                        {doctor?.doctorProfile?.insuranceAccepted ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
                                     <span className="mr-3 tracking-wider font-semibold 
-                                    text-slate-700"
+                                    text-slate-700 truncate"
                                     >Hospital Email Address
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hospitalEmailAddress}
+                                        {doctor?.doctorProfile?.hospitalEmailAddress ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
                                     <span className="mr-3 tracking-wider font-semibold 
-                                    text-slate-700"
+                                    text-slate-700 truncate"
                                     >Hospital Website address
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.hospitalWebsite}
+                                        {doctor?.doctorProfile?.hospitalWebsite ?? ""}
                                     </span>
                                 </div>
                                 <div className="space-y-3 col-span-full">
@@ -311,7 +337,7 @@ const DoctorProfileDetail = ({
                             uppercase border-b pb-2 mb-1"
                             >Additional Informaiton
                             </h2>
-                            <div className="grid grid-cols-2 gap-4 py-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
                                 <div className="col-span-full">
                                     <span className="mr-3 tracking-wider font-semibold 
                                     text-slate-700"
@@ -319,7 +345,7 @@ const DoctorProfileDetail = ({
                                     </span>
                                     <div className="px-2 py-2">
                                         <span className="px-2">
-                                            {doctor?.doctorProfile?.educationHistory}
+                                            {doctor?.doctorProfile?.educationHistory ?? ""}
                                         </span>
                                     </div>
                                     
@@ -330,7 +356,7 @@ const DoctorProfileDetail = ({
                                     >Published Works or Research
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.research}
+                                        {doctor?.doctorProfile?.research ?? ""}
                                     </span>
                                 </div>
                                 <div className="flex items-center col-span-full divide-x-2 divide-gray-300">
@@ -339,7 +365,7 @@ const DoctorProfileDetail = ({
                                     >Accomplishments or awards
                                     </span>
                                     <span className="px-2">
-                                        {doctor?.doctorProfile?.accomplishments}
+                                        {doctor?.doctorProfile?.accomplishments ?? ""}
                                     </span>
                                 </div>
                                 <div className="space-y-3 col-span-full">
@@ -351,7 +377,7 @@ const DoctorProfileDetail = ({
                                         {doctor.doctorProfile?.additionalDocuments 
                                         && doctor?.doctorProfile?.additionalDocuments.map((item,i) => {
                                             return (
-                                                <div  key={i} className="flex px-2 py-1 border border-gray-200 gap-2">
+                                                <div  key={i} className="flex px-2 py-1 truncate border border-gray-200 gap-2">
                                                     <Image 
                                                         src={pdfIcon} 
                                                         alt="pdficon" 
