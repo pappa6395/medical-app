@@ -23,18 +23,24 @@ const DoctorDashboard = ({
   session?: Session | null; 
   analytics?: AnalyticProps[];
   patientsApp?: Appointment[];
-  doctors?: Doctor | undefined | null;
+  doctors?: Doctor | null;
   appointments?: Appointment[];
 }) => {
 
-  const user = session?.user?? null;
-  const role = user?.role ?? undefined;
+  if (!session) {
+    return <div>You must be logged in to view this page.</div>;
+  }
+  const user = session?.user || null;
+  const role = user?.role || undefined;
 
   const uniquePatientsMap = new Map();
   
   if (patientsApp) {
     patientsApp?.forEach((app) => {
-      if (!app?.patientId) return;
+      if (!app?.patientId) {
+        console.warn("Invalid patient data", app);
+        return;
+      }
       if (!uniquePatientsMap.has(app.patientId)) {
         uniquePatientsMap?.set(app.patientId, {
           patientId : app.patientId ?? "",
@@ -114,8 +120,8 @@ const DoctorDashboard = ({
                         role={role ?? undefined}
                         id={data.id ?? ""}
                         status={status ?? ""}
-                        firstName={data.firstName ?? ""}
-                        lastName={data.lastName ?? ""}
+                        firstName={data.firstName ?? "Unknown"}
+                        lastName={data.lastName ?? "Unknown"}
                         appointmentTime={data.appointmentTime ?? ""}
                         appointmentFormattedDate={data.appointmentFormattedDate ?? ""}
                         createdAt={data.createdAt ?? undefined}
@@ -143,7 +149,7 @@ const DoctorDashboard = ({
                     key={index}
                     role={role ?? undefined}
                     email={data.email ?? ""}
-                    name={data.name ?? ""}
+                    name={data.name ?? "Unknown"}
                     profileId={data.patientId ?? ""}
                   />
               )})}

@@ -7,7 +7,7 @@ import Dashboard from '@/components/Dashboard/Dashboard'
 import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
 import { authOptions } from '@/lib/auth'
-import { AppointmentProps, Doctor, PatientProps } from '@/utils/types'
+import { AnalyticProps, AppointmentProps, Doctor, PatientProps } from '@/utils/types'
 import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
@@ -19,9 +19,19 @@ const page = async() => {
   const userId = user?.id ?? '';
   const role = user?.role || "Unknown";
 
-  const doctorAnalytics = await getDoctorAnalytics() || []
+  let doctorAnalytics = [] as AnalyticProps[]
+  try {
+    doctorAnalytics = await getDoctorAnalytics() || []
+  } catch (err) {
+    console.error("Failed to fetch doctor analytics:", err);
+  }
   // const userAnalytics = await getUserAnalytics() || []
-  const analytics = await getAdminAnalytics() || [];
+  let analytics = [] as AnalyticProps[]
+  try {
+    analytics = await getAdminAnalytics() || [];
+  } catch (err) {
+    console.error("Failed to fetch analytics:", err);
+  }
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
   let appointments = [] as Appointment[]
@@ -140,7 +150,7 @@ const page = async() => {
           session={session ?? null} 
           analytics={doctorAnalytics ?? []}
           patientsApp={appointments ?? []} 
-          doctors={doctors ?? null}
+          doctors={doctors ?? {}}
           appointments={recentAppointments ?? []}
         />
       </div>
@@ -164,14 +174,12 @@ const page = async() => {
 
   return (
     <div>
-      {session && role === "ADMIN" && (
         <Dashboard
         session={session ?? null}
         analytics={analytics ?? []}
         doctors={doctorsAdmin ?? []}
         appointments={appointmentsAdmin ?? []}
       />
-      )}
     </div>
   )
 }
