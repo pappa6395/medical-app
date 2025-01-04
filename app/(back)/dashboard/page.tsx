@@ -80,10 +80,10 @@ const page = async() => {
   return (
     <div>
       <Dashboard
-        // session={session}
-        // analytics={analytics}
-        // doctors={doctorsAdmin}
-        // appointments={appointmentsAdmin}
+        session={session}
+        analytics={analytics}
+        doctors={doctorsAdmin}
+        appointments={appointmentsAdmin}
       />
     </div>
   )
