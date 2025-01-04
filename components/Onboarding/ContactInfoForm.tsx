@@ -64,7 +64,7 @@ const ContactInfoForm = ({
         if (validate(contactData)) {
 
             setIsLoading(true)
-            console.log("Contact Data:", contactData);
+            //console.log("Contact Data:", contactData);
 
             try {
                 const res = await updateDoctorProfileById(doctorProfile.id, contactData);
@@ -74,7 +74,7 @@ const ContactInfoForm = ({
                     toast.success("Contact Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`${pathname}?page=${nextPage}`)
-                    console.log("Updated Contact Data Passed:", res.data);
+                    //console.log("Updated Contact Data Passed:", res.data);
                 }
                 
             } catch (error) {

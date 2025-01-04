@@ -1,6 +1,7 @@
 import { getAppointmentByDoctorId, getAppointmentByPatientId } from '@/actions/appointments'
 import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
+import PatientDisplayCard from '@/components/Dashboard/Doctor/PatientDisplayCard'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
 import generateSlug from '@/utils/generateSlug'
@@ -25,18 +26,6 @@ const page = async () => {
     
     const appointments = (await getAppointmentByPatientId(userId))?.data || []
     
-    const uniquePatientsMap = new Map();
-
-      appointments.forEach((app) => {
-        if (!uniquePatientsMap.has(app.doctorId)) {
-          uniquePatientsMap.set(app.doctorId, {
-            doctorId : app.doctorId,
-            doctorName: app.doctorName,
-          });
-        }
-      });
-      
-    const doctors = Array.from(uniquePatientsMap.values()) as DoctorProps[]
           
 
   return (
@@ -49,8 +38,8 @@ const page = async () => {
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
-          <HomeDisplayCard 
-            count={doctors.length??0} 
+          <PatientDisplayCard 
+            appointments={appointments} 
             href={`/category?mode=Telehealth`} 
             title={"Doctor"} />
         </div>

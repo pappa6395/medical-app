@@ -105,7 +105,7 @@ const EducationInfoForm = ({
         if (validate(educationData)) {
 
             setIsLoading(true)
-            console.log("New Education Data:", educationData, formId);
+            //console.log("New Education Data:", educationData, formId);
             
             
             try {
@@ -116,7 +116,7 @@ const EducationInfoForm = ({
                     toast.success("Education Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`${pathname}?page=${nextPage}`)
-                    console.log("Updated New Education Data Passed:", res.data);
+                    //console.log("Updated New Education Data Passed:", res.data);
                 }
                 
             } catch (error) {

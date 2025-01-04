@@ -83,7 +83,7 @@ const AdditionalInfoForm = ({
         if (validate(additionalData)) {
 
             setIsLoading(true)
-            console.log("New Additional Data:", additionalData);
+            //console.log("New Additional Data:", additionalData);
 
             try {
 
@@ -105,7 +105,7 @@ const AdditionalInfoForm = ({
                             router.push("/login")
                         }
                         
-                        console.log("Updated New Additional Data Passed:", res.data);
+                        //console.log("Updated New Additional Data Passed:", res.data);
                     } else {
                         setIsLoading(false);
                         throw new Error("Something went wrong")
@@ -118,7 +118,7 @@ const AdditionalInfoForm = ({
     
                         toast.success("Profile Completed Successfully")
                         
-                        console.log("Updated New Additional Data Passed:", res.data);
+                        //console.log("Updated New Additional Data Passed:", res.data);
                     } else {
                         setIsLoading(false);
                         throw new Error("Something went wrong")

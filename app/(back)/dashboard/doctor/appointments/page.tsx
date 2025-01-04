@@ -1,6 +1,6 @@
 import { getAppointmentByDoctorId } from '@/actions/appointments'
 import { getDoctorsById } from '@/actions/users'
-import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
+import DoctorDisplayCard from '@/components/Dashboard/Doctor/DoctorDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
@@ -38,8 +38,8 @@ const page = async () => {
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
-          <HomeDisplayCard 
-            count={appointments.length??0} 
+          <DoctorDisplayCard 
+            appointments={appointments} 
             href={`/dashboard/${role}/appointments/view/${appointments.map(a=>a.id)}`}
             title={"Appointment"} />
         </div>

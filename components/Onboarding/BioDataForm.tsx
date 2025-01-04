@@ -96,7 +96,7 @@ const BioDataForm = ({
                         setDoctorProfileId(newProfile.data?.id ?? "")
                         // Route to the Next Form
                         router.push(`${pathname}?page=${nextPage}`)
-                        console.log("New Profile Data Passed:",newProfile.data);
+                        //console.log("New Profile Data Passed:",newProfile.data);
                         
                     } else {
                         throw new Error("Internal server error occurred")
@@ -112,7 +112,7 @@ const BioDataForm = ({
                             setDoctorProfileId(newProfile.data?.id ?? "")
                             // Route to the Next Form
                             router.push(`/onboarding/${userId}?page=${nextPage}`)
-                            console.log("New Profile Data Passed:",newProfile.data);
+                            //console.log("New Profile Data Passed:",newProfile.data);
                     } else {
                         throw Error("Internal server error occurred")
                     }

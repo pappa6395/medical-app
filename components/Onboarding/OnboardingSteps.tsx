@@ -24,7 +24,7 @@ const OnboardingSteps = ({
   doctorProfile: DoctorProfile;
 }) => {
 
-  console.log("Onboarding Steps ID:", id);
+  //console.log("Onboarding Steps ID:", id);
 
   const pathname = usePathname()
   const params = useSearchParams()

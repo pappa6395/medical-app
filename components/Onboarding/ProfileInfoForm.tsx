@@ -75,7 +75,7 @@ const ProfileInfoForm = ({
         if (validate(profileData)) {
 
             setIsLoading(true)
-            console.log("Profile Data:", profileData);
+            //console.log("Profile Data:", profileData);
 
             try {
                 const res = await updateDoctorProfileById(doctorProfile.id, profileData);
@@ -85,7 +85,7 @@ const ProfileInfoForm = ({
                     toast.success("Profile Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`${pathname}?page=${nextPage}`)
-                    console.log("Updated Profile Data Passed:", res.data);
+                    //console.log("Updated Profile Data Passed:", res.data);
                 }
                 
             } catch (error) {

@@ -94,7 +94,7 @@ const PracticeInfoForm = ({
         if (validate(practiceData)) {
 
             setIsLoading(true)
-            console.log("New Practice Data:", practiceData);
+            //console.log("New Practice Data:", practiceData);
 
             try {
                 const res = await updateDoctorProfileById(doctorProfile.id, practiceData);
@@ -104,7 +104,7 @@ const PracticeInfoForm = ({
                     toast.success("Practice Info Updated Successfully!");
                     //Extract the profile form data from the updated profile
                     router.push(`${pathname}?page=${nextPage}`)
-                    console.log("Updated New Practice Data Passed:", res.data);
+                    //console.log("Updated New Practice Data Passed:", res.data);
                 }
                 
             } catch (error) {

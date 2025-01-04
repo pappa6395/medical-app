@@ -1,6 +1,7 @@
 import { getAppointmentByDoctorId } from '@/actions/appointments'
 import { getInboxMessages } from '@/actions/inbox'
 import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
+import InboxDisplayCard from '@/components/Dashboard/Doctor/InboxDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
@@ -36,8 +37,8 @@ const page = async () => {
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
-          <HomeDisplayCard 
-            count={messages.length??0} 
+          <InboxDisplayCard 
+            messages={messages} 
             href={`/dashboard/${role}/inbox/new`}
             title={"Inbox Messages"} />
         </div>
