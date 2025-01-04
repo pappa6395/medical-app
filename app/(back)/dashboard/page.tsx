@@ -24,67 +24,97 @@ const page = async() => {
   const analytics = await getAdminAnalytics() || [];
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
+  let appointments = [] as Appointment[]
+  try {
+    appointments = (await getAppointmentByDoctorId(userId))?.data || [] 
+  } catch (err) {
+    console.error("Failed to fetch appointments:", err);
+  }
   
-  const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
   // // Option 1 : [patientIds] => remove dups => fetch users with these ids
   // // Option 2 : [patientId, name, email] => remove dups
-  const recentAppointments = (await getAppointments())?.data || []
-  const doctors = await getDoctorsById(userId) || {
-    id: "",
-    name: "",
-    slug: "",
-    email: "",
-    phone: "",
-    doctorProfile: {
+    let recentAppointments = [] as Appointment[]
+  try {
+    recentAppointments = (await getAppointments())?.data || []
+  } catch (err) {
+    console.error("Failed to fetch recent appointments:", err);
+  };
+
+  let doctors = {} as Doctor
+  try {
+    doctors = await getDoctorsById(userId) || {
       id: "",
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      gender: "",
-      dob: null,
-      bio: "",
-      profilePicture: "/public/defaultImage.png",
-      operationMode: "",
-      hourlyWage: 0,
-      city: "",
-      state: "",
-      country: "",
-      yearsOfExperience: 0,
-      medicalLicense: "",
-      medicalLicenseExpiry: null,
-      boardCertificates: [],
-      otherSpecialties: [],
-      primarySpecialization: "",
-      medicalSchool: "",
-      hospitalName: "",
-      hospitalAddress: "",
-      hospitalContactNumber: "",
-      hospitalEmailAddress: "",
-      hospitalHoursOfOperation: "",
-      hospitalWebsite: "",
-      research: "",
-      accomplishments: "",
-      additionalDocuments: [],
-      graduationYear: "",
-      educationHistory: "",
-      servicesOffered: [],
-      insuranceAccepted: "",
-      languagesSpoken: [],
-      status: "PENDING",
-      availability: {
-        monday: [],
-        tuesday: [],
-        wednesday: [],
-        thursday: [],
-        friday: [],
-        saturday: [],
-        sunday: [],
-      }
-    },
+      name: "",
+      slug: "",
+      email: "",
+      phone: "",
+      doctorProfile: {
+        id: "",
+        firstName: "",
+        lastName: "",
+        middleName: "",
+        gender: "",
+        dob: null,
+        bio: "",
+        profilePicture: "/public/defaultImage.png",
+        operationMode: "",
+        hourlyWage: 0,
+        city: "",
+        state: "",
+        country: "",
+        yearsOfExperience: 0,
+        medicalLicense: "",
+        medicalLicenseExpiry: null,
+        boardCertificates: [],
+        otherSpecialties: [],
+        primarySpecialization: "",
+        medicalSchool: "",
+        hospitalName: "",
+        hospitalAddress: "",
+        hospitalContactNumber: "",
+        hospitalEmailAddress: "",
+        hospitalHoursOfOperation: "",
+        hospitalWebsite: "",
+        research: "",
+        accomplishments: "",
+        additionalDocuments: [],
+        graduationYear: "",
+        educationHistory: "",
+        servicesOffered: [],
+        insuranceAccepted: "",
+        languagesSpoken: [],
+        status: "PENDING",
+        availability: {
+          monday: [],
+          tuesday: [],
+          wednesday: [],
+          thursday: [],
+          friday: [],
+          saturday: [],
+          sunday: [],
+        }
+      },
+    }
+  } catch (err) {
+    console.error("Failed to fetch doctors:", err);
+    
   }
 
-  const doctorsAdmin = await getDoctors() || [] as Doctor[]
-  const appointmentsAdmin = (await getAppointments()).data || []
+  let doctorsAdmin = [] as Doctor[]
+  try {
+    doctorsAdmin = await getDoctors() || []
+  } catch (error) {
+    console.error("Error get DoctorsAdmin:", error);
+  };
+   
+  let appointmentsAdmin = [] as Appointment[]
+  try {
+    appointmentsAdmin = (await getAppointments()).data || []
+  } catch (error) {
+    console.error("Error get appointmentsAdmin:", error);
+  };
+
+  
     
   //for User, Recent get doctor by patientId and Recent appointment  by patientId
   // const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
