@@ -50,20 +50,20 @@ const page = async() => {
       
   //----------------------------------------------------------------//
 
-  if (role === "DOCTOR") {
-    return (
-      <div>
-        <h2>Hello World</h2>
-        {/* <DoctorDashboard 
-          session={session} 
-          analytics={doctorAnalytics}
-          patientsApp={appointments} 
-          doctors={doctors}
-          appointments={recentAppointments}
-        /> */}
-      </div>
-    );
-  }
+  // if (role === "DOCTOR") {
+  //   return (
+  //     <div>
+  //       <DoctorDashboard 
+  //         session={session} 
+  //         analytics={doctorAnalytics}
+  //         patientsApp={appointments} 
+  //         doctors={doctors}
+  //         appointments={recentAppointments}
+  //       />
+  //     </div>
+  //   );
+  // }
+  
   // if (role === "USER") {
   //   return (
   //     <div>
