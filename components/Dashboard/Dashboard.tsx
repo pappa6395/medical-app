@@ -58,7 +58,7 @@ const Dashboard = ({
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
-        {/* <CardContent>
+        <CardContent>
           <section className='flex justify-between'>
             <div>
               <CardTitle>Recent Doctors</CardTitle>
@@ -69,7 +69,7 @@ const Dashboard = ({
                 </Link>
               </Button>
           </section>
-          {doctors.slice(0,5).map((data, index) => {
+          {doctors && doctors.slice(0,5).map((data, index) => {
             const status = data.doctorProfile?.status??"PENDING"
             return (
               <div key={index} className="flex items-center justify-between mr-6">
@@ -86,7 +86,7 @@ const Dashboard = ({
               </div>
           )})}
         </CardContent>
-        <CardContent>
+        {/* <CardContent>
           <section className='flex justify-between'>
             <div>
               <CardTitle>Recent Patients</CardTitle>
