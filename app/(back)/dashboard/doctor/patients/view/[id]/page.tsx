@@ -21,20 +21,19 @@ const page = async ({params: paramsPromise}: PageProps) => {
   const userId = user?.id || ""
 
   const appointments = (await getAppointmentByPatientIdAndDoctorId(id, userId))?.data || []
-  console.log("Appointments:", appointments);
   
 
   return (
 
     <div>
       <ScrollArea className="h-96 space-x-4">
-      <h2 className='"scroll-m-20 text-lg font-medium tracking-tight"'>
-        Appointments ({appointments.length.toString().padStart(2,"0")})
-      </h2>
-       <div className="grid grid-cols-1 md:grid-cols-2">
-          {appointments.map((item) => {
+        <h2 className='"scroll-m-20 text-lg font-medium tracking-tight"'>
+            Appointments ({appointments.length.toString().padStart(2,"0")})
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2">
+            {appointments.map((item) => {
             return (
-              <div key={item.id} className="mt-2 mr-4 cursor-pointer">
+                <div key={item.id} className="mt-2 mr-4 cursor-pointer">
                     <Link 
                         href={`/dashboard/doctor/appointments`}
                         className={cn(
@@ -77,8 +76,8 @@ const page = async ({params: paramsPromise}: PageProps) => {
                     </Link>
                 </div>
             )
-          })}
-       </div>
+            })}
+        </div>
       </ScrollArea>
       
     </div>

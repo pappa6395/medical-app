@@ -21,7 +21,7 @@ export default function SalesCard({
 }: {
     name: string;
     email: string;
-    image: string | undefined | null;
+    image?: string | undefined | null;
     status?: DoctorStatus;
     appointmentId: string | undefined;
     createdAt: Date | undefined; 

@@ -4,13 +4,12 @@ import React from 'react'
 import AnalyticCards from '../AnalyticCards';
 import { Session } from 'next-auth';
 import { AnalyticProps, Doctor, PatientProps } from '@/utils/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import SalesCard from '../ui/saleCard';
 import { Appointment } from '@prisma/client';
 import RecentAppointmentCard from '../RecentAppointmentCard';
-import { ScrollArea } from '../ui/scroll-area';
 import { CheckCircle, CircleEllipsis, CircleX } from 'lucide-react';
 
 

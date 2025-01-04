@@ -11,22 +11,22 @@ import React from 'react'
 const page = async () => {
 
   const session = await getServerSession(authOptions)
-      const user = session?.user
-      const userId = user?.id || ""
-      const role = user?.role.toLowerCase()
+  const user = session?.user
+  const userId = user?.id || ""
+  const role = user?.role.toLowerCase()
   
-      if (!userId) {
-          return <div>You must be logged in to access this page.</div>
-      }
-      if (user?.role !== "DOCTOR") {
-        return <NotAuthorized/>
-      }
+  if (!userId) {
+      return <div>You must be logged in to access this page.</div>
+  }
+  if (user?.role !== "DOCTOR") {
+    return <NotAuthorized/>
+  }
       
-      const appointments = (await getAppointmentByDoctorId(userId))?.data || []
-      const doctors = await getDoctorsById(userId)
-      const doctorSlug = generateSlug(
-        `${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`
-      )
+  const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+  const doctors = await getDoctorsById(userId)
+  const doctorSlug = generateSlug(
+    `${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`
+  )
 
   return (
 

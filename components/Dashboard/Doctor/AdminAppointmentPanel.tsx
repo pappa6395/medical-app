@@ -15,7 +15,6 @@ export function AdminDoctorPanel({
     appointments: Appointment[]; 
 }) {
 
-    const image = null;
 
   return (
     <div>
@@ -26,7 +25,6 @@ export function AdminDoctorPanel({
                         <PatientCard 
                             email={data.email??""}
                             name={`${data.firstName} ${data.lastName}`}
-                            image={image}
                             appointmentId={data.id??""}
                             createdAt={data.createdAt}
                             className="py-4 mr-4"

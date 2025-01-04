@@ -43,7 +43,7 @@ const page = async() => {
   //     }
   //   });
   //   const doctorsPatientId = Array.from(uniqueDoctorsMap.values()) as Doctor[]
-    //console.log("doctorsPatientId:", doctorsPatientId);
+  //   console.log("doctorsPatientId:", doctorsPatientId);
       
   //----------------------------------------------------------------//
 

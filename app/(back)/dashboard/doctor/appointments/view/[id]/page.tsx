@@ -5,8 +5,6 @@ import UpdateAppointmentForm from '@/components/Dashboard/Doctor/UpdateAppointme
 import { Button } from '@/components/ui/button';
 import { convertTimeStringToDateTime } from '@/utils/convertTimeStringtoDateTime';
 import { getAgeFromDoB } from '@/utils/getAgeFromDoB';
-import { getLongDate } from '@/utils/getLongDate';
-import { getDate } from 'date-fns';
 import { Calendar, CalendarCheck, Clock } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
@@ -17,12 +15,8 @@ const page = async ({params: paramsPromise}: PageProps) => {
   
   const appointmentById = await getAppointmentById(id)
   const appointment = appointmentById?.data
-  console.log("Appointment:", appointment);
   
   const convertTime = convertTimeStringToDateTime(appointment?.appointmentDate ,appointment?.appointmentTime)
-  console.log("ConvertTime:", convertTime);
-
-  
 
   const dob = appointment?.dob?.toLocaleDateString("en-us", {
     day: 'numeric',
