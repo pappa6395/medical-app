@@ -30,25 +30,25 @@ const DoctorDashboard = ({
   const user = session?.user
   const role = user?.role
 
-  const uniquePatientsMap = new Map();
+  // const uniquePatientsMap = new Map();
   
-  patientsApp && patientsApp.forEach((app) => {
-    if (!uniquePatientsMap.has(app.patientId)) {
-      uniquePatientsMap.set(app.patientId, {
-        patientId : app.patientId,
-        name: `${app.firstName} ${app.lastName}`,
-        email: app.email,
-        phone: app.phone,
-        location: app.location,
-        gender: app.gender,
-        occupation: app.occupation,
-        doctorId: app.doctorId,
-        dob: app.dob,
-      });
-    }
-  });
+  // patientsApp && patientsApp.forEach((app) => {
+  //   if (!uniquePatientsMap.has(app.patientId)) {
+  //     uniquePatientsMap.set(app.patientId, {
+  //       patientId : app.patientId,
+  //       name: `${app.firstName} ${app.lastName}`,
+  //       email: app.email,
+  //       phone: app.phone,
+  //       location: app.location,
+  //       gender: app.gender,
+  //       occupation: app.occupation,
+  //       doctorId: app.doctorId,
+  //       dob: app.dob,
+  //     });
+  //   }
+  // });
     
-  const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
+  // const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
 
   
   return (
@@ -91,7 +91,7 @@ const DoctorDashboard = ({
         })}
       </div>
       <div className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-        <Card>
+        {/* <Card>
           <CardContent className='shadow-none border-none'>
             <div className='flex flex-col justify-between'>
                 <div className='flex justify-between'>
@@ -145,7 +145,7 @@ const DoctorDashboard = ({
                   />
               )})}
           </CardContent> 
-        </Card>  
+        </Card>   */}
       </div>
     </div>
   )
