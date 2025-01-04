@@ -1,8 +1,8 @@
 
 
 import { getAppointmentByDoctorId, getAppointmentByPatientId, getAppointments, getRecentAppointmentByPatientId } from '@/actions/appointments'
-import { getDoctorAnalytics, getUserAnalytics } from '@/actions/stats'
-import { getDoctorsById } from '@/actions/users'
+import { getAdminAnalytics, getDoctorAnalytics, getUserAnalytics } from '@/actions/stats'
+import { getDoctors, getDoctorsById } from '@/actions/users'
 import Dashboard from '@/components/Dashboard/Dashboard'
 import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
@@ -21,6 +21,7 @@ const page = async() => {
 
   // const doctorAnalytics = await getDoctorAnalytics() || []
   // const userAnalytics = await getUserAnalytics() || []
+  const analytics = await getAdminAnalytics();
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
   
@@ -29,6 +30,8 @@ const page = async() => {
   // // Option 2 : [patientId, name, email] => remove dups
   //const recentAppointments = (await getAppointments())?.data || []
   //const doctors = await getDoctorsById(userId)
+  const doctorsAdmin = await getDoctors() || [] as Doctor[]
+  const appointmentsAdmin = (await getAppointments()).data || []
     
   //for User, Recent get doctor by patientId and Recent appointment  by patientId
   // const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
@@ -76,8 +79,12 @@ const page = async() => {
 
   return (
     <div>
-      <h2>Hello World</h2>
-      {/* <Dashboard /> */}
+      <Dashboard
+        session={session}
+        analytics={analytics}
+        doctors={doctorsAdmin}
+        appointments={appointmentsAdmin}
+      />
     </div>
   )
 }

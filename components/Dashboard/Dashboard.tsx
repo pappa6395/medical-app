@@ -1,27 +1,31 @@
+
 import React from 'react'
 import { Button } from "@/components/ui/button";
-import { AppointmentProps, Doctor, PatientProps } from '@/utils/types';
+import { AnalyticProps, Doctor, PatientProps } from '@/utils/types';
 import { CardContent, CardTitle } from '../ui/card';
 import SalesCard from '../ui/saleCard';
-import { getAdminAnalytics } from '@/actions/stats';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { Session } from 'next-auth';
 import AnalyticCards from '../AnalyticCards';
-import { getDoctors } from '@/actions/users';
 import Link from 'next/link';
-import { getAppointments } from '@/actions/appointments';
 import ApproveBtn from './ApproveBtn';
+import { Appointment } from '@prisma/client';
 
 
 
-const Dashboard = async() => {
+const Dashboard = ({
+  analytics,
+  session,
+  doctors,
+  appointments,
+}: {
+  analytics: AnalyticProps[];
+  session: Session | null;
+  doctors: Doctor[];
+  appointments: Appointment[];
+}) => {
 
-  const analytics = await getAdminAnalytics();
-  const session = await getServerSession(authOptions)
   const user = session?.user
 
-  const doctors = await getDoctors() || [] as Doctor[]
-  const appointments = (await getAppointments()).data || []
   const uniquePatientsMap = new Map();
 
     appointments.forEach((app) => {
