@@ -1,7 +1,6 @@
 
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { PageProps } from '@/.next/types/app/(back)/dashboard/doctors/view/[id]/page';
 import { getAppointmentByDoctorId } from '@/actions/appointments';
 import { getDoctorsById } from '@/actions/users';
 import ApproveBtn from '@/components/Dashboard/ApproveBtn';
@@ -14,6 +13,8 @@ import React from 'react'
 import { format } from "date-fns";
 import pdfIcon from '@/public/pdf.png';
 import Image from 'next/image';
+import { DoctorDetail } from "@/utils/types";
+import { PageProps } from "@/.next/types/app/api/auth/[...nextauth]/route";
 
 
 const page = async ({params: paramsPromise}: PageProps) => {
@@ -23,7 +24,7 @@ const page = async ({params: paramsPromise}: PageProps) => {
 
   const appointments = (await getAppointmentByDoctorId(id))?.data || []
   console.log("Appointments:", appointments);
-  const doctor = await getDoctorsById(id)  
+  const doctor = await getDoctorsById(id) as DoctorDetail
   const status = doctor?.doctorProfile?.status??"PENDING"
 
   const dob = doctor?.doctorProfile?.dob as Date
@@ -201,7 +202,8 @@ const page = async ({params: paramsPromise}: PageProps) => {
                                     >Other Specialties
                                     </span>
                                     <div className="flex w-auto gap-4 p-1">
-                                        {doctor?.doctorProfile?.otherSpecialties.map((item,i) => {
+                                        {doctor?.doctorProfile?.otherSpecialties 
+                                        && doctor?.doctorProfile?.otherSpecialties.map((item,i) => {
                                             return (
                                                 <div  key={i} className="px-2 py-1 border border-gray-200">
                                                     {item}
@@ -216,7 +218,8 @@ const page = async ({params: paramsPromise}: PageProps) => {
                                     >Academic Documents
                                     </span>
                                     <div className="flex w-auto gap-4 p-1">
-                                        {doctor?.doctorProfile?.boardCertificates.map((item,i) => {
+                                        {doctor?.doctorProfile?.boardCertificates 
+                                        && doctor?.doctorProfile?.boardCertificates.map((item,i) => {
                                             return (
                                                 <div  key={i} className="flex px-2 py-1 border border-gray-200 gap-2">
                                                     <Image 
@@ -322,7 +325,8 @@ const page = async ({params: paramsPromise}: PageProps) => {
                                     >Hospital Services
                                     </span>
                                     <div className="flex w-auto gap-4 p-1">
-                                        {doctor?.doctorProfile?.servicesOffered.map((item,i) => {
+                                        {doctor?.doctorProfile?.servicesOffered && 
+                                        doctor?.doctorProfile?.servicesOffered.map((item,i) => {
                                             return (
                                                 <div  key={i} className="px-2 py-1 border border-gray-200">
                                                     {item}
@@ -379,7 +383,8 @@ const page = async ({params: paramsPromise}: PageProps) => {
                                     >Academic Documents
                                     </span>
                                     <div className="flex w-auto gap-4 p-1">
-                                        {doctor?.doctorProfile?.additionalDocuments.map((item,i) => {
+                                        {doctor?.doctorProfile?.additionalDocuments 
+                                        && doctor?.doctorProfile?.additionalDocuments.map((item,i) => {
                                             return (
                                                 <div  key={i} className="flex px-2 py-1 border border-gray-200 gap-2">
                                                     <Image 

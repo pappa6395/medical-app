@@ -51,7 +51,7 @@ const page = async() => {
       country: "",
       yearsOfExperience: 0,
       medicalLicense: "",
-      medicalLicenseExpiry: "",
+      medicalLicenseExpiry: null,
       boardCertificates: [],
       otherSpecialties: [],
       primarySpecialization: "",
