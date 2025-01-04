@@ -19,22 +19,22 @@ export function AdminDoctorPanel({
   return (
     <div>
         <ScrollArea className="h-auto space-x-4">
-            {doctors.map((data, index) => {
+            {doctors?.map((data, index) => {
                 const status = data.doctorProfile?.status??"PENDING"
                 return (
                     <div key={index} className="flex items-center justify-between mr-6">
-                        <Link href={`/dashboard/doctors/view/${data.id}`}>
+                        <Link href={`/dashboard/doctors/view/${data.id??""}`}>
                             <SalesCard 
-                                email={data.email}
-                                name={data.name}
-                                status={status}
-                                image={data.doctorProfile?.profilePicture}
-                                profileId={data.doctorProfile?.id}
+                                email={data.email ?? ""}
+                                name={data.name ?? ""}
+                                status={status ?? "PENDING"}
+                                image={data.doctorProfile?.profilePicture ?? null}
+                                profileId={data.doctorProfile?.id ?? ""}
                                 className="py-4 mr-4"
                             />
                         </Link>
                         <div>
-                            <ApproveBtn status={status} profileId={data.doctorProfile?.id} />
+                            <ApproveBtn status={status ?? "PENDING"} profileId={data.doctorProfile?.id ?? ""} />
                         </div> 
                     </div>
                 )})

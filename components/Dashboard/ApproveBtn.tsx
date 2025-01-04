@@ -17,19 +17,18 @@ import {
 } from "@/components/ui/dialog"
 import ShadSelectInput from '../FormInputs/ShadSelectInput'
 import { Button } from '../ui/button'
-import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 
 
 const ApproveBtn = ({
-    status,
-    profileId,
+    status="PENDING",
+    profileId="",
 }: {
     status?: DoctorStatus;
     profileId: string | undefined;
 }) => {
 
-  const router = useRouter()
+
   const options = [
     {
       label: "PENDING",
@@ -45,19 +44,19 @@ const ApproveBtn = ({
     },
   ]
 
-  const initialOption = status;
+  const initialOption = status ?? "PENDING";
   const [selectedOption, setSelectedOption] = React.useState<any>(initialOption);
   const [isLoading, setIsLoading] = React.useState(false);
-  console.log("Selected Option:", selectedOption);
+  //console.log("Selected Option:", selectedOption);
 
   const updateStatus = async () => {
     setIsLoading(true);
     const data = {
-      status: selectedOption,
+      status: selectedOption ?? "PENDING",
     };
 
     try {
-      const res = await updateDoctorProfileById(profileId, data);
+      const res = await updateDoctorProfileById(profileId ??"", data);
       if (res?.status === 201) {
         toast.success("Doctor Status Updated Successfully!");
         window.location.reload();
@@ -83,7 +82,7 @@ const ApproveBtn = ({
               status==="APPROVED"? "bg-green-500" 
               : status==="PENDING"?"bg-amber-500"
               :"bg-red-500")}>
-              {status}
+              {status ?? "PENDING"}
           </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
