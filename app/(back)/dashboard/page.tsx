@@ -76,7 +76,8 @@ const page = async() => {
 
   return (
     <div>
-      <Dashboard />
+      <h2>Hello World</h2>
+      {/* <Dashboard /> */}
     </div>
   )
 }
