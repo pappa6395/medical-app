@@ -46,22 +46,22 @@ export async function getAdminAnalytics() {
         
         const uniquePatientsMap = new Map();
 
-        appointments.forEach((app) => {
+        appointments?.forEach((app) => {
             if (!uniquePatientsMap.has(app.patientId)) {
             uniquePatientsMap.set(app.patientId, {
-                patientId : app.patientId,
-                name: `${app.firstName} ${app.lastName}`,
-                email: app.email,
-                phone: app.phone,
-                location: app.location,
-                gender: app.gender,
-                occupation: app.occupation,
-                dob: app.dob,
+                patientId : app.patientId ?? "",
+                name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
+                email: app.email ?? '',
+                phone: app.phone ?? '',
+                location: app.location ?? '',
+                gender: app.gender ?? '',
+                occupation: app.occupation ?? '',
+                dob: app.dob ?? new Date(),
             });
             }
         });
       
-        const patients = Array.from(uniquePatientsMap.values())
+        const patients = Array.from(uniquePatientsMap.values() || [])
         const messages = (await getInboxMessages(userId))?.data || [];
         const services = (await getService())?.data || [];
 

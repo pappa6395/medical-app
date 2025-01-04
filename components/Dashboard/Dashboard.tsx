@@ -33,7 +33,7 @@ const Dashboard = ({
         if (!app?.patientId) return;
         if (!uniquePatientsMap.has(app.patientId)) {
           uniquePatientsMap.set(app.patientId, {
-            patientId : app.patientId,
+            patientId : app.patientId ?? '',
             name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
             email: app.email ?? '',
             phone: app.phone ?? '',
@@ -41,7 +41,7 @@ const Dashboard = ({
             gender: app.gender ?? '',
             occupation: app.occupation ??'',
             doctorId: app.doctorId ?? '',
-            dob: app.dob ?? '',
+            dob: app.dob ?? new Date(),
           });
         }
       });
