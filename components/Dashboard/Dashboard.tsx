@@ -58,7 +58,7 @@ const Dashboard = ({
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
-        <CardContent>
+        {/* <CardContent>
           <section className='flex justify-between'>
             <div>
               <CardTitle>Recent Doctors</CardTitle>
@@ -106,7 +106,7 @@ const Dashboard = ({
                 profileId={data.patientId??""}
               />
           )})}
-        </CardContent> 
+        </CardContent>  */}
       </section>
     </div>
         
