@@ -36,10 +36,12 @@ export function SiteHeader({session}: {session: Session | null}) {
     try {
       const result = await signOut();
       console.log("Sign-out result:", result);
-
+      
+      localStorage.clear();
+      document.cookie = "";
     // Clear any client-side cookies if necessary
-    document.cookie = "next-auth.session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "next-auth.csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // document.cookie = "next-auth.session-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // document.cookie = "next-auth.csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     router.push(returnUrl);
     toast.success("User logged out successfully")

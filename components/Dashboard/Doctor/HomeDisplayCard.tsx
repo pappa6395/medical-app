@@ -1,16 +1,38 @@
 import { Calendar } from 'lucide-react'
 import React from 'react'
 import NewButton from './NewButton'
+import { Appointment } from '@prisma/client';
 
 const HomeDisplayCard = ({
-  count, 
+  appointments, 
   href,
   title,
 }: {
-  count: number; 
+  appointments: Appointment[]; 
   href: string;
   title: string;
 }) => {
+
+  const uniquePatientsMap = new Map();
+
+      appointments.forEach((app) => {
+        if (!uniquePatientsMap.has(app.patientId)) {
+          uniquePatientsMap.set(app.patientId, {
+            patientId : app.patientId,
+            name: `${app.firstName} ${app.lastName}`,
+            email: app.email,
+            phone: app.phone,
+            location: app.location,
+            gender: app.gender,
+            occupation: app.occupation,
+            dob: app.dob,
+          });
+        }
+      });
+      
+      const patients = Array.from(uniquePatientsMap.values())
+      const count = patients.length??0;
+      // console.log("Patients:", patients);
 
   return (
 

@@ -11,42 +11,23 @@ import React from 'react'
 const page = async () => {
 
   const session = await getServerSession(authOptions)
-    const user = session?.user
-    const userId = user?.id || ""
-    const role = user?.role.toLowerCase()
+  const user = session?.user
+  const userId = user?.id || ""
 
-    if (!userId) {
-        return <div>You must be logged in to access this page.</div>
-    }
-    if (user?.role !== "DOCTOR") {
-      return <NotAuthorized/>
-    }
-    const slug = generateSlug(user?.name??"")
+  if (!userId) {
+      return <div>You must be logged in to access this page.</div>
+  };
+
+  if (user?.role !== "DOCTOR") {
+    return <NotAuthorized/>
+  };
+  
+  const appointments = (await getAppointmentByDoctorId(userId))?.data || [];
+  const doctors = await getDoctorsById(userId);
+  const doctorSlug = generateSlug(
+    `${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`
+  );
     
-    const appointments = (await getAppointmentByDoctorId(userId))?.data || []
-    const doctors = await getDoctorsById(userId)
-    const doctorSlug = generateSlug(`${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`)
-    
-    const uniquePatientsMap = new Map();
-
-      appointments.forEach((app) => {
-        if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap.set(app.patientId, {
-            patientId : app.patientId,
-            name: `${app.firstName} ${app.lastName}`,
-            email: app.email,
-            phone: app.phone,
-            location: app.location,
-            gender: app.gender,
-            occupation: app.occupation,
-            dob: app.dob,
-          });
-        }
-      });
-      
-      const patients = Array.from(uniquePatientsMap.values())
-      // console.log("Patients:", patients);
-
   return (
 
     <div>
@@ -58,7 +39,7 @@ const page = async () => {
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
-            count={patients.length??0} 
+            appointments={appointments}
             href={`/doctors/${doctorSlug}?id=${userId}`} 
             title={"Patient"} />
         </div>

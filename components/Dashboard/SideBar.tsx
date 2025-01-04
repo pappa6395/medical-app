@@ -106,6 +106,8 @@ export default function SideBar({session}: {session: Session}) {
     
     const handleLogout = async() => {
         await signOut();
+        localStorage.clear();
+        document.cookie = "";
         router.push("/login");
     }
     
