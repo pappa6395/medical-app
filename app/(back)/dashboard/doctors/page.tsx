@@ -1,5 +1,6 @@
 import { getAppointmentByDoctorId } from '@/actions/appointments'
 import { getDoctors } from '@/actions/users'
+import AdminDisplayCard from '@/components/Dashboard/Doctor/AdminDisplayCard'
 import HomeDisplayCard from '@/components/Dashboard/Doctor/HomeDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
@@ -36,7 +37,7 @@ const page = async () => {
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
-          <HomeDisplayCard
+          <AdminDisplayCard
             title={"Doctor"} 
             href={`#`}
             count={doctors.length??0}  

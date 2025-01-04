@@ -20,29 +20,9 @@ const page = async () => {
     if (user?.role !== "ADMIN") {
       return <NotAuthorized/>
     }
-    const slug = generateSlug(user?.name??"")
     
     const appointments = (await getAppointmentByDoctorId(userId))?.data || []
 
-    const uniquePatientsMap = new Map();
-
-      appointments.forEach((app) => {
-        if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap.set(app.patientId, {
-            patientId : app.patientId,
-            name: `${app.firstName} ${app.lastName}`,
-            email: app.email,
-            phone: app.phone,
-            location: app.location,
-            gender: app.gender,
-            occupation: app.occupation,
-            dob: app.dob,
-          });
-        }
-      });
-      
-      const patients = Array.from(uniquePatientsMap.values())
-      // console.log("Patients:", patients);
 
   return (
 
@@ -55,7 +35,7 @@ const page = async () => {
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
-            count={patients.length??0} 
+            appointments={appointments} 
             href={`#`} 
             title={"Patient"} />
         </div>
