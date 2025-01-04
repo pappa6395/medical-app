@@ -26,25 +26,25 @@ const Dashboard = ({
 
   const user = session?.user
 
-  // const uniquePatientsMap = new Map();
+  const uniquePatientsMap = new Map();
 
-  //   appointments.forEach((app) => {
-  //     if (!uniquePatientsMap.has(app.patientId)) {
-  //       uniquePatientsMap.set(app.patientId, {
-  //         patientId : app.patientId,
-  //         name: `${app.firstName} ${app.lastName}`,
-  //         email: app.email,
-  //         phone: app.phone,
-  //         location: app.location,
-  //         gender: app.gender,
-  //         occupation: app.occupation,
-  //         doctorId: app.doctorId,
-  //         dob: app.dob,
-  //       });
-  //     }
-  //   });
+    appointments && appointments.forEach((app) => {
+      if (!uniquePatientsMap.has(app.patientId)) {
+        uniquePatientsMap.set(app.patientId, {
+          patientId : app.patientId,
+          name: `${app.firstName} ${app.lastName}`,
+          email: app.email,
+          phone: app.phone,
+          location: app.location,
+          gender: app.gender,
+          occupation: app.occupation,
+          doctorId: app.doctorId,
+          dob: app.dob,
+        });
+      }
+    });
     
-  //   const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
+    const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
 
   return (
 
@@ -86,7 +86,7 @@ const Dashboard = ({
               </div>
           )})}
         </CardContent>
-        {/* <CardContent>
+        <CardContent>
           <section className='flex justify-between'>
             <div>
               <CardTitle>Recent Patients</CardTitle>
@@ -106,7 +106,7 @@ const Dashboard = ({
                 profileId={data.patientId??""}
               />
           )})}
-        </CardContent>  */}
+        </CardContent> 
       </section>
     </div>
         
