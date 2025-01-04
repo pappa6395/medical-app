@@ -14,17 +14,17 @@ import { CheckCircle, CircleEllipsis, CircleX } from 'lucide-react';
 
 
 const DoctorDashboard = ({ 
-  session,
-  analytics,
-  patientsApp,
-  doctors,
-  appointments, 
+  session=null,
+  analytics=[],
+  patientsApp=[],
+  doctors=null,
+  appointments=[], 
 }: {
   session?: Session | null; 
   analytics?: AnalyticProps[];
   patientsApp?: Appointment[];
   doctors?: Doctor | undefined | null;
-  appointments?: Appointment[] | undefined | null;
+  appointments?: Appointment[];
 }) => {
 
   const user = session?.user?? null;

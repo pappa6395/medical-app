@@ -20,14 +20,14 @@ type RecentAppointmentCardProps = {
 }
 
 const RecentAppointmentCard = ({
-  role,
-  id,
-  status,
-  firstName,
-  lastName,
-  appointmentTime,
-  appointmentFormattedDate,
-  createdAt,
+  role=undefined,
+  id="",
+  status="",
+  firstName="",
+  lastName="",
+  appointmentTime="",
+  appointmentFormattedDate="",
+  createdAt=new Date(),
 }: RecentAppointmentCardProps) => {
 
   const pathName = usePathname()
@@ -37,25 +37,25 @@ const RecentAppointmentCard = ({
     <div>
         <div className="mt-2 mr-4 cursor-pointer">
             <Link 
-                href={`/dashboard/${role === "DOCTOR" ? "doctor" : "user"}/appointments/view/${id}`}
+                href={`/dashboard/${role === "DOCTOR" ? "doctor" : "user"}/appointments/view/${id??""}`}
                 className={cn(
                     "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700", 
                     status === "approved" ? "bg-green-100/80" : status === "rejected" ? "bg-red-100/80" : "bg-white",
-                    pathName === `/dashboard/doctor/appointments/view/${id}`
+                    pathName === `/dashboard/doctor/appointments/view/${id??""}`
                     && "border-slate-600 border-2")}
             >
                 <div className="flex justify-between items-center ">
-                    <h4 className="scroll-m-20 text-lg font-medium tracking-tight">{firstName} {lastName}</h4>
+                    <h4 className="scroll-m-20 text-lg font-medium tracking-tight">{firstName ?? ""} {lastName ?? ""}</h4>
                     <div className="flex items-center flex-shrink-0 text-slate-500">
                         <History className="w-4 h-4 mr-2" />
-                        <span className="scroll-m-20 text-base font-normal tracking-tight">{timeAgo(createdAt)}</span>
+                        <span className="scroll-m-20 text-base font-normal tracking-tight">{timeAgo(createdAt) ?? ""}</span>
                     </div>
                     
                 </div> 
                 <div className="flex justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <CalendarCheck className="w-4 h-4" />
-                        <span className="scroll-m-20 text-base font-normal tracking-tight">{appointmentFormattedDate}</span>
+                        <span className="scroll-m-20 text-base font-normal tracking-tight">{appointmentFormattedDate ?? ""}</span>
                     </div>
                     <div className={cn("flex items-center", 
                         status === "approved" ? "text-teal-400" 
@@ -73,10 +73,10 @@ const RecentAppointmentCard = ({
                         <span className="scroll-m-20 font-normal 
                         tracking-tight"
                         >
-                            {status}
+                            {status??"pending"}
                         </span>
                     </div>
-                    <span className="scroll-m-20 text-lg font-normal tracking-tight">{appointmentTime}</span>
+                    <span className="scroll-m-20 text-lg font-normal tracking-tight">{appointmentTime ?? ""}</span>
                 </div>
             </Link>
         </div>
