@@ -35,7 +35,7 @@ const page = async () => {
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
-            count={appointments?.length??0} 
+            appointments={appointments} 
             href={`#`} 
             title={"Appointments"} />
         </div>
