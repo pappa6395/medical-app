@@ -13,10 +13,10 @@ import { Appointment } from '@prisma/client';
 
 
 const Dashboard = ({
-  analytics,
-  session,
-  doctors,
-  appointments,
+  analytics=[],
+  session=null,
+  doctors=[],
+  appointments=[],
 }: {
   analytics?: AnalyticProps[];
   session?: Session | null;
@@ -24,36 +24,40 @@ const Dashboard = ({
   appointments?: Appointment[];
 }) => {
 
-  const user = session?.user
+  const user = session?.user || null;
 
   const uniquePatientsMap = new Map();
 
-    appointments && appointments.forEach((app) => {
-      if (!uniquePatientsMap.has(app.patientId)) {
-        uniquePatientsMap.set(app.patientId, {
-          patientId : app.patientId,
-          name: `${app.firstName} ${app.lastName}`,
-          email: app.email,
-          phone: app.phone,
-          location: app.location,
-          gender: app.gender,
-          occupation: app.occupation,
-          doctorId: app.doctorId,
-          dob: app.dob,
-        });
-      }
-    });
+    if (appointments) {
+      appointments?.forEach((app) => {
+        if (!app?.patientId) return;
+        if (!uniquePatientsMap.has(app.patientId)) {
+          uniquePatientsMap.set(app.patientId, {
+            patientId : app.patientId,
+            name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
+            email: app.email ?? '',
+            phone: app.phone ?? '',
+            location: app.location ?? '',
+            gender: app.gender ?? '',
+            occupation: app.occupation ??'',
+            doctorId: app.doctorId ?? '',
+            dob: app.dob ?? '',
+          });
+        }
+      });
+    }
+      
     
-    const patients = Array.from(uniquePatientsMap.values()) as PatientProps[];
+    const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[];
 
   return (
 
     <div className="flex flex-col gap-5 w-full">
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
-        Welcome, Admin. {user?.name}
+        Welcome, Admin. {user?.name??""}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {analytics && analytics.map((item,i) => {
+        {analytics?.map((item,i) => {
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
@@ -69,19 +73,19 @@ const Dashboard = ({
                 </Link>
               </Button>
           </section>
-          {doctors && doctors.slice(0,5).map((data, index) => {
+          {doctors?.slice(0,5).map((data, index) => {
             const status = data.doctorProfile?.status??"PENDING"
             return (
               <div key={index} className="flex items-center justify-between mr-6">
                 <SalesCard
-                  status={status}
-                  email={data.email}
-                  name={data.name}
-                  image={data.doctorProfile?.profilePicture}
-                  profileId={data.doctorProfile?.id}
+                  status={status || 'Unknown'}
+                  email={data.email || ''}
+                  name={data.name || 'Unknown'}
+                  image={data.doctorProfile?.profilePicture || '/public/defaultImage.png'}
+                  profileId={data.doctorProfile?.id || ''}
                 />
                 <div>
-                  <ApproveBtn status={status} profileId={data.doctorProfile?.id} />
+                  <ApproveBtn status={status || 'Unknown'} profileId={data.doctorProfile?.id || ''} />
                 </div> 
               </div>
           )})}
@@ -97,12 +101,12 @@ const Dashboard = ({
                 </Link>
               </Button>
           </section>
-          {patients.map((data, index) => {
+          {patients?.map((data, index) => {
             return (
               <SalesCard
                 key={index}
                 email={data.email??""}
-                name={data.name}
+                name={data.name || ''}
                 profileId={data.patientId??""}
               />
           )})}
