@@ -19,17 +19,70 @@ const page = async() => {
   const userId = user?.id ?? '';
   const role = user?.role || "Unknown";
 
-  //const doctorAnalytics = await getDoctorAnalytics() || []
+  const doctorAnalytics = await getDoctorAnalytics() || []
   // const userAnalytics = await getUserAnalytics() || []
   const analytics = await getAdminAnalytics() || [];
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
   
-  //const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
+  const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[]
   // // Option 1 : [patientIds] => remove dups => fetch users with these ids
   // // Option 2 : [patientId, name, email] => remove dups
-  //const recentAppointments = (await getAppointments())?.data || []
-  //const doctors = await getDoctorsById(userId)
+  const recentAppointments = (await getAppointments())?.data || []
+  const doctors = await getDoctorsById(userId) || {
+    id: "",
+    name: "",
+    slug: "",
+    email: "",
+    phone: "",
+    doctorProfile: {
+      id: "",
+      firstName: "",
+      lastName: "",
+      middleName: "",
+      gender: "",
+      dob: null,
+      bio: "",
+      profilePicture: "/public/defaultImage.png",
+      operationMode: "",
+      hourlyWage: 0,
+      city: "",
+      state: "",
+      country: "",
+      yearsOfExperience: 0,
+      medicalLicense: "",
+      medicalLicenseExpiry: "",
+      boardCertificates: [],
+      otherSpecialties: [],
+      primarySpecialization: "",
+      medicalSchool: "",
+      hospitalName: "",
+      hospitalAddress: "",
+      hospitalContactNumber: "",
+      hospitalEmailAddress: "",
+      hospitalHoursOfOperation: "",
+      hospitalWebsite: "",
+      research: "",
+      accomplishments: "",
+      additionalDocuments: [],
+      graduationYear: "",
+      educationHistory: "",
+      servicesOffered: "",
+      insuranceAccepted: "",
+      languagesSpoken: [],
+      status: "PENDING",
+      availability: {
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+        saturday: [],
+        sunday: [],
+      }
+    },
+  }
+
   const doctorsAdmin = await getDoctors() || [] as Doctor[]
   const appointmentsAdmin = (await getAppointments()).data || []
     
@@ -53,14 +106,13 @@ const page = async() => {
   if (role === "DOCTOR") {
     return (
       <div>
-        <h2>I am a Doctor</h2>
-        {/* <DoctorDashboard 
-          session={session} 
-          analytics={doctorAnalytics}
-          patientsApp={appointments} 
-          doctors={doctors}
-          appointments={recentAppointments}
-        /> */}
+        <DoctorDashboard 
+          session={session ?? null} 
+          analytics={doctorAnalytics ?? []}
+          patientsApp={appointments ?? []} 
+          doctors={doctors ?? null}
+          appointments={recentAppointments ?? []}
+        />
       </div>
     );
   }
@@ -82,12 +134,14 @@ const page = async() => {
 
   return (
     <div>
-      <Dashboard
+      {session && role === "ADMIN" && (
+        <Dashboard
         session={session ?? null}
         analytics={analytics ?? []}
         doctors={doctorsAdmin ?? []}
         appointments={appointmentsAdmin ?? []}
       />
+      )}
     </div>
   )
 }

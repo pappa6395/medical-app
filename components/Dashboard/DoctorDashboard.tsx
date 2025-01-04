@@ -27,35 +27,38 @@ const DoctorDashboard = ({
   appointments?: Appointment[] | undefined | null;
 }) => {
 
-  const user = session?.user
-  const role = user?.role
+  const user = session?.user?? null;
+  const role = user?.role ?? undefined;
 
-  // const uniquePatientsMap = new Map();
+  const uniquePatientsMap = new Map();
   
-  // patientsApp && patientsApp.forEach((app) => {
-  //   if (!uniquePatientsMap.has(app.patientId)) {
-  //     uniquePatientsMap.set(app.patientId, {
-  //       patientId : app.patientId,
-  //       name: `${app.firstName} ${app.lastName}`,
-  //       email: app.email,
-  //       phone: app.phone,
-  //       location: app.location,
-  //       gender: app.gender,
-  //       occupation: app.occupation,
-  //       doctorId: app.doctorId,
-  //       dob: app.dob,
-  //     });
-  //   }
-  // });
-    
-  // const patients = Array.from(uniquePatientsMap.values()) as PatientProps[]
+  if (patientsApp) {
+    patientsApp?.forEach((app) => {
+      if (!app?.patientId) return;
+      if (!uniquePatientsMap.has(app.patientId)) {
+        uniquePatientsMap?.set(app.patientId, {
+          patientId : app.patientId ?? "",
+          name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+          email: app.email ?? "",
+          phone: app.phone ?? "",
+          location: app.location ?? "",
+          gender: app.gender ?? "",
+          occupation: app.occupation ?? "",
+          doctorId: app.doctorId ?? "",
+          dob: app.dob ?? new Date(),
+        });
+      }
+    });
+  }
+
+  const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
 
   
   return (
     <div className='px-8 py-4'>
       <div className='flex items-center justify-between'>
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
-          Welcome, Dr. {user?.name}
+          Welcome, Dr. {user?.name ?? ""}
         </h1>
         <div className=''>
           {doctors?.doctorProfile?.status === "APPROVED" ? (
@@ -86,12 +89,12 @@ const DoctorDashboard = ({
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {analytics && analytics.map((item,i) => {
+        {analytics?.map((item,i) => {
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
       <div className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-        {/* <Card>
+        <Card>
           <CardContent className='shadow-none border-none'>
             <div className='flex flex-col justify-between'>
                 <div className='flex justify-between'>
@@ -103,19 +106,19 @@ const DoctorDashboard = ({
                   </Button>
                 </div>
                 <div className="">
-                  {appointments && appointments.slice(0,5).map((data, index) => {
+                  {appointments?.slice(0,5).map((data, index) => {
                     const status = data.status??"PENDING"
                     return (
                       <RecentAppointmentCard
                         key={index}
-                        role={role}
-                        id={data.id??""}
-                        status={status}
-                        firstName={data.firstName??""}
-                        lastName={data.lastName??""}
-                        appointmentTime={data.appointmentTime??""}
-                        appointmentFormattedDate={data.appointmentFormattedDate??""}
-                        createdAt={data.createdAt}
+                        role={role ?? undefined}
+                        id={data.id ?? ""}
+                        status={status ?? ""}
+                        firstName={data.firstName ?? ""}
+                        lastName={data.lastName ?? ""}
+                        appointmentTime={data.appointmentTime ?? ""}
+                        appointmentFormattedDate={data.appointmentFormattedDate ?? ""}
+                        createdAt={data.createdAt ?? undefined}
                       />
                   )})}
               </div>
@@ -134,18 +137,18 @@ const DoctorDashboard = ({
                 </Button>
               </div>
             </section>
-              {patients && patients.map((data, index) => {
+              {patients?.map((data, index) => {
                 return (
                   <SalesCard
                     key={index}
-                    role={role}
-                    email={data.email??""}
-                    name={data.name}
-                    profileId={data.patientId??""}
+                    role={role ?? undefined}
+                    email={data.email ?? ""}
+                    name={data.name ?? ""}
+                    profileId={data.patientId ?? ""}
                   />
               )})}
           </CardContent> 
-        </Card>   */}
+        </Card>  
       </div>
     </div>
   )

@@ -3,7 +3,7 @@
 import EmailTemplate from "@/components/Emails/emailTemplate";
 import { prismaClient } from "@/lib/db";
 import generateSlug from "@/utils/generateSlug";
-import { RegisterInputProps } from "@/utils/types";
+import { Doctor, RegisterInputProps } from "@/utils/types";
 import { UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { Resend } from "resend";
@@ -329,7 +329,7 @@ export async function getDoctorsById(id: string) {
       if (!doctor) {
         return null
       };
-      return doctor
+      return doctor as Doctor
     } catch (error) {
       console.log("Error get Doctors:",error);
       return null;
