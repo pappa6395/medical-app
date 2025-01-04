@@ -39,8 +39,8 @@ export async function getAdminAnalytics() {
     
     try {
         const session = await getServerSession(authOptions)
-        const user = session?.user
-        const userId = user?.id??""
+        const user = session?.user ?? null
+        const userId = user?.id ?? ""
         const appointments = (await getAppointments())?.data || []
         const doctors = await getDoctors() || []
         

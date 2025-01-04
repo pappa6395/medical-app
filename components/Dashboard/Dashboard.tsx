@@ -32,7 +32,7 @@ const Dashboard = ({
       appointments?.forEach((app) => {
         if (!app?.patientId) return;
         if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap.set(app.patientId, {
+          uniquePatientsMap?.set(app.patientId, {
             patientId : app.patientId ?? '',
             name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
             email: app.email ?? '',
@@ -48,7 +48,7 @@ const Dashboard = ({
     }
       
     
-    const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[];
+    const patients = Array.from(uniquePatientsMap?.values() || []) as PatientProps[];
 
   return (
 

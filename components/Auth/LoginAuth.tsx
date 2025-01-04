@@ -59,7 +59,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       if (validate()) {
-        console.log("Form submitted successfully:", loginData);
+        //console.log("Form submitted successfully:", loginData);
         try {
           setIsLoading(true);
           console.log("Attempting to sign in with credentials:", loginData);
@@ -67,7 +67,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
             ...loginData,
             redirect: false,
           });
-          console.log("SignIn response:", authData);
+          //console.log("SignIn response:", authData);
           
           if (authData?.error) {
             setIsLoading(false);
@@ -97,7 +97,7 @@ export default function LoginAuth({ className, ...props }: UserAuthFormProps) {
     setIsLoading(true);
     try {
       const res = await signIn("google", {redirect: false});
-      console.log("Google Sign-in successful:", res);
+      //console.log("Google Sign-in successful:", res);
       
       if (res?.error) {
         throw new Error(res.error);
