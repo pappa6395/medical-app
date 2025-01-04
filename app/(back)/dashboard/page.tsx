@@ -19,8 +19,8 @@ const page = async() => {
   const userId = user?.id??""
   const role = user?.role;
 
-  const doctorAnalytics = await getDoctorAnalytics() || []
-  const userAnalytics = await getUserAnalytics() || []
+  // const doctorAnalytics = await getDoctorAnalytics() || []
+  // const userAnalytics = await getUserAnalytics() || []
   
   // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
   
@@ -47,19 +47,19 @@ const page = async() => {
       
   //----------------------------------------------------------------//
 
-  if (role === "DOCTOR") {
-    return (
-      <div>
-        <DoctorDashboard 
-          session={session} 
-          analytics={doctorAnalytics}
-          // patientsApp={appointments} 
-          // doctors={doctors}
-          // appointments={recentAppointments}
-        />
-      </div>
-    )
-  };
+  // if (role === "DOCTOR") {
+  //   return (
+  //     <div>
+  //       <DoctorDashboard 
+  //         session={session} 
+  //         analytics={doctorAnalytics}
+  //         patientsApp={appointments} 
+  //         doctors={doctors}
+  //         appointments={recentAppointments}
+  //       />
+  //     </div>
+  //   )
+  // };
   // if (role === "USER") {
   //   return (
   //     <div>
