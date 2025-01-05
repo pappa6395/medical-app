@@ -22,37 +22,12 @@ const page = async() => {
   const userId = user?.id ?? '';
   const role = user?.role || "Unknown";
 
-  if (role === "Unknown") {
-    return <NotAuthorized />
-  }
 
-  const doctorAnalytics = await getDoctorAnalytics() || [
-    {
-      title: "Unknown",
-      count: 0,
-      icon: Users,
-      unit: Plus,
-      detailLink: "#"
-    }
-];
+  const doctorAnalytics = await getDoctorAnalytics() || [];
   //const userAnalytics = await fetchData(getUserAnalytics, []);
-  const analytics = await getAdminAnalytics() || [
-    {
-      title: "Unknown",
-      count: 0,
-      icon: Users,
-      unit: Plus,
-      detailLink: "#"
-    }
-  ];
+  const analytics = await getAdminAnalytics() || [];
 
-  const doctorsAdmin = await getDoctors() || [{
-    status: 'Unknown',
-    email: 'Unknown',
-    name: 'Unknown',
-    image: '/public/defaultImage.png',
-    profileId: 'ab1234567890cd'
-  }];
+  const doctorsAdmin = await getDoctors() || [];
   
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
   const appointmentsAdmin = (await getAppointments()).data || [] as Appointment[]

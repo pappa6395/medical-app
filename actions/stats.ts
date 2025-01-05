@@ -108,30 +108,31 @@ export async function getDoctorAnalytics() {
     
     try {
         const session = await getServerSession(authOptions)
-        const user = session?.user
-        const userId = user?.id??""
+        const user = session?.user || null;
+        const userId = user?.id ?? ""
         const appointments = (await getAppointmentByDoctorId(userId))?.data || []
         
         const uniquePatientsMap = new Map();
 
-        appointments.forEach((app) => {
+        appointments?.forEach((app) => {
+            if (!app.patientId) return;
             if (!uniquePatientsMap.has(app.patientId)) {
             uniquePatientsMap.set(app.patientId, {
-                patientId : app.patientId,
-                name: `${app.firstName} ${app.lastName}`,
-                email: app.email,
-                phone: app.phone,
-                location: app.location,
-                gender: app.gender,
-                occupation: app.occupation,
-                dob: app.dob,
+                patientId : app.patientId ?? "",
+                name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+                email: app.email ?? "",
+                phone: app.phone ?? "",
+                location: app.location ?? "",
+                gender: app.gender ?? "",
+                occupation: app.occupation ?? "",
+                dob: app.dob ?? new Date(),
             });
             }
         });
       
-        const patients = Array.from(uniquePatientsMap.values())
+        const patients = Array.from(uniquePatientsMap.values() || [])
         const messages = (await getInboxMessages(userId))?.data || [];
-        const sales = await getDoctorSales(userId)
+        const sales = await getDoctorSales(userId) || []
 
         const analytics = [
             {
