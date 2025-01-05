@@ -31,12 +31,12 @@ const page = async() => {
   const appointmentsAdmin = (await getAppointments()).data || []
 
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
-  
+  const doctorAnalytics = await getDoctorAnalytics() || [];
 
   //----------------------------------------------------------------//
 
   if (role === "DOCTOR") {
-    const doctorAnalytics = await getDoctorAnalytics() || [];
+    
     //const doctors = await getDoctorsById(userId)
     //const appointments = (await getAppointmentByDoctorId(userId))?.data || []
     return (
