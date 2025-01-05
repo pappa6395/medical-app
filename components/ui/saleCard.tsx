@@ -15,7 +15,7 @@ export default function SalesCard({
     name="",
     email="",
     role=undefined,
-    image="/public/defaultImage.png",
+    image=null,
     status="PENDING",
     profileId="",
     className=""

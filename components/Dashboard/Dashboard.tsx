@@ -52,7 +52,7 @@ const Dashboard = ({
   return (
 
     <div className="flex flex-col gap-5 w-full">
-        <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
+      <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
         Welcome, Admin. {user?.name??""}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

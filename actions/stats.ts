@@ -8,6 +8,7 @@ import { UserRole } from "@prisma/client";
 import { getDoctors } from "./users";
 import { getService } from "./services";
 import { getDoctorSales } from "./sales";
+import { PatientProps } from "@/utils/types";
 
 export async function getStats() {
     
@@ -128,28 +129,28 @@ export async function getDoctorAnalytics() {
             }
         });
       
-        const patients = Array.from(uniquePatientsMap.values() || [])
-        const messages = (await getInboxMessages(userId))?.data || [];
+        const patients = Array.from(uniquePatientsMap?.values() || []) as PatientProps[]
+        const messages = (await getInboxMessages(userId))?.data || []; 
         const sales = await getDoctorSales(userId) || []
 
         const analytics = [
             {
                 title: "Appointments",
-                count: appointments.length ?? 0,
+                count: appointments?.length ?? 0,
                 icon: CalendarDays,
                 unit: Plus,
                 detailLink: "/dashboard/doctor/appointments"
             },
             {
                 title: "Patients",
-                count: patients.length ?? 0,
+                count: patients?.length ?? 0,
                 icon: UsersRound,
                 unit: Plus,
                 detailLink: "/dashboard/doctor/patients"
             },
             {
                 title: "Inbox",
-                count: messages.length ?? 0,
+                count: messages?.length ?? 0,
                 icon: Mail,
                 unit: Plus,
                 detailLink: "/dashboard/doctor/inbox"

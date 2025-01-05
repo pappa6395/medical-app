@@ -21,59 +21,60 @@ const page = async() => {
   const user = session?.user || null;
   const userId = user?.id ?? '';
   const role = user?.role || "Unknown";
-
-
   
   //const userAnalytics = await fetchData(getUserAnalytics, []);
 
-  const analytics = await getAdminAnalytics() || [];
-  const doctorsAdmin = await getDoctors() || [];
-  const appointmentsAdmin = (await getAppointments()).data || []
-
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
-  //const doctorAnalytics = await getDoctorAnalytics() || [];
+  
 
   //----------------------------------------------------------------//
-
+  
   if (role === "DOCTOR") {
-    
+    const doctorAnalytics = await getDoctorAnalytics() || [];
     //const doctors = await getDoctorsById(userId)
     //const appointments = (await getAppointmentByDoctorId(userId))?.data || []
     return (
       <div>
         <h2>I am a {role}</h2>
-        {/* <DoctorDashboard 
+        <DoctorDashboard 
           session={session ?? null} 
           analytics={doctorAnalytics ?? []}
-          doctors={doctors}
-          appointments={appointments ?? []}
-        /> */}
+          // doctors={doctors}
+          // appointments={appointments ?? []}
+        />
       </div>
     );
   }
 
-  // if (role === "USER") {
-  //   return (
-  //     <div>
-  //       <PatientDashboard 
-  //         session={session} 
-  //         analytics={userAnalytics} 
-  //         appointments={appointmentByPatientId} 
-  //       />
-  //     </div>
-  //   )
-  // }
+  if (role === "USER") {
+    return (
+      <div>
+        <h2>I am a {role}</h2>
+        {/* <PatientDashboard 
+          session={session} 
+          analytics={userAnalytics} 
+          appointments={appointmentByPatientId} 
+        /> */}
+      </div>
+    )
+  }
 
-  return (
-    <div>
-        <Dashboard
-        session={session ?? null}
-        analytics={analytics ?? []}
-        doctors={doctorsAdmin ?? []}
-        appointments={appointmentsAdmin ?? []}
-      />
-    </div>
-  )
+  if (role === "ADMIN") {
+    const analytics = await getAdminAnalytics() || [];
+    const doctorsAdmin = await getDoctors() || [];
+    const appointmentsAdmin = (await getAppointments()).data || []
+    return (
+      <div>
+          <Dashboard
+          session={session ?? null}
+          analytics={analytics ?? []}
+          doctors={doctorsAdmin ?? []}
+          appointments={appointmentsAdmin ?? []}
+        />
+      </div>
+    )
+  }
+  
 }
 
 export default page

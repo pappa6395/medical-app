@@ -57,6 +57,7 @@ const DoctorDashboard = ({
   
   
   return (
+
     <div className='px-8 py-4'>
       <div className='flex items-center justify-between'>
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
@@ -95,7 +96,7 @@ const DoctorDashboard = ({
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
-      <div className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
+      <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
         {/* <Card>
           <CardHeader>
             <div className='flex justify-between'>
@@ -154,8 +155,9 @@ const DoctorDashboard = ({
             </div>
           </CardContent> 
         </Card>   */}
-      </div>
+      </section>
     </div>
+    
   )
 }
 
