@@ -15,18 +15,28 @@ import SalesCard from '../ui/saleCard';
 const PatientDashboard = ({ 
   session,
   analytics,
-  doctors,
   appointments, 
-  role,
 }: {
   session?: Session | null; 
   analytics?: AnalyticProps[];
-  doctors?: Doctor[] | undefined;
   appointments?: Appointment[];
-  role: UserRole;
 }) => {
 
-  const user = session?.user
+  const user = session?.user || null;
+  const role = user?.role || undefined;
+
+  const uniqueDoctorsMap = new Map();
+
+    appointments?.forEach((app) => {
+      if (!uniqueDoctorsMap.has(app.doctorId)) {
+        uniqueDoctorsMap.set(app.doctorId, {
+          doctorId : app.doctorId,
+          name: app.doctorName ?? 'Unknown Name'
+        });
+      }
+    });
+    const doctorsPatientId = Array.from(uniqueDoctorsMap.values()) as Doctor[]
+    console.log("doctorsPatientId:", doctorsPatientId);
   
   return (
     <div className='px-8 py-4'>
@@ -79,15 +89,15 @@ const PatientDashboard = ({
                 </Link>
               </Button>
           </section>
-          {doctors && doctors.map((data, index) => {
+          {doctorsPatientId?.map((data, index) => {
             return (
               <SalesCard
                 key={index}
                 role={role}
                 email={data.email??""}
-                name={data.name}
-                image={data.doctorProfile?.profilePicture}
-                profileId={data.id}
+                name={data.name ?? "Unknown"}
+                image={data.doctorProfile?.profilePicture ?? "/public/defaultImage.png"}
+                profileId={data.id ?? ""}
               />
           )})}
         </CardContent> 

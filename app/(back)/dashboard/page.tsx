@@ -1,5 +1,4 @@
 
-
 import { getAppointmentByDoctorId, getAppointmentByPatientId, getAppointments, getRecentAppointmentByPatientId } from '@/actions/appointments'
 import { getAdminAnalytics, getDoctorAnalytics, getUserAnalytics } from '@/actions/stats'
 import { getDoctors, getDoctorsById } from '@/actions/users'
@@ -12,6 +11,15 @@ import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
+const fetchData = async (fetchFn: Function, defaultValue: any) => {
+  try {
+    return await fetchFn() || defaultValue;
+  } catch (err) {
+    console.error('Failed to fetched data:', err);
+    return defaultValue;
+  }
+}
+
 const page = async() => {
 
   const session = await getServerSession(authOptions);
@@ -19,128 +27,22 @@ const page = async() => {
   const userId = user?.id ?? '';
   const role = user?.role || "Unknown";
 
-  let doctorAnalytics = [] as AnalyticProps[]
-  try {
-    doctorAnalytics = await getDoctorAnalytics() || []
-  } catch (err) {
-    console.error("Failed to fetch doctor analytics:", err);
-  }
-  // const userAnalytics = await getUserAnalytics() || []
-  let analytics = [] as AnalyticProps[]
-  try {
-    analytics = await getAdminAnalytics() || [];
-  } catch (err) {
-    console.error("Failed to fetch analytics:", err);
-  }
-  
-  // for doctors, get recent appointment by doctor id and get recent patients from appointment map patient id
-  let appointments = [] as Appointment[]
-  try {
-    appointments = (await getAppointmentByDoctorId(userId))?.data || [] 
-  } catch (err) {
-    console.error("Failed to fetch appointments:", err);
-  }
-  
-  // // Option 1 : [patientIds] => remove dups => fetch users with these ids
-  // // Option 2 : [patientId, name, email] => remove dups
-    let recentAppointments = [] as Appointment[]
-  try {
-    recentAppointments = (await getAppointments())?.data || []
-  } catch (err) {
-    console.error("Failed to fetch recent appointments:", err);
-  };
-
-  let doctors = {} as Doctor
-  try {
-    doctors = await getDoctorsById(userId) || {
-      id: "",
-      name: "",
-      slug: "",
-      email: "",
-      phone: "",
-      doctorProfile: {
-        id: "",
-        firstName: "",
-        lastName: "",
-        middleName: "",
-        gender: "",
-        dob: null,
-        bio: "",
-        profilePicture: "/public/defaultImage.png",
-        operationMode: "",
-        hourlyWage: 0,
-        city: "",
-        state: "",
-        country: "",
-        yearsOfExperience: 0,
-        medicalLicense: "",
-        medicalLicenseExpiry: null,
-        boardCertificates: [],
-        otherSpecialties: [],
-        primarySpecialization: "",
-        medicalSchool: "",
-        hospitalName: "",
-        hospitalAddress: "",
-        hospitalContactNumber: "",
-        hospitalEmailAddress: "",
-        hospitalHoursOfOperation: "",
-        hospitalWebsite: "",
-        research: "",
-        accomplishments: "",
-        additionalDocuments: [],
-        graduationYear: "",
-        educationHistory: "",
-        servicesOffered: [],
-        insuranceAccepted: "",
-        languagesSpoken: [],
-        status: "PENDING",
-        availability: {
-          monday: [],
-          tuesday: [],
-          wednesday: [],
-          thursday: [],
-          friday: [],
-          saturday: [],
-          sunday: [],
-        }
-      },
-    }
-  } catch (err) {
-    console.error("Failed to fetch doctors:", err);
-    
+  if (role === "Unknown") {
+    return <div>You must be logged in to access this page.</div>
   }
 
-  let doctorsAdmin = [] as Doctor[]
-  try {
-    doctorsAdmin = await getDoctors() || []
-  } catch (error) {
-    console.error("Error get DoctorsAdmin:", error);
-  };
-   
-  let appointmentsAdmin = [] as Appointment[]
-  try {
-    appointmentsAdmin = (await getAppointments()).data || []
-  } catch (error) {
-    console.error("Error get appointmentsAdmin:", error);
-  };
+  const doctorAnalytics = await fetchData(getDoctorAnalytics, []);
+  //const userAnalytics = await fetchData(getUserAnalytics, []);
+  const analytics = await fetchData(getAdminAnalytics, []);
+
+  const doctors = await fetchData(getDoctorsById, {})
+  const doctorsAdmin = await fetchData(getDoctors, [])
+  
+  const appointments = await fetchData(() => getAppointmentByDoctorId(userId), []);
+  //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
+  const appointmentsAdmin = await fetchData(getAppointments, [])
 
   
-    
-  //for User, Recent get doctor by patientId and Recent appointment  by patientId
-  // const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || [];
-  // const uniqueDoctorsMap = new Map();
-
-  //   appointmentByPatientId.forEach((app) => {
-  //     if (!uniqueDoctorsMap.has(app.doctorId)) {
-  //       uniqueDoctorsMap.set(app.doctorId, {
-  //         doctorId : app.doctorId,
-  //         name: app.doctorName??'Unknown Name'
-  //       });
-  //     }
-  //   });
-  //   const doctorsPatientId = Array.from(uniqueDoctorsMap.values()) as Doctor[]
-  //   console.log("doctorsPatientId:", doctorsPatientId);
-      
   //----------------------------------------------------------------//
 
   if (role === "DOCTOR") {
@@ -149,28 +51,24 @@ const page = async() => {
         <DoctorDashboard 
           session={session ?? null} 
           analytics={doctorAnalytics ?? []}
-          patientsApp={appointments ?? []} 
           doctors={doctors ?? {}}
-          appointments={recentAppointments ?? []}
+          appointments={appointments ?? []}
         />
       </div>
     );
   }
 
-  if (role === "USER") {
-    return (
-      <div>
-        <h2>I am a Patient</h2>
-        {/* <PatientDashboard 
-          session={session} 
-          analytics={userAnalytics} 
-          doctors={doctorsPatientId}
-          appointments={appointmentByPatientId}
-          role={role} 
-        /> */}
-      </div>
-    )
-  }
+  // if (role === "USER") {
+  //   return (
+  //     <div>
+  //       <PatientDashboard 
+  //         session={session} 
+  //         analytics={userAnalytics} 
+  //         appointments={appointmentByPatientId} 
+  //       />
+  //     </div>
+  //   )
+  // }
 
   return (
     <div>

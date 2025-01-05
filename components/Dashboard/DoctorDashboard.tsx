@@ -16,13 +16,11 @@ import { CheckCircle, CircleEllipsis, CircleX } from 'lucide-react';
 const DoctorDashboard = ({ 
   session=null,
   analytics=[],
-  patientsApp=[],
   doctors=null,
   appointments=[], 
 }: {
   session?: Session | null; 
   analytics?: AnalyticProps[];
-  patientsApp?: Appointment[];
   doctors?: Doctor | null;
   appointments?: Appointment[];
 }) => {
@@ -35,8 +33,8 @@ const DoctorDashboard = ({
 
   const uniquePatientsMap = new Map();
   
-  if (patientsApp) {
-    patientsApp?.forEach((app) => {
+  if (appointments) {
+    appointments?.forEach((app) => {
       if (!app?.patientId) {
         console.warn("Invalid patient data", app);
         return;
