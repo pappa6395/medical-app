@@ -2,7 +2,7 @@
 import React from 'react'
 import { Button } from "@/components/ui/button";
 import { AnalyticProps, Doctor, PatientProps } from '@/utils/types';
-import { CardContent, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import SalesCard from '../ui/saleCard';
 import { Session } from 'next-auth';
 import AnalyticCards from '../AnalyticCards';
@@ -62,35 +62,39 @@ const Dashboard = ({
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
-        {/* <CardContent>
-          <section className='flex justify-between'>
-            <div>
-              <CardTitle>Recent Doctors</CardTitle>
-            </div>
-              <Button asChild className='p-3 mr-4'>
-                <Link href="/dashboard/doctors">
-                  View All
-                </Link>
-              </Button>
-          </section>
-          {doctors?.slice(0,5).map((data, index) => {
-            const status = data.doctorProfile?.status??"PENDING"
-            return (
-              <div key={index} className="flex items-center justify-between mr-6">
-                <SalesCard
-                  status={status || 'Unknown'}
-                  email={data.email || ''}
-                  name={data.name || 'Unknown'}
-                  image={data.doctorProfile?.profilePicture || '/public/defaultImage.png'}
-                  profileId={data.doctorProfile?.id || ''}
-                />
-                <div>
-                  <ApproveBtn status={status || 'Unknown'} profileId={data.doctorProfile?.id || ''} />
-                </div> 
+        <Card>
+          <CardHeader>
+            <div className='flex justify-between'>
+              <div>
+                <CardTitle>Recent Doctors</CardTitle>
               </div>
-          )})}
-        </CardContent>
-        <CardContent>
+                <Button asChild className='p-3 mr-4'>
+                  <Link href="/dashboard/doctors">
+                    View All
+                  </Link>
+                </Button>
+            </div>
+          </CardHeader>
+          <CardContent className='shadow-none border-none'>
+            {doctors?.slice(0,5).map((data, index) => {
+              const status = data.doctorProfile?.status??"PENDING"
+              return (
+                <div key={index} className="flex items-center justify-between mr-6">
+                  <SalesCard
+                    status={status || 'Unknown'}
+                    email={data.email || ''}
+                    name={data.name || 'Unknown'}
+                    image={data.doctorProfile?.profilePicture || '/public/defaultImage.png'}
+                    profileId={data.doctorProfile?.id || ''}
+                  />
+                  <div>
+                    <ApproveBtn status={status || 'Unknown'} profileId={data.doctorProfile?.id || ''} />
+                  </div> 
+                </div>
+            )})}
+          </CardContent>
+        </Card>  
+        {/* <CardContent>
           <section className='flex justify-between'>
             <div>
               <CardTitle>Recent Patients</CardTitle>
