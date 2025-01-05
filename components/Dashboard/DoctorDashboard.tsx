@@ -62,7 +62,7 @@ const DoctorDashboard = ({
     <div className='px-8 py-4'>
       <div className='flex items-center justify-between'>
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
-          Welcome, Dr. {user?.name ?? ""}
+          Welcome, Dr. {user?.name ?? "Unknown"}
         </h1>
         <div className=''>
           {doctors?.doctorProfile?.status === "APPROVED" ? (
@@ -118,8 +118,8 @@ const DoctorDashboard = ({
                         role={role ?? undefined}
                         id={data.id ?? ""}
                         status={status ?? ""}
-                        firstName={data.firstName ?? "Unknown"}
-                        lastName={data.lastName ?? "Unknown"}
+                        firstName={data.firstName || "Unknown"}
+                        lastName={data.lastName || "Unknown"}
                         appointmentTime={data.appointmentTime ?? ""}
                         appointmentFormattedDate={data.appointmentFormattedDate ?? ""}
                         createdAt={data.createdAt ?? undefined}
@@ -147,7 +147,7 @@ const DoctorDashboard = ({
                     key={index}
                     role={role ?? undefined}
                     email={data.email ?? ""}
-                    name={data.name ?? "Unknown"}
+                    name={data.name || "Unknown"}
                     profileId={data.patientId ?? ""}
                   />
               )})}
