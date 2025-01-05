@@ -117,7 +117,7 @@ export async function getDoctorAnalytics() {
         appointments?.forEach((app) => {
             if (!app.patientId) return;
             if (!uniquePatientsMap.has(app.patientId)) {
-            uniquePatientsMap.set(app.patientId, {
+            uniquePatientsMap?.set(app.patientId, {
                 patientId : app.patientId ?? "",
                 name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
                 email: app.email ?? "",
