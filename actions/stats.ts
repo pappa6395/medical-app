@@ -38,9 +38,7 @@ export async function getStats() {
 export async function getAdminAnalytics() {
     
     try {
-        const session = await getServerSession(authOptions)
-        const user = session?.user ?? null
-        const userId = user?.id ?? ""
+        
         const appointments = (await getAppointments())?.data || []
         const doctors = await getDoctors() || []
         
@@ -48,6 +46,7 @@ export async function getAdminAnalytics() {
 
         appointments?.forEach((app) => {
             if (!uniquePatientsMap.has(app.patientId)) {
+                if (!app?.patientId) return;
             uniquePatientsMap.set(app.patientId, {
                 patientId : app.patientId ?? "",
                 name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
@@ -62,7 +61,6 @@ export async function getAdminAnalytics() {
         });
       
         const patients = Array.from(uniquePatientsMap.values() || [])
-        const messages = (await getInboxMessages(userId))?.data || [];
         const services = (await getService())?.data || [];
 
         const analytics = [

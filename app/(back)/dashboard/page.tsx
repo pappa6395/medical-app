@@ -31,7 +31,7 @@ const page = async() => {
   const appointmentsAdmin = (await getAppointments()).data || []
 
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
-  const doctorAnalytics = await getDoctorAnalytics() || [];
+  //const doctorAnalytics = await getDoctorAnalytics() || [];
 
   //----------------------------------------------------------------//
 
@@ -41,12 +41,13 @@ const page = async() => {
     //const appointments = (await getAppointmentByDoctorId(userId))?.data || []
     return (
       <div>
-        <DoctorDashboard 
+        <h2>I am a {role}</h2>
+        {/* <DoctorDashboard 
           session={session ?? null} 
           analytics={doctorAnalytics ?? []}
-          // doctors={doctors}
-          // appointments={appointments ?? []}
-        />
+          doctors={doctors}
+          appointments={appointments ?? []}
+        /> */}
       </div>
     );
   }
