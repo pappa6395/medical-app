@@ -15,7 +15,7 @@ export default function SalesCard({
     name="",
     email="",
     role=undefined,
-    image=null,
+    image="/public/defaultImage.png",
     status="PENDING",
     profileId="",
     className=""
@@ -33,15 +33,15 @@ export default function SalesCard({
 
     return (
       <div className={cn('flex justify-between items-center gap-3',className)}>
-            <section className='flex items-center gap-3'>
-                <div className=''>
+            <div className='flex items-center gap-3'>
+                <div className='w-12'>
                     {image && image.length > 0 ? (
                         <Image 
                         src={image??initial} 
                         alt={`${generateInitial(name)??""}`} 
                         width={200} 
                         height={200}
-                        className="rounded-full bg-gray-100 p-1 h-12 w-12 object-contain flex-shrink-0"
+                        className="rounded-full bg-gray-100 p-1 h-12 w-12 object-contain flex-shrink"
                         />
                     ): (
                         <Avatar>
@@ -50,15 +50,14 @@ export default function SalesCard({
                     )}
                     
                 </div>
-                <div className='text-sm'>
+                <div className='text-sm w-auto mx-auto'>
                     <p>{name??""}</p>
-                    <div className='text-ellipsis overflow-hidden
-                    whitespace-nowrap w-[120px] sm:w-auto text-gray-400'
+                    <div className='truncate text-gray-400'
                     >
                         {email??""}
                     </div>
                 </div>
-            </section>
+            </div>
             {!status && (
                 <Button asChild variant={"outline"}>
                     <Link href={`/dashboard/${role==="DOCTOR" ? "doctor/patients" : role ==="USER" ? "user/doctors" : "doctors"}/view/${profileId??""}`}>

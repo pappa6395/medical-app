@@ -35,7 +35,7 @@ const RecentAppointmentCard = ({
   return (
 
     <div>
-        <div className="mt-2 mr-4 cursor-pointer">
+        <div className="mt-2 mr-2 cursor-pointer">
             <Link 
                 href={`/dashboard/${role === "DOCTOR" ? "doctor" : "user"}/appointments/view/${id??""}`}
                 className={cn(

@@ -23,7 +23,7 @@ const page = async() => {
   const role = user?.role || "Unknown";
 
 
-  //const doctorAnalytics = await getDoctorAnalytics() || [];
+  
   //const userAnalytics = await fetchData(getUserAnalytics, []);
 
   const analytics = await getAdminAnalytics() || [];
@@ -35,72 +35,21 @@ const page = async() => {
 
   //----------------------------------------------------------------//
 
-  // if (role === "DOCTOR") {
-  //   const doctors = await fetchData(() => getDoctorsById(userId), {
-  //     id: "",
-  //     name: "",
-  //     slug: "",
-  //     email: "",
-  //     phone: "",
-  //     doctorProfile: {
-  //       id: "",
-  //       firstName: "",
-  //       lastName: "",
-  //       middleName: "",
-  //       gender: "",
-  //       dob: null,
-  //       bio: "",
-  //       profilePicture: "/public/defaultImage.png",
-  //       operationMode: "",
-  //       hourlyWage: 0,
-  //       city: "",
-  //       state: "",
-  //       country: "",
-  //       yearsOfExperience: 0,
-  //       medicalLicense: "",
-  //       medicalLicenseExpiry: null,
-  //       boardCertificates: [],
-  //       otherSpecialties: [],
-  //       primarySpecialization: "",
-  //       medicalSchool: "",
-  //       hospitalName: "",
-  //       hospitalAddress: "",
-  //       hospitalContactNumber: "",
-  //       hospitalEmailAddress: "",
-  //       hospitalHoursOfOperation: "",
-  //       hospitalWebsite: "",
-  //       research: "",
-  //       accomplishments: "",
-  //       additionalDocuments: [],
-  //       graduationYear: "",
-  //       educationHistory: "",
-  //       servicesOffered: [],
-  //       insuranceAccepted: "",
-  //       languagesSpoken: [],
-  //       status: "PENDING",
-  //       availability: {
-  //         monday: [],
-  //         tuesday: [],
-  //         wednesday: [],
-  //         thursday: [],
-  //         friday: [],
-  //         saturday: [],
-  //         sunday: [],
-  //       }
-  //     },
-  //   }) as Doctor
-  //   const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[];
-  //   return (
-  //     <div>
-  //       <DoctorDashboard 
-  //         session={session ?? null} 
-  //         analytics={doctorAnalytics ?? []}
-  //         doctors={doctors}
-  //         appointments={appointments ?? []}
-  //       />
-  //     </div>
-  //   );
-  // }
+  if (role === "DOCTOR") {
+    const doctorAnalytics = await getDoctorAnalytics() || [];
+    const doctors = await getDoctorsById(userId)
+    const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+    return (
+      <div>
+        <DoctorDashboard 
+          session={session ?? null} 
+          analytics={doctorAnalytics ?? []}
+          doctors={doctors}
+          appointments={appointments ?? []}
+        />
+      </div>
+    );
+  }
 
   // if (role === "USER") {
   //   return (

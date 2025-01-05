@@ -4,7 +4,7 @@ import React from 'react'
 import AnalyticCards from '../AnalyticCards';
 import { Session } from 'next-auth';
 import { AnalyticProps, Doctor, PatientProps } from '@/utils/types';
-import { Card, CardContent, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import SalesCard from '../ui/saleCard';
@@ -25,9 +25,7 @@ const DoctorDashboard = ({
   appointments?: Appointment[];
 }) => {
 
-  if (!session) {
-    return <div>You must be logged in to view this page.</div>;
-  }
+
   const user = session?.user || null;
   const role = user?.role || undefined;
 
@@ -62,7 +60,7 @@ const DoctorDashboard = ({
     <div className='px-8 py-4'>
       <div className='flex items-center justify-between'>
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
-          Welcome, Dr. {user?.name ?? "Unknown"}
+          Welcome, Dr. {user?.name || "Unknown"}
         </h1>
         <div className=''>
           {doctors?.doctorProfile?.status === "APPROVED" ? (
@@ -99,58 +97,61 @@ const DoctorDashboard = ({
       </div>
       <div className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
         <Card>
-          <CardContent className='shadow-none border-none'>
+          <CardHeader>
+            <div className='flex justify-between'>
+              <CardTitle>Recent Appointments</CardTitle>
+              <Button asChild className='p-3 mr-5'>
+                <Link href="/dashboard/doctor/appointments">
+                  View All
+                </Link>
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className='shadow-none border-none w-full'>
             <div className='flex flex-col justify-between'>
-                <div className='flex justify-between'>
-                  <CardTitle>Recent Appointments</CardTitle>
-                  <Button asChild className='p-3 mr-5'>
-                    <Link href="/dashboard/doctor/appointments">
-                      View All
-                    </Link>
-                  </Button>
-                </div>
-                <div className="">
-                  {appointments?.slice(0,5).map((data, index) => {
-                    const status = data.status??"PENDING"
-                    return (
-                      <RecentAppointmentCard
-                        key={index}
-                        role={role ?? undefined}
-                        id={data.id ?? ""}
-                        status={status ?? ""}
-                        firstName={data.firstName || "Unknown"}
-                        lastName={data.lastName || "Unknown"}
-                        appointmentTime={data.appointmentTime ?? ""}
-                        appointmentFormattedDate={data.appointmentFormattedDate ?? ""}
-                        createdAt={data.createdAt ?? undefined}
-                      />
-                  )})}
-              </div>
+                {appointments?.slice(0,5).map((data, index) => {
+                  const status = data.status??"PENDING"
+                  return (
+                  <div key={index}>
+                    <RecentAppointmentCard
+                      role={role || undefined}
+                      id={data.id || ""}
+                      status={status || ""}
+                      firstName={data.firstName || "Unknown"}
+                      lastName={data.lastName || "Unknown"}
+                      appointmentTime={data.appointmentTime || "Unknown"}
+                      appointmentFormattedDate={data.appointmentFormattedDate || "Unknown"}
+                      createdAt={data.createdAt || undefined}
+                    />
+                  </div>  
+                )})}
             </div>
           </CardContent>
         </Card>
         <Card>
+          <CardHeader>
+            <div className='flex justify-between items-center'>
+              <CardTitle>Recent Patients</CardTitle>
+              <Button asChild className='p-3'>
+                <Link href="/dashboard/doctor/patients">
+                  View All
+                </Link>
+              </Button>
+            </div>
+          </CardHeader>
           <CardContent className='shadow-none border-none'>
-            <section className='flex flex-col justify-between'>
-              <div className='flex justify-between items-center'>
-                <CardTitle>Recent Patients</CardTitle>
-                <Button asChild className='p-3'>
-                  <Link href="/dashboard/doctor/patients">
-                    View All
-                  </Link>
-                </Button>
-              </div>
-            </section>
+            <div className='p-2 mt-2'>
               {patients?.map((data, index) => {
                 return (
                   <SalesCard
                     key={index}
-                    role={role ?? undefined}
-                    email={data.email ?? ""}
+                    role={role || undefined}
+                    email={data.email || ""}
                     name={data.name || "Unknown"}
-                    profileId={data.patientId ?? ""}
+                    profileId={data.patientId || ""}
                   />
               )})}
+            </div>
           </CardContent> 
         </Card>  
       </div>
