@@ -2,11 +2,12 @@ import { Calendar } from 'lucide-react'
 import React from 'react'
 import NewButton from './NewButton'
 import { Appointment } from '@prisma/client';
+import { PatientProps } from '@/utils/types';
 
 const HomeDisplayCard = ({
-  appointments, 
-  href,
-  title,
+  appointments=[], 
+  href="",
+  title="",
 }: {
   appointments: Appointment[]; 
   href: string;
@@ -15,24 +16,27 @@ const HomeDisplayCard = ({
 
   const uniquePatientsMap = new Map();
 
-      appointments.forEach((app) => {
+    if (appointments) {
+      appointments?.forEach((app) => {
+        if (!app.patientId) return;
         if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap.set(app.patientId, {
-            patientId : app.patientId,
-            name: `${app.firstName} ${app.lastName}`,
-            email: app.email,
-            phone: app.phone,
-            location: app.location,
-            gender: app.gender,
-            occupation: app.occupation,
-            dob: app.dob,
+          uniquePatientsMap?.set(app.patientId, {
+            patientId : app.patientId ?? "",
+            name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+            email: app.email ?? "",
+            phone: app.phone ?? "",
+            location: app.location ?? "",
+            gender: app.gender ?? "",
+            occupation: app.occupation ?? "",
+            dob: app.dob || new Date(),
           });
         }
       });
-      
-      const patients = Array.from(uniquePatientsMap.values())
-      const count = patients.length??0;
-      // console.log("Patients:", patients);
+    } 
+
+    const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
+    const count = patients.length??0;
+    // console.log("Patients:", patients);
 
   return (
 
@@ -43,15 +47,15 @@ const HomeDisplayCard = ({
             <div className='py-3'>
                   {count && count > 1 ? (
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
-                      You have {count} {title}s today.
+                      You have {count || 0} {title || ""}s today.
                     </p>
                   ) : (
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
-                      You have {count} {title} today.
+                      You have {count || 0} {title || ""} today.
                     </p>
                   )}
             </div>
-            <NewButton  title={`New ${title}`} href={href}/>
+            <NewButton  title={`New ${title ?? ""}`} href={href ?? ""}/>
         </div>
     </div>
 

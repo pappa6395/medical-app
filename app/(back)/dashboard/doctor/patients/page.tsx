@@ -11,7 +11,7 @@ import React from 'react'
 const page = async () => {
 
   const session = await getServerSession(authOptions)
-  const user = session?.user
+  const user = session?.user || null
   const userId = user?.id || ""
 
   if (!userId) {
@@ -23,9 +23,9 @@ const page = async () => {
   };
   
   const appointments = (await getAppointmentByDoctorId(userId))?.data || [];
-  const doctors = await getDoctorsById(userId);
+  const doctors = await getDoctorsById(userId) || null;
   const doctorSlug = generateSlug(
-    `${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`
+    `${doctors?.doctorProfile?.firstName || "Unknown"} ${doctors?.doctorProfile?.lastName || "Unknown"}`
   );
     
   return (
@@ -33,14 +33,14 @@ const page = async () => {
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <NewButton title="New Patient" href={`/doctors/${doctorSlug}?id=${userId}`}/>
+            <NewButton title="New Patient" href={`/doctors/${doctorSlug ?? ""}?id=${userId ?? ""}`}/>
           </div>
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
-            appointments={appointments}
-            href={`/doctors/${doctorSlug}?id=${userId}`} 
+            appointments={appointments ?? []}
+            href={`/doctors/${doctorSlug ?? ""}?id=${userId ?? ""}`} 
             title={"Patient"} />
         </div>
     </div>
