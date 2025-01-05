@@ -9,6 +9,15 @@ import { getSpecialty } from '@/actions/specialties'
 import { getSymptom } from '@/actions/symptoms'
 
 
+const fetchData = async (fetchFn: Function, defaultValue: any) => {
+  try {
+    return await fetchFn() || defaultValue;
+  } catch (err) {
+    console.error(`Failed to fetch data:`, err);
+    return defaultValue;
+  }
+};
+
 const page = async () => {
 
   const session = await getServerSession(authOptions);
@@ -19,11 +28,10 @@ const page = async () => {
     return <div>You must be logged in to access this page.</div>
   }
 
-  const profile = (await getDoctorAvailabilityById(user.id))?.data || null;
-  
-  const services = (await getService())?.data || null;
-  const specialties = (await getSpecialty())?.data || null;
-  const symptoms =  (await getSymptom())?.data || null;
+  const profile = await fetchData(() => getDoctorAvailabilityById(user.id), {})
+  const services = await fetchData(getService, {})
+  const specialties = await fetchData(getSpecialty, {})
+  const symptoms =  await fetchData(getSymptom, {})
   
   return (
 
