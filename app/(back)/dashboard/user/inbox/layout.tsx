@@ -15,9 +15,9 @@ const layout = async ({children}: {children: ReactNode}) => {
 
     
     const session = await getServerSession(authOptions)
-    const user = session?.user
-    const userId = user?.id || ""
-    const role = user?.role
+    const user = session?.user || null
+    const userId = user?.id || "";
+    const role = user?.role || undefined;
 
     if (!userId) {
         return <div>You must be logged in to access this page.</div>
@@ -43,7 +43,7 @@ const layout = async ({children}: {children: ReactNode}) => {
             <PanelHeader 
               title={"Inbox"} 
               count={messages.length??0} 
-              icon={Mail}/>
+              icon={Mail ?? ""}/>
             <div className='block md:hidden'>
               <NewButton 
                 title="New Message" 
@@ -51,18 +51,17 @@ const layout = async ({children}: {children: ReactNode}) => {
               />
             </div>
           </div>
-          
           <div className='px-3 mt-2'>
             <Tabs defaultValue="recieved" className="">
                 <TabsList>
-                  <TabsTrigger value="recieved">Recieved({messages.length.toString().padStart(2,'0')})</TabsTrigger>
-                  <TabsTrigger value="sent">Sent({sentMessages.length.toString().padStart(2,'0')})</TabsTrigger>
+                  <TabsTrigger value="recieved">Recieved({messages?.length.toString().padStart(2,'0') || ""})</TabsTrigger>
+                  <TabsTrigger value="sent">Sent({sentMessages?.length.toString().padStart(2,'0') || ""})</TabsTrigger>
                 </TabsList>
                 <TabsContent value="recieved">
-                  <MailListPanel messages={messages} role={role} />
+                  <MailListPanel messages={messages ?? []} role={role ?? undefined} />
                 </TabsContent>
                 <TabsContent value="sent">
-                  <MailListPanel messages={sentMessages} role={role} />
+                  <MailListPanel messages={sentMessages ?? []} role={role ?? undefined} />
                 </TabsContent>
             </Tabs>
           </div>

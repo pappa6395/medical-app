@@ -35,7 +35,7 @@ const layout = async ({children}: {children: ReactNode}) => {
       <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
         {/* List Panel */}
         <div className="col-span-5 px-3 py-3 border-r border-gray-100">
-          <PanelHeader title={"Appointments"} count={appointments.length??0} icon={Calendar}/>
+          <PanelHeader title={"Appointments"} appointments={appointments} icon={Calendar}/>
           <div className='px-3'>
             <ListPanel appointment={appointments} role={role} />
           </div>
