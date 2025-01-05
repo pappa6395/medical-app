@@ -12,13 +12,13 @@ import toast from 'react-hot-toast';
 import { useOnBoardingContext } from '@/context/context';
 
 const ContactInfoForm = ({
-    page, 
-    title, 
-    description,
-    nextPage,
-    formId,
-    userId,
-    doctorProfile,
+    page="", 
+    title="", 
+    description="",
+    nextPage="",
+    formId="",
+    userId="",
+    doctorProfile=null,
 }: StepFormProps) => {
 
     const router = useRouter()
@@ -35,12 +35,12 @@ const ContactInfoForm = ({
 
     const [contactData, setContactData] = React.useState<ContactInfoFormProps>({
         
-        email: doctorProfile.email || resumingDoctorData.email || "",
-        phone: doctorProfile.phone || resumingDoctorData.phone || "",
-        country: doctorProfile.country || resumingDoctorData.country || "",
-        city: doctorProfile.city || resumingDoctorData.city || "",
-        state: doctorProfile.state || resumingDoctorData.state || "",
-        page: doctorProfile.page || resumingDoctorData.page || "",
+        email: doctorProfile?.email || resumingDoctorData.email || "",
+        phone: doctorProfile?.phone || resumingDoctorData.phone || "",
+        country: doctorProfile?.country || resumingDoctorData.country || "",
+        city: doctorProfile?.city || resumingDoctorData.city || "",
+        state: doctorProfile?.state || resumingDoctorData.state || "",
+        page: doctorProfile?.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<ContactInfoFormProps>>({});
@@ -67,7 +67,7 @@ const ContactInfoForm = ({
             //console.log("Contact Data:", contactData);
 
             try {
-                const res = await updateDoctorProfileById(doctorProfile.id, contactData);
+                const res = await updateDoctorProfileById(doctorProfile?.id, contactData);
                 setResumeContactData(contactData);
 
                 if (res?.status === 201) {

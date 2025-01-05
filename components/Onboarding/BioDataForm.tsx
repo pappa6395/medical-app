@@ -16,13 +16,13 @@ import toast from 'react-hot-toast';
 
 
 const BioDataForm = ({
-    page, 
-    title, 
-    description,
-    userId,
-    nextPage,
+    page="",
+    title="", 
+    description="",
+    userId="",
+    nextPage="",
     formId="",
-    doctorProfile,
+    doctorProfile=null,
 
 }: StepFormProps) => {
 
@@ -41,14 +41,14 @@ const BioDataForm = ({
     //console.log(trackingNumber, doctorProfileId);
     
     const [bioData, setBioData] = React.useState<BioDataFormProps>({
-        firstName: doctorProfile.firstName || resumingDoctorData.firstName || "",
-        lastName: doctorProfile.lastName || resumingDoctorData.lastName || "",
-        middleName: doctorProfile.middleName || resumingDoctorData.middleName || "",
-        dob: doctorProfile.dob || resumingDoctorData.dob || undefined,
-        gender: doctorProfile.gender || resumingDoctorData.gender || "",
-        page: doctorProfile.page || resumingDoctorData.page || "",
-        userId: doctorProfile.userId || resumingDoctorData.userId || "",
-        trackingNumber: doctorProfile.trackingNumber || resumingDoctorData.trackingNumber || "",
+        firstName: doctorProfile?.firstName || resumingDoctorData.firstName || "",
+        lastName: doctorProfile?.lastName || resumingDoctorData.lastName || "",
+        middleName: doctorProfile?.middleName || resumingDoctorData.middleName || "",
+        dob: doctorProfile?.dob || resumingDoctorData.dob || undefined,
+        gender: doctorProfile?.gender || resumingDoctorData.gender || "",
+        page: doctorProfile?.page || resumingDoctorData.page || "",
+        userId: doctorProfile?.userId || resumingDoctorData.userId || "",
+        trackingNumber: doctorProfile?.trackingNumber || resumingDoctorData.trackingNumber || "",
     });
     const [errors, setErrors] = React.useState<Partial<BioDataFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -87,7 +87,7 @@ const BioDataForm = ({
             try {
                 // Save Data to DB
                 if (formId) {
-                    const newProfile = await updateDoctorProfileById(doctorProfile.id, bioData);
+                    const newProfile = await updateDoctorProfileById(doctorProfile?.id, bioData);
 
                     if (newProfile && newProfile.status === 201) {
                         toast.success("Bio Data updated successfully")

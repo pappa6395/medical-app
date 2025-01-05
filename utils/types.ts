@@ -175,7 +175,7 @@ export type StepFormProps = {
     nextPage?: string;
     formId?: string;
     specialties?: Speciality[];
-    doctorProfile: DoctorProfile;
+    doctorProfile: DoctorProfile | null;
 }
 
 export type ServiceFormProps = {

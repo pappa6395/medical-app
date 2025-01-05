@@ -12,23 +12,26 @@ import React from 'react'
 const page = async () => {
 
     const session = await getServerSession(authOptions)
-    const user = session?.user
-    const role = user?.role
-    const userId = user?.id || ""
+    const user = session?.user || null;
+    const role = user?.role || undefined;
+    const userId = user?.id || "";
 
-    const doctorProfile = (await getDoctorProfileByUserId(userId))?.data
-    const doctorId = doctorProfile?.id ?? ""
+    const doctorProfile = (await getDoctorProfileByUserId(userId))?.data || null;
+    const doctorId = doctorProfile?.id || ""
     //console.log("doctorId: ",doctorId );
 
-    const appointments = (await getAppointmentSaleByDoctorId(userId))?.data || []
-
-    const doctorSales = await getDoctorSales(doctorId) || []
+    const appointments = (await getAppointmentSaleByDoctorId(userId))?.data || [];
+    const doctorSales = await getDoctorSales(doctorId) || [];
     //console.log("Doctor sales:", doctorSales);
   return (
 
     <div>
         {doctorSales && (
-            <Sales saleData={doctorSales} role={role} appointments={appointments} title="sales" />
+            <Sales 
+              saleData={doctorSales ?? []} 
+              role={role ?? undefined} 
+              appointments={appointments ?? []} 
+              title="sales" />
         )}
     </div>
 

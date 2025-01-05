@@ -37,17 +37,17 @@ const PracticeInfoForm = ({
     const pathname = usePathname();
 
     const [practiceData, setPracticeData] = React.useState<PracticeInfoFormProps>({
-        hospitalName: doctorProfile.hospitalName || resumingDoctorData.hospitalName || "",
-        hospitalAddress: doctorProfile.hospitalAddress || resumingDoctorData.hospitalAddress || "",
-        hospitalContactNumber: doctorProfile.hospitalContactNumber || resumingDoctorData.hospitalContactNumber || "",
-        hospitalEmailAddress: doctorProfile.hospitalEmailAddress || resumingDoctorData.hospitalEmailAddress || "",
-        hospitalWebsite: doctorProfile.hospitalWebsite || resumingDoctorData.hospitalWebsite || "",
-        hospitalHoursOfOperation: doctorProfile.hospitalHoursOfOperation || resumingDoctorData.hospitalHoursOfOperation || "",
-        servicesOffered: doctorProfile.servicesOffered || resumingDoctorData.servicesOffered,
-        insuranceAccepted: doctorProfile.insuranceAccepted || resumingDoctorData.insuranceAccepted || "",
-        languagesSpoken: doctorProfile.languagesSpoken || resumingDoctorData.languagesSpoken,
-        hourlyWage: doctorProfile.hourlyWage || resumingDoctorData.hourlyWage || 100,
-        page: doctorProfile.page || resumingDoctorData.page || "",
+        hospitalName: doctorProfile?.hospitalName || resumingDoctorData.hospitalName || "",
+        hospitalAddress: doctorProfile?.hospitalAddress || resumingDoctorData.hospitalAddress || "",
+        hospitalContactNumber: doctorProfile?.hospitalContactNumber || resumingDoctorData.hospitalContactNumber || "",
+        hospitalEmailAddress: doctorProfile?.hospitalEmailAddress || resumingDoctorData.hospitalEmailAddress || "",
+        hospitalWebsite: doctorProfile?.hospitalWebsite || resumingDoctorData.hospitalWebsite || "",
+        hospitalHoursOfOperation: doctorProfile?.hospitalHoursOfOperation || resumingDoctorData.hospitalHoursOfOperation || "",
+        servicesOffered: doctorProfile?.servicesOffered || resumingDoctorData.servicesOffered || [],
+        insuranceAccepted: doctorProfile?.insuranceAccepted || resumingDoctorData.insuranceAccepted || "",
+        languagesSpoken: doctorProfile?.languagesSpoken || resumingDoctorData.languagesSpoken || [],
+        hourlyWage: doctorProfile?.hourlyWage || resumingDoctorData.hourlyWage || 100,
+        page: doctorProfile?.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<PracticeInfoFormProps>>({});
@@ -63,10 +63,10 @@ const PracticeInfoForm = ({
     const initialLanguagesSpoken = practiceData.languagesSpoken.length > 0 
     ? practiceData.languagesSpoken 
     : resumingDoctorData.languagesSpoken ?? [];
-    const [langSpoken, setLangSpoken] = React.useState<string[]>(initialLanguagesSpoken)
+    const [langSpoken, setLangSpoken] = React.useState<string[]>(initialLanguagesSpoken || [])
 
     const initialInsuranceAccepted = practiceData.insuranceAccepted || resumingDoctorData.insuranceAccepted || "";
-    const [insuranceAcc, setInsuranceAcc] = React.useState<string>(initialInsuranceAccepted);
+    const [insuranceAcc, setInsuranceAcc] = React.useState<string>(initialInsuranceAccepted || "");
 
 
     const insuranceOptions = [
@@ -97,7 +97,7 @@ const PracticeInfoForm = ({
             //console.log("New Practice Data:", practiceData);
 
             try {
-                const res = await updateDoctorProfileById(doctorProfile.id, practiceData);
+                const res = await updateDoctorProfileById(doctorProfile?.id, practiceData);
                 setResumePracticeData(practiceData);
 
                 if (res?.status === 201) {

@@ -5,7 +5,7 @@ import React from 'react'
 import TextInput from '../FormInputs/TextInput';
 import SubmitButton from '../FormInputs/SubmitButton';
 import { EducationInfoFormProps, FileProps, StepFormProps } from '@/utils/types';
-import SelectInput, { SelectOptionProps } from '../FormInputs/SelectInput';
+import SelectInput from '../FormInputs/SelectInput';
 import ArrayInput from '../FormInputs/ArrayInput';
 import MultiFileUpload from '../FormInputs/MultiFileUpload';
 import { updateDoctorProfileById } from '@/actions/onboarding';
@@ -16,14 +16,14 @@ import { useOnBoardingContext } from '@/context/context';
 
 
 const EducationInfoForm = ({
-    page, 
-    title, 
-    description,
-    nextPage,
-    formId,
-    userId,
-    specialties,
-    doctorProfile,
+    page="", 
+    title="", 
+    description="",
+    nextPage="",
+    formId="",
+    userId="",
+    specialties=[],
+    doctorProfile=null,
 }: StepFormProps) => {
 
     const router = useRouter();
@@ -41,12 +41,12 @@ const EducationInfoForm = ({
     console.log("Form ID:", formId);
 
     const [educationData, setEducationData] = React.useState<EducationInfoFormProps>({
-        medicalSchool: doctorProfile.medicalSchool || resumingDoctorData.medicalSchool || "",
-        graduationYear: doctorProfile.graduationYear || resumingDoctorData.graduationYear || "",
-        primarySpecialization: doctorProfile.primarySpecialization || resumingDoctorData.primarySpecialization || "",
-        otherSpecialties: doctorProfile.otherSpecialties || resumingDoctorData.otherSpecialties || [],
-        boardCertificates: doctorProfile.boardCertificates || resumingDoctorData.boardCertificates || [],
-        page: doctorProfile.page || resumingDoctorData.page || "",
+        medicalSchool: doctorProfile?.medicalSchool || resumingDoctorData.medicalSchool || "",
+        graduationYear: doctorProfile?.graduationYear || resumingDoctorData.graduationYear || "",
+        primarySpecialization: doctorProfile?.primarySpecialization || resumingDoctorData.primarySpecialization || "",
+        otherSpecialties: doctorProfile?.otherSpecialties || resumingDoctorData.otherSpecialties || [],
+        boardCertificates: doctorProfile?.boardCertificates || resumingDoctorData.boardCertificates || [],
+        page: doctorProfile?.page || resumingDoctorData.page || "",
     });
 
     const [errors, setErrors] = React.useState<Partial<EducationInfoFormProps>>({});
@@ -64,16 +64,16 @@ const EducationInfoForm = ({
     // ? educationData.boardCertificates 
     // : resumingDoctorData.boardCertificates || [];
 
-    const initialBoardCertificates = doctorProfile.boardCertificates.map((item) => {
+    const initialBoardCertificates = doctorProfile?.boardCertificates.map((item) => {
         return {
             formatToBytes: () => item,
-            title: item,
+            title: item || "",
             size: 0,
-            url: item,
+            url: item || "",
         }
     })
 
-    const [docs, setDocs] = React.useState<FileProps[]>(initialBoardCertificates);
+    const [docs, setDocs] = React.useState<FileProps[]>(initialBoardCertificates || []);
 
     const allSpecialties = specialties?.map((item) => {
         return {
@@ -109,7 +109,7 @@ const EducationInfoForm = ({
             
             
             try {
-                const res = await updateDoctorProfileById(doctorProfile.id, educationData);
+                const res = await updateDoctorProfileById(doctorProfile?.id, educationData);
                 setResumeEducationData(educationData)
 
                 if (res?.status === 201) {

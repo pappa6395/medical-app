@@ -17,8 +17,6 @@ const AvailabilitySetting = ({
 }:{
     profile: DoctorProfile | undefined | null;
 }) => {
-
-    console.log("availability setting profile: ", profile);
     
     const dayTabs = [
         {
@@ -57,10 +55,10 @@ const AvailabilitySetting = ({
         <Separator className="my-6" />
         <p className="py-3">Please add the availability for a whole week here.</p>
         <Tabs aria-label="Default tabs" variant="default" className="">
-            {dayTabs.map((tab, i) => {
+            {dayTabs?.map((tab, i) => {
                 return (
-                    <Tabs.Item key={i} title={tab.title}>
-                        {tab.component}
+                    <Tabs.Item key={i} title={tab?.title || ""}>
+                        {tab?.component || ""}
                     </Tabs.Item>
                 )
             })}

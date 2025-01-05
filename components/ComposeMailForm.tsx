@@ -5,7 +5,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { File, Paperclip, X, XCircle } from 'lucide-react';
+import { Paperclip, X, XCircle } from 'lucide-react';
 import { ComposeMailProps, FileProps } from '@/utils/types';
 import { Button } from './ui/button';
 import TextInput from './FormInputs/TextInput';
@@ -15,7 +15,6 @@ import { sendEmail } from '@/actions/mails';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { formatToBytes } from '@/utils/formatToBytes';
 import MultiUploaders from './FormInputs/MultiUploaders';
-import MultiFileUpload from './FormInputs/MultiFileUpload';
 import { FaFilePdf, FaImage } from 'react-icons/fa';
 
 

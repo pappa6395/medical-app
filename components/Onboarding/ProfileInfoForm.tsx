@@ -17,13 +17,13 @@ import toast from 'react-hot-toast';
 
 
 const ProfileInfoForm = ({
-    page, 
-    title, 
-    description,
-    nextPage,
+    page="", 
+    title="", 
+    description="",
+    nextPage="",
     formId="",
     userId="",
-    doctorProfile,
+    doctorProfile=null,
 }: StepFormProps) => {
 
     
@@ -39,12 +39,12 @@ const ProfileInfoForm = ({
     const pathname = usePathname()
 
     const [profileData, setProfileData] = React.useState<ProfileInfoFormProps>({
-        medicalLicense: doctorProfile.medicalLicense || resumingDoctorData.medicalLicense || "",
-        medicalLicenseExpiry: doctorProfile.medicalLicenseExpiry || resumingDoctorData.medicalLicenseExpiry || undefined,
-        yearsOfExperience: doctorProfile.yearsOfExperience || resumingDoctorData.yearsOfExperience || 0,
-        bio: doctorProfile.bio || resumingDoctorData.bio || "",
-        profilePicture: doctorProfile.profilePicture || resumingDoctorData.profilePicture || "",
-        page: doctorProfile.page || resumingDoctorData.page || "",
+        medicalLicense: doctorProfile?.medicalLicense || resumingDoctorData.medicalLicense || "",
+        medicalLicenseExpiry: doctorProfile?.medicalLicenseExpiry || resumingDoctorData.medicalLicenseExpiry || undefined,
+        yearsOfExperience: doctorProfile?.yearsOfExperience || resumingDoctorData.yearsOfExperience || 0,
+        bio: doctorProfile?.bio || resumingDoctorData.bio || "",
+        profilePicture: doctorProfile?.profilePicture || resumingDoctorData.profilePicture || "",
+        page: doctorProfile?.page || resumingDoctorData.page || "",
     });
    
     const [errors, setErrors] = React.useState<Partial<ProfileInfoFormProps>>({});
@@ -78,7 +78,7 @@ const ProfileInfoForm = ({
             //console.log("Profile Data:", profileData);
 
             try {
-                const res = await updateDoctorProfileById(doctorProfile.id, profileData);
+                const res = await updateDoctorProfileById(doctorProfile?.id, profileData);
                 setResumeProfileData(profileData);
 
                 if (res?.status === 201) {

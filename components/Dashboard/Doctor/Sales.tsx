@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
-import { CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import CardTransaction from '@/components/ui/cardTransaction'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { formatCreatedDate } from '@/utils/formattedDate'
 import { AppointmentProps, AppointmentSaleProps, SalesProps } from '@/utils/types'
@@ -9,56 +10,7 @@ import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-// const transactionData: CardTransactionProps[] = [
-//     {
-//         customer: "Liam Johnson",
-//         email: "liam@example.com",
-//         type: "Sale",
-//         status: "Fulfilled",
-//         date: "23-06-2024",
-//         amount: "$ 250.00",
-//     },
-//     {
-//         customer: "Olivia Smith",
-//         email: "olivia@example.com",
-//         type: "Refund",
-//         status: "Declined",
-//         date: "15-07-2024",
-//         amount: "-",
-//     },
-// ]
-// const userSalesData: SalesProps[] = [
-//     {
-//       name: "Olivia Martin",
-//       email: "olivia.martin@email.com",
-//       salesAmount: "+$1,999.00",
-//       image: null,
-//     },
-//     {
-//       name: "Jackson Lee",
-//       email: "isabella.nguyen@email.com",
-//       salesAmount: "+$1,999.00",
-//       image: null,
-//     },
-//     {
-//       name: "Isabella Nguyen",
-//       email: "isabella.nguyen@email.com",
-//       salesAmount: "+$39.00",
-//       image: null,
-//     },
-//     {
-//       name: "William Kim",
-//       email: "will@email.com",
-//       salesAmount: "+$299.00",
-//       image: null,
-//     },
-//     {
-//       name: "Sofia Davis",
-//       email: "sofia.davis@email.com",
-//       salesAmount: "+$39.00",
-//       image: null,
-//     }
-// ];
+
 
 const Sales = ({
     saleData,
@@ -76,7 +28,7 @@ const Sales = ({
 
     <div>
         <section className="grid gird-cols-1 md:grid-cols-1 gap-4 transition-all">
-            <CardContent>
+            <Card>
                 <CardHeader className="px-2">
                     <CardTitle className='flex justify-between'>
                         <div>Transactions</div>
@@ -84,8 +36,9 @@ const Sales = ({
                             <span>View All</span><ArrowUpRight />
                         </Button>
                     </CardTitle>
-                    <CardDescription>Recent transactions from your appointments.</CardDescription>
+                    <CardDescription>Recent transactions from your patients.</CardDescription>
                 </CardHeader>
+                <CardContent className='shadow-none border-none'> 
                 <Table x-chunk="dashboard-05-chunk-3">
                     <TableHeader>
                         <TableRow>
@@ -97,26 +50,26 @@ const Sales = ({
                             <TableHead className="text-right">View</TableHead>
                         </TableRow>
                     </TableHeader>
-                        {appointments.map((data, i) => {
+                        {appointments?.map((data, i) => {
                             return (
-                                    <CardTransaction 
+                                <CardTransaction 
                                     key={i}
-                                    id={data.id} 
-                                    customer={`${data.firstName} ${data.lastName}`}
-                                    transactionId={data.transactionId} 
-                                    email={data.email}
-                                    status={data.paymentStatus}
-                                    date={formatCreatedDate(data.createdAt)}
-                                    amount={data.paidAmount}
-                                    role={role}
-                                    />
+                                    id={data.id || ""} 
+                                    customer={`${data.firstName || "Unknown"} ${data.lastName || "Unknown"}`}
+                                    transactionId={data.transactionId || ""} 
+                                    email={data.email || ""}
+                                    status={data.paymentStatus || "pending"}
+                                    date={formatCreatedDate(data.createdAt) || ""}
+                                    amount={data.paidAmount || 0}
+                                    role={role || undefined}
+                                />
                             )
                         })}
                 </Table>
-            </CardContent>
+                </CardContent>
+            </Card>
         </section>
     </div>
-
   )
 }
 

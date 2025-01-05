@@ -12,27 +12,28 @@ import { getSymptom } from '@/actions/symptoms'
 const page = async () => {
 
   const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const user = session?.user || null;
+  const userId = user?.id || "";
   
   if (!user) {
     return <div>You must be logged in to access this page.</div>
   }
 
-  const profile = await getDoctorAvailabilityById(user.id)
+  const profile = (await getDoctorAvailabilityById(user.id))?.data || null;
   
-  const services = (await getService()).data
-  const specialties = (await getSpecialty()).data
-  const symptoms =  (await getSymptom()).data
+  const services = (await getService())?.data || null;
+  const specialties = (await getSpecialty())?.data || null;
+  const symptoms =  (await getSymptom())?.data || null;
   
   return (
 
     <div>
       <DoctorSettings 
-        initialProfile={profile?.data}
-        userId={user.id}
-        services={services}
-        specialties={specialties}
-        symptoms={symptoms}
+        initialProfile={profile ?? null}
+        userId={userId ?? ""}
+        services={services ?? null}
+        specialties={specialties ?? null}
+        symptoms={symptoms ?? null}
       />
     </div>
 

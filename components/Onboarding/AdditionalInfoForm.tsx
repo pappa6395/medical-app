@@ -14,13 +14,13 @@ import { useOnBoardingContext } from '@/context/context';
 
 
 const AdditionalInfoForm = ({
-    page, 
-    title, 
-    description,
-    nextPage,
-    formId,
-    userId,
-    doctorProfile,
+    page="", 
+    title="", 
+    description="",
+    nextPage="",
+    formId="",
+    userId="",
+    doctorProfile=null,
 }: StepFormProps) => {
 
     const router = useRouter();
@@ -36,13 +36,13 @@ const AdditionalInfoForm = ({
     const pathname = usePathname()
 
     const [additionalData, setAdditionalData] = React.useState<AdditionalInfoFormProps>({
-        educationHistory: doctorProfile.educationHistory || resumingDoctorData.educationHistory || "",
-        research: doctorProfile.research || resumingDoctorData.research || "",
-        accomplishments: doctorProfile.accomplishments || resumingDoctorData.accomplishments || "",
+        educationHistory: doctorProfile?.educationHistory || resumingDoctorData.educationHistory || "",
+        research: doctorProfile?.research || resumingDoctorData.research || "",
+        accomplishments: doctorProfile?.accomplishments || resumingDoctorData.accomplishments || "",
         additionalDocuments: 
-        doctorProfile.additionalDocuments 
+        doctorProfile?.additionalDocuments 
             || resumingDoctorData.additionalDocuments || [],
-        page: doctorProfile.page || resumingDoctorData.page || "",
+        page: doctorProfile?.page || resumingDoctorData.page || "",
     });
     const [errors, setErrors] = React.useState<Partial<AdditionalInfoFormProps>>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -55,7 +55,7 @@ const AdditionalInfoForm = ({
     // ? additionalData.additionalDocuments 
     // : resumingDoctorData.additionalDocuments ?? []
 
-    const initialAddDocs = doctorProfile.additionalDocuments.map((item) => {
+    const initialAddDocs = doctorProfile?.additionalDocuments.map((item) => {
         return {
             formatToBytes: () => item,
             title: item,
@@ -63,7 +63,7 @@ const AdditionalInfoForm = ({
             url: item,
         }
     })
-    const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>(initialAddDocs);
+    const [additionalDocs, setAdditionalDocs] = React.useState<FileProps[]>(initialAddDocs || []);
     
 
 
@@ -111,7 +111,7 @@ const AdditionalInfoForm = ({
                         throw new Error("Something went wrong")
                     }
                 } else {
-                    const res = await updateDoctorProfileById(doctorProfile.id, additionalData);
+                    const res = await updateDoctorProfileById(doctorProfile?.id, additionalData);
                     setResumeAdditionalData(additionalData)
 
                     if (res?.status === 201) {

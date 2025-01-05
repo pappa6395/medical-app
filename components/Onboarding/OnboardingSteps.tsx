@@ -15,13 +15,13 @@ import { DoctorProfile, Speciality } from '@prisma/client'
 
 
 const OnboardingSteps = ({
-  id, 
-  specialties,
-  doctorProfile,
+  id="", 
+  specialties=[],
+  doctorProfile=null,
 }: {
   id: string; 
   specialties: Speciality[]
-  doctorProfile: DoctorProfile;
+  doctorProfile: DoctorProfile | null;
 }) => {
 
   //console.log("Onboarding Steps ID:", id);
@@ -48,7 +48,7 @@ const OnboardingSteps = ({
           page={page}
           userId={id}
           nextPage={"profile"}
-          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile?.id? doctorProfileId : resumingDoctorData.id}
           doctorProfile={doctorProfile} 
         />
     },
@@ -62,7 +62,7 @@ const OnboardingSteps = ({
           page={page}
           userId={id}
           nextPage={"contact"}
-          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile?.id? doctorProfileId : resumingDoctorData.id}
           doctorProfile={doctorProfile} 
         />
     },
@@ -76,7 +76,7 @@ const OnboardingSteps = ({
           page={page}
           userId={id}
           nextPage={"education"}
-          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile?.id? doctorProfileId : resumingDoctorData.id}
           doctorProfile={doctorProfile}  
         />
     },
@@ -91,7 +91,7 @@ const OnboardingSteps = ({
           userId={id}
           nextPage={"practice"}
           specialties={specialties} 
-          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile?.id? doctorProfileId : resumingDoctorData.id}
           doctorProfile={doctorProfile} 
         />
     },
@@ -105,7 +105,7 @@ const OnboardingSteps = ({
           page={page}
           userId={id}
           nextPage={"additional"}
-          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile?.id? doctorProfileId : resumingDoctorData.id}
           doctorProfile={doctorProfile} 
         />
     },
@@ -119,45 +119,48 @@ const OnboardingSteps = ({
           page={page}
           userId={id}
           nextPage="final"
-          formId={doctorProfile.id? doctorProfileId : resumingDoctorData.id}
+          formId={doctorProfile?.id? doctorProfileId : resumingDoctorData.id}
           doctorProfile={doctorProfile} 
         />
     },
   ]
 
-  const currentStep = steps.find((step) => step.page === page);
+  const currentStep = steps?.find((step) => step?.page === page || "");
 
   return (
 
     <div className='grid grid-cols-12 mx-auto overflow-hidden rounded-lg
-    shadow-inner border border-slate-200 min-h-screen bg-slate-200 dark:bg-slate-800'>
-        <div className="col-span-full sm:col-span-3 bg-teal-600 dark:bg-teal-800 uppercase divde-y-2 divide-gray-300">
-          {steps.map((step,i) => {
-            return (
-              <Link
-                key={i}
-                href={`${pathname}?page=${step.page}`} 
-                className={cn(
-                  "block py-3 px-4 bg-teal-600 dark:bg-teal-800 text-slate-100 dark:text-slate-200 text-base shadow-inner border-b border-gray-400 dark:border-gray-200", 
-                  step.page === page ? "bg-teal-800 text-slate-100" : "")}
-              >{step.title}
-              </Link>
-              )
-            })}
-        </div>
-        <div className="col-span-full sm:col-span-9 p-4">
-          {trackingNumber || resumingDoctorData.trackingNumber && (
-            <p className='text-sm text-teal-600'>
-            Your tracking number: 
-            <span className='font-bold'>
-              {trackingNumber ? trackingNumber : resumingDoctorData.trackingNumber}
-            </span> 
-            <span className='text-xs'>Use this to resume application or
-            check status of application</span>
-            </p>
-          )}
-          {currentStep?.component}
-        </div>
+      shadow-inner border border-slate-200 min-h-screen bg-slate-200 
+      dark:bg-slate-800'
+    >
+      <div className="col-span-full sm:col-span-3 bg-teal-600 
+      dark:bg-teal-800 uppercase divde-y-2 divide-gray-300">
+        {steps?.map((step,i) => {
+          return (
+            <Link
+              key={i}
+              href={`${pathname}?page=${step?.page || ""}`} 
+              className={cn(
+                "block py-3 px-4 bg-teal-600 dark:bg-teal-800 text-slate-100 dark:text-slate-200 text-base shadow-inner border-b border-gray-400 dark:border-gray-200", 
+                step?.page === page ? "bg-teal-800 text-slate-100" : "")}
+            >{step?.title || ""}
+            </Link>
+            )
+          })}
+      </div>
+      <div className="col-span-full sm:col-span-9 p-4">
+        {trackingNumber || resumingDoctorData?.trackingNumber && (
+          <p className='text-sm text-teal-600'>
+          Your tracking number: 
+          <span className='font-bold'>
+            {trackingNumber ? trackingNumber : resumingDoctorData?.trackingNumber}
+          </span> 
+          <span className='text-xs'>Use this to resume application or
+          check status of application</span>
+          </p>
+        )}
+        {currentStep?.component}
+      </div>
     </div>
 
   )
