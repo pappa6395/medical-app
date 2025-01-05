@@ -31,15 +31,14 @@ const page = async() => {
   
   if (role === "DOCTOR") {
     const doctorAnalytics = await getDoctorAnalytics() || [];
-    //const doctors = await getDoctorsById(userId)
+    const doctors = await getDoctorsById(userId) || null;
     //const appointments = (await getAppointmentByDoctorId(userId))?.data || []
     return (
       <div>
-        <h2>I am a {role}</h2>
         <DoctorDashboard 
           session={session ?? null} 
           analytics={doctorAnalytics ?? []}
-          // doctors={doctors}
+          doctors={doctors ?? null}
           // appointments={appointments ?? []}
         />
       </div>

@@ -63,7 +63,7 @@ const DoctorDashboard = ({
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
           Welcome, Dr. {user?.name ?? ""}
         </h1>
-        {/* <div className=''>
+        <div>
           {doctors?.doctorProfile?.status === "APPROVED" ? (
               <div className='flex gap-2 items-center -translate-y-1'>
                   <CheckCircle className='w-6 h-6 text-green-500' />
@@ -89,7 +89,7 @@ const DoctorDashboard = ({
                   </span>
               </div>
           )} 
-        </div> */}
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {analytics?.map((item,i) => {
@@ -157,7 +157,7 @@ const DoctorDashboard = ({
         </Card>   */}
       </section>
     </div>
-    
+
   )
 }
 
