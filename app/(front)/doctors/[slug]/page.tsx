@@ -16,59 +16,7 @@ const page = async ({
 
     const { id } = await searchParams
 
-    const doctorSlug = (await getDoctorsById(id)) || {
-        id: "",
-        name: "",
-        slug: "",
-        email: "",
-        phone: "",
-        doctorProfile: {
-            id: "",
-            firstName: "",
-            lastName: "",
-            middleName: "",
-            gender: "",
-            dob: null,
-            bio: "",
-            profilePicture: "/public/defaultImage.png",
-            operationMode: "",
-            hourlyWage: 0,
-            city: "",
-            state: "",
-            country: "",
-            yearsOfExperience: 0,
-            medicalLicense: "",
-            medicalLicenseExpiry: null,
-            boardCertificates: [],
-            otherSpecialties: [],
-            primarySpecialization: "",
-            medicalSchool: "",
-            hospitalName: "",
-            hospitalAddress: "",
-            hospitalContactNumber: "",
-            hospitalEmailAddress: "",
-            hospitalHoursOfOperation: "",
-            hospitalWebsite: "",
-            research: "",
-            accomplishments: "",
-            additionalDocuments: [],
-            graduationYear: "",
-            educationHistory: "",
-            servicesOffered: [],
-            insuranceAccepted: "",
-            languagesSpoken: [],
-            status: "PENDING",
-            availability: {
-                monday: [],
-                tuesday: [],
-                wednesday: [],
-                thursday: [],
-                friday: [],
-                saturday: [],
-                sunday: [],
-        }
-        },
-    }
+    const doctorSlug = (await getDoctorsById(id)) || null
     // console.log("doctorSlug: ", doctorSlug);
     
     const session = await getServerSession(authOptions);

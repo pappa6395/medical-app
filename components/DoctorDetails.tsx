@@ -244,7 +244,7 @@ const DoctorDetails = ({
     //Payment Service
     const transactionConfig: TransactionConfigProps  = {
         reference: (new Date()).getTime().toString(),
-        email: appointment?.email ?? "",
+        email: appointment?.email ?? "John@example.com",
         amount: doctor.doctorProfile?.hourlyWage ?? 0,
         publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? "",
     

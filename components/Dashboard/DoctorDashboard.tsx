@@ -29,31 +29,28 @@ const DoctorDashboard = ({
   const user = session?.user || null;
   const role = user?.role || undefined;
 
-  // const uniquePatientsMap = new Map();
+  const uniquePatientsMap = new Map();
   
-  // if (appointments) {
-  //   appointments?.forEach((app) => {
-  //     if (!app?.patientId) {
-  //       console.warn("Invalid patient data", app);
-  //       return;
-  //     }
-  //     if (!uniquePatientsMap.has(app.patientId)) {
-  //       uniquePatientsMap?.set(app.patientId, {
-  //         patientId : app.patientId ?? "",
-  //         name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
-  //         email: app.email ?? "",
-  //         phone: app.phone ?? "",
-  //         location: app.location ?? "",
-  //         gender: app.gender ?? "",
-  //         occupation: app.occupation ?? "",
-  //         doctorId: app.doctorId ?? "",
-  //         dob: app.dob ?? new Date(),
-  //       });
-  //     }
-  //   });
-  // }
+  if (appointments) {
+    appointments?.forEach((app) => {
+      if (!app?.patientId) return;
+      if (!uniquePatientsMap.has(app.patientId)) {
+        uniquePatientsMap?.set(app.patientId, {
+          patientId : app.patientId ?? "",
+          name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+          email: app.email ?? "",
+          phone: app.phone ?? "",
+          location: app.location ?? "",
+          gender: app.gender ?? "",
+          occupation: app.occupation ?? "",
+          doctorId: app.doctorId ?? "",
+          dob: app.dob ?? new Date(),
+        });
+      }
+    });
+  }
 
-  // const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
+  const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
   
   
   return (
@@ -97,7 +94,7 @@ const DoctorDashboard = ({
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-        {/* <Card>
+        <Card>
           <CardHeader>
             <div className='flex justify-between'>
               <CardTitle>Recent Appointments</CardTitle>
@@ -141,7 +138,7 @@ const DoctorDashboard = ({
             </div>
           </CardHeader>
           <CardContent className='shadow-none border-none'>
-            <div className='p-2 mt-2'>
+            <div className='p-2 mt-2 space-y-4'>
               {patients?.map((data, index) => {
                 return (
                   <SalesCard
@@ -154,7 +151,7 @@ const DoctorDashboard = ({
               )})}
             </div>
           </CardContent> 
-        </Card>   */}
+        </Card>  
       </section>
     </div>
 
