@@ -1,15 +1,11 @@
 
-import { getAppointmentByDoctorId, getAppointmentByPatientId, getAppointments, getRecentAppointmentByPatientId } from '@/actions/appointments'
+import { getAppointmentByDoctorId, getAppointmentByPatientId, getAppointments } from '@/actions/appointments'
 import { getAdminAnalytics, getDoctorAnalytics, getUserAnalytics } from '@/actions/stats'
 import { getDoctors, getDoctorsById } from '@/actions/users'
 import Dashboard from '@/components/Dashboard/Dashboard'
 import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
-import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
-import { AnalyticProps, AppointmentProps, Doctor, PatientProps } from '@/utils/types'
-import { Appointment } from '@prisma/client'
-import { Plus, Users } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -21,11 +17,6 @@ const page = async() => {
   const user = session?.user || null;
   const userId = user?.id ?? '';
   const role = user?.role || "Unknown";
-  
-  //const userAnalytics = await fetchData(getUserAnalytics, []);
-
-  //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
-  
 
   //----------------------------------------------------------------//
   
@@ -46,14 +37,15 @@ const page = async() => {
   }
 
   if (role === "USER") {
+    const userAnalytics = await getUserAnalytics() || [];
+    const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || []
     return (
       <div>
-        <h2>I am a {role}</h2>
-        {/* <PatientDashboard 
-          session={session} 
-          analytics={userAnalytics} 
-          appointments={appointmentByPatientId} 
-        /> */}
+        <PatientDashboard 
+          session={session ?? null} 
+          analytics={userAnalytics ?? []} 
+          appointments={appointmentByPatientId ?? []} 
+        />
       </div>
     )
   }

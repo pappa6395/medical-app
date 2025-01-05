@@ -176,42 +176,43 @@ export async function getUserAnalytics() {
     
     try {
         const session = await getServerSession(authOptions)
-        const user = session?.user
-        const userId = user?.id??""
+        const user = session?.user || null;
+        const userId = user?.id ?? ""
         const appointments = (await getAppointmentByPatientId(userId))?.data || []
         
         const uniquePatientsMap = new Map();
 
-        appointments.forEach((app) => {
+        appointments?.forEach((app) => {
+            if (!app.doctorId) return;
             if (!uniquePatientsMap.has(app.doctorId)) {
-            uniquePatientsMap.set(app.doctorId, {
-                doctorId : app.doctorId,
-                name: app.doctorName,
+            uniquePatientsMap?.set(app.doctorId, {
+                doctorId : app.doctorId ?? "",
+                name: app.doctorName ?? "",
             });
             }
         });
       
-        const doctors = Array.from(uniquePatientsMap.values())
+        const doctors = Array.from(uniquePatientsMap?.values() || [])
         const messages = (await getInboxMessages(userId))?.data || [];
 
         const analytics = [
             {
                 title: "Appointments",
-                count: appointments.length ?? 0,
+                count: appointments?.length ?? 0,
                 icon: CalendarDays,
                 unit: Plus,
                 detailLink: "/dashboard/user/appointments"
             },
             {
                 title: "Doctors",
-                count: doctors.length ?? 0,
+                count: doctors?.length ?? 0,
                 icon: UsersRound,
                 unit: Plus,
                 detailLink: "/dashboard/user/patients"
             },
             {
                 title: "Inbox",
-                count: messages.length ?? 0,
+                count: messages?.length ?? 0,
                 icon: Mail,
                 unit: Plus,
                 detailLink: "/dashboard/user/inbox"
