@@ -5,20 +5,15 @@ import { getDoctors, getDoctorsById } from '@/actions/users'
 import Dashboard from '@/components/Dashboard/Dashboard'
 import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
+import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
 import { AnalyticProps, AppointmentProps, Doctor, PatientProps } from '@/utils/types'
 import { Appointment } from '@prisma/client'
+import { Plus, Users } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
-const fetchData = async (fetchFn: Function, defaultValue: any) => {
-  try {
-    return await fetchFn() || defaultValue;
-  } catch (err) {
-    console.error('Failed to fetched data:', err);
-    return defaultValue;
-  }
-}
+
 
 const page = async() => {
 
@@ -28,14 +23,36 @@ const page = async() => {
   const role = user?.role || "Unknown";
 
   if (role === "Unknown") {
-    return <div>You must be logged in to access this page.</div>
+    return <NotAuthorized />
   }
 
-  const doctorAnalytics = await fetchData(getDoctorAnalytics, []);
+  const doctorAnalytics = await getDoctorAnalytics() || [
+    {
+      title: "Unknown",
+      count: 0,
+      icon: Users,
+      unit: Plus,
+      detailLink: "#"
+    }
+];
   //const userAnalytics = await fetchData(getUserAnalytics, []);
-  const analytics = await fetchData(getAdminAnalytics, []);
+  const analytics = await getAdminAnalytics() || [
+    {
+      title: "Unknown",
+      count: 0,
+      icon: Users,
+      unit: Plus,
+      detailLink: "#"
+    }
+  ];
 
-  const doctorsAdmin = await fetchData(getDoctors, [])
+  const doctorsAdmin = await getDoctors() || [{
+    status: 'Unknown',
+    email: 'Unknown',
+    name: 'Unknown',
+    image: '/public/defaultImage.png',
+    profileId: 'ab1234567890cd'
+  }];
   
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
   const appointmentsAdmin = (await getAppointments()).data || [] as Appointment[]

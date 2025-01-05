@@ -20,7 +20,7 @@ const Dashboard = ({
 }: {
   analytics?: AnalyticProps[];
   session?: Session | null;
-  doctors?: Doctor[];
+  doctors?: Partial<Doctor>[];
   appointments?: Appointment[];
 }) => {
 
