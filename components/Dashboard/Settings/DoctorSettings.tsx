@@ -4,23 +4,24 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import React, { useEffect } from 'react'
 import AvailabilitySetting from '../Doctor/AvailabilitySetting'
 import DoctorServiceSettings from '../Doctor/DoctorServiceSettings'
-import { Availability, DoctorProfile } from '@prisma/client'
+import { Availability, DoctorProfile, Service, Speciality, Symptom } from '@prisma/client'
 import { getDoctorAvailabilityById } from '@/actions/onboarding'
+import { ServiceDoctorProfileCountProps } from '@/utils/types'
 
 type DoctorSettingsProps = {
     initialProfile: DoctorProfile | undefined | null;
     userId: string;
-    services?: any;
-    specialties?: any;
-    symptoms?: any;
+    services?: ServiceDoctorProfileCountProps[];
+    specialties?: Speciality[];
+    symptoms?: Symptom[];
 }
 
 const DoctorSettings = ({
     initialProfile=null, 
     userId="",
-    services=null,
-    specialties=null,
-    symptoms=null,
+    services=[],
+    specialties=[],
+    symptoms=[],
 
 }: DoctorSettingsProps) => {
 
@@ -43,9 +44,9 @@ const DoctorSettings = ({
       <TabsContent value="service" className='w-full'>
         <DoctorServiceSettings 
           profile={initialProfile ?? null}
-          services={services ?? null}
-          specialties={specialties ?? null}
-          symptoms={symptoms ?? null}
+          services={services ?? []}
+          specialties={specialties ?? []}
+          symptoms={symptoms ?? []}
           />
       </TabsContent>
     </div>

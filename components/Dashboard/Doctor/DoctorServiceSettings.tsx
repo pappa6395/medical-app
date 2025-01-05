@@ -2,17 +2,17 @@
 
 import { Card } from "@/components/ui/card";
 import UpdateServiceForm from "./UpdateServiceForm";
-import { Speciality, Symptom } from "@prisma/client";
+import { DoctorProfile, Speciality, Symptom } from "@prisma/client";
 import { ServiceDoctorProfileCountProps } from "@/utils/types";
 
 
 export default function DoctorServiceSettings({
-  profile,
-  services,
-  specialties,
-  symptoms,
+  profile=null,
+  services=[],
+  specialties=[],
+  symptoms=[],
 }: {
-  profile: any;
+  profile: DoctorProfile | undefined | null;
   services?: ServiceDoctorProfileCountProps[];
   specialties?: Speciality[];
   symptoms?: Symptom[];
@@ -24,10 +24,10 @@ export default function DoctorServiceSettings({
     <div className="grid gap-6 w-full">
         <Card className="w-full border-none">
                 <UpdateServiceForm 
-                    services={services} 
-                    specialties={specialties} 
-                    symptoms={symptoms}
-                    profile={profile}
+                    services={services ?? []} 
+                    specialties={specialties ?? []} 
+                    symptoms={symptoms ?? []}
+                    profile={profile ?? null}
                 />
         </Card>
     </div>

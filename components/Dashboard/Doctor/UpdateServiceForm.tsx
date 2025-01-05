@@ -12,10 +12,10 @@ import { Map, PictureInPicture2, Video } from 'lucide-react'
 import { ServiceDoctorProfileCountProps } from '@/utils/types'
 
 const UpdateServiceForm = ({
-    services, 
-    specialties, 
-    symptoms,
-    profile,
+    services=[], 
+    specialties=[], 
+    symptoms=[],
+    profile=null,
 }: {
     services: ServiceDoctorProfileCountProps[] | undefined | null;
     specialties: Speciality[] | undefined | null;
