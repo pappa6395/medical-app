@@ -38,7 +38,6 @@ const page = async() => {
   const doctors = await fetchData(getDoctorsById, {})
   const doctorsAdmin = await fetchData(getDoctors, [])
   
-  const appointments = await fetchData(() => getAppointmentByDoctorId(userId), []);
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
   const appointmentsAdmin = await fetchData(getAppointments, [])
 
@@ -46,6 +45,7 @@ const page = async() => {
   //----------------------------------------------------------------//
 
   if (role === "DOCTOR") {
+    const appointments = await fetchData(() => getAppointmentByDoctorId(userId), []);
     return (
       <div>
         <DoctorDashboard 
