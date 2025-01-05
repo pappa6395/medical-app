@@ -25,12 +25,13 @@ const page = async() => {
 
   //const doctorAnalytics = await getDoctorAnalytics() || [];
   //const userAnalytics = await fetchData(getUserAnalytics, []);
-  const analytics = await getAdminAnalytics() || [];
 
+  const analytics = await getAdminAnalytics() || [];
   const doctorsAdmin = await getDoctors() || [];
-  
+  const appointmentsAdmin = (await getAppointments()).data || []
+
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
- // const appointmentsAdmin = (await getAppointments()).data || [] as Appointment[]
+  
 
   //----------------------------------------------------------------//
 
@@ -119,7 +120,7 @@ const page = async() => {
         session={session ?? null}
         analytics={analytics ?? []}
         doctors={doctorsAdmin ?? []}
-        // appointments={appointmentsAdmin ?? []}
+        appointments={appointmentsAdmin ?? []}
       />
     </div>
   )

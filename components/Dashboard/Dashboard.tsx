@@ -26,29 +26,28 @@ const Dashboard = ({
 
   const user = session?.user || null;
 
-  // const uniquePatientsMap = new Map();
+  const uniquePatientsMap = new Map();
 
-  //   if (appointments) {
-  //     appointments?.forEach((app) => {
-  //       if (!app?.patientId) return;
-  //       if (!uniquePatientsMap.has(app.patientId)) {
-  //         uniquePatientsMap?.set(app.patientId, {
-  //           patientId : app.patientId ?? '',
-  //           name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
-  //           email: app.email ?? '',
-  //           phone: app.phone ?? '',
-  //           location: app.location ?? '',
-  //           gender: app.gender ?? '',
-  //           occupation: app.occupation ??'',
-  //           doctorId: app.doctorId ?? '',
-  //           dob: app.dob ?? new Date(),
-  //         });
-  //       }
-  //     });
-  //   }
-      
-    
-  //   const patients = Array.from(uniquePatientsMap?.values() || []) as PatientProps[];
+  if (appointments) {
+    appointments?.forEach((app) => {
+      if (!app?.patientId) return;
+      if (!uniquePatientsMap.has(app.patientId)) {
+        uniquePatientsMap?.set(app.patientId, {
+          patientId : app.patientId ?? '',
+          name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
+          email: app.email ?? '',
+          phone: app.phone ?? '',
+          location: app.location ?? '',
+          gender: app.gender ?? '',
+          occupation: app.occupation ??'',
+          doctorId: app.doctorId ?? '',
+          dob: app.dob ?? new Date(),
+        });
+      }
+    });
+  }
+  const patients = Array.from(uniquePatientsMap?.values() || []) as PatientProps[];
+
 
   return (
 
@@ -93,31 +92,34 @@ const Dashboard = ({
                 </div>
             )})}
           </CardContent>
-        </Card>  
-        {/* <CardContent>
-          <section className='flex justify-between'>
-            <div>
-              <CardTitle>Recent Patients</CardTitle>
+        </Card>
+        <Card>
+          <CardHeader>
+            <div className='flex justify-between'>
+              <div>
+                <CardTitle>Recent Patients</CardTitle>
+              </div>
+                <Button asChild className='p-3'>
+                  <Link href="/dashboard/patients">
+                    View All
+                  </Link>
+                </Button>
             </div>
-              <Button asChild className='p-3'>
-                <Link href="/dashboard/patients">
-                  View All
-                </Link>
-              </Button>
-          </section>
-          {patients?.map((data, index) => {
-            return (
-              <SalesCard
-                key={index}
-                email={data.email??""}
-                name={data.name || ''}
-                profileId={data.patientId??""}
-              />
-          )})}
-        </CardContent>  */}
+          </CardHeader>
+          <CardContent className='shadow-none border-none'>
+            {patients?.map((data, index) => {
+              return (
+                <SalesCard
+                  key={index}
+                  email={data.email || "Unknown"}
+                  name={data.name || 'Unknown'}
+                  profileId={data.patientId || ""}
+                />
+            )})}
+          </CardContent> 
+        </Card>  
       </section>
     </div>
-        
   )
 }
 
