@@ -11,8 +11,8 @@ import { getRecentAppointmentByPatientId } from '@/actions/appointments'
 const page = async () => {
 
   const session = await getServerSession(authOptions);
-  const user = session?.user;
-  const userId = user?.id??""
+  const user = session?.user || null;
+  const userId = user?.id || ""
   
   if (!user?.id) {
     return <div>You must be logged in to access this page.</div>
@@ -23,13 +23,12 @@ const page = async () => {
 
   const appointment = (await getRecentAppointmentByPatientId(userId))?.data || null
   
-  
   return (
 
     <div>
       <UserSettings 
-        initialProfile={appointment}
-        userId={userId}
+        initialProfile={appointment ?? null}
+        userId={userId ?? ""}
       />
     </div>
 
