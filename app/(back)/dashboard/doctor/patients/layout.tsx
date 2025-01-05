@@ -4,14 +4,12 @@ import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader';
 import PatientPanel from '@/components/Dashboard/Doctor/PatientPanel';
 import NotAuthorized from '@/components/NotAuthorized';
 import { authOptions } from '@/lib/auth';
-import { PatientProps } from '@/utils/types';
 import { UsersRound } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 
 
 const PatientLayout = async ({children}: {children: ReactNode}) => {
-
     
     const session = await getServerSession(authOptions)
     const user = session?.user || null;
@@ -28,49 +26,24 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
     
     const appointments = (await getAppointmentByDoctorId(userId))?.data || []
 
-    // Option 1 : [patientIds] => remove dups => fetch users with these ids
-    // Option 2 : [patientId, name, email] => remove dups
-
-    const uniquePatientsMap = new Map();
-
-    if (appointments) {
-      appointments?.forEach((app) => {
-        if (!app.patientId) return;
-        if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap?.set(app.patientId, {
-            patientId : app.patientId ?? "",
-            name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
-            email: app.email ?? "",
-            phone: app.phone ?? "",
-            location: app.location ?? "",
-            gender: app.gender ?? "",
-            occupation: app.occupation ?? "",
-            doctorId: app.doctorId ?? "",
-            dob: app.dob ?? "",
-          });
-        }
-      });
-    }
-    const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
-    
-
   return (
 
     <div>
       <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
         <div className="col-span-5 px-3 border-r border-gray-100">
-          <PanelHeader title={"Patients"} count={patients?.length??0} icon={UsersRound}/>
+          <PanelHeader 
+            title={"Patients"} 
+            appointments={appointments ?? []} 
+            icon={UsersRound ?? ""}/>
           <div className='px-3 py-3'>
-            <PatientPanel patients={patients ?? []} role={role ?? undefined} />
+            <PatientPanel appointments={appointments ?? []} role={role ?? undefined} />
           </div>
         </div>
         <div className="col-span-7 md:grid hidden px-3">
             {children}
         </div>
       </div>
-      
     </div>
-
 
   )
 }

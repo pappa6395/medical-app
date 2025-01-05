@@ -1,19 +1,46 @@
 
+import { PatientProps } from '@/utils/types';
+import { Appointment } from '@prisma/client';
 import { LucideIcon } from 'lucide-react'
 import React from 'react'
 
 
 const PanelHeader = ({
-  title="", 
+  title="",
+  appointments=[], 
   count=0,
   icon,
 }: {
   title: string, 
-  count: number, 
+  appointments: Appointment[];
+  count?: number, 
   icon: LucideIcon
 }) => {
 
   const Icon = icon
+
+  const uniquePatientsMap = new Map();
+
+    if (appointments) {
+      appointments?.forEach((app) => {
+        if (!app.patientId) return;
+        if (!uniquePatientsMap.has(app.patientId)) {
+          uniquePatientsMap?.set(app.patientId, {
+            patientId : app.patientId ?? "",
+            name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+            email: app.email ?? "",
+            phone: app.phone ?? "",
+            location: app.location ?? "",
+            gender: app.gender ?? "",
+            occupation: app.occupation ?? "",
+            doctorId: app.doctorId ?? "",
+            dob: app.dob ?? "",
+          });
+        }
+      });
+    }
+    const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
+    const countPatients = patients.length
 
   return (
 
@@ -24,10 +51,11 @@ const PanelHeader = ({
             <span className='bg-white dark:text-slate-600 w-6 h-6 rounded-full 
               flex items-center justify-center shadow-sm border text-xs'
               >
-                {count?.toString().padStart(2, "0") || ""}
+                {count || count > 0 
+                ? count?.toString().padStart(2, "0") 
+                : countPatients.toString().padStart(2,"0")}
               </span>
         </div>
-        
     </div>
 
   )

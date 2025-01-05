@@ -199,7 +199,7 @@ export async function getAppointmentById(id: string) {
                 
             });
             return {
-                data: appointment as Appointment,
+                data: appointment,
                 status: 200,
                 error: null,
     

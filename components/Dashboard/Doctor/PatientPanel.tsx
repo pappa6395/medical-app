@@ -5,21 +5,43 @@ import * as React from "react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Link from "next/link"
 import { Mail, MapPin, UserCircle } from "lucide-react"
-import { UserRole } from "@prisma/client"
+import { Appointment, UserRole } from "@prisma/client"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { PatientProps } from "@/utils/types"
 
 
 export function PatientPanel({
-    patients=[],
+    appointments=[],
     role=undefined,
 }: {
-    patients: PatientProps[]; 
+    appointments: Appointment[]; 
     role: UserRole | undefined 
 }) {
 
     const pathName = usePathname();
+    
+    const uniquePatientsMap = new Map();
+
+    if (appointments) {
+        appointments?.forEach((app) => {
+        if (!app.patientId) return;
+            if (!uniquePatientsMap.has(app.patientId)) {
+                uniquePatientsMap?.set(app.patientId, {
+                patientId : app.patientId ?? "",
+                name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+                email: app.email ?? "",
+                phone: app.phone ?? "",
+                location: app.location ?? "",
+                gender: app.gender ?? "",
+                occupation: app.occupation ?? "",
+                doctorId: app.doctorId ?? "",
+                dob: app.dob ?? "",
+                });
+            }
+        });
+    }
+    const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
     
   return (
     <div>
