@@ -26,29 +26,29 @@ const Dashboard = ({
 
   const user = session?.user || null;
 
-  const uniquePatientsMap = new Map();
+  // const uniquePatientsMap = new Map();
 
-    if (appointments) {
-      appointments?.forEach((app) => {
-        if (!app?.patientId) return;
-        if (!uniquePatientsMap.has(app.patientId)) {
-          uniquePatientsMap?.set(app.patientId, {
-            patientId : app.patientId ?? '',
-            name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
-            email: app.email ?? '',
-            phone: app.phone ?? '',
-            location: app.location ?? '',
-            gender: app.gender ?? '',
-            occupation: app.occupation ??'',
-            doctorId: app.doctorId ?? '',
-            dob: app.dob ?? new Date(),
-          });
-        }
-      });
-    }
+  //   if (appointments) {
+  //     appointments?.forEach((app) => {
+  //       if (!app?.patientId) return;
+  //       if (!uniquePatientsMap.has(app.patientId)) {
+  //         uniquePatientsMap?.set(app.patientId, {
+  //           patientId : app.patientId ?? '',
+  //           name: `${app.firstName ?? ''} ${app.lastName ?? ''}`,
+  //           email: app.email ?? '',
+  //           phone: app.phone ?? '',
+  //           location: app.location ?? '',
+  //           gender: app.gender ?? '',
+  //           occupation: app.occupation ??'',
+  //           doctorId: app.doctorId ?? '',
+  //           dob: app.dob ?? new Date(),
+  //         });
+  //       }
+  //     });
+  //   }
       
     
-    const patients = Array.from(uniquePatientsMap?.values() || []) as PatientProps[];
+  //   const patients = Array.from(uniquePatientsMap?.values() || []) as PatientProps[];
 
   return (
 
@@ -62,7 +62,7 @@ const Dashboard = ({
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 gap-4 transition-all">    
-        <CardContent>
+        {/* <CardContent>
           <section className='flex justify-between'>
             <div>
               <CardTitle>Recent Doctors</CardTitle>
@@ -110,7 +110,7 @@ const Dashboard = ({
                 profileId={data.patientId??""}
               />
           )})}
-        </CardContent> 
+        </CardContent>  */}
       </section>
     </div>
         

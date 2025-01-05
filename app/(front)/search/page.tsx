@@ -1,5 +1,5 @@
 
-import { PageProps } from '@/.next/types/app/(front)/search/page'
+import { PageProps } from '@/.next/types/app/api/auth/[...nextauth]/route'
 import { getDoctorsBySearch } from '@/actions/doctors'
 import { getService } from '@/actions/services'
 import DoctorCard from '@/components/DoctorCard'

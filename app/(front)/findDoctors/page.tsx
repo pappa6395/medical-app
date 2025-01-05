@@ -1,7 +1,5 @@
 
 
-import { PageProps } from '@/.next/types/app/(front)/category/page'
-import { getService } from '@/actions/services'
 import { getDoctors } from '@/actions/users'
 import FindDoctorPanel from '@/components/FindDoctorPanel'
 import React from 'react'

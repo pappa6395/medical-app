@@ -23,14 +23,14 @@ const page = async() => {
   const role = user?.role || "Unknown";
 
 
-  const doctorAnalytics = await getDoctorAnalytics() || [];
+  //const doctorAnalytics = await getDoctorAnalytics() || [];
   //const userAnalytics = await fetchData(getUserAnalytics, []);
   const analytics = await getAdminAnalytics() || [];
 
-  const doctorsAdmin = await getDoctors() || [];
+  //const doctorsAdmin = await getDoctors() || [];
   
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
-  const appointmentsAdmin = (await getAppointments()).data || [] as Appointment[]
+ // const appointmentsAdmin = (await getAppointments()).data || [] as Appointment[]
 
   //----------------------------------------------------------------//
 
@@ -118,8 +118,8 @@ const page = async() => {
         <Dashboard
         session={session ?? null}
         analytics={analytics ?? []}
-        doctors={doctorsAdmin ?? []}
-        appointments={appointmentsAdmin ?? []}
+        // doctors={doctorsAdmin ?? []}
+        // appointments={appointmentsAdmin ?? []}
       />
     </div>
   )
