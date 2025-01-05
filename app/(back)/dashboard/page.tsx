@@ -34,18 +34,17 @@ const page = async() => {
   const doctorAnalytics = await fetchData(getDoctorAnalytics, []);
   //const userAnalytics = await fetchData(getUserAnalytics, []);
   const analytics = await fetchData(getAdminAnalytics, []);
-
-  const doctors = await fetchData(getDoctorsById, {})
+  
   const doctorsAdmin = await fetchData(getDoctors, [])
   
   //const appointmentByPatientId = await fetchData(() => getAppointmentByPatientId(userId), [])
-  const appointmentsAdmin = await fetchData(getAppointments, [])
+  const appointmentsAdmin = (await getAppointments()).data || [] as Appointment[]
 
-  
   //----------------------------------------------------------------//
 
   if (role === "DOCTOR") {
-    const appointments = await fetchData(() => getAppointmentByDoctorId(userId), []);
+    const doctors = await fetchData(() => getDoctorsById(userId), {}) as Doctor
+    const appointments = (await getAppointmentByDoctorId(userId))?.data || [] as Appointment[];
     return (
       <div>
         <DoctorDashboard 
