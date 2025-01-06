@@ -19,14 +19,14 @@ export function AdminDoctorPanel({
   return (
     <div>
         <ScrollArea className="h-[500px] space-x-4">
-            {appointments.map((data, index) => {
+            {appointments?.map((data, index) => {
                 return (
                     <div key={index} className="index">
                         <PatientCard 
-                            email={data.email??""}
-                            name={`${data.firstName} ${data.lastName}`}
-                            appointmentId={data.id??""}
-                            createdAt={data.createdAt}
+                            email={data.email || ""}
+                            name={`${data.firstName || "Unknown"} ${data.lastName || "Unknown"}`}
+                            appointmentId={data.id || ""}
+                            createdAt={data.createdAt || new Date()}
                             className="py-4 mr-4"
                         />
                     </div>

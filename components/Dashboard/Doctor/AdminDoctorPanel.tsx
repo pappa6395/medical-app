@@ -27,7 +27,7 @@ export function AdminDoctorPanel({
                             <SalesCard 
                                 email={data.email ?? ""}
                                 name={data.name ?? ""}
-                                status={status ?? "PENDING"}
+                                status={status ?? undefined}
                                 image={data.doctorProfile?.profilePicture ?? null}
                                 profileId={data.doctorProfile?.id ?? ""}
                                 className="py-4 mr-4"

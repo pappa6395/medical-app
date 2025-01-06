@@ -1,6 +1,4 @@
 import { Button } from '@/components/ui/button'
-import generateSlug from '@/utils/generateSlug';
-import { Doctor, DoctorDetail } from '@/utils/types';
 import { Plus } from 'lucide-react'
 import Link from 'next/link';
 import React from 'react'

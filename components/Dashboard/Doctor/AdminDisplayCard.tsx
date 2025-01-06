@@ -2,6 +2,7 @@ import { Calendar } from 'lucide-react'
 import React from 'react'
 import NewButton from './NewButton'
 import { Appointment } from '@prisma/client';
+import NewLinkButton from './NewLinkButton';
 
 const AdminDisplayCard = ({
   count, 
@@ -31,7 +32,7 @@ const AdminDisplayCard = ({
                     </p>
                   )}
             </div>
-            <NewButton  title={`New ${title}`} href={href}/>
+            <NewLinkButton  title={`New ${title}`} href={href}/>
         </div>
     </div>
 

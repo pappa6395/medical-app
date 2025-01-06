@@ -6,6 +6,7 @@ import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader';
 import PatientPanel from '@/components/Dashboard/Doctor/PatientPanel';
 import NotAuthorized from '@/components/NotAuthorized';
 import { authOptions } from '@/lib/auth';
+import { Doctor } from '@/utils/types';
 import { UsersRound } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
@@ -27,8 +28,15 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
       return <NotAuthorized/>
     }
     
-    const doctors = (await getDoctors()) || [];
-    
+    let doctors = [] as Doctor[];
+    try {
+      doctors = (await getDoctors()) || [];
+    } catch (err) {
+      console.error("Failed to fetch doctors", err);
+      
+    }
+
+
 
   return (
 

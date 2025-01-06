@@ -1,21 +1,29 @@
 import React from 'react'
-import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader'
 import { LayoutGrid } from 'lucide-react'
 import { getService } from '@/actions/services'
 import ServiceManyCards from '@/components/Dashboard/ServiceManyCards'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton'
+import { Service } from '@prisma/client'
 
 
 const page = async() => {
 
-  const services = (await getService()).data || []
+
+  let services = [] as Service[];
+  try {
+    services = (await getService()).data || []
+  } catch (err) {
+    console.error("Failed to initialize Services:", err);
+    
+  }
+  
 
   return (
 
     <div>
       {/* Header */}
-    
       {/* 2 Panels */}
       <div className="grid grid-cols-12 dark:bg-slate-950">
         {/* List Panel */}
@@ -23,14 +31,14 @@ const page = async() => {
           <div className='flex items-center justify-between gap-4'>
             <PanelHeader title={"Services"} count={+(services.length).toString().padStart(2,"0")} icon={LayoutGrid}/>
             <span className='lg:hidden'>
-              <NewButton title="New Service" href="/dashboard/services/new"/>
+              <NewLinkButton title="New Service" href="/dashboard/services/new"/>
             </span>
           </div>
         <div className='px-3'>
         <ScrollArea className="h-96 space-x-4">
-            {services.map((service, i) => (
+            {services?.map((service, i) => (
               <div key={i} className="mt-2 mr-4">
-                <ServiceManyCards service={service}/>
+                <ServiceManyCards service={service ?? []}/>
               </div>
             ))}
         </ScrollArea>
@@ -39,7 +47,7 @@ const page = async() => {
         <div className="lg:col-span-7 px-3 col-span-full hidden lg:block">
           <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
               <div className='flex items-center gap-4'>
-                  <NewButton title="New Service" href="/dashboard/services/new"/>
+                  <NewLinkButton title="New Service" href="/dashboard/services/new"/>
               </div>
           </div>
           {/* Display Panel */}
@@ -51,7 +59,7 @@ const page = async() => {
                     {" "}
                       <p>You have {(services.length).toString().padStart(2,"0")} services today.</p>
                   </div>
-                  <NewButton  title="New Service" href={"/dashboard/services/new"}/>
+                  <NewLinkButton  title="New Service" href={"/dashboard/services/new"}/>
               </div>
           </div>
         </div>

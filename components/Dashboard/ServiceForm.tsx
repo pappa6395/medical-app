@@ -17,8 +17,6 @@ import { Service } from '@prisma/client';
 
 const ServiceForm = ({title, initialData}: {title: string, initialData?: Partial<Service>}) => {
 
-    console.log("Initial data:", initialData);
-    
     const router = useRouter()
 
     const editingId = initialData?.id
@@ -35,7 +33,7 @@ const ServiceForm = ({title, initialData}: {title: string, initialData?: Partial
     const [register, setRegister] = React.useState<boolean>(false);
 
     const initialImageUrl = initialData?.imageUrl || "";
-    const [serviceImageUrl, setServiceImageUrl] = React.useState(initialImageUrl);
+    const [serviceImageUrl, setServiceImageUrl] = React.useState(initialImageUrl || "");
     
     
   const transformedErrors: Record<string, string[]> = 
@@ -53,59 +51,51 @@ const ServiceForm = ({title, initialData}: {title: string, initialData?: Partial
         const slug = generateSlug(serviceData.title)
         serviceData.slug = slug
         serviceData.imageUrl = serviceImageUrl
-        console.log(serviceData);
+        //console.log(serviceData);
+        if (validate()) {
 
-        try {
-            if (editingId) {
-                const updatedService = await updateService(editingId, serviceData)
-                console.log("Update Service:", updatedService);
-
-                if (updatedService?.status === 201) {
-                    toast.success("Service updated successfully!");
-                    router.push(`/dashboard/services`)
+            try {
+                if (editingId) {
+                    const updatedService = await updateService(editingId, serviceData)
+                    //console.log("Update Service:", updatedService);
+    
+                    if (updatedService?.status === 201) {
+                        toast.success("Service updated successfully!");
+                        router.push(`/dashboard/services`)
+                    }
+    
+                } else {
+                    const newService = await createService(serviceData)
+                    //console.log("New Service:", newService);
+    
+                    if (newService?.status === 201) {
+                        toast.success("Service created successfully!");
+                        router.push(`/dashboard/services`)
+                    }
                 }
-
-            } else {
-                const newService = await createService(serviceData)
-                console.log("New Service:", newService);
-
-                if (newService?.status === 201) {
-                    toast.success("Service created successfully!");
-                    router.push(`/dashboard/services`)
-                }
+    
+            } catch (error) {
+                console.error("Error creating new service:", error);
+                toast.error("Failed to create new service");
+    
+            } finally {
+                resetForm();
             }
-
-        } catch (error) {
-            console.error("Error creating new service:", error);
-            toast.error("Failed to create new service");
-
-        } finally {
-            resetForm();
         }
+       
     };
 
-    // const handleCreateMany = async () => {
-
-    //     setIsLoading(true);
-
-    //     try {
-    //         await createManyServices()
-
-    //     } catch (error) {
-    //         console.error("Error creating many services:", error);
-    //         toast.error("Failed to create many services");
-
-    //     } finally {
-    //         resetForm()
-    //     }
-    // }
-
     const validate = () => {
-        const newErrors = {};
+        const newErrors: Partial<ServiceFormProps> = {};
 
-       
-
+        if (!serviceData.title) {
+            newErrors.title = "Title is required"
+        }
+       if (!serviceData.imageUrl) {
+            newErrors.imageUrl = "Image is required"
+        }
         setErrors(newErrors);
+        setIsLoading(false);
 
         return Object.keys(newErrors).length === 0; 
     }
@@ -158,11 +148,13 @@ const ServiceForm = ({title, initialData}: {title: string, initialData?: Partial
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} />
+                    
                     <ImageInput 
                         label="Service Image"
                         imageUrl={serviceImageUrl}
                         setImageUrl={setServiceImageUrl}
-                        endpoint="serviceImage"/>      
+                        endpoint="serviceImage"/>
+                        {errors.imageUrl && (<span className='text-red-600'>{errors.imageUrl}</span>)}
                 </div>
                 <div className='mt-8 flex justify-between items-center gap-4'>
                     <Button asChild variant={"outline"}>

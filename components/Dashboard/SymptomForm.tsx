@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import generateSlug from '@/utils/generateSlug';
 import { SymptomFormProps } from '@/utils/types';
-import { createManySymptoms, createSymptom, updateSymptom } from '@/actions/symptoms';
+import { createSymptom, updateSymptom } from '@/actions/symptoms';
 import { Symptom } from '@prisma/client';
 
 const SymptomForm = ({title, initialData}: {title: string; initialData?: Partial<Symptom>}) => {
@@ -45,58 +45,50 @@ const SymptomForm = ({title, initialData}: {title: string; initialData?: Partial
         setIsSubmitted(true);
         const slug = generateSlug(symptomData.title)
         symptomData.slug = slug
-        console.log(symptomData);
+        //console.log(symptomData);
 
-        try {
-            if (editingId) {
-                const updatedSymptom = await updateSymptom(editingId, symptomData)
-                console.log("Update Symptom:", updatedSymptom);
+        if (validate()) {
 
-                if (updatedSymptom?.status === 201) {
-                    toast.success("Symptom updated successfully!");
-                    router.push(`/dashboard/symptoms`)
+            try {
+                if (editingId) {
+                    const updatedSymptom = await updateSymptom(editingId, symptomData)
+                    //console.log("Update Symptom:", updatedSymptom);
+    
+                    if (updatedSymptom?.status === 201) {
+                        toast.success("Symptom updated successfully!");
+                        router.push(`/dashboard/symptoms`)
+                    }
+                } else {
+                    const newSymptom = await createSymptom(symptomData)
+                    console.log("New Symptom:", newSymptom);
+    
+                    if (newSymptom?.status === 201) {
+                        toast.success("Symptom created successfully!");
+                        router.push(`/dashboard/symptoms`)
+                    }
                 }
-            } else {
-                const newSymptom = await createSymptom(symptomData)
-                console.log("New Symptom:", newSymptom);
-
-                if (newSymptom?.status === 201) {
-                    toast.success("Symptom created successfully!");
-                    router.push(`/dashboard/symptoms`)
-                }
+                
+            } catch (error) {
+                console.error("Error creating New Symptom:", error);
+                toast.error("Failed to create New Symptom");
+    
+            } finally {
+                resetForm();
             }
-            
-        } catch (error) {
-            console.error("Error creating New Symptom:", error);
-            toast.error("Failed to create New Symptom");
-
-        } finally {
-            resetForm();
         }
+
+        
     };
 
-    const handleCreateMany = async () => {
-
-        setIsLoading(true);
-
-        try {
-            await createManySymptoms()
-
-        } catch (error) {
-            console.error("Error creating many symptoms:", error);
-            toast.error("Failed to create many symptoms");
-
-        } finally {
-            resetForm()
-        }
-    }
-
     const validate = () => {
-        const newErrors = {};
+        const newErrors: Partial<SymptomFormProps> = {};
 
-       
+       if (!symptomData.title) {
+        newErrors.title = "Title is required"
+       }
 
         setErrors(newErrors);
+        setIsLoading(false);
 
         return Object.keys(newErrors).length === 0; 
     }

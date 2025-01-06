@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 
 const ImageInput = ({
     label,
-    imageUrl = "",
+    imageUrl,
     setImageUrl,
     className = "col-span-full",
     endpoint = "",

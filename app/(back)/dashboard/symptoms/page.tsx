@@ -1,14 +1,22 @@
 import React from 'react'
-import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import PanelHeader from '@/components/Dashboard/Doctor/PanelHeader'
-import { Landmark, LayoutGrid, Microscope } from 'lucide-react'
+import { LayoutGrid, Microscope } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { getSymptom } from '@/actions/symptoms'
 import SymptomCards from '@/components/Dashboard/SymptomCards'
+import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton'
+import { Symptom } from '@prisma/client'
 
 const page = async() => {
 
-  const symptoms = (await getSymptom()).data || []
+  let symptoms = [] as Symptom[]
+
+  try {
+    symptoms = (await getSymptom()).data || []
+  } catch (err) {
+    console.error("Failed to initialize Symptoms:", err);
+    
+  }
 
   return (
 
@@ -22,14 +30,14 @@ const page = async() => {
           <div className='flex items-center justify-between gap-4'>
             <PanelHeader title={"Symptoms"} count={+(symptoms.length).toString().padStart(2,"0")} icon={Microscope}/>
             <span className='lg:hidden'>
-              <NewButton title="New Symptom" href="/dashboard/symptoms/new"/>
+              <NewLinkButton title="New Symptom" href="/dashboard/symptoms/new"/>
             </span>
           </div>
         <div className='px-3'>
         <ScrollArea className="h-96 space-x-4">
-            {symptoms.map((symptom, i) => (
+            {symptoms?.map((symptom, i) => (
               <div key={i} className="mt-2 mr-4">
-                <SymptomCards symptoms={symptom} />
+                <SymptomCards symptoms={symptom ?? []} />
               </div>
             ))}
         </ScrollArea>
@@ -38,7 +46,7 @@ const page = async() => {
         <div className="lg:col-span-7 px-3 col-span-full hidden lg:block">
           <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
               <div className='flex items-center gap-4'>
-                  <NewButton title="New Symptom" href="/dashboard/symptoms/new"/>
+                  <NewLinkButton title="New Symptom" href="/dashboard/symptoms/new"/>
               </div>
           </div>
           {/* Display Panel */}
@@ -50,7 +58,7 @@ const page = async() => {
                     {" "}
                       <p>You have {(symptoms.length).toString().padStart(2,"0")} symptoms today.</p>
                   </div>
-                  <NewButton  title="New Symptom" href={"/dashboard/symptoms/new"}/>
+                  <NewLinkButton  title="New Symptom" href={"/dashboard/symptoms/new"}/>
               </div>
           </div>
         </div>

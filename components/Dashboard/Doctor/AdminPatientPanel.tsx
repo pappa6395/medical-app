@@ -4,8 +4,8 @@ import * as React from "react"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { PatientProps } from "@/utils/types"
-import SalesCard from "@/components/ui/saleCard"
 import { Appointment } from "@prisma/client"
+import AdminPatientCard from "../AdminPatientCard"
 
 
 export function AdminDoctorPanel({
@@ -42,7 +42,7 @@ export function AdminDoctorPanel({
             {patients?.map((data, index) => {
                 return (
                     <div key={index} className="index">
-                        <SalesCard 
+                        <AdminPatientCard 
                             email={data.email || ""}
                             name={data.name || ""}
                             image={null}

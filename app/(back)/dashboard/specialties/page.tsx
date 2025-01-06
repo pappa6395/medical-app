@@ -5,10 +5,18 @@ import { Landmark, LayoutGrid } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { getSpecialty } from '@/actions/specialties'
 import SpecialtyManyCards from '@/components/Dashboard/SpecialtyManyCards'
+import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton'
+import { Speciality } from '@prisma/client'
 
 const page = async() => {
 
-  const specialties = (await getSpecialty()).data || []
+  let specialties = [] as Speciality[]
+  try {
+    specialties = (await getSpecialty()).data || []
+  } catch (err) {
+    console.error("Failed to initialize specialties:", err);
+    
+  }
 
   return (
 
@@ -22,14 +30,14 @@ const page = async() => {
           <div className='flex items-center justify-between gap-4'>
             <PanelHeader title={"Specialties"} count={+(specialties.length).toString().padStart(2,"0")} icon={Landmark}/>
             <span className='lg:hidden'>
-              <NewButton title="New Specialty" href="/dashboard/specialties/new"/>
+              <NewLinkButton title="New Specialty" href="/dashboard/specialties/new"/>
             </span>
           </div>
         <div className='px-3'>
         <ScrollArea className="h-96 space-x-4">
-            {specialties.map((specialty, i) => (
+            {specialties?.map((specialty, i) => (
               <div key={i} className="mt-2 mr-4">
-                <SpecialtyManyCards specialties={specialty} />
+                <SpecialtyManyCards specialties={specialty ?? []} />
               </div>
             ))}
         </ScrollArea>
@@ -38,7 +46,7 @@ const page = async() => {
         <div className="lg:col-span-7 px-3 col-span-full hidden lg:block">
           <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
               <div className='flex items-center gap-4'>
-                  <NewButton title="New Specialty" href="/dashboard/specialties/new"/>
+                  <NewLinkButton title="New Specialty" href="/dashboard/specialties/new"/>
               </div>
           </div>
           {/* Display Panel */}
@@ -50,7 +58,7 @@ const page = async() => {
                     {" "}
                       <p>You have {(specialties.length).toString().padStart(2,"0")} services today.</p>
                   </div>
-                  <NewButton  title="New Specialty" href={"/dashboard/specialties/new"}/>
+                  <NewLinkButton  title="New Specialty" href={"/dashboard/specialties/new"}/>
               </div>
           </div>
         </div>

@@ -40,8 +40,8 @@ const PanelHeader = ({
       });
     }
     const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
-    const countPatients = patients.length.toString().padStart(2, "0") ?? 0;
-    const countAppointments = appointments.length.toString().padStart(2, "0") ?? 0;
+    const countPatients = patients?.length.toString().padStart(2, "0") ?? 0;
+    const countAppointments = appointments?.length.toString().padStart(2, "0") ?? 0;
 
   return (
 
@@ -51,7 +51,8 @@ const PanelHeader = ({
             <span className='scroll-m-20 text-xl font-bold tracking-tight'>{title || "Unknown"}</span>
             <span className='bg-white dark:text-slate-600 w-6 h-6 rounded-full 
               flex items-center justify-center shadow-sm border text-xs'
-              >
+              > 
+                
                 {title === "Appointments" ? countAppointments 
                 : title === "Patients" ? countPatients 
                 : count?.toString().padStart(2, "0")}

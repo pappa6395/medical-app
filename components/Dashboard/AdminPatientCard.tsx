@@ -4,14 +4,14 @@ import { cn } from "@/lib/utils";
 import { generateInitial } from "@/utils/generateInitial";
 import { DoctorStatus, UserRole } from "@prisma/client";
 import Image from 'next/image';
-import ApproveBtn from "../Dashboard/ApproveBtn";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { Button } from "./button";
+
 import Link from "next/link";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 
 
-export default function SalesCard({
+export default function AdminPatientCard({
     name="",
     email="",
     role=undefined,
@@ -60,7 +60,7 @@ export default function SalesCard({
             </div>
             {!status && (
                 <Button asChild variant={"outline"}>
-                    <Link href={`/dashboard/${role==="DOCTOR" ? "doctor/patients" : role ==="USER" ? "user/doctors" : "doctors"}/view/${profileId??""}`}>
+                    <Link href={`/dashboard/patients/view/${profileId??""}`}>
                         View
                     </Link>
                 </Button>

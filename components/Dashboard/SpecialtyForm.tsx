@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import generateSlug from '@/utils/generateSlug';
 import { SpecialtyFormProps } from '@/utils/types';
-import { createManySpecialties, createSpecialty, updateSpecialty } from '@/actions/specialties';
+import { createSpecialty, updateSpecialty } from '@/actions/specialties';
 import { Speciality } from '@prisma/client';
 
 const SpecialtyForm = ({title, initialData }: {title: string; initialData?: Partial<Speciality>}) => {
@@ -19,7 +19,6 @@ const SpecialtyForm = ({title, initialData }: {title: string; initialData?: Part
     const router = useRouter()
 
     const editingId = initialData?.id
-    console.log("EditingId:", editingId);
     
     const [specialtyData, setSpecialtyData] = React.useState<SpecialtyFormProps>({
         title: initialData?.title ?? "",
@@ -47,59 +46,49 @@ const SpecialtyForm = ({title, initialData }: {title: string; initialData?: Part
         setIsSubmitted(true);
         const slug = generateSlug(specialtyData.title)
         specialtyData.slug = slug
-        console.log(specialtyData);
+        //console.log(specialtyData);
 
-        try {
-            if (editingId) {
-                const updatedSpecialty = await updateSpecialty(editingId, specialtyData)
-                console.log("New Specialty:", updatedSpecialty);
-
-                if (updatedSpecialty?.status === 201) {
-                    toast.success("Specialty updated successfully!");
-                    router.push(`/dashboard/specialties`)
+        if (validate()) {
+            try {
+                if (editingId) {
+                    const updatedSpecialty = await updateSpecialty(editingId, specialtyData)
+                    //console.log("New Specialty:", updatedSpecialty);
+    
+                    if (updatedSpecialty?.status === 201) {
+                        toast.success("Specialty updated successfully!");
+                        router.push(`/dashboard/specialties`)
+                    }
+                } else {
+                    const newSpecialty = await createSpecialty(specialtyData)
+                    console.log("New Specialty:", newSpecialty);
+    
+                    if (newSpecialty?.status === 201) {
+                        toast.success("Specialty created successfully!");
+                        router.push(`/dashboard/specialties`)
+                    }
                 }
-            } else {
-                const newSpecialty = await createSpecialty(specialtyData)
-                console.log("New Specialty:", newSpecialty);
-
-                if (newSpecialty?.status === 201) {
-                    toast.success("Specialty created successfully!");
-                    router.push(`/dashboard/specialties`)
-                }
+                
+    
+            } catch (error) {
+                console.error("Error creating new specialty:", error);
+                toast.error("Failed to create new specialty");
+    
+            } finally {
+                resetForm();
             }
-            
-
-        } catch (error) {
-            console.error("Error creating new specialty:", error);
-            toast.error("Failed to create new specialty");
-
-        } finally {
-            resetForm();
         }
+
     };
 
-    const handleCreateMany = async () => {
-
-        setIsLoading(true);
-
-        try {
-            await createManySpecialties()
-
-        } catch (error) {
-            console.error("Error creating many specialties:", error);
-            toast.error("Failed to create many specialties");
-
-        } finally {
-            resetForm()
-        }
-    }
-
     const validate = () => {
-        const newErrors = {};
+        const newErrors: Partial<SpecialtyFormProps> = {};
 
-       
+        if (!specialtyData.title) {
+            newErrors.title = "Title is required"
+        }
 
         setErrors(newErrors);
+        setIsLoading(false);
 
         return Object.keys(newErrors).length === 0; 
     }
@@ -120,8 +109,6 @@ const SpecialtyForm = ({title, initialData }: {title: string; initialData?: Part
         setIsLoading(false);
         setIsSubmitted(false);
     }
-
-
 
   return (
 
