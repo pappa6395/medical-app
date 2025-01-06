@@ -9,9 +9,9 @@ import { Mail } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import NewButton from '@/components/Dashboard/Doctor/NewButton';
 import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton';
 import { Inbox } from '@prisma/client';
+import InboxTabPanel from '@/components/InboxTabPanel';
 
 
 const layout = async ({children}: {children: ReactNode}) => {
@@ -31,7 +31,6 @@ const layout = async ({children}: {children: ReactNode}) => {
   
   let messages = [] as Inbox[]
   let sentMessages = [] as Inbox[];
-
   try {
     const [messagesResponse, sentMessagesResponse] = await Promise.all([
       getInboxMessages(userId),
@@ -48,10 +47,7 @@ const layout = async ({children}: {children: ReactNode}) => {
   return (
 
     <div>
-      {/* Header */}
-      {/* 2 Panels */}
       <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
-        {/* List Panel */}
         <div className="col-span-full md:col-span-5 px-3 py-3 border-r border-gray-100">
           <div className='flex justify-between'>
             <PanelHeader 
@@ -65,21 +61,11 @@ const layout = async ({children}: {children: ReactNode}) => {
               />
             </div>
           </div>
-          
-          <div className='px-3 mt-2'>
-            <Tabs defaultValue="recieved" className="">
-                <TabsList>
-                  <TabsTrigger value="recieved">Recieved({messages?.length.toString().padStart(2,'0') || ""})</TabsTrigger>
-                  <TabsTrigger value="sent">Sent({sentMessages?.length.toString().padStart(2,'0') || ""})</TabsTrigger>
-                </TabsList>
-                <TabsContent value="recieved">
-                  <MailListPanel messages={messages ?? []} role={role ?? undefined} />
-                </TabsContent>
-                <TabsContent value="sent">
-                  <MailListPanel messages={sentMessages ?? []} role={role ?? undefined} />
-                </TabsContent>
-            </Tabs>
-          </div>
+          <InboxTabPanel 
+            messages={messages ?? []} 
+            sentMessages={sentMessages ?? []} 
+            role={role ?? undefined} 
+          />
         </div>
         <div className="md:col-span-7 px-3 ">
             {children}
