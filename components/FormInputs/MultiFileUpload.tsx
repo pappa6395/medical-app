@@ -1,3 +1,5 @@
+"use client"
+
 import { formatToBytes } from '@/utils/formatToBytes';
 import { FileProps } from '@/utils/types';
 import { UploadDropzone } from '@/utils/uploadthing';
@@ -103,7 +105,7 @@ const MultiFileUpload = ({
                     console.log("Upload completed");
                 }}
                 onUploadError={(error) => {
-                    toast.error("Image upload failed, Try again");
+                    toast.error("Document upload failed, Try again");
                     console.log(`Error! ${error.message}`, error);
 
                 }}

@@ -89,7 +89,7 @@ const DoctorDetails = ({
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<Partial<AppointmentProps>>({});
     const [register, setRegister] = useState(false);
     const [status, setStatus] = useState("");
     const [meetingLink, setMeetingLink] = useState("");
@@ -170,10 +170,28 @@ const DoctorDetails = ({
     };
 
     const validate = () => {
-        const newErrors = {};
+        let newErrors: Partial<AppointmentProps> = {};
 
+        if (!patientData.firstName) {
+            newErrors.firstName = "First name is required";
+        };
+        if (!patientData.lastName) {
+            newErrors.lastName = "Last name is required";
+        };
+        if (!patientData.email) {
+            newErrors.email = "Email is required";
+        } else if (!/^\S+@\S+\.\S+$/.test(patientData.email)) {
+            newErrors.email = "Invalid email format";
+        };
+        if (!patientData.phone) {
+            newErrors.phone = "Phone number is required";
+        } else if (!/^\d{10}$/.test(patientData.phone)) {
+            newErrors.phone = "Invalid phone number format";
+        };
+        if (!patientData.gender) {
+            newErrors.gender = "Gender is required";
+        };
        
-
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0; 
@@ -579,29 +597,6 @@ const DoctorDetails = ({
                                 ) : (
                                     <div className={cn("grid gap-6 mx-auto px-6")}>
                                         <form onSubmit={handleSubmit}>
-                                            {/* <div className="">
-                                                <div className="grid grid-cols-2 gap-6">
-                                                    {isClient && (
-                                                        <div>
-                                                            <Button
-                                                                type={"button"}
-                                                                variant={"outline"} 
-                                                                size={"full"}
-                                                                onClick={() => {
-                                                                initializePayment({onSuccess, onClose})
-                                                            }}>Pay with PayStack (NGN)
-                                                            <Image 
-                                                                src={paystackLogo}
-                                                                alt="paystack"
-                                                                width={512}
-                                                                height={504}
-                                                                className='w-4 h-4' 
-                                                            />
-                                                            </Button>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div> */}
                                             <div className='mt-8 flex justify-center items-center gap-4'>
                                                 {paymentSuccess ? (
                                                     <Card className='w-full flex py-3 flex-col 
