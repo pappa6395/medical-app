@@ -5,25 +5,21 @@ import { Plus } from 'lucide-react'
 import Link from 'next/link';
 import React from 'react'
 
-const NewButton = ({
+const NewLinkButton = ({
   title, 
-  doctors,
-  userId
+  href="#",
+  userId=""
 }: {
   title: string; 
-  doctors?: DoctorDetail | undefined | null;
+  href: string;
   userId?: string | undefined;
 }) => {
-
-  const doctorSlug = generateSlug(
-    `${doctors?.doctorProfile?.firstName || "Unknown"} ${doctors?.doctorProfile?.lastName || "Unknown"}`
-  );
 
   return (
 
     <>
         <Button className='text-sm' variant={"outline"} asChild>
-            <Link href={`/doctors/${doctorSlug ?? ""}?id=${userId ?? ""}`}>
+            <Link href={href}>
                 <Plus className='w-4 h-4 mr-2'/>
                 {title}
             </Link>
@@ -32,4 +28,4 @@ const NewButton = ({
   )
 }
 
-export default NewButton
+export default NewLinkButton

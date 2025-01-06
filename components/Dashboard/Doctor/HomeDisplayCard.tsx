@@ -2,16 +2,19 @@ import { Calendar } from 'lucide-react'
 import React from 'react'
 import NewButton from './NewButton'
 import { Appointment } from '@prisma/client';
-import { PatientProps } from '@/utils/types';
+import { Doctor, DoctorDetail, PatientProps } from '@/utils/types';
+import generateSlug from '@/utils/generateSlug';
 
 const HomeDisplayCard = ({
   appointments=[], 
-  href="",
+  doctors,
   title="",
+  userId
 }: {
   appointments: Appointment[]; 
-  href: string;
+  doctors?: DoctorDetail | undefined | null;
   title: string;
+  userId?: string | undefined;
 }) => {
 
   const uniquePatientsMap = new Map();
@@ -37,6 +40,7 @@ const HomeDisplayCard = ({
     const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
     const count = patients.length??0;
     // console.log("Patients:", patients);
+    
 
   return (
 
@@ -55,7 +59,7 @@ const HomeDisplayCard = ({
                     </p>
                   )}
             </div>
-            <NewButton  title={`New ${title ?? ""}`} href={href ?? ""}/>
+            <NewButton  title={`New ${title ?? ""}`} doctors={doctors} userId={userId}/>
         </div>
     </div>
 

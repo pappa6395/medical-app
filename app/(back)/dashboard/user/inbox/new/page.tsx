@@ -1,16 +1,17 @@
-import { getAppointmentByDoctorId, getAppointmentByPatientId } from '@/actions/appointments'
+import { getAppointmentByPatientId } from '@/actions/appointments'
 import InboxForm from '@/components/Dashboard/InboxForm'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
-import { DoctorProps, PatientProps } from '@/utils/types'
+import { DoctorProps } from '@/utils/types'
+import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
 const page = async () => {
 
     const session = await getServerSession(authOptions)
-    const user = session?.user
-    const userId = user?.id || ""
+    const user = session?.user || null;
+    const userId = user?.id || "";
     
 
     if (!userId) {
@@ -20,32 +21,25 @@ const page = async () => {
       return <NotAuthorized/>
     }
     
-    const appointments = (await getAppointmentByPatientId(userId))?.data || []
-
-    const uniquePatientsMap = new Map();
-
-      appointments.forEach((app) => {
-        if (!uniquePatientsMap.has(app.doctorId)) {
-          uniquePatientsMap.set(app.doctorId, {
-            doctorId : app.doctorId,
-            doctorName: app.doctorName,
-          });
-        }
-      });
+    let appointments = [] as Appointment[];
+    try {
+      appointments = (await getAppointmentByPatientId(userId))?.data || []
+    } catch (err) {
+      console.error("Failed to fetch appointments:", err);
       
-      const doctors = Array.from(uniquePatientsMap.values()) as DoctorProps[]
-      const users = doctors.map((doctor) => {
-        return {
-            value: doctor.doctorId,
-            label: doctor.doctorName??"",
-        }
-      })
+    }
+    
+
       
   return (
 
     <div>
       <div className="relative py-4 w-full max-h-full">
-        <InboxForm title={"New Message"} session={session} users={users} />
+        <InboxForm 
+          title={"New Message"} 
+          session={session}
+          appointments={appointments ?? []} 
+        />
       </div>
     </div> 
 

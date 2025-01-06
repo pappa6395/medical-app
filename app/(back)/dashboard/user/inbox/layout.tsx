@@ -8,8 +8,8 @@ import { Mail } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import NewButton from '@/components/Dashboard/Doctor/NewButton';
 import { Inbox } from '@prisma/client';
+import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton';
 
 
 const layout = async ({children}: {children: ReactNode}) => {
@@ -57,7 +57,7 @@ const layout = async ({children}: {children: ReactNode}) => {
               count={messages.length??0} 
               icon={Mail ?? ""}/>
             <div className='block md:hidden'>
-              <NewButton 
+              <NewLinkButton 
                 title="New Message" 
                 href={`/dashboard/${role === "USER" ? "user" : "doctor"}/inbox/new`}
               />

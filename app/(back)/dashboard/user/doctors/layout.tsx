@@ -4,6 +4,7 @@ import DoctorPanel from '@/components/Dashboard/Doctor/DoctorPanel';
 import PanelDoctorHeader from '@/components/Dashboard/Doctor/PanelDoctorHeader';
 import NotAuthorized from '@/components/NotAuthorized';
 import { authOptions } from '@/lib/auth';
+import { Appointment } from '@prisma/client';
 import { UsersRound } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
@@ -24,7 +25,15 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
     return <NotAuthorized/>
   }
   
-  const appointments = (await getAppointmentByPatientId(userId))?.data || []
+  
+  let appointments = [] as Appointment[]
+  
+  try { 
+    appointments = (await getAppointmentByPatientId(userId))?.data || []
+  } catch (err) {
+    console.error("Failed to fetch appointments", err);
+    
+  }
         
     
   return (

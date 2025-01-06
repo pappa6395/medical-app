@@ -28,21 +28,27 @@ import { getInboxMessageById } from "@/actions/inbox"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import Link from "next/link"
-import { PageProps } from "@/.next/types/app/(back)/dashboard/doctor/inbox/view/[id]/page"
+
 import DeleteMessage from "@/components/DeleteMessage"
+import { PageProps } from "@/.next/types/app/api/auth/[...nextauth]/route"
 
 
 export default async function MailDisplay({ params: paramsPromise }: PageProps) {
   
- const { id } =  await paramsPromise
-
-  const mail = await getInboxMessageById(id)
-  const today = new Date()
+  const { id } =  await paramsPromise
 
   const session = await getServerSession(authOptions);
-  const user = session?.user
-  const role = user?.role
-  const userEmail = user?.email
+  const user = session?.user || null;
+  const role = user?.role || undefined;
+  const userEmail = user?.email || ""
+
+  let mail = null;
+
+  try {
+    mail = await getInboxMessageById(id) || null;
+  } catch (err) {
+    console.error("Failed to fetch mail:", err);
+  }
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -75,31 +81,31 @@ export default async function MailDisplay({ params: paramsPromise }: PageProps) 
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
               <Avatar>
-                <AvatarImage alt={mail.senderName} />
+                <AvatarImage alt={mail?.senderName || "Unknown"} />
                 <AvatarFallback>
-                  {mail.senderName
+                  {mail?.senderName
                     .split(" ")
                     .map((chunk: any) => chunk[0])
                     .join("")}
                 </AvatarFallback>
               </Avatar>
               <div className="grid gap-1">
-                <div className="font-semibold">{mail.senderName}</div>
-                <div className="line-clamp-1 text-xs">{mail.subject}</div>
+                <div className="font-semibold">{mail?.senderName || "Unknown"}</div>
+                <div className="line-clamp-1 text-xs">{mail?.subject || ""}</div>
                 <div className="line-clamp-1 text-xs">
-                  <span className="font-medium">Reply-To:</span> {mail.senderEmail}
+                  <span className="font-medium">Reply-To:</span> {mail?.senderEmail || "Unknown"}
                 </div>
               </div>
             </div>
-            {mail.createdAt && (
+            {mail?.createdAt && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.createdAt), "PPpp")}
+                {format(new Date(mail?.createdAt), "PPpp")}
               </div>
             )}
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            {mail.message}
+            {mail?.message}
           </div>
           <Separator className="mt-auto" />
         </div>

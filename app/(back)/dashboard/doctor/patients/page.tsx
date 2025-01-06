@@ -37,23 +37,19 @@ const page = async () => {
     console.error("Failed to fetch appointments or doctors:", err);
   };
 
-  const doctorSlug = generateSlug(
-    `${doctors?.doctorProfile?.firstName || "Unknown"} ${doctors?.doctorProfile?.lastName || "Unknown"}`
-  );
-    
   return (
 
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <NewButton title="New Patient" href={`/doctors/${doctorSlug ?? ""}?id=${userId ?? ""}`}/>
+            <NewButton title="New Patient" doctors={doctors} userId={userId}/>
           </div>
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
           <HomeDisplayCard 
             appointments={appointments ?? []}
-            href={`/doctors/${doctorSlug ?? ""}?id=${userId ?? ""}`} 
+            doctors={doctors}
             title={"Patient"} />
         </div>
     </div>

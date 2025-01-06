@@ -1,6 +1,8 @@
 import { getAppointmentByPatientId } from '@/actions/appointments'
 import DoctorDisplayCard from '@/components/Dashboard/Doctor/DoctorDisplayCard'
 import NewButton from '@/components/Dashboard/Doctor/NewButton'
+import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton'
+import UserDisplayCard from '@/components/Dashboard/Doctor/UserDisplayCard'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
 import { Appointment } from '@prisma/client'
@@ -36,12 +38,12 @@ const page = async () => {
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <NewButton title="New Appointment" href={`/dashboard/${role}/appointments/new`}/>
+            <NewLinkButton title="New Appointment" href={`/dashboard/${role}/appointments/new`}/>
           </div>
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
-          <DoctorDisplayCard 
+          <UserDisplayCard 
             appointments={appointments || []} 
             title={"New Appointment"} 
             href={`/dashboard/${role}/appointments/new`}

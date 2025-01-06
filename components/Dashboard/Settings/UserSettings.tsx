@@ -1,11 +1,8 @@
 "use client"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import React, { useEffect } from 'react'
-import AvailabilitySetting from '../Doctor/AvailabilitySetting'
-import DoctorServiceSettings from '../Doctor/DoctorServiceSettings'
-import { Appointment, Availability, DoctorProfile } from '@prisma/client'
-import { getDoctorAvailabilityById } from '@/actions/onboarding'
+import React from 'react'
+import { Appointment } from '@prisma/client'
 import UserProfilePanel from '../Doctor/UserProfilePanel'
 
 

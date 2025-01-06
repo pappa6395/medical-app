@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { X } from 'lucide-react';
-import { DoctorProps, InboxProps } from '@/utils/types';
+import { InboxProps, PatientProps } from '@/utils/types';
 import FormSelectInput from '../FormInputs/FormSelectInput';
 //import { Options } from "react-tailwindcss-select/dist/components/type";
 import TiptapEditor from '../FormInputs/TiptapEditor';
@@ -25,7 +25,7 @@ interface InboxFormProps {
     session: Session | null;
 }
 
-const InboxForm = ({
+const DoctorInboxForm = ({
     title, 
     initialData,
     appointments,
@@ -35,25 +35,31 @@ const InboxForm = ({
     const role = session?.user.role;
 
     const uniquePatientsMap = new Map();
-
-    if (appointments) {
-        appointments?.forEach((app) => {
-            if (!app.doctorId) return;
-            if (!uniquePatientsMap.has(app.doctorId)) {
-                uniquePatientsMap?.set(app.doctorId, {
-                doctorId : app.doctorId ?? "",
-                doctorName: app.doctorName ?? "",
-                });
+    
+        if (appointments) {
+          appointments?.forEach((app) => {
+            if (!app.patientId) return;
+            if (!uniquePatientsMap.has(app.patientId)) {
+              uniquePatientsMap?.set(app.patientId, {
+                patientId : app.patientId ?? "",
+                name: `${app.firstName ?? ""} ${app.lastName ?? ""}`,
+                email: app.email ?? "",
+                phone: app.phone ?? "",
+                location: app.location ?? "",
+                gender: app.gender ?? "",
+                occupation: app.occupation ?? "",
+                dob: app.dob ?? new Date(),
+              });
             }
-        });
-    }
-    const doctors = Array.from(uniquePatientsMap.values()) as DoctorProps[]
-    const users = doctors.map((doctor) => {
-    return {
-        value: doctor.doctorId ?? "",
-        label: doctor.doctorName??"",
-    }
-    })
+          });
+        }
+        const patients = Array.from(uniquePatientsMap.values() || []) as PatientProps[]
+        const users = patients?.map((patient) => {
+          return {
+              value: patient.patientId ?? "",
+              label: patient.name ?? "",
+          }
+        })
 
     const router = useRouter()
    
@@ -211,4 +217,4 @@ const InboxForm = ({
   )
 }
 
-export default InboxForm
+export default DoctorInboxForm

@@ -10,27 +10,40 @@ import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import NewButton from '@/components/Dashboard/Doctor/NewButton';
+import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton';
+import { Inbox } from '@prisma/client';
 
 
 const layout = async ({children}: {children: ReactNode}) => {
 
     
-    const session = await getServerSession(authOptions)
-    const user = session?.user || null;
-    const userId = user?.id || "";
-    const role = user?.role || undefined;
+  const session = await getServerSession(authOptions)
+  const user = session?.user || null;
+  const userId = user?.id || "";
+  const role = user?.role || undefined;
 
-    if (!userId) {
-        return <div>You must be logged in to access this page.</div>
-    }
-    if (user?.role !== "DOCTOR") {
-      return <NotAuthorized/>
-    }
-    
+  if (!userId) {
+      return <div>You must be logged in to access this page.</div>
+  }
+  if (user?.role !== "DOCTOR") {
+    return <NotAuthorized/>
+  }
+  
+  let messages = [] as Inbox[]
+  let sentMessages = [] as Inbox[];
 
-    const messages = (await getInboxMessages(user.id))?.data || [];
-    const sentMessages = (await getInboxSentMessages(user.id))?.data || [];
+  try {
+    const [messagesResponse, sentMessagesResponse] = await Promise.all([
+      getInboxMessages(userId),
+      getInboxSentMessages(userId)
+    ])
+    messages = messagesResponse?.data || [];
+    sentMessages = sentMessagesResponse?.data || [];
+
+  } catch (err) {
+    console.error("Failed to get inbox messages:", err);
     
+  }
 
   return (
 
@@ -46,7 +59,7 @@ const layout = async ({children}: {children: ReactNode}) => {
               count={messages?.length??0} 
               icon={Mail}/>
             <div className='block md:hidden'>
-              <NewButton 
+              <NewLinkButton 
                 title="New Message" 
                 href={`/dashboard/${role?.toLowerCase()}/inbox/new`}
               />

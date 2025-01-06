@@ -1,20 +1,22 @@
 import { Calendar } from 'lucide-react'
 import React from 'react'
-import { Inbox } from '@prisma/client';
+import NewButton from './NewButton'
+import { Appointment } from '@prisma/client';
+import { DoctorDetail } from '@/utils/types';
 import NewLinkButton from './NewLinkButton';
 
-const InboxDisplayCard = ({
-  messages, 
+const UserDisplayCard = ({
+  appointments=[], 
   href,
-  title,
+  title="",
 }: {
-  messages: Inbox[]; 
+  appointments: Appointment[]; 
   href: string;
   title: string;
 }) => {
 
-  const count = messages.length??0;
-  
+      const count = appointments.length ?? 0;
+      // console.log("Patients:", patients);
 
   return (
 
@@ -25,11 +27,11 @@ const InboxDisplayCard = ({
             <div className='py-3'>
                   {count && count > 1 ? (
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
-                      You have {count} {title}s today.
+                      You have {count || 0} {title || ""}s today.
                     </p>
                   ) : (
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
-                      You have {count} {title} today.
+                      You have {count || 0} {title || ""} today.
                     </p>
                   )}
             </div>
@@ -40,4 +42,4 @@ const InboxDisplayCard = ({
   )
 }
 
-export default InboxDisplayCard
+export default UserDisplayCard

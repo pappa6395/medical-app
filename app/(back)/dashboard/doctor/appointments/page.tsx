@@ -5,6 +5,7 @@ import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
 import generateSlug from '@/utils/generateSlug'
+import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -21,26 +22,37 @@ const page = async () => {
   if (user?.role !== "DOCTOR") {
     return <NotAuthorized/>
   }
-      
-  const appointments = (await getAppointmentByDoctorId(userId))?.data || []
-  const doctors = await getDoctorsById(userId)
-  const doctorSlug = generateSlug(
-    `${doctors?.doctorProfile?.firstName} ${doctors?.doctorProfile?.lastName}`
-  )
+  
+
+  let appointments = [] as Appointment[];
+  let doctors = null;
+
+  try {
+    const [appointmentsResponse, doctorsResponse] = await Promise.all([
+      getAppointmentByDoctorId(userId),
+      getDoctorsById(userId)
+    ])
+    appointments = appointmentsResponse?.data || []
+    doctors = doctorsResponse || null
+
+  } catch (err) {
+    console.error("Failed to fetch appointments or doctors:", err);
+    
+  }
 
   return (
 
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <NewButton title="New Appointment" href={`/doctors/${role}/${doctorSlug}?id=${userId}`}/>
+            <NewButton title="New Appointment" doctors={doctors ?? null} userId={userId ?? ""}/>
           </div>
         </div>
         {/* Display Panel */}
         <div className='mt-4'>
           <DoctorDisplayCard 
-            appointments={appointments} 
-            href={`/dashboard/${role}/appointments/view/${appointments.map(a=>a.id)}`}
+            appointments={appointments ?? []} 
+            doctors={doctors}
             title={"Appointment"} />
         </div>
     </div>

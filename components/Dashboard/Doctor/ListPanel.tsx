@@ -12,10 +12,10 @@ import { cn } from "@/lib/utils"
 
 
 export function ListPanel({
-    appointment=[], 
+    appointments=[], 
     role=undefined
 }: {
-    appointment: Appointment[]; 
+    appointments: Appointment[]; 
     role: UserRole | undefined 
 }) {
 
@@ -24,7 +24,7 @@ export function ListPanel({
   return (
     <div>
         <ScrollArea className="h-96 space-x-4">
-            {appointment?.map((item) => (
+            {appointments?.map((item) => (
                 <div key={item.id} className="mt-2 mr-4 cursor-pointer">
                     <Link 
                         href={`/dashboard/${role === "DOCTOR" ? "doctor" : "user"}/appointments/view/${item.id || ""}`}

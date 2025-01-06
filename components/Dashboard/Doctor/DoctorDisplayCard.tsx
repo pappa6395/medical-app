@@ -2,14 +2,15 @@ import { Calendar } from 'lucide-react'
 import React from 'react'
 import NewButton from './NewButton'
 import { Appointment } from '@prisma/client';
+import { DoctorDetail } from '@/utils/types';
 
 const DoctorDisplayCard = ({
   appointments=[], 
-  href="#",
+  doctors,
   title="",
 }: {
   appointments: Appointment[]; 
-  href: string;
+  doctors: DoctorDetail | undefined | null;
   title: string;
 }) => {
 
@@ -33,7 +34,7 @@ const DoctorDisplayCard = ({
                     </p>
                   )}
             </div>
-            <NewButton  title={`New ${title}`} href={href}/>
+            <NewButton  title={`New ${title}`} doctors={doctors}/>
         </div>
     </div>
 
