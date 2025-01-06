@@ -142,7 +142,7 @@ const DoctorDetails = ({
             //Create an appointment
             const res = await createAppointment(patientData)
             const appointmentData = res?.data
-            console.log("Create Appointment successfully:", appointmentData);
+            //console.log("Create Appointment successfully:", appointmentData);
             
             const saleData = {
                 appointmentId: appointment?.id ?? "",
@@ -157,7 +157,7 @@ const DoctorDetails = ({
             console.log("Sale created successfully:", sale);
             
             toast.success("Appointment submitted successfully!")
-            router.push("/dashboard/user/appointments")
+            router.push(`/dashboard/user/appointments/view/${appointmentData?.id}`)
         } catch (error) {
             console.log("Failed to create appointment:", error);
             toast.error("Failed to submit appointment. Please try again later.")

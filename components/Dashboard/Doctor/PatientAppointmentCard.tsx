@@ -19,7 +19,6 @@ const PatientAppointmentCard = ({
         appointments?.appointmentDate || null ,
         appointments?.appointmentTime || null
     )
-    console.log("ConvertTime:", convertTime);
 
     const dob = appointments?.dob?.toLocaleDateString("en-us", {
         day: 'numeric',
