@@ -4,16 +4,16 @@ import NewButton from './NewButton'
 import { Appointment } from '@prisma/client';
 
 const DoctorDisplayCard = ({
-  appointments, 
-  href,
-  title,
+  appointments=[], 
+  href="#",
+  title="",
 }: {
   appointments: Appointment[]; 
   href: string;
   title: string;
 }) => {
 
-      const count = appointments.length??0;
+      const count = appointments.length ?? 0;
       // console.log("Patients:", patients);
 
   return (
@@ -25,11 +25,11 @@ const DoctorDisplayCard = ({
             <div className='py-3'>
                   {count && count > 1 ? (
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
-                      You have {count} {title}s today.
+                      You have {count || 0} {title || ""}s today.
                     </p>
                   ) : (
                     <p className="leading-7 [&:not(:first-child)]:mt-6">
-                      You have {count} {title} today.
+                      You have {count || 0} {title || ""} today.
                     </p>
                   )}
             </div>

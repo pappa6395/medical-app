@@ -11,55 +11,61 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 
-export function ListPanel({appointment, role}: {appointment: Appointment[]; role: UserRole | undefined }) {
+export function ListPanel({
+    appointment=[], 
+    role=undefined
+}: {
+    appointment: Appointment[]; 
+    role: UserRole | undefined 
+}) {
 
     const pathName = usePathname();
 
   return (
     <div>
         <ScrollArea className="h-96 space-x-4">
-            {appointment.map((item) => (
+            {appointment?.map((item) => (
                 <div key={item.id} className="mt-2 mr-4 cursor-pointer">
                     <Link 
-                        href={`/dashboard/${role === "DOCTOR" ? "doctor" : "user"}/appointments/view/${item.id}`}
+                        href={`/dashboard/${role === "DOCTOR" ? "doctor" : "user"}/appointments/view/${item.id || ""}`}
                         className={cn(
                             "border border-gray-100 shadow-sm text-xs py-3 px-4 inline-block w-full rounded-md bg-white dark:bg-slate-700", 
                             item.status === "approved" ? "bg-green-100/80" : item.status === "rejected" ? "bg-red-100/80" : "bg-white",
-                            pathName === `/dashboard/doctor/appointments/view/${item.id}`
+                            pathName === `/dashboard/doctor/appointments/view/${item.id || ""}`
                             && "border-slate-600 border-2")}
                     >
                         <div className="flex justify-between items-center ">
-                            <h4 className="scroll-m-20 text-lg font-medium tracking-tight">{item.firstName} {item.lastName}</h4>
+                            <h4 className="scroll-m-20 text-lg font-medium tracking-tight">{item?.firstName || "Unknown"} {item?.lastName || "Unknown"}</h4>
                             <div className="flex items-center flex-shrink-0 text-slate-500">
                                 <History className="w-4 h-4 mr-2" />
-                                <span className="scroll-m-20 text-base font-normal tracking-tight">{timeAgo(item.createdAt)}</span>
+                                <span className="scroll-m-20 text-base font-normal tracking-tight">{timeAgo(item?.createdAt) || ""}</span>
                             </div>
                             
                         </div> 
                         <div className="flex justify-between items-center gap-4 py-2">
                             <div className="flex items-center gap-2">
                                 <CalendarCheck className="w-4 h-4" />
-                                <span className="scroll-m-20 text-base font-normal tracking-tight">{item.appointmentFormattedDate}</span>
+                                <span className="scroll-m-20 text-base font-normal tracking-tight">{item?.appointmentFormattedDate || ""}</span>
                             </div>
-                            <span className="scroll-m-20 text-lg font-normal tracking-tight">{item.appointmentTime}</span>
+                            <span className="scroll-m-20 text-lg font-normal tracking-tight">{item?.appointmentTime || ""}</span>
                         </div>
                         <div className={cn("flex items-center pt-2", 
-                            item.status === "approved" ? "text-teal-400" 
-                            : item.status === "rejected" ? "text-rose-400" 
+                            item?.status === "approved" ? "text-teal-400" 
+                            : item?.status === "rejected" ? "text-rose-400" 
                             : "text-slate-500" )}
                         >
-                            {item.status === "approved" ? (
+                            {item?.status === "approved" ? (
                                     <Check className="mr-2 w-4 h-4" />
-                                ) : item.status === "pending" ? (
+                                ) : item?.status === "pending" ? (
                                     <CircleEllipsis className="mr-2 w-4 h-4" />
-                                ) : item.status === "rejected" ? ( 
+                                ) : item?.status === "rejected" ? ( 
                                     <CircleX className="mr-2 w-4 h-4" />
                                 ) : <CircleEllipsis className="mr-2 w-4 h-4" />
                             }
                             <span className="scroll-m-20 font-normal 
                             tracking-tight"
                             >
-                                {item.status === "" ? "pending" : item.status}
+                                {item?.status === "" ? "pending" : item?.status || ""}
                             </span>
                         </div>
                     </Link>

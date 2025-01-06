@@ -8,7 +8,15 @@ const page = async ({params: paramsPromise}: PageProps) => {
 
   const { id } = await paramsPromise
 
-  const appointments = (await getAppointmentById(id))?.data || null;
+  let appointments = null;
+  
+  try {
+    appointments = (await getAppointmentById(id))?.data || null;
+
+  } catch (err) {
+    console.error("Failed to fetch appointments:", err);
+    
+  }
   
   return (
 
