@@ -5,6 +5,7 @@ import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
 import generateSlug from '@/utils/generateSlug'
+import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -22,8 +23,20 @@ const page = async () => {
     return <NotAuthorized/>
   };
   
-  const appointments = (await getAppointmentByDoctorId(userId))?.data || [];
-  const doctors = await getDoctorsById(userId) || null;
+  let appointments = [] as Appointment[]
+  let doctors = null;
+  try {
+    const [appointmentsResponse, doctorsResponse] = await Promise.all([
+      getAppointmentByDoctorId(userId),
+      getDoctorsById(userId)
+    ])
+    appointments = appointmentsResponse?.data || []
+    doctors = doctorsResponse || null
+
+  } catch (err) {
+    console.error("Failed to fetch appointments or doctors:", err);
+  };
+
   const doctorSlug = generateSlug(
     `${doctors?.doctorProfile?.firstName || "Unknown"} ${doctors?.doctorProfile?.lastName || "Unknown"}`
   );
