@@ -9,6 +9,7 @@ import { getServerSession } from 'next-auth';
 import React, { ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import NewButton from '@/components/Dashboard/Doctor/NewButton';
+import { Inbox } from '@prisma/client';
 
 
 const layout = async ({children}: {children: ReactNode}) => {
@@ -22,13 +23,24 @@ const layout = async ({children}: {children: ReactNode}) => {
     if (!userId) {
         return <div>You must be logged in to access this page.</div>
     }
-    if (user?.role !== "USER") {
+    if (role !== "USER") {
       return <NotAuthorized/>
     }
     
+    let messages = [] as Inbox[]
+    let sentMessages = [] as Inbox[]
 
-    const messages = (await getInboxMessages(user.id))?.data || [];
-    const sentMessages = (await getInboxSentMessages(user.id))?.data || [];
+    try {
+      const [messagesResponse, sentMessagesResponse] = await Promise.all([
+        getInboxMessages(userId),
+        getInboxSentMessages(userId)
+      ]);
+
+      messages = messagesResponse?.data || [];
+      sentMessages = sentMessagesResponse?.data || [];
+    } catch (err) {
+      console.error("Failed to fetch messages:", err);
+    }
     
 
   return (
