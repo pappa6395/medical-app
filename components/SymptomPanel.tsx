@@ -72,7 +72,7 @@ const ServicePanel = ({
                     Other Symptoms
                 </h2>
                 {symptoms && symptoms.length > 0 && (
-                    <div className='py-3 flex flex-col text-sm gap-2'>
+                    <div className='py-3 flex flex-col text-base gap-4'>
                         {symptoms.map((symptom) => {
                             return (
                                 <Link 

@@ -29,7 +29,7 @@ const DoctorCard = ({
         {times && times.length > 0 ? (
              <div 
                 className='border dark:border-gray-600 w-[300px] sm:w-[300px] h-[450px] sm:h-[420px]
-                bg-slate-50 dark:bg-slate-900 inline-flex flex-col py-7 px-6 rounded-md 
+                bg-green-50 dark:bg-green-950 inline-flex flex-col py-7 px-6 rounded-md 
                 hover:border-gray-400 shadow-md'>
              <Link href={`/doctors/${slug}?id=${doctor.id}`}>
                  <h2 className='uppercase font-bold text-2xl py-2 tracking-widest'>
@@ -75,14 +75,14 @@ const DoctorCard = ({
                      {times.slice(0,5).map((item,i) => {
                          return (
                              <Link href={`/doctors/${slug}?id=${doctor.id}`} key={i} 
-                             className='bg-blue-600 text-white text-sm text-center p-2'>
+                             className='bg-green-600 text-white text-sm text-center p-2'>
                                  {item}
                              </Link>
                          )
                      })}
                      <Link 
                          href={`/doctors/${slug}?id=${doctor.id}`}
-                         className='bg-blue-900 text-center
+                         className='bg-green-900 text-center
                           text-white p-2 text-sm text-nowrap truncate'>
                              <span>More time</span>
                      </Link>

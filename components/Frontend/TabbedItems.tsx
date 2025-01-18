@@ -27,22 +27,22 @@ const TabbedItems = ({
             component: <ServiceList data={services}/>,
             content: []
         },
-        {
-            title: "Doctors",
-            icon: <Stethoscope/>,
-            component: <LinkCard className='bg-slate-800' />,
-            content: ["Match and meet our doctors today. We are ready to cure you"]
-        },
+        // {
+        //     title: "Doctors",
+        //     icon: <Stethoscope/>,
+        //     component: <LinkCard className='bg-slate-800' />,
+        //     content: ["Match and meet our doctors today. We are ready to cure you"]
+        // },
         {
             title: "Specialties",
             icon: <BriefcaseMedical/>,
-            component: <LinkCard className='bg-slate-400 dark:bg-cyan-900 text-lg' specialties={specialties}/>,
+            component: <LinkCard className='bg-slate-400 dark:bg-emerald-900 text-lg' specialties={specialties}/>,
             content: ["Specialists are ready for you to help you find the solutions"]
         },
         {
             title: "Symptoms",
             icon: <Microscope/>,
-            component: <SymptomCard className='bg-slate-400 dark:bg-cyan-900 text-lg' symptoms={symptoms} />,
+            component: <SymptomCard className='bg-slate-400 dark:bg-emerald-900 text-lg' symptoms={symptoms} />,
             content: ["Medical tips and knowledges are waiting right for you here"]
         },
     ]
@@ -51,12 +51,12 @@ const TabbedItems = ({
 
   return (
 
-    <div className='w-full px-3'>
-        <div className="text-lg font-medium flex w-full
+    <div className='w-screen'>
+        <div className="text-lg font-medium flex
         text-gray-500 border-b border-gray-200
         dark:text-gray-400 dark:border-gray-700">
             <ul className="flex justify-center flex-col md:flex-row 
-            w-full mx-auto bg-slate-50 dark:bg-slate-950">
+            w-screen mx-auto bg-slate-50 dark:bg-green-950">
                 {
                     tabs.map((tab,i) => {
                         return (

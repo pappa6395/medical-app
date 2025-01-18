@@ -15,7 +15,7 @@ const Hero = () => {
     ];
 
   return (
-    <div className="bg-blue-950 dark:bg-slate-900 flex flex-col justify-between px-3">
+    <div className="bg-green-900 dark:bg-slate-900 flex flex-col justify-between px-3">
         <div className="relative pb-[110px] pt-[50px] dark:bg-dark 
         lg:pt-[50px] max-w-6xl mx-auto">
         <div className="container">
@@ -44,12 +44,12 @@ const Hero = () => {
                 <ul className="flex flex-wrap items-center">
                   <li>
                     <Link href="/service/urgent-care" className="inline-flex items-center justify-center rounded-md 
-                      bg-blue-800 dark:bg-blue-700 px-6 py-3 text-center text-base font-medium 
-                      text-white hover:bg-blue-700 lg:px-7">
+                      bg-green-800 dark:bg-green-700 px-6 py-3 text-center text-base font-medium 
+                      text-white hover:bg-green-700 lg:px-7">
                         Need Doctor Urgently
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/" className="inline-flex items-center justify-center 
                       px-5 py-3 text-center text-base font-medium 
                       text-gray-50 hover:text-blue-500 dark:text-white">
@@ -58,7 +58,7 @@ const Hero = () => {
                       </span>
                       Need a Refill
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
                 <div className="py-6 flex gap-4">
                     <div className="flex flex-col items-center justify-center">
@@ -89,31 +89,31 @@ const Hero = () => {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <circle cx="2.5" cy="2.5" r="2.5" fill="#3056D3" />
-                      <circle cx="2.5" cy="24.5" r="2.5" fill="#3056D3" />
-                      <circle cx="2.5" cy="46.5" r="2.5" fill="#3056D3" />
-                      <circle cx="2.5" cy="68.5" r="2.5" fill="#3056D3" />
-                      <circle cx="2.5" cy="90.5" r="2.5" fill="#3056D3" />
-                      <circle cx="24.5" cy="2.5" r="2.5" fill="#3056D3" />
-                      <circle cx="24.5" cy="24.5" r="2.5" fill="#3056D3" />
-                      <circle cx="24.5" cy="46.5" r="2.5" fill="#3056D3" />
-                      <circle cx="24.5" cy="68.5" r="2.5" fill="#3056D3" />
-                      <circle cx="24.5" cy="90.5" r="2.5" fill="#3056D3" />
-                      <circle cx="46.5" cy="2.5" r="2.5" fill="#3056D3" />
-                      <circle cx="46.5" cy="24.5" r="2.5" fill="#3056D3" />
-                      <circle cx="46.5" cy="46.5" r="2.5" fill="#3056D3" />
-                      <circle cx="46.5" cy="68.5" r="2.5" fill="#3056D3" />
-                      <circle cx="46.5" cy="90.5" r="2.5" fill="#3056D3" />
-                      <circle cx="68.5" cy="2.5" r="2.5" fill="#3056D3" />
-                      <circle cx="68.5" cy="24.5" r="2.5" fill="#3056D3" />
-                      <circle cx="68.5" cy="46.5" r="2.5" fill="#3056D3" />
-                      <circle cx="68.5" cy="68.5" r="2.5" fill="#3056D3" />
-                      <circle cx="68.5" cy="90.5" r="2.5" fill="#3056D3" />
-                      <circle cx="90.5" cy="2.5" r="2.5" fill="#3056D3" />
-                      <circle cx="90.5" cy="24.5" r="2.5" fill="#3056D3" />
-                      <circle cx="90.5" cy="46.5" r="2.5" fill="#3056D3" />
-                      <circle cx="90.5" cy="68.5" r="2.5" fill="#3056D3" />
-                      <circle cx="90.5" cy="90.5" r="2.5" fill="#3056D3" />
+                      <circle cx="2.5" cy="2.5" r="2.5" fill="#16A34A" />
+                      <circle cx="2.5" cy="24.5" r="2.5" fill="#16A34A" />
+                      <circle cx="2.5" cy="46.5" r="2.5" fill="#16A34A" />
+                      <circle cx="2.5" cy="68.5" r="2.5" fill="#16A34A" />
+                      <circle cx="2.5" cy="90.5" r="2.5" fill="#16A34A" />
+                      <circle cx="24.5" cy="2.5" r="2.5" fill="#16A34A" />
+                      <circle cx="24.5" cy="24.5" r="2.5" fill="#16A34A" />
+                      <circle cx="24.5" cy="46.5" r="2.5" fill="#16A34A" />
+                      <circle cx="24.5" cy="68.5" r="2.5" fill="#16A34A" />
+                      <circle cx="24.5" cy="90.5" r="2.5" fill="#16A34A" />
+                      <circle cx="46.5" cy="2.5" r="2.5" fill="#16A34A" />
+                      <circle cx="46.5" cy="24.5" r="2.5" fill="#16A34A" />
+                      <circle cx="46.5" cy="46.5" r="2.5" fill="#16A34A" />
+                      <circle cx="46.5" cy="68.5" r="2.5" fill="#16A34A" />
+                      <circle cx="46.5" cy="90.5" r="2.5" fill="#16A34A" />
+                      <circle cx="68.5" cy="2.5" r="2.5" fill="#16A34A" />
+                      <circle cx="68.5" cy="24.5" r="2.5" fill="#16A34A" />
+                      <circle cx="68.5" cy="46.5" r="2.5" fill="#16A34A" />
+                      <circle cx="68.5" cy="68.5" r="2.5" fill="#16A34A" />
+                      <circle cx="68.5" cy="90.5" r="2.5" fill="#16A34A" />
+                      <circle cx="90.5" cy="2.5" r="2.5" fill="#16A34A" />
+                      <circle cx="90.5" cy="24.5" r="2.5" fill="#16A34A" />
+                      <circle cx="90.5" cy="46.5" r="2.5" fill="#16A34A" />
+                      <circle cx="90.5" cy="68.5" r="2.5" fill="#16A34A" />
+                      <circle cx="90.5" cy="90.5" r="2.5" fill="#16A34A" />
                     </svg>
                   </span>
                 </div>

@@ -222,7 +222,7 @@ const page = () => {
         </div>
       </section>
       <section className="py-6 px-8 mb-0 dark:bg-slate-950">
-        <div className="max-w-6xl gap-4 mx-auto">
+        <div id={"pricing"} className="max-w-6xl gap-4 mx-auto">
          <Pricing />
         </div>
       </section>

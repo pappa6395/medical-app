@@ -1,12 +1,12 @@
 export const siteConfig = {
-    name: "Medical-Care",
-    url: "https://ui.shadcn.com",
-    ogImage: "https://ui.shadcn.com/og.jpg",
+    name: "Medical-Care Online",
+    url: "https://medical-app-o384.vercel.app",
+    ogImage: "/medicalPagePic.png",
     description:
-      "Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.",
+      "Health should not be a puzzle, we are cutting through the B.S to bring you simple , affordable and transparent healthcare",
     links: {
-      twitter: "https://twitter.com/shadcn",
-      github: "https://github.com/shadcn-ui/ui",
+      Xtwitter: "https://x.com",
+      github: "https://github.com",
     },
   }
   

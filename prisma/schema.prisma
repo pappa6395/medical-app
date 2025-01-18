@@ -246,3 +246,28 @@ model Sale {
 
   appointment            Appointment @relation(fields: [appointmentId], references: [id])
 }
+
+model BlogCategory {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String    @unique
+  blogs       Blogs[]
+ 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Blogs {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  slug          String   @unique
+  imageUrl      String?
+  tags          String?
+  summary       String?
+  content       String?
+  categoryId    String   @db.ObjectId
+  category      BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}

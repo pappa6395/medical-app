@@ -74,7 +74,7 @@ const ServicePanel = ({
                     Other Services
                 </h2>
                 {services && services.length > 0 && (
-                    <div className='py-3 flex flex-col text-sm gap-2'>
+                    <div className='py-3 flex flex-col text-lg gap-4'>
                         {services.map((service) => {
                             return (
                                 <Link 

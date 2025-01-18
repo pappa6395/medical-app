@@ -4,6 +4,8 @@ import { getDoctorsByServiceSlug, getOtherDoctorServicesByService } from '@/acti
 import DoctorCard from '@/components/DoctorCard'
 import ServicePanel from '@/components/ServicePanel'
 import generateSlug from '@/utils/generateSlug'
+import { Doctor } from '@/utils/types'
+import { Service } from '@prisma/client'
 import Link from 'next/link'
 import React from 'react'
 
@@ -19,12 +21,17 @@ const page = async ({
     const { type } = await searchParams
     console.log("Type:", type);
     
-    const services = (await getDoctorsByServiceSlug(slug))?.data || []
-    //console.log("doctors:", services);
-
-    const serviceSlug = services.find(service => service.slug === slug);
+    let services = null;
+    try {
+        services = (await getDoctorsByServiceSlug(slug))?.data || null
+    } catch (err) {
+        console.error("Failed to fetch doctors by service slug: ", err);
+    }
     
-    const doctorService = serviceSlug?.doctorProfile.map((doctor) => {
+
+    const serviceSlug = services?.find(service => service.slug === slug);
+    
+    const doctorService = serviceSlug?.doctorProfile?.map((doctor) => {
         return {
             id: doctor.userId,
             name: `${doctor.firstName} ${doctor.lastName}`,

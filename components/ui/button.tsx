@@ -13,6 +13,8 @@ const buttonVariants = cva(
           "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         booking:
             "bg-blue-700 dark:bg-blue-600 text-primary-foreground dark:text-slate-100 shadow hover:bg-blue-700",
+        review:
+            "bg-green-700 dark:bg-green-600 text-primary-foreground dark:text-slate-100 shadow hover:bg-green-700 active:scale-90",
         payment:
             "bg-gradient-to-r from-indigo-300 to-cyan-300 dark:bg-blue-600 text-primary-foreground dark:text-slate-100 shadow hover:bg-gradient-to-r hover:from-indigo-500 hover:to-cyan-500",    
         destructive:

@@ -19,7 +19,7 @@ const TransitionalText = ({TEXTS}:{TEXTS:string[]}) => {
 
   return (
     
-    <span className={`text-center text-blue-500 transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <span className={`text-center text-green-500 transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         {TEXTS[index]}
     </span>
 

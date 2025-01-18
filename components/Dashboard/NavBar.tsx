@@ -11,6 +11,7 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet";
 import {
+    BookOpenText,
   BriefcaseMedical, 
   CalendarClock, 
   CalendarDays, 
@@ -76,6 +77,7 @@ export default function NavBar({session}: {session: Session} ) {
             { title: "Doctors", path: "/dashboard/doctors", icon: Users },
             { title: "Patients", path: "/dashboard/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/appointments", icon: CalendarDays },
+            { title: "Blogs", path: "/dashboard/blogs", icon: BookOpenText },
             {
                 title: "Settings",
                 path: "/dashboard/settings",

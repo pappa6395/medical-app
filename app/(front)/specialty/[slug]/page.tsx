@@ -1,4 +1,5 @@
-import { PageProps } from '@/.next/types/app/(front)/specialty/[slug]/page'
+
+import { PageProps } from '@/.next/types/app/api/auth/[...nextauth]/route'
 import { getDoctorsBySpecialtySlug, getOtherDoctorSpecialtiesBySpecialty } from '@/actions/doctors'
 import DoctorCard from '@/components/DoctorCard'
 import SpecialtyPanel from '@/components/SpecialtyPanel'

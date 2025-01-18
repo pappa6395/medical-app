@@ -1,4 +1,4 @@
-import { DoctorProfile, DoctorStatus, PaymentStatus, Sale, Speciality, UserRole } from "@prisma/client";
+import { BlogCategory, Blogs, DoctorProfile, DoctorStatus, PaymentStatus, Sale, Speciality, UserRole } from "@prisma/client";
 import { LucideIcon, LucideProps } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
@@ -426,4 +426,46 @@ export interface TokenData {
     roomId: string;
     userName: string;
     role: string;
+};
+
+export type ReviewCardProps = {
+    id: string;
+    comment: string;
+    rating: number;
+    reviewerName: string;
+    reviewerImage: string;
+    reviewerTitle: string;
+    videoLink: string;
+    approved: boolean;
+    projectId: string;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+export type BlogProps ={
+    title: string;
+    slug: string;
+    imageUrl: string;
+    tags: string;
+    summary: string;
+    content: string;
+    categoryId: string;
+}
+
+export type BlogCategoryProps = {
+    title: string;
+    slug: string;
+}
+
+export interface IBlogCategoryProps extends BlogCategoryProps {
+    blogs: Blogs[]
+}
+
+export interface IBlog extends Blogs {
+    category: BlogCategory
+}
+
+export type SelectOptionProps = {
+    label: string;
+    value: string;
 };

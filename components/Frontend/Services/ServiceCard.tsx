@@ -10,7 +10,7 @@ const ServiceCard  = ({ service }: {service: ServiceDoctorProfileCountProps}) =>
   return (
 
     <Link href={`/service/${service.slug}`} className='rounded-md 
-    bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 
+    bg-emerald-50 dark:bg-emerald-900 hover:bg-slate-200 
     duration-300 flex items-center gap-4 overflow-hidden px-2'>
         <Image
             src={service.imageUrl} 

@@ -40,9 +40,9 @@ const SearchBar = () => {
                 type="submit"
                 className="text-white absolute hidden md:block translate-x-[110px]
                 sm:translate-x-[253px] md:translate-x-[253px]
-                bg-blue-800 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                bg-green-800 hover:bg-blue-800 focus:ring-4 focus:outline-none 
                 focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2 
-                dark:bg-blue-700 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                dark:bg-green-700 dark:hover:bg-green-700 dark:focus:ring-green-800"
               >
                 Search
               </button>

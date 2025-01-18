@@ -11,7 +11,7 @@ const Layout =  async ({children}:{children:ReactNode}) => {
   const session = await getServerSession(authOptions);
   
   return (
-    <div className=''>
+    <div className='h-full'>
         <SiteHeader session={session} />
           {children}
         <Footer />

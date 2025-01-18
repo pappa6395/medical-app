@@ -7,7 +7,7 @@ import { getSymptom } from "@/actions/symptoms";
 
 
 const TabbedSection: React.FC = async() => {
-
+    
     const services = (await getService()).data ?? [];
     const specialties = (await getSpecialty()).data ?? [];
     const symptoms = (await getSymptom()).data ?? [];

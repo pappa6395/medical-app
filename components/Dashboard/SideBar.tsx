@@ -5,6 +5,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Bell, 
+  BookOpenText, 
   BriefcaseMedical, 
   Calendar, 
   CalendarClock, 
@@ -78,6 +79,7 @@ export default function SideBar({session}: {session: Session}) {
             { title: "Doctors", path: "/dashboard/doctors", icon: Users },
             { title: "Patients", path: "/dashboard/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/appointments", icon: CalendarDays },
+            { title: "Blogs", path: "/dashboard/blogs", icon: BookOpenText },
             {
                 title: "Settings",
                 path: "/dashboard/settings",

@@ -15,15 +15,15 @@ export default function Footer() {
                     name: 'List of your services'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '/blogs',
                     name: 'Blog'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '/join/doctors',
                     name: 'Team'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '/join/doctors',
                     name: 'Careers'
                 },
             ],
@@ -32,19 +32,19 @@ export default function Footer() {
             label: "Resources",
             items: [
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'contact'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Support'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Docs'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '/join/doctors/#pricing',
                     name: 'Pricing'
                 },
             ],
@@ -53,20 +53,20 @@ export default function Footer() {
             label: "About",
             items: [
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Terms'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'License'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Privacy'
                 },
                 {
-                    href: 'javascript:void()',
-                    name: 'About US'
+                    href: '#',
+                    name: 'About us'
                 },
             ]
         }
@@ -100,17 +100,20 @@ export default function Footer() {
     ]
 
     return (
-        <footer className="text-gray-500 bg-slate-100 dark:bg-slate-900 
-        px-4 py-5 max-w-screen mx-auto md:px-8">
-            <div className="gap-6 justify-between md:flex">
+        <footer className="text-gray-500 bg-slate-100 dark:bg-green-950 
+        px-4 py-5 max-w-screen mx-auto md:px-8 mb-0">
+            <div className="justify-between md:flex">
                 <div className="flex-1">
                     <div className="max-w-xs">
-                        <img src="https://www.floatui.com/logo.svg" className="w-32" />
+                        <div className='flex items-center gap-2'>
+                            <img src="/Medical-Care Logo2.png" className="w-16" />
+                            <p className=''>Medical-Care</p>
+                        </div>
                         <p className="leading-relaxed mt-2 text-[15px]">
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                            Our mission is to help people find the best doctors in their area.
                         </p>
                     </div>
-                    <form 
+                    {/* <form 
                         onSubmit={(e) => e.preventDefault()}
                     >
                         <label className="block pt-4 pb-2">
@@ -128,9 +131,25 @@ export default function Footer() {
                                 Subscribe
                             </button>
                         </div>
-                    </form>
+                    </form> */}
+                    <div className="pt-6 sm:mt-0">
+                        <ul className="flex items-center space-x-4">
+                            {socialLinks.map((item, i) => {
+                                return (
+                                    <li key={i} className="w-10 h-10 border rounded-full 
+                                    flex items-center justify-center dark:bg-slate-800">
+                                        <Link href={item.href}>
+                                            <span className={`w-10 h-10 ${item.color}`}>
+                                                {item.icon}
+                                            </span>
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
                 </div>
-                <div className="flex-1 mt-10 space-y-6 items-center justify-between sm:flex md:space-y-0 md:mt-0">
+                <div className="flex-1 mr-4 mt-10 space-y-6 items-center justify-between sm:flex md:space-y-0 md:mt-0">
                     {
                         footerNavs.map((item, idx) => (
                             <ul
@@ -158,11 +177,11 @@ export default function Footer() {
                     }
                 </div>
             </div>
-            <div className="mt-8 py-6 border-t items-center justify-between sm:flex">
+            <div className="mt-8 py-2 border-t items-center justify-center sm:flex">
                 <div className="mt-4 sm:mt-0">
-                    &copy; {(new Date).getFullYear()} Float UI All rights reserved.
+                    &copy; {(new Date).getFullYear()} Medical-Care All rights reserved.
                 </div>
-                <div className="mt-6 sm:mt-0">
+                {/* <div className="mt-6 sm:mt-0">
                     <ul className="flex items-center space-x-4">
                         {socialLinks.map((item, i) => {
                             return (
@@ -177,7 +196,7 @@ export default function Footer() {
                             )
                         })}
                     </ul>
-                </div>
+                </div> */}
             </div>
         </footer>
     )

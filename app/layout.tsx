@@ -25,15 +25,15 @@ export const metadata: Metadata = {
     "React",
     "Tailwind CSS",
     "Server Components",
-    "Radix UI",
+    "Medical-app",
   ],
   authors: [
     {
-      name: "shadcn",
-      url: "https://shadcn.com",
+      name: "Nontachai Pahsukkul",
+      url: "https://my-portfolio-ty6p.vercel.app/",
     },
   ],
-  creator: "shadcn",
+  creator: "PAP Web Solutions",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -55,15 +55,14 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: "@shadcn",
+    creator: "@Nontachai",
   },
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/Medical-careLogo.png",
+    apple: "/Medical-careLogo.png",
 
   },
-  manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
 export default function RootLayout({
