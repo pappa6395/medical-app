@@ -1,6 +1,6 @@
 "use client"
 
-import { formatToBytes } from '@/utils/formatToBytes';
+import { formatBytes } from '@/utils/formatToBytes';
 import { FileProps } from '@/utils/types';
 import { UploadDropzone } from '@/utils/uploadthing';
 import { File, FileX, XCircle } from 'lucide-react';
@@ -80,7 +80,7 @@ const MultiFileUpload = ({
                                 <div className='flex flex-col truncate'>
                                     <Link href={file.url} target="_blank" className="line-clamp-1 ps-2">{file.title}</Link>
                                     {file.size && file.size > 0 ? (
-                                        <span className='text-gray-500 ps-2'>{formatToBytes(file.size)}KB</span>
+                                        <span className='text-gray-500 ps-2'>{formatBytes(file.size)}KB</span>
                                     ) : ""}
                                 </div>
                             </div>

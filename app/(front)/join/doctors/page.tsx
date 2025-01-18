@@ -122,12 +122,12 @@ const page = () => {
 
   return (
     <div className="min-h-screen">
-      <section className="py-6 px-8 bg-slate-50 dark:bg-slate-900">
+      <section className="py-6 px-8 bg-slate-50 dark:bg-emerald-950">
         <div className="max-w-6xl gap-8 mx-auto grid grid-cols-1 md:grid-cols-2">
           <div>
             <h2 className="text-[1.5rem] sm:text-[3rem] md:text-5xl leading-[3.5rem]">
               Build a thriving{" "}
-              <span className="text-blue-600 font-semibold">direct-pay</span>{" "}
+              <span className="text-indigo-500 font-semibold">direct-pay</span>{" "}
               practice with Medical App.
             </h2>
             <p className="py-4 text-base">
@@ -139,7 +139,7 @@ const page = () => {
             <CustomButton
               title={"List your Service"}
               href="#"
-              className="text-lg text-slate-50 bg-blue-600 hover:bg-blue-700 h-10"
+              className="text-lg text-slate-50 bg-emerald-600 hover:bg-emerald-700 h-10"
             />
             <div className="py-6">
               {features.map((feature, i) => {
@@ -164,7 +164,7 @@ const page = () => {
           />
         </div>
       </section>
-      <section className="py-6 px-8 mt-0 bg-pink-100/50 dark:bg-slate-800">
+      <section className="py-6 px-8 mt-0 bg-pink-100/50 dark:bg-emerald-800">
         <div className="max-w-6xl gap-8 mx-auto grid grid-cols-1 md:grid-cols-2">
           <Image
             src={groupImage}
@@ -176,7 +176,7 @@ const page = () => {
           <div className="order-1 md:order-2">
             <h2 className="text-[1.5rem] sm:text-[3rem] md:text-5xl leading-[3.5rem]">
               Join Medical-App to increase your{" "}
-              <span className="text-blue-500 font-semibold">revenue</span>{" "}
+              <span className="text-indigo-500 font-semibold">revenue</span>{" "}
               today.
             </h2>
             <div className="py-2">
@@ -202,31 +202,31 @@ const page = () => {
           </div>
         </div>
       </section>
-      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-slate-900">
+      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-emerald-950">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {cards.map((card, i) => {
             return (
-              <div key={i} className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg shadow-md">
-                <h3 className="text-2xl font-semibold text-blue-500">
+              <div key={i} className="bg-slate-100 dark:bg-teal-900 p-4 rounded-lg shadow-md">
+                <h3 className="text-2xl font-semibold text-emerald-500">
                   {card.title}
                 </h3>
                 <p className="text-gray-400 dark:text-slate-50 text-lg py-3">{card.description}</p>
                 <CustomButton
                   title={card.linkTitle}
                   href={card.link}
-                  className="bg-blue-600 text-slate-50 hover:bg-blue-700"
+                  className="bg-emerald-600 text-slate-50 hover:bg-emerald-700"
                 />
               </div>
             );
           })}
         </div>
       </section>
-      <section className="py-6 px-8 mb-0 dark:bg-slate-950">
+      <section className="py-6 px-8 mb-0 dark:bg-emerald-800">
         <div id={"pricing"} className="max-w-6xl gap-4 mx-auto">
          <Pricing />
         </div>
       </section>
-      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-slate-800">
+      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-emerald-900">
         <div className="max-w-2xl gap-4 mx-auto">
           <CustomAccordion FAQS={faqs} />
         </div>

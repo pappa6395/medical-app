@@ -78,7 +78,7 @@ export default function Pricing () {
                                     ) : ""
                                 }
                                 <div className="p-8 space-y-4 border-b">
-                                    <span className='text-indigo-600 font-medium uppercase tracking-widest'>
+                                    <span className='text-emerald-600 dark:text-slate-400 font-medium uppercase tracking-widest'>
                                         {item.name}
                                     </span>
                                     <div className='text-gray-800 dark:text-slate-50 text-3xl font-semibold'>

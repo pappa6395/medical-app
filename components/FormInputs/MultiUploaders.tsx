@@ -1,11 +1,8 @@
-import { formatToBytes } from '@/utils/formatToBytes';
+
 import { FileProps } from '@/utils/types';
 import { UploadDropzone } from '@/utils/uploadthing';
-import { File, FileX, XCircle } from 'lucide-react';
-import Link from 'next/link';
 import React from 'react'
 import toast from 'react-hot-toast';
-
 
 
 export type MultiUploadProps = {

@@ -13,7 +13,7 @@ import TiptapEditor from './FormInputs/TiptapEditor';
 import SubmitButton from './FormInputs/SubmitButton';
 import { sendEmail } from '@/actions/mails';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { formatToBytes } from '@/utils/formatToBytes';
+import { formatBytes } from '@/utils/formatToBytes';
 import MultiUploaders from './FormInputs/MultiUploaders';
 import { FaFilePdf, FaImage } from 'react-icons/fa';
 
@@ -215,7 +215,7 @@ const ComposeMailForm = () => {
                                     <div className='flex flex-col truncate'>
                                         <Link href={file.url} target="_blank" className="line-clamp-1 ps-2 text-[12px]">{file.title}</Link>
                                         {file.size && file.size > 0 ? (
-                                            <span className='text-gray-500 ps-2 text-[12px]'>{formatToBytes(file.size)}KB</span>
+                                            <span className='text-gray-500 ps-2 text-[12px]'>{formatBytes(file.size)}KB</span>
                                         ) : ""}
 
                                     </div>
