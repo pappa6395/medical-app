@@ -32,7 +32,7 @@ const ReviewCard = ({
         )}
       >
         <div className="flex flex-col items-center gap-2">
-          <img className="pt-4 rounded-full" width="60" height="60" alt="" src={img} />
+          <img className="pt-4 rounded-full" width="60" height="60" alt="user" src={img} />
           <div className="flex flex-col">
             <figcaption className="text-sm pt-2 text-center font-medium text-white">
               {name} 
@@ -73,7 +73,7 @@ const ReviewCard = ({
                       {reviews?.map((review, i) => (
                           <ReviewCard 
                             key={i} 
-                            img={review.reviewerImage}
+                            img={review.reviewerImage || "/defaultImage.png"}
                             name={review.reviewerName}
                             title={review.reviewerTitle}
                             body={review.comment}

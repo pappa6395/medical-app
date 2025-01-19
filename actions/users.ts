@@ -3,9 +3,10 @@
 import EmailTemplate from "@/components/Emails/emailTemplate";
 import { prismaClient } from "@/lib/db";
 import generateSlug from "@/utils/generateSlug";
-import { Doctor, RegisterInputProps } from "@/utils/types";
-import { UserRole } from "@prisma/client";
+import { AdminProps, Doctor, RegisterInputProps, UserProps } from "@/utils/types";
+import { User, UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
+import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
 
@@ -89,6 +90,23 @@ export async function createUser(submittedData: RegisterInputProps) {
     }   
 };
 
+export async function getUsers() {
+
+    try {
+
+      const users = await prismaClient.user.findMany({
+        orderBy: {
+          createdAt: "desc",
+        }
+      })
+      return users
+
+    } catch (error) {
+        console.log("Error get user id:", error);
+        
+    }
+};
+
 export async function getUserById(id:string) {
 
   console.log("Getting user by id:", id);
@@ -98,15 +116,49 @@ export async function getUserById(id:string) {
       const user = await prismaClient.user.findUnique({
         where:{
           id,
-        }
+        },
       })
-      return user
+      return user;
 
     } catch (error) {
         console.log("Error get user id:", error);
         
     }
   }
+};
+
+export async function updateUserProfileById(
+  id: string | undefined,
+  updatedData: AdminProps
+) {
+  
+    if (id && updatedData) {
+
+      try {
+        const updatedProfile = await prismaClient.user.update({
+          where:{
+            id,
+          },
+          data: updatedData
+        });
+        revalidatePath("/dashboard/settings")
+        console.log("Updated Profile:",updatedProfile);
+
+        return {
+          data: updatedProfile,
+          status: 201,
+          error: null
+        };
+      } catch (error) {
+        console.log("Error updating user:",error);
+        return {
+          data: null,
+          status: 500,
+          error: "Error response from Server"
+        };
+      }
+    }
+
 };
 
 export async function updateUserById(id:string) {

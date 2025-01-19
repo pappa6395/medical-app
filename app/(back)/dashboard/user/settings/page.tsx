@@ -7,7 +7,6 @@ import UserSettings from '@/components/Dashboard/Settings/UserSettings'
 import NotAuthorized from '@/components/NotAuthorized'
 import { getRecentAppointmentByPatientId } from '@/actions/appointments'
 import { Appointment } from '@prisma/client'
-import { AppointmentProps } from '@/utils/types'
 
 
 const page = async () => {

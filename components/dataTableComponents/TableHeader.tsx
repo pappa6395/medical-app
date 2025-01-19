@@ -46,8 +46,10 @@ type TableHeaderProps = {
   data: any;
   model: string;
   showImport?: boolean;
+  disabled?: boolean;
 };
 export default function TableHeader({
+  disabled = false,
   title,
   href,
   linkTitle,
@@ -359,7 +361,8 @@ export default function TableHeader({
               )}
             </Dialog>
           )}
-          <Button size="sm" asChild className="h-8 gap-1">
+          {!disabled && (
+            <Button size="sm" asChild className="h-8 gap-1">
             <Link href={href}>
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -367,6 +370,7 @@ export default function TableHeader({
               </span>
             </Link>
           </Button>
+          )}
         </div>
       </div>
     </div>

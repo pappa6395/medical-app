@@ -36,13 +36,13 @@ const TabbedItems = ({
         {
             title: "Specialties",
             icon: <BriefcaseMedical/>,
-            component: <LinkCard className='bg-slate-400 dark:bg-emerald-900 text-lg' specialties={specialties}/>,
+            component: <LinkCard className='bg-emerald-600 dark:bg-emerald-900 text-lg' specialties={specialties}/>,
             content: ["Specialists are ready for you to help you find the solutions"]
         },
         {
             title: "Symptoms",
             icon: <Microscope/>,
-            component: <SymptomCard className='bg-slate-400 dark:bg-emerald-900 text-lg' symptoms={symptoms} />,
+            component: <SymptomCard className='bg-emerald-600 dark:bg-emerald-900 text-lg' symptoms={symptoms} />,
             content: ["Medical tips and knowledges are waiting right for you here"]
         },
     ]

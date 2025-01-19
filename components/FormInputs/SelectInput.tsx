@@ -1,12 +1,13 @@
 import React from 'react'
 import { cn } from '@/lib/utils';
+import { UserRole } from '@prisma/client';
 
 
 type SelectInputProps = {
     label: string;
     name: string;
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-    value: string;
+    value: string | undefined;
     className: string;
     options: SelectOptionProps[];
     multiple?: boolean;

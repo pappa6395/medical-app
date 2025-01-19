@@ -1,4 +1,4 @@
-import { BlogCategory, Blogs, DoctorProfile, DoctorStatus, PaymentStatus, Sale, Speciality, UserRole } from "@prisma/client";
+import { Account, BlogCategory, Blogs, DoctorProfile, DoctorStatus, PaymentStatus, Sale, Service, Session, Speciality, UserRole } from "@prisma/client";
 import { LucideIcon, LucideProps } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
@@ -18,6 +18,39 @@ export type RegisterInputProps = {
     token?: number;
     role?: string | string[] | undefined;
     plan?: string | string[] | undefined;
+}
+
+export type AdminProps = {
+    name: string;
+    email: string;
+    role: UserRole | undefined;
+    phone: string;
+}
+
+export type UserProps = {
+    id: string;
+  name: string;
+  slug: string;
+  email: string;
+  phone?: string;
+  emailVerified?: Date;
+  image?: string;
+  role: UserRole;
+  plan?: string;
+  password?: string;
+  accounts: Account[]
+  sessions: Session[]
+  isVerfied: boolean;
+  doctorProfile?: DoctorProfile
+  token?: number;
+  serviceId?: string;
+  service?: Service
+  specialityId?: string;
+  speciality?: Speciality;
+  symptomIds: string[]
+  provider?:          string
+  providerAccountId?: string
+    
 }
 
 export type LoginProps = {
