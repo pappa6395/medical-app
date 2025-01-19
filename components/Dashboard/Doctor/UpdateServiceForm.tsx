@@ -156,7 +156,7 @@ const UpdateServiceForm = ({
         <CardContent className='space-y-3 border-none shadow-none'>
             {/* Add hourly wage */}
                 <div className='border shadow rounded-md p-4'>
-                    <div className="flex items-center justify-between">
+                    <div className="flex md:items-center justify-between items-start">
                         <div>
                             <CardTitle>Price per Hour</CardTitle>
                             <CardDescription className='scroll-m-20 text-lg 
@@ -171,7 +171,7 @@ const UpdateServiceForm = ({
                             onClick={handleUpdatePrice}
                             className='dark:border-slate-400'
                         >
-                            {isPriceLoading ? 'Saving...' : "Update Price"}
+                            {isPriceLoading ? 'Saving...' : "Update"}
                         </Button>
                     </div>
                     <div className="flex mt-2">
@@ -200,9 +200,9 @@ const UpdateServiceForm = ({
                             </div>
                         </div>    
                 </div> 
+            {/* Opertion Modes */}
             <div className='border shadow rounded-md p-4 mt-4'>
-                {/* Opertion Modes */}
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between gap-2 md:gap-0 items-start md:items-center'>
                     <div>
                         <CardTitle>Operation Modes</CardTitle>
                         <CardDescription className='scroll-m-20 text-lg 
@@ -217,10 +217,10 @@ const UpdateServiceForm = ({
                         onClick={handleUpdateOperationMode}
                         className='dark:border-slate-400'
                     >
-                        {isOperationLoading ? 'Saving...' : "Update Operation mode"}
+                        {isOperationLoading ? 'Saving...' : "Update"}
                     </Button>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {
                         operationModes?.map((operation,i) => {
                             const Icon = operation.icon;
@@ -242,8 +242,9 @@ const UpdateServiceForm = ({
                     }
                 </div>
             </div>
+            {/* Services */}
             <div className='border shadow rounded-md p-4 mt-4'>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-start md:items-center'>
                     <div>
                         <CardTitle>Services</CardTitle>
                         <CardDescription className='scroll-m-20 text-lg 
@@ -258,10 +259,10 @@ const UpdateServiceForm = ({
                             onClick={handleUpdateService}
                             className='dark:border-slate-400'
                         >
-                            {isServiceLoading ? 'Saving...' : "Update Service"}
+                            {isServiceLoading ? 'Saving...' : "Update"}
                         </Button>
                     </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 overflow-scroll">
                     {
                         services?.map((service,i) => {
                             return (
@@ -286,8 +287,9 @@ const UpdateServiceForm = ({
                     }
                 </div>
             </div>
+            {/* Specialties */}
             <div className='border shadow rounded-md p-4'>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between md:items-center items-start'>
                     <div>
                         <CardTitle>Specialties</CardTitle>
                         <CardDescription className='scroll-m-20 text-lg 
@@ -303,10 +305,10 @@ const UpdateServiceForm = ({
                         onClick={handleUpdateSpecialty}
                         className='dark:border-slate-400'
                     >
-                        {isSpecialtyLoading ? 'Saving...' : "Update Specialty"}
+                        {isSpecialtyLoading ? 'Saving...' : "Update"}
                     </Button>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {
                         specialties?.map((specialty,i) => {
                             return (
@@ -324,8 +326,9 @@ const UpdateServiceForm = ({
                     }
                 </div>
             </div>
+            {/* Symptoms */}
             <div className='border shadow rounded-md p-4'>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between md:items-center items-start'>
                     <div>
                         <CardTitle>Symptoms</CardTitle>
                         <CardDescription className='scroll-m-20 text-lg 
@@ -340,10 +343,10 @@ const UpdateServiceForm = ({
                         onClick={handleUpdateSymptom}
                         className='dark:border-slate-400'
                     >
-                        {isSymptomLoading ? 'Saving...' : "Update Symptom"}
+                        {isSymptomLoading ? 'Saving...' : "Update"}
                     </Button>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {
                         symptoms?.map((symptom,i) => {
                             const isSelected = selectedSymptomId.includes(symptom.id);

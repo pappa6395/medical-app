@@ -164,7 +164,7 @@ const page = () => {
           />
         </div>
       </section>
-      <section className="py-6 px-8 mt-0 bg-pink-100/50 dark:bg-emerald-800">
+      <section className="py-6 px-8 mt-0 bg-emerald-50 dark:bg-emerald-800">
         <div className="max-w-6xl gap-8 mx-auto grid grid-cols-1 md:grid-cols-2">
           <Image
             src={groupImage}
@@ -226,7 +226,7 @@ const page = () => {
          <Pricing />
         </div>
       </section>
-      <section className="py-6 px-8 mb-0 bg-slate-50 dark:bg-emerald-900">
+      <section className="py-6 px-8 mb-0 bg-emerald-50 dark:bg-emerald-900">
         <div className="max-w-2xl gap-4 mx-auto">
           <CustomAccordion FAQS={faqs} />
         </div>

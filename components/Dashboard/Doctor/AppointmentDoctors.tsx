@@ -15,7 +15,7 @@ const AppointmentDoctors = ({appointments=[]}: {appointments: Appointment[]}) =>
         <h2 className='"scroll-m-20 text-lg font-medium tracking-tight"'>
             Appointments ({appointments?.length.toString().padStart(2,"0") ?? ""})
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 mr-2 md:mr-0">
           {appointments?.map((item) => {
           return (
             <div key={item?.id} className="mt-2 mr-4 cursor-pointer">

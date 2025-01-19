@@ -171,7 +171,7 @@ const DoctorInboxForm = ({
                 </Link>
             </Button>
         </div>
-        <div className={cn("grid gap-6 py-4 mx-auto px-6")}>
+        <div className={cn("grid gap-6 py-4 mx-auto px-2 md:px-6")}>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                     <FormSelectInput

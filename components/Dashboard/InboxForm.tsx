@@ -153,7 +153,7 @@ const InboxForm = ({
 
   return (
 
-    <div className="w-full mx-auto shadow-sm rounded-md border border-gray-200">
+    <div className="mx-auto shadow-sm rounded-md border border-gray-200">
         <div className="flex item-center justify-between px-6 border-b border-gray-200 py-4">
             <h1 className="scroll-m-20 text-3xl 
             font-semibold tracking-wide first:mt-0 mb-2">
@@ -165,7 +165,7 @@ const InboxForm = ({
                 </Link>
             </Button>
         </div>
-        <div className={cn("grid gap-6 py-4 mx-auto px-6")}>
+        <div className={cn("grid gap-6 py-4 mx-auto md:px-6 px-3")}>
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                     <FormSelectInput

@@ -41,7 +41,7 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
     <div>
       {/* Header */}
       {/* 2 Panels */}
-      <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
+      <div className="grid col-span-full grid-cols-1 md:grid-cols-12 dark:bg-slate-950">
         {/* Patient Panel */}
         <div className="col-span-5 px-3 py-3 border-r border-gray-100">
           <PanelDoctorHeader title={"Doctors"} appointments={appointments ?? []} icon={UsersRound ?? ""}/>
@@ -49,7 +49,7 @@ const PatientLayout = async ({children}: {children: ReactNode}) => {
             <DoctorPanel appointments={appointments ?? []} />
           </div>
         </div>
-        <div className="col-span-7 md:grid hidden px-3">
+        <div className="md:col-span-7 col-span-full px-3">
             {children}
         </div>
       </div>

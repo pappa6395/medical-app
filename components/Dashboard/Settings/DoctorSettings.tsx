@@ -29,7 +29,7 @@ const DoctorSettings = ({
 
   return (
 
-  <div className='max-w-5xl mx-auto px-6 py-6'>
+  <div className='max-w-5xl mx-auto px-2 md:px-6 py-6'>
   <h2 className='pb-4 scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-4xl'>Settings</h2>
   <Tabs defaultValue="availability" className="">
     <TabsList className="">

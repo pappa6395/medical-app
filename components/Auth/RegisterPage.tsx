@@ -32,21 +32,6 @@ export default function RegisterPage({role="USER", plan="" }: RegisterPageProps)
                         alt="loginimage"
                         className="min-w-screen min-h-screen login-bg" />
                     </div>
-                    <div className="absolute z-20 p-4 flex top-10 text-lg font-medium">
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="mr-2 h-6 w-6"
-                        >
-                            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-                        </svg>
-                        Acme Inc
-                    </div>
                     <div className="absolute p-4 bottom-16 z-20 mt-auto">
                         <blockquote className="space-y-2">
                         <p className="text-lg">
@@ -62,7 +47,7 @@ export default function RegisterPage({role="USER", plan="" }: RegisterPageProps)
                 </div> 
             </div>
             <div className="bg-muted min-h-screen lg:p-8 items-center 
-            justify-center grid dark:bg-slate-950">
+            justify-center grid dark:bg-green-950">
                 <div className="mx-auto space-y-6 grid grid-cols-1 items-center 
                     justify-center sm:w-[350px]">
                     <div className="grid space-y-2 text-center">

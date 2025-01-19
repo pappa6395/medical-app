@@ -22,13 +22,13 @@ export default function DoctorServiceSettings({
   return (
 
     <div className="grid gap-6 w-full">
-        <Card className="w-full border-none">
-                <UpdateServiceForm 
-                    services={services ?? []} 
-                    specialties={specialties ?? []} 
-                    symptoms={symptoms ?? []}
-                    profile={profile ?? null}
-                />
+        <Card className="w-[340px] md:w-full border-none">
+            <UpdateServiceForm 
+                services={services ?? []} 
+                specialties={specialties ?? []} 
+                symptoms={symptoms ?? []}
+                profile={profile ?? null}
+            />
         </Card>
     </div>
 

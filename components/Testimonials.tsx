@@ -52,10 +52,10 @@ const ReviewCard = ({
   
   export function Testimonials({reviews, title}: {reviews: ReviewCardProps[], title: string}) {
     return (
-      <div className='ralative bg-slate-50 dark:bg-slate-950
+      <div className='ralative bg-slate-50 dark:bg-green-950
       rounded-tr-2xl px-8 py-16'>
           <div className='space-y-2 px-4'>
-            <SectionHeading title={title}/>
+            <SectionHeading title={title} className=''/>
             <p className="text-gray-500 text-2xl font-semibold dark:text-slate-50">
               See what our satisfied customers are saying about us.
             </p>

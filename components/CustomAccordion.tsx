@@ -20,7 +20,7 @@ import { FAQItem } from "@/utils/types"
                dark:text-slate-50"
               >{faq.qn}
               </AccordionTrigger>
-              <AccordionContent className="text-md text-slate-800
+              <AccordionContent className="text-lg text-slate-800
                dark:text-slate-50"
                >{faq.ans}
               </AccordionContent>

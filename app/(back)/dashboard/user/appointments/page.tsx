@@ -1,6 +1,4 @@
 import { getAppointmentByPatientId } from '@/actions/appointments'
-import DoctorDisplayCard from '@/components/Dashboard/Doctor/DoctorDisplayCard'
-import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton'
 import UserDisplayCard from '@/components/Dashboard/Doctor/UserDisplayCard'
 import NotAuthorized from '@/components/NotAuthorized'

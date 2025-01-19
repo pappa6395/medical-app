@@ -16,12 +16,15 @@ import {
   CalendarClock, 
   CalendarDays, 
   CircleUser, 
+  DollarSign, 
   Home, 
   Mail, 
   Menu, 
   Microscope, 
+  Pencil, 
   Settings, 
   Syringe, 
+  UserRoundPen, 
   Users 
 } from "lucide-react"
 import { Button } from "@/components/ui/button";
@@ -46,14 +49,13 @@ import SearchBar from "../Frontend/SearchBar";
 
 export default function NavBar({session}: {session: Session} ) {
 
-    const user = session.user
+    const { user } = session
     const name = user?.name?? ""
-    const initial = generateInitial(name)
-
+    const role = user?.role
+    const id = user?.id
+    
     const router = useRouter();
     const pathName = usePathname();
-
-    const role = user?.role
 
     const roles = {
         USER: [
@@ -62,6 +64,15 @@ export default function NavBar({session}: {session: Session} ) {
                 title: "My Appointments",
                 path: "/dashboard/user/appointments",
                 icon: CalendarClock
+            },
+            { 
+                title: "Doctors", 
+                path: "/dashboard/user/doctors", 
+                icon: CircleUser 
+            },
+            {   title: "Inbox", 
+                path: "/dashboard/user/inbox", 
+                icon: Mail 
             },
             {
                 title: "Settings",
@@ -88,7 +99,13 @@ export default function NavBar({session}: {session: Session} ) {
             { title: "Dashboard", path: "/dashboard", icon: Home },
             { title: "Patients", path: "/dashboard/doctor/patients", icon: CircleUser },
             { title: "Appointments", path: "/dashboard/doctor/appointments", icon: CalendarDays },
+            { title: "Sales", path: "/dashboard/doctor/sales", icon: DollarSign },
             { title: "Inbox", path: "/dashboard/doctor/inbox", icon: Mail },
+            { title: "Compose", path: "/dashboard/doctor/compose", icon: Pencil },
+            { 
+                title: "Profile", 
+                path: `/dashboard/doctor/profile/${id}`, 
+                icon: UserRoundPen },
             {
                 title: "Settings",
                 path: "/dashboard/doctor/settings",
@@ -106,7 +123,7 @@ export default function NavBar({session}: {session: Session} ) {
 
   return (
     <div>
-        <header className='flex h-14 items-center 
+        <header className='h-14 flex md:justify-between items-center
         gap-4 border-b bg-muted/40 px-4 
         lg:h-[60px] lg:px-6 dark:bg-slate-900'
         >
@@ -120,10 +137,10 @@ export default function NavBar({session}: {session: Session} ) {
                         <span className='sr-only'>Toggle navigation menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className='flex flex-col'>
+                <SheetContent side="left" className='flex flex-col w-[250px]'>
                     <SheetHeader>
                         <SheetTitle>
-                            Medical-App
+                            Medical-Care
                         </SheetTitle>
                         <SheetDescription>
                             Medical Online Services
@@ -150,36 +167,36 @@ export default function NavBar({session}: {session: Session} ) {
                     </nav>
                 </SheetContent>
             </Sheet>
-            <div className="w-full flex-1">
-                <div className="relative">
-                    <SearchBar />
-                </div>
+            <div className="relative">
+                <SearchBar />
             </div>
-            <ModeToggle />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="rounded-full">
-                        <Avatar>
-                            {user.image ? 
-                            <AvatarImage src={user.image} alt="userImage" /> 
-                            :  <AvatarFallback>{initial}</AvatarFallback> }
-                        </Avatar>
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel className="text-center">{user.name}</DropdownMenuLabel>
-                    <DropdownMenuLabel className="text-center text-muted-foreground">{user.email}</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        <Link href={"/"}>Home</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex items-center gap-2">
+                <ModeToggle />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="secondary" size="icon" className="rounded-full">
+                            <Avatar>
+                                {user.image ? 
+                                <AvatarImage src={user.image} alt="userImage" /> 
+                                :  <AvatarFallback>{generateInitial(name)}</AvatarFallback> }
+                            </Avatar>
+                            <span className="sr-only">Toggle user menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel className="text-center">{user.name}</DropdownMenuLabel>
+                        <DropdownMenuLabel className="text-center text-muted-foreground">{user.email}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                            <Link href={"/"}>Home</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>Settings</DropdownMenuItem>
+                        <DropdownMenuItem>Support</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>     
         </header>
     </div>
         

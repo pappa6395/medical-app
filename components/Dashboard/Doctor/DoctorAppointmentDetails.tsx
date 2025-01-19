@@ -109,7 +109,7 @@ const DoctorAppointmentDetails = ({
           </div>
         </div> 
         {appointment?.status === "approved" ? (
-          <div className='flex px-3 py-3 justify-between items-center'>
+          <div className='flex md:flex-row gap-2 md:gap-0 flex-col px-3 py-3 justify-between items-center'>
             <h2 className='scroll-m-20 text-xl font-semibold 
             tracking-tight px-3'>
               Appointment Booked:

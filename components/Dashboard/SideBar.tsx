@@ -37,6 +37,7 @@ import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
+import Image from 'next/image'
 
 
 export default function SideBar({session}: {session: Session}) {
@@ -121,7 +122,12 @@ export default function SideBar({session}: {session: Session}) {
                 <div className='flex h-14 items-center border-b px-4 
                 lg:h-[60px] lg:px-6'>
                     <Link href="/" className='flex items-center gap-2 font-semibold'>
-                        <Package2 className='h-6 w-6' />
+                        <Image 
+                            src={'/Medical-Care Logo2.png'} 
+                            alt="logo" 
+                            width={40} 
+                            height={40}
+                        />
                         <span className=''>Medical-Care</span>
                     </Link>
                     <Button 

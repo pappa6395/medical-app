@@ -1,7 +1,6 @@
 
 import { getInboxMessages } from '@/actions/inbox'
 import InboxDisplayCard from '@/components/Dashboard/Doctor/InboxDisplayCard'
-import NewButton from '@/components/Dashboard/Doctor/NewButton'
 import NewLinkButton from '@/components/Dashboard/Doctor/NewLinkButton'
 import NotAuthorized from '@/components/NotAuthorized'
 import { authOptions } from '@/lib/auth'
@@ -37,7 +36,7 @@ const page = async () => {
 
     <div>
         <div className='flex items-center justify-end py-2 px-2 border-b border-gray-200'>
-          <div className='flex items-center gap-4'>
+          <div className='hidden md:flex items-center gap-4'>
             <NewLinkButton 
               title="New Message" 
               href={`/dashboard/${role}/inbox/new`}

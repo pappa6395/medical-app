@@ -34,7 +34,7 @@ const page = async () => {
   return (
 
     <div>
-      <div className="relative py-4 w-full max-h-full">
+      <div className="relative py-4 md:w-full w-[330px] max-h-full">
         <InboxForm 
           title={"New Message"} 
           session={session}

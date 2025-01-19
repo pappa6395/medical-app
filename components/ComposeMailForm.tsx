@@ -150,9 +150,9 @@ const ComposeMailForm = () => {
 
   return (
 
-    <div className="w-full mx-auto shadow-sm rounded-md border border-gray-200">
-        <div className="flex item-center justify-between px-6 border-b border-gray-200 py-4">
-            <h1 className="scroll-m-20 text-3xl 
+    <div className="mx-auto shadow-sm rounded-md border border-gray-200">
+        <div className="flex item-center justify-between px-2 md:px-6 border-b border-gray-200 py-4">
+            <h1 className="scroll-m-20 text-3xl px-2 
             font-semibold tracking-wide first:mt-0 mb-2">
                 Compose Mail
             </h1>
@@ -162,7 +162,7 @@ const ComposeMailForm = () => {
                 </Link>
             </Button>
         </div>
-        <div className={cn("grid gap-8 py-4 mx-auto px-6")}>
+        <div className={cn("flex flex-col gap-8 py-4 ")}>
             <form onSubmit={handleSubmit}>
                 <div className="grid justify-center gap-4">
                     <TextInput
@@ -175,7 +175,7 @@ const ComposeMailForm = () => {
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} 
-                        className='col-span-full w-[300px] md:w-[360px]'
+                        className='w-[310px] md:w-[360px]'
                     />
                     <TextInput
                         label="Subject"
@@ -187,7 +187,7 @@ const ComposeMailForm = () => {
                         errors={transformedErrors}
                         disabled={isLoading}
                         onChange={handleChange} 
-                        className='col-span-full w-[300px] md:w-[360px]'
+                        className='w-[310px] md:w-[360px]'
                     />
                     <TiptapEditor
                         value={mailData.message}
@@ -224,7 +224,7 @@ const ComposeMailForm = () => {
                         )
                     })} 
                 </div>
-                <div className='mt-6 flex justify-center space-x-32 gap-4'>
+                <div className='px-2 mt-6 flex items-center gap-6 justify-center md:justify-between'>
                     <Dialog>
                         <DialogTrigger>
                                 <div className='flex items-center gap-2'>

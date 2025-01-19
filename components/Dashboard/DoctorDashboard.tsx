@@ -55,7 +55,7 @@ const DoctorDashboard = ({
   
   return (
 
-    <div className='px-8 py-4'>
+    <div className='py-4 w-[340px] md:w-full'>
       <div className='flex items-center justify-between'>
         <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
           Welcome, Dr. {user?.name ?? ""}
@@ -93,12 +93,12 @@ const DoctorDashboard = ({
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
-      <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-        <Card>
+      <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4">
+        <Card className='w-[340px] md:w-full'>
           <CardHeader>
             <div className='flex justify-between'>
               <CardTitle>Recent Appointments</CardTitle>
-              <Button asChild className='p-3 mr-5'>
+              <Button asChild className=''>
                 <Link href="/dashboard/doctor/appointments">
                   View All
                 </Link>
@@ -126,11 +126,11 @@ const DoctorDashboard = ({
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='w-[340px] md:w-full'>
           <CardHeader>
             <div className='flex justify-between items-center'>
               <CardTitle>Recent Patients</CardTitle>
-              <Button asChild className='p-3'>
+              <Button asChild className=''>
                 <Link href="/dashboard/doctor/patients">
                   View All
                 </Link>
@@ -138,7 +138,7 @@ const DoctorDashboard = ({
             </div>
           </CardHeader>
           <CardContent className='shadow-none border-none'>
-            <div className='p-2 mt-2 space-y-4'>
+            <div className='p-0 md:p-2 mt-2 space-y-4'>
               {patients?.map((data, index) => {
                 return (
                   <SalesCard

@@ -24,7 +24,7 @@ const BlogSection = ({blogCategories}: {blogCategories: IBlogCategory[] }) => {
     <div id="blogs" className='ralative bg-slate-50 dark:bg-slate-900
     rounded-tr-2xl px-8 py-16'>
         <div className='space-y-2'>
-            <SectionHeading title={"Exploring Our Blog"}/> 
+            <SectionHeading title={"Exploring Our Blog"} className=''/> 
         </div>
         <div className='py-5'>
             <div className='flex flex-wrap gap-4'>

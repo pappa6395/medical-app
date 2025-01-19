@@ -6,6 +6,8 @@ import Dashboard from '@/components/Dashboard/Dashboard'
 import DoctorDashboard from '@/components/Dashboard/DoctorDashboard'
 import PatientDashboard from '@/components/Dashboard/PatientDashboard'
 import { authOptions } from '@/lib/auth'
+import { AnalyticProps, Doctor } from '@/utils/types'
+import { Appointment } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -21,9 +23,22 @@ const page = async() => {
   //----------------------------------------------------------------//
   
   if (role === "DOCTOR") {
-    const doctorAnalytics = await getDoctorAnalytics() || [];
-    const doctors = await getDoctorsById(userId) || null;
-    const appointments = (await getAppointmentByDoctorId(userId))?.data || []
+    let doctorAnalytics = [] as AnalyticProps[];
+    let doctors = null;
+    let appointments = [] as Appointment[];
+    try {
+      const [doctorAnalyticsResponse, doctorsResponse, appointmentsResponse] = await Promise.all([
+        getDoctorAnalytics(),
+        getDoctorsById(userId),
+        getAppointmentByDoctorId(userId),
+      ]);
+      doctorAnalytics = doctorAnalyticsResponse || [];
+      doctors = doctorsResponse || null;
+      appointments = appointmentsResponse?.data || [];
+    } catch (err) {
+      console.log("Failed to fetch doctor analytics:", err);
+    }
+
     return (
       <div>
         <DoctorDashboard 
@@ -37,8 +52,18 @@ const page = async() => {
   }
 
   if (role === "USER") {
-    const userAnalytics = await getUserAnalytics() || [];
-    const appointmentByPatientId = (await getAppointmentByPatientId(userId))?.data || []
+    let userAnalytics = [] as AnalyticProps[];
+    let appointmentByPatientId = [] as Appointment[];
+    try {
+      const [userAnalyticsResponse, appointmentByPatientIdResponse] = await Promise.all([
+        getUserAnalytics(),
+        getAppointmentByPatientId(userId),
+      ]);
+      userAnalytics = userAnalyticsResponse || [];
+      appointmentByPatientId = appointmentByPatientIdResponse?.data || [];
+    } catch (err) {
+      console.log("Failed to fetch user analytics:", err);
+    }
     return (
       <div>
         <PatientDashboard 
@@ -51,9 +76,21 @@ const page = async() => {
   }
 
   if (role === "ADMIN") {
-    const analytics = await getAdminAnalytics() || [];
-    const doctorsAdmin = await getDoctors() || [];
-    const appointmentsAdmin = (await getAppointments()).data || []
+    let analytics = [] as AnalyticProps[]
+    let doctorsAdmin = [] as Doctor[]
+    let appointmentsAdmin = [] as Appointment[]
+    try {
+      const [analyticsResponse, doctorAdminResponse, appointmentsAdminResponse] = await Promise.all([
+        getAdminAnalytics(),
+        getDoctors(),
+        getAppointments(),
+      ]);
+      analytics = analyticsResponse || [];
+      doctorsAdmin = doctorAdminResponse || [];
+      appointmentsAdmin = appointmentsAdminResponse?.data || [];
+    } catch (err) {
+      console.log("Failed to fetch admin analytics:", err);
+    } 
     return (
       <div>
           <Dashboard

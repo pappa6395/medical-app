@@ -39,11 +39,11 @@ export default async function Home() {
       <TabbedSection />
       <DoctorList 
         title={"Telehealth"}
-        className="bg-green-50 dark:bg-green-950"
+        className="bg-slate-50 dark:bg-green-950"
         doctors={teleHealthDoctors}
       />
       <DoctorList 
-        className="bg-white dark:bg-slate-900" 
+        className="bg-green-900 dark:bg-slate-900" 
         title={"In-person doctor visit"} 
         isInPerson={true}
         doctors={inpersonDoctors}

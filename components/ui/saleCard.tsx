@@ -50,7 +50,7 @@ export default function SalesCard({
                     )}
                     
                 </div>
-                <div className='text-sm w-auto mx-auto'>
+                <div className='text-sm w-[150px] md:w-auto mx-auto'>
                     <p>{name??""}</p>
                     <div className='truncate text-gray-400'
                     >

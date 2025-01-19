@@ -40,17 +40,17 @@ const PatientDashboard = ({
     //console.log("doctorsPatientId:", doctorsPatientId);
   
   return (
-    <div className='px-8 py-4'>
+    <div className='p-1 md:p-2 space-y-3'>
       <h1 className='scroll-m-20 text-2xl font-extrabold tracking-tight'>
         Welcome, {user?.name ?? ""}
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid w-[340px] md:w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {analytics?.map((item,i) => {
           return <AnalyticCards key={i} data={item}/>
         })}
       </div>
       <section className="grid gird-cols-1 md:grid-cols-2 py-4 gap-4 transition-all">
-        <Card>
+        <Card className='w-[340px] md:w-full'>
           <CardHeader>
             <div className='flex justify-between'>
               <div>
@@ -68,7 +68,7 @@ const PatientDashboard = ({
               {appointments?.slice(0,5).map((data, index) => {
                 const status = data.status??"PENDING"
                 return (
-                  <div key={index} className='shadow'>
+                  <div key={index} className='shadow w-[330px] md:w-full'>
                     <RecentAppointmentCard
                       role={role || undefined}
                       id={data.id || ""}
@@ -84,13 +84,13 @@ const PatientDashboard = ({
             </ScrollArea>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='w-[340] md:w-full'>
           <CardHeader>
             <div className='flex justify-between'>
               <div>
                 <CardTitle>Recent Doctors</CardTitle>
               </div>
-                <Button asChild className='p-3'>
+                <Button asChild className=''>
                   <Link href="/dashboard/user/doctors">
                     View All
                   </Link>
@@ -100,7 +100,7 @@ const PatientDashboard = ({
           <CardContent className='shadow-none border-none'>
             {doctorsPatientId?.map((data, index) => {
               return (
-                <div key={index} className='p-2 border shadow rounded-lg hover:bg-slate-100'>
+                <div key={index} className='md:p-2 p-1 border shadow rounded-lg hover:bg-slate-100'>
                   <SalesCard
                     role={role || undefined}
                     email={data.email || ""}

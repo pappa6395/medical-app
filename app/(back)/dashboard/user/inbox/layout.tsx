@@ -48,17 +48,17 @@ const layout = async ({children}: {children: ReactNode}) => {
     <div>
       {/* Header */}
       {/* 2 Panels */}
-      <div className="grid col-span-full md:grid-cols-12 dark:bg-slate-950">
+      <div className="grid col-span-full grid-cols-1 md:grid-cols-12 dark:bg-slate-950">
         {/* List Panel */}
         <div className="col-span-full md:col-span-5 px-3 py-3 border-r border-gray-100">
-          <div className='flex justify-between'>
+          <div className='flex justify-between items-center'>
             <PanelHeader 
               title={"Inbox"} 
               count={messages.length??0} 
               icon={Mail ?? ""}/>
             <div className='block md:hidden'>
               <NewLinkButton 
-                title="New Message" 
+                title="New" 
                 href={`/dashboard/${role === "USER" ? "user" : "doctor"}/inbox/new`}
               />
             </div>
@@ -78,7 +78,7 @@ const layout = async ({children}: {children: ReactNode}) => {
             </Tabs>
           </div>
         </div>
-        <div className="md:col-span-7 px-3 ">
+        <div className="md:col-span-7 col-span-full md:px-3 px-1 ">
             {children}
         </div>
       </div>
